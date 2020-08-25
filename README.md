@@ -4,8 +4,3 @@ These scripts are developed for a project investigating genomic diversity and ef
 August 2020
 
 Author: Anna Brüniche-Olsen
-<<<<<<< HEAD
-
-
-=======
->>>>>>> origin/master
