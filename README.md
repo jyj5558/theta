@@ -11,7 +11,9 @@ Steps for analyzing each species
 - run qc_reference.sh
 
 - download SRAs from EBI-EMBL
-- run
+- run trimgalore.sh
+
+
 
 =======
 >>>>>>> origin/master
