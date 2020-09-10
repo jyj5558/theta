@@ -30,7 +30,7 @@ export PATH=/home/abruenic/genmap-build/bin:$PATH
 # wget "LINK TO REF" .
 
 # insert ref name here
-REF=$"GCF_008728515.1_Panubis1.0_genomic.fna"
+REF=$"****.fna"
 
 # unzip ref and change name
 # keep a copy of the original reference. We to be use which version we are using.
