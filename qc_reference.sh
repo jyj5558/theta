@@ -16,12 +16,12 @@ module load BEDTools
 # cd $SLURM_SUBMIT_DIR
 
 #########################################################################
-# this script is identifying repeats, mappability and short scaffolds 	#
-# the following files to use in downstream analyses are created:	  	#
-# ref.fa (reference file with scaffolds>100kb)							#
-# ok.bed (regions to analyze in angsd etc)								#	
-# check for repeatmasker file on NCBI to skip that step (*_rm.out.gz )	#
-# https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_other/			#
+# this script is identifying repeats, mappability and short scaffolds 
+# the following files to use in downstream analyses are created:	  	
+# ref.fa (reference file with scaffolds>100kb)							
+# ok.bed (regions to analyze in angsd etc)									
+# check for repeatmasker file on NCBI to skip that step (*_rm.out.gz )	
+# https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_other/			
 #########################################################################
 
 # make sure you have genmap installed and in your path
