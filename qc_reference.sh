@@ -44,20 +44,20 @@ sortbyname.sh in=original.fa out=sorted.fa length descending
 
 # sort ref and rename scaffolds
 bioawk -c fastx '{ print ">scaffold-" ++i" "length($seq)"\n"$seq }' \
-< sorted.fa > reference.fa
+< sorted.fa > ref.fa
 
 # replace gap with _ in scaffold names
-sed -i 's/ /_/g' reference.fa
+sed -i 's/ /_/g' ref.fa
 
 # make table with old and new scaffold names
-paste <(grep ">" sorted.fa) <(grep ">" reference.fa) | sed 's/>//g' \
+paste <(grep ">" sorted.fa) <(grep ">" ref.fa) | sed 's/>//g' \
 > scaffold_names.txt
 
 # identify repeats in ref
-RepeatMasker -qq -species mammal reference.fa
+RepeatMasker -qq -species mammal ref.fa
 
 # build an index of the fasta file(s) whose mappability you want to compute
-genmap index -F reference.fa -I index -S 30
+genmap index -F ref.fa -I index -S 30
 
 # compute mappability
 # k = kmer of 100bp
@@ -65,7 +65,7 @@ genmap index -F reference.fa -I index -S 30
 genmap map -K 100 -E 2 -I index -O mappability -t -w -bg
 
 # make bed file from repeatmasker
-cat reference.fa.out|tail -n +4|awk '{print $5,$6,$7,$11}'|sed 's/ /\t/g' \
+cat ref.fa.out|tail -n +4|awk '{print $5,$6,$7,$11}'|sed 's/ /\t/g' \
 > repeats.bed
 
 # sort bed 
@@ -97,19 +97,18 @@ bedtools merge -i filter_sorted.bed > merged.bed
 
 # remove scaffolds shorter than 100kb
 bioawk -c fastx '{ if(length($seq) > 100000) { print ">"$name; print $seq }}' \
-reference.fa > ref_100k.fa
+ref.fa > ref_100k.fa
 
 # index ref
 samtools faidx ref_100k.fa
 
 # make list with the >100kb scaffolds
-cut -f1 ref_100k.fa.fai |sort|uniq >chrs.txt
+cut -f1 ref_100k.fa.fai |sort|uniq > chrs.txt
 
 # only include chr in merged.bed if they are in chrs.txt
 grep -f chrs.txt merged.bed > ok.bed
 
 # remove excess files
-rm -rf reference.fa
 rm -rf original.fa
 rm -rf sorted.fa
 
