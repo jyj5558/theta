@@ -10,6 +10,12 @@ module load bwa
 
 # cd $SLURM_SUBMIT_DIR
 
+#########################################################################
+# this script maps read files to the reference assembly					#
+# the following files to use in downstream analyses are created:	  	#
+# *.sam file for each SRR*												#
+#########################################################################
+
 # index reference and map reads
 bwa index -a bwtsw ref.fa
 

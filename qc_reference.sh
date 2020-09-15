@@ -11,7 +11,7 @@ module load seqtk
 module load RepeatMasker/4.0.7
 module load samtools
 module load cmake/3.9.4
-module load BBMap
+module load BEDTools
 
 # cd $SLURM_SUBMIT_DIR
 
@@ -19,7 +19,9 @@ module load BBMap
 # this script is identifying repeats, mappability and short scaffolds 	#
 # the following files to use in downstream analyses are created:	  	#
 # ref.fa (reference file with scaffolds>100kb)							#
-# ok.bed (regions to analyze in angsd etc)								#
+# ok.bed (regions to analyze in angsd etc)								#	
+# check for repeatmasker file on NCBI to skip that step (*_rm.out.gz )	#
+# https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_other/			#
 #########################################################################
 
 # make sure you have genmap installed and in your path
@@ -66,12 +68,9 @@ genmap map -K 100 -E 2 -I index -O mappability -t -w -bg
 cat reference.fa.out|tail -n +4|awk '{print $5,$6,$7,$11}'|sed 's/ /\t/g' \
 > repeats.bed
 
-# remove scaffolds shorter than 100kb
-bioawk -c fastx '{ if(length($seq) > 100000) { print ">"$name; print $seq }}' \
-reference.fa > ref.fa
-
-# index ref
-samtools faidx ref.fa
+# sort bed 
+sort -V -k 1,3 "repeats.bed" | sortBed | tee test2.bed | sort -c -k1,1 -k2,2n || \
+true > repeats_sorted.bed
 
 # make ref.genome
 awk 'BEGIN {FS="\t"}; {print $1 FS $2}' ref.fa.fai > ref.genome
@@ -96,8 +95,15 @@ bedtools sort -i filter.bed > filter_sorted.bed
 # merge overlapping regions
 bedtools merge -i filter_sorted.bed > merged.bed
 
+# remove scaffolds shorter than 100kb
+bioawk -c fastx '{ if(length($seq) > 100000) { print ">"$name; print $seq }}' \
+reference.fa > ref_100k.fa
+
+# index ref
+samtools faidx ref_100k.fa
+
 # make list with the >100kb scaffolds
-cut -f1 ref.fa.fai |sort|uniq >chrs.txt
+cut -f1 ref_100k.fa.fai |sort|uniq >chrs.txt
 
 # only include chr in merged.bed if they are in chrs.txt
 grep -f chrs.txt merged.bed > ok.bed
