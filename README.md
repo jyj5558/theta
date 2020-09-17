@@ -8,15 +8,22 @@ Author: Anna Brüniche-Olsen
 
 ## Steps for analyzing each species
 
-##### pipeline steps
-Download genome from NCBI or EBI-EBML
-- download genome from NCBI
-- run qc_reference.sh
+Follow the pipeline below to qc reference assembly, qc read files, map reads, analyses etc.
 
-- download SRAs from EBI-EMBL
-- run trimgalore.sh
+QC of reference assembly
+- download genome from NCBI (Black we need your scripts here)
+- qc_reference.sh
+
+QC and mapping of SRAs
+- download SRAs from EBI-EMBL (Black we need your scripts here)
+- trimgalore.sh
+- mapping.sh
+- realignment for individuals with a single or with multiple SRAs
+	-realignment_single.sh
+	-realignment_multiple.sh
+
+Analyses
+- angsd.sh
 
 
-- map reads
-- run mapping.sh
 

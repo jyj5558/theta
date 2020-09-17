@@ -111,5 +111,14 @@ grep -f chrs.txt merged.bed > ok.bed
 # remove excess files
 rm -rf original.fa
 rm -rf sorted.fa
+rm -rf merged.bed
+rm -rf filter.bed
+rm -rf map.bed
+rm -rf ref_sorted.genome
+rm -rf ref.genome
+rm -rf repeats_sorted.bed
+rm -rf repeats.bed
+rm -rf scaffold_names.txt
+rm -rf sorted.fa
 
 # END

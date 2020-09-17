@@ -19,13 +19,14 @@ module load bwa
 # index reference and map reads
 bwa index -a bwtsw ref.fa
 
+# map reads to reference
 cat fastq.txt | while read -r LINE
 
 do
 
 if [ -d /${LINE} ]
 then
-# fastq
+ 
 bwa mem -t 5 -M -R "@RG\tID:group1\tSM:${LINE}\tPL:illumina\tLB:lib1\tPU:unit1" \
 ref.fa ${LINE}/${LINE}_1_val_1.fq.gz ${LINE}/${LINE}_2_val_2.fq.gz > ${LINE}.sam
 
