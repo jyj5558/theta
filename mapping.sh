@@ -23,10 +23,17 @@ cat fastq.txt | while read -r LINE
 
 do
 
+if [ -d /${LINE} ]
+then
 # fastq
-bwa mem -t 5 -M -R "@RG\tID:group1\tSM:sample1\tPL:illumina\tLB:lib1\tPU:unit1" \
+bwa mem -t 5 -M -R "@RG\tID:group1\tSM:${LINE}\tPL:illumina\tLB:lib1\tPU:unit1" \
 ref.fa ${LINE}/${LINE}_1_val_1.fq.gz ${LINE}/${LINE}_2_val_2.fq.gz > ${LINE}.sam
 
+else 
+bwa mem -t 5 -M -R "@RG\tID:group1\tSM:${LINE}\tPL:illumina\tLB:lib1\tPU:unit1" \
+ref.fa ${LINE}_1.fastq.gz ${LINE}_2.fastq.gz > ${LINE}.sam
+
+fi
 done
 
 # END
