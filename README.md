@@ -18,9 +18,8 @@ QC and mapping of SRAs
 - download SRAs from EBI-EMBL (Black we need your scripts here)
 - trimgalore.sh
 - mapping.sh
-- realignment for individuals with a single or with multiple SRAs
-	-realignment_single.sh
-	-realignment_multiple.sh
+-realignment_single.sh (for individuals with a single SRA)
+-realignment_multiple.sh (for individuals with multiple SRAs)
 
 Analyses
 - angsd.sh
