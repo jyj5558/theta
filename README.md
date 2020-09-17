@@ -13,7 +13,7 @@ Follow the pipeline below to qc reference assembly, qc read files, map reads, an
 QC of reference assembly
 - download genome from NCBI (Black we need your scripts here)
 - qc_reference.sh
-- 
+- qc_reference_stats.sh & qc_reference_stats.R
 
 QC and mapping of SRAs
 - download SRAs from EBI-EMBL (Black we need your scripts here)
