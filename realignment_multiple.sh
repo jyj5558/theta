@@ -25,12 +25,12 @@ module load bamtools
 # make tmp directory for the files
 mkdir tmp
 
-# make list of the samfiles
-ls *.sam > samfiles.txt
+# make list of the bamfiles
+ls *.bam > bamfiles.txt
 
-sed -i "s/.sam//g" samfiles.txt
+sed -i "s/.bam//g" bamfiles.txt
 
-cat samfiles.txt | while read -r LINE
+cat bamfiles.txt | while read -r LINE
 
 do
 

@@ -12,6 +12,7 @@ module load RepeatMasker/4.0.7
 module load samtools
 module load cmake/3.9.4
 module load BEDTools
+module load BBMap
 
 # cd $SLURM_SUBMIT_DIR
 
@@ -28,8 +29,8 @@ module load BEDTools
 # https://github.com/cpockrandt/genmap
 export PATH=/home/abruenic/genmap-build/bin:$PATH
 
-# download reference from NCBI (Black circulated script for this)
-# wget "LINK TO REF" .
+# download reference from NCBI
+wget "LINK TO REF" .
 
 # insert ref name here
 REF=$"****.fna"
@@ -46,8 +47,9 @@ sortbyname.sh in=original.fa out=sorted.fa length descending
 bioawk -c fastx '{ print ">scaffold-" ++i" "length($seq)"\n"$seq }' \
 < sorted.fa > ref.fa
 
-# replace gap with _ in scaffold names
+# replace gap and - with _ in scaffold names
 sed -i 's/ /_/g' ref.fa
+sed -i 's/-/_/g' ref.fa
 
 # make table with old and new scaffold names
 paste <(grep ">" sorted.fa) <(grep ">" ref.fa) | sed 's/>//g' \
@@ -69,8 +71,7 @@ cat ref.fa.out|tail -n +4|awk '{print $5,$6,$7,$11}'|sed 's/ /\t/g' \
 > repeats.bed
 
 # sort bed 
-sort -V -k 1,3 "repeats.bed" | sortBed | tee test2.bed | sort -c -k1,1 -k2,2n || \
-true > repeats_sorted.bed
+sortBed -i repeats.bed > repeats_sorted.bed
 
 # make ref.genome
 awk 'BEGIN {FS="\t"}; {print $1 FS $2}' ref.fa.fai > ref.genome

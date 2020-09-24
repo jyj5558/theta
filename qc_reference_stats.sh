@@ -16,7 +16,7 @@ do
 
 cd $LINE
 
-Rscript /scratch/snyder/a/abruenic/pupfish/qc_reference_stats.R
+Rscript /scratch/snyder/a/abruenic/scripts/qc_reference_stats.R
 
 map=$(sed -n '1p' okmap.txt)
 repeat=$(sed -n '1p' norepeat.txt)
