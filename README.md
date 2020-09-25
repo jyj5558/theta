@@ -19,7 +19,6 @@ QC and mapping of SRAs
 - realignment_multiple.sh (for individuals with multiple SRAs)
 
 QC of bam dataset
-- 
 
 
 Analyses
