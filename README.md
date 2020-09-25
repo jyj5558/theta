@@ -4,8 +4,6 @@ These scripts are developed for investigating genomic diversity and effective po
 
 August 2020
 
-Author: Anna Brüniche-Olsen
-
 ## Steps for analyzing each species
 
 Follow the pipeline below to qc reference assembly, qc read files, map reads, analyse data etc.
