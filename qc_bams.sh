@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=angsdFish
+#SBATCH --job-name=qcBam
 #SBATCH -A fnrquail
 #SBATCH -t 300:00:00 
 #SBATCH -N 1 
@@ -11,6 +11,7 @@ module load zlib
 module load gcc
 module load samtools
 module load bioawk
+module load r
 
 # cd $SLURM_SUBMIT_DIR
 
@@ -18,8 +19,29 @@ export PATH=/home/abruenic/angsd/:$PATH
 export PATH=/home/abruenic/angsd/misc/:$PATH
 
 # index bam and ref
-samtools index in.bam
 samtools faidx ref.fa
+
+# make list of the bamfiles and index each file
+ls *realigned_reads.bam > bam.filelist
+
+cat bam.filelist | while read -r LINE
+
+do
+
+samtools index ${LINE}
+
+done
+
+# global depth (read count across all samples)
+angsd -bam bam.filelist -doDepth 1 -out strict -doCounts 1 -minMapQ 30 \
+-minQ 20 -maxDepth 600
+
+# find threshold excluding the sites with 1% lowest and 1% highest global depth 
+Rscript /scratch/snyder/a/abruenic/scripts/percentiles.R
+
+q1=$(head -n 1 strict.percentile)
+q2=$(tail -n 1 strict.percentile)
+
 
 # convert bed file to angsd format
 awk '{print $1"\t"$2+1"\t"$3}' ok.bed > angsd.file

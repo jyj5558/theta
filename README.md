@@ -8,7 +8,7 @@ Author: Anna Brüniche-Olsen
 
 ## Steps for analyzing each species
 
-Follow the pipeline below to qc reference assembly, qc read files, map reads, analyses etc.
+Follow the pipeline below to qc reference assembly, qc read files, map reads, analyse data etc.
 
 QC of reference assembly
 - qc_reference.sh
@@ -21,7 +21,7 @@ QC and mapping of SRAs
 - realignment_single.sh (for individuals with a single SRA)
 - realignment_multiple.sh (for individuals with multiple SRAs)
 
-Identify sexlinked scaffolds, excessive heterozygosity and error rates estimation
+Identify sex-linked scaffolds, excessive heterozygosity and error rates estimation
 
 
 Analyses

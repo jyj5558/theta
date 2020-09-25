@@ -14,44 +14,37 @@ module load bamtools
 # cd $SLURM_SUBMIT_DIR
 
 #########################################################################
-# this script check for errors in sam files, ying repeats, mappability and short scaffolds 
-# the following files to use in downstream analyses are created:	  	
-# ref.fa (reference file with scaffolds>100kb)							
-# ok.bed (regions to analyze in angsd etc)									
-# check for repeatmasker file on NCBI to skip that step (*_rm.out.gz )	
-# https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_other/			
+# this script check for errors, mark duplicates and realign bam files
 #########################################################################
 
 # make tmp directory for the files (remove potential "old" tmps)
 rm -rf tmp
 mkdir tmp
 
-# make list of the bamfiles
-ls *.bam > bamfiles.txt
+# make list of the samfiles
+ls *.sam > samfiles.txt
 
-sed -i "s/.bam//g" bamfiles.txt
+sed -i "s/.sam//g" samfiles.txt
 
-cat bamfiles.txt | while read -r LINE
+cat samfiles.txt | while read -r LINE
 
 do
 
 # validate the SAM file should produce a validate_output.txt file 
 # that says there are no errors.
-# samtools view -h -o aln.sam out.bam 
-# one section for each SRA is needed. 
-# Easiest to copy/paste and use find/replace to insert SRA numbers.
-#PicardCommandLine ValidateSamFile I=${LINE}.sam MODE=SUMMARY O=${LINE}_samfile.txt
-#PicardCommandLine SortSam SORT_ORDER=coordinate INPUT=${LINE}.sam OUTPUT=${LINE}.bam \
-#TMP_DIR=`pwd`/tmp VALIDATION_STRINGENCY=LENIENT
+PicardCommandLine ValidateSamFile I=${LINE}.sam MODE=SUMMARY O=${LINE}_samfile.txt
+PicardCommandLine SortSam SORT_ORDER=coordinate INPUT=${LINE}.sam OUTPUT=${LINE}.bam \
+TMP_DIR=`pwd`/tmp VALIDATION_STRINGENCY=LENIENT
 
 # check for errors in sam file
-#error=$(grep "No errors found" ${LINE}_samfile.txt)
+error=$(grep "No errors found" ${LINE}_samfile.txt)
 
-#[[ ! -z "$error" ]] && echo "$LINE samfile not OK" || echo "$LINE samfile OK"
+[[ ! -z "$error" ]] && echo "$LINE samfile not OK" || echo "$LINE samfile OK"
 
 # perform realignment etc on each individual
 # marking PCR duplicated reads without removing them
-PicardCommandLine MarkDuplicates INPUT=${LINE}.bam OUTPUT=${LINE}_marked.bam M=metrics.txt
+PicardCommandLine MarkDuplicates INPUT=${LINE}.bam OUTPUT=${LINE}_marked.bam \
+M=metrics.txt
 
 PicardCommandLine BuildBamIndex INPUT=${LINE}_marked.bam
 
@@ -72,8 +65,8 @@ GenomeAnalysisTK -T IndelRealigner -R ref.fa -I ${LINE}_marked.bam \
 done
 
 # remove excess files
-rm -rf marked.bam
-rm -rf out.bam
+rm -rf *marked.ba*
+rm -rf out.ba*
 rm -rf *.sam
 rm -rf forIndelRealigner.intervals
 
