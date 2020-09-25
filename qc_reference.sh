@@ -76,7 +76,7 @@ then
 	head -n 3 rm.out > rm.header
 	sed -i 's/\*//g' rm.body 
 	# number of columns
-	Rscript /scratch/snyder/a/abruenic/scripts/edit_repeatmasker_names.R
+	Rscript /scratch/snyder/a/abruenic/scripts/repeatmasker_names.R
 	sed -i 's/"//g' rm_edited.body 
 	cat rm.header rm_edited.body > rm.out
 	# make bed file from repeatmasker

@@ -11,7 +11,7 @@ Author: Anna Brüniche-Olsen
 Follow the pipeline below to qc reference assembly, qc read files, map reads, analyse data etc.
 
 QC of reference assembly
-- qc_reference.sh
+- qc_reference.sh & repeatmasker_names.R
 - qc_reference_stats.sh & qc_reference_stats.R
 
 QC and mapping of SRAs
