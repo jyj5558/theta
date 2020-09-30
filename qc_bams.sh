@@ -12,11 +12,13 @@ module load gcc
 module load samtools
 module load bioawk
 module load r
+module load 
 
 # cd $SLURM_SUBMIT_DIR
 
 export PATH=/home/abruenic/angsd/:$PATH
 export PATH=/home/abruenic/angsd/misc/:$PATH
+export PATH=/scratch/snyder/a/abruenic/scripts/:$PATH
 
 # index bam and ref
 samtools faidx ref.fa
@@ -33,14 +35,24 @@ samtools index ${LINE}
 done
 
 # global depth (read count across all samples)
+# increase maxdepth if you have super high DOC
 angsd -bam bam.filelist -doDepth 1 -out strict -doCounts 1 -minMapQ 30 \
--minQ 20 -maxDepth 600
+-minQ 20 -dumpCounts 1 -maxdepth 1000 
 
 # find threshold excluding the sites with 1% lowest and 1% highest global depth 
-Rscript /scratch/snyder/a/abruenic/scripts/percentiles.R
+Rscript quantile_thresholds.R
 
-q1=$(head -n 1 strict.percentile)
-q2=$(tail -n 1 strict.percentile)
+# plots for thresholds produced
+# fullrange.png
+# zoomin.png
+
+q01=$(< q01.threshold.txt)
+q99=$(< q99.threshold.txt)
+
+# make bed with OK sites based on depth
+python pcangsd.py strict.pos.gz
+
+
 
 
 # convert bed file to angsd format
