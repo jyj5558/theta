@@ -139,11 +139,14 @@ ref.fa > ref_100k.fa
 # index
 samtools faidx ref_100k.fa
 
-# make list with the >100kb scaffolds
-cut -f1 ref_100k.fa.fai |sort|uniq > chrs.txt
+# make list with the >10kb scaffolds
+awk '{ print $1, $2, $2 }' ref_100k.fa.fai > chrs.info
+
+# replace column 2 with zeros
+awk '$2="0"' chrs.info > chrs.bed
 
 # only include chr in merged.bed if they are in chrs.txt
-grep -f chrs.txt merged.bed > ok.bed
+bedtools intersect chrs.bed merged.bed > ok.bed
 	
 # remove excess files
 rm -rf original.fa
