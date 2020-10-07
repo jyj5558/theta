@@ -10,12 +10,6 @@ module load r
 
 # cd $SLURM_SUBMIT_DIR
 
-cat species.txt | while read -r LINE
-
-do
-
-cd $LINE
-
 Rscript /scratch/snyder/a/abruenic/scripts/qc_reference_stats.R
 
 map=$(sed -n '1p' okmap.txt)
@@ -24,9 +18,5 @@ okbed=$(sed -n '1p' okbed.txt)
 
 echo -e "$LINE\t $map\t $repeat\t $okbed" \
 >> /scratch/snyder/a/abruenic/pupfish/map_repeat_summary.txt
-
-cd ..
-
-done
 
 #END
