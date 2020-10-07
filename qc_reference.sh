@@ -122,6 +122,7 @@ awk 'BEGIN {FS="\t"}; {print $1 FS $2 FS $3}' map.bed > mappability.bed
 
 # sort mappability 
 sortBed -i mappability.bed > mappability2.bed
+sed -i 's/ /\t/g' mappability2.bed
 
 # only include sites that are nonrepeats and have mappability ==1
 bedtools subtract -a mappability2.bed -b repeats_sorted.bed > map_nonreapeat.bed
@@ -145,8 +146,14 @@ awk '{ print $1, $2, $2 }' ref_100k.fa.fai > chrs.info
 # replace column 2 with zeros
 awk '$2="0"' chrs.info > chrs.bed
 
+# make tab delimited
+sed -i 's/ /\t/g' chrs.bed
+
+# make chrs.txt
+cut -f 1 chrs.bed > chrs.txt
+
 # only include chr in merged.bed if they are in chrs.txt
-bedtools intersect chrs.bed merged.bed > ok.bed
+bedtools intersect -a chrs.bed -b merged.bed > ok.bed	
 	
 # remove excess files
 rm -rf original.fa
