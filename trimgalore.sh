@@ -19,6 +19,32 @@ module load fastqc
 # *1_val_1.fq.gz and *_2_val_2.fq.gz									
 #########################################################################
 
+# check if your files are zipped
+ls *sra*.fastq > unzipped_fastq_files.txt
+
+if [ -f "unzipped_fastq_files.txt" ]
+then
+
+sed -i "s/.sra_1.fastq//g" unzipped_fastq_files.txt
+sed -i "s/.sra_2.fastq//g" unzipped_fastq_files.txt
+
+# this makes a list with the unique SRA names
+sort -u unzipped_fastq_files.txt > unzipped.txt
+
+cat unzipped.txt | while read -r LINE
+
+do
+
+gzip ${LINE}.sra_1.fastq
+mv ${LINE}_1.fastq.gz
+
+gzip ${LINE}.sra_2.fastq
+mv ${LINE}_2.fastq.gz
+
+done
+
+fi
+
 # this makes a list of your fastq.gz read files 
 ls *.fastq.gz > fastq_files.txt
 
