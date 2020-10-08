@@ -36,10 +36,10 @@ cat unzipped.txt | while read -r LINE
 do
 
 gzip ${LINE}.sra_1.fastq
-mv ${LINE}_1.fastq.gz
+mv ${LINE}.sra_1.fastq.gz ${LINE}_1.fastq.gz
 
 gzip ${LINE}.sra_2.fastq
-mv ${LINE}_2.fastq.gz
+mv ${LINE}.sra_2.fastq.gz ${LINE}_2.fastq.gz
 
 done
 
