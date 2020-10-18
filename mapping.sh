@@ -16,6 +16,10 @@ module load bwa
 # *.sam file for each SRR*												#
 #########################################################################
 
+# if you want to run on more cpus then change #SBATCH -n 5 to a higher number
+# and make sure that you adjust the "-t" parameter in each of the bwa mem steps accordingly
+# -t needs to have the same value as -n
+
 # index reference and map reads
 bwa index -a bwtsw ref.fa
 
@@ -26,7 +30,7 @@ do
 
 if [ -d /${LINE} ]
 then
- 
+
 bwa mem -t 5 -M -R "@RG\tID:group1\tSM:${LINE}\tPL:illumina\tLB:lib1\tPU:unit1" \
 ref.fa ${LINE}/${LINE}_1_val_1.fq.gz ${LINE}/${LINE}_2_val_2.fq.gz > ${LINE}.sam
 
