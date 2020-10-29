@@ -18,6 +18,7 @@ QC and mapping of SRAs
 - realignment_single.sh (for individuals with a single SRA)
 - realignment_multiple.sh (for individuals with multiple SRAs)
 
+#### pipeline is tested until this step ####
 QC of bam dataset
 - qc_bams.sh & quantile_thresholds.R
 
