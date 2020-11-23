@@ -73,7 +73,7 @@ unzip ${LINE}_2_fastqc.zip
 # merge output from fastqc and check for FAILs
 cat ${LINE}_1_fastqc/summary.txt ${LINE}_2_fastqc/summary.txt > ${LINE}_fastqc_summary.txt
 
-FILE=$(grep "FAIL" ${LINE}_fastqc_summary.txt < fail.txt)
+FILE=$(grep "FAIL" ${LINE}_fastqc_summary.txt)
 
 if [ -s "$FILE" ]
 then
@@ -90,6 +90,5 @@ done
 # remove excess files
 rm -rf fastq_files.txt
 rm -rf *_fastqc_summary.txt
-rm -rf fail-txt
 
 # END
