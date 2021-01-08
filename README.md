@@ -27,6 +27,5 @@ QC of bam dataset
 Analyses
 - angsd.sh
 
-test edit
 
 
