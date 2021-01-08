@@ -73,9 +73,9 @@ unzip ${LINE}_2_fastqc.zip
 # merge output from fastqc and check for FAILs
 cat ${LINE}_1_fastqc/summary.txt ${LINE}_2_fastqc/summary.txt > ${LINE}_fastqc_summary.txt
 
-FILE=$(grep "FAIL" ${LINE}_fastqc_summary.txt < fail.txt)
+FILE=$(grep "FAIL" ${LINE}_fastqc_summary.txt)
 
-if [ -s "$FILE" ]
+if [ -s "${LINE}_fail.txt" ]
 then
 # -q Trim low-quality ends from reads in addition to adapter removal. phred 20
 # run fastqc without binning --fastqc_args
