@@ -51,6 +51,8 @@ ls */
 #All files should be decompressed
 ```
 
+#STOP HERE, UNTESTED BELOW!!!!
+
 STEP 2:
 
 Now that the files have been download and decompressed, the reference needs to be QC'd using the following scripts:
