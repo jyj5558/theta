@@ -4,7 +4,7 @@ These scripts are developed for investigating genomic diversity and effective po
 
 Jan 2021
 
-First, run the setup.sh script in the ./theta folder to auto-create the following directory structure:
+First, run the [setup.sh](./setup.sh) script in the ./theta folder to auto-create the following directory structure:
 ```
 theta
   >species_x
