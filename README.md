@@ -5,6 +5,8 @@ These scripts are developed for investigating genomic diversity and effective po
 Jan 2021
 
 The series of scripts will auto-create the following directory structure:
+```
+
 theta
   >species_x
       >species_x_ref
@@ -14,6 +16,7 @@ theta
          >raw
          >cleaned
          >aligned
+```
          
 Once the folders are created, confirmed that all looks OK before proceeding through step 1-step X (NOTE, these scripts assume that a SLURMM scheduler is used; if a different scheduler is employed please modify script headers accordingly).
 
