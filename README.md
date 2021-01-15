@@ -1,27 +1,11 @@
 # Theta project
-
-These scripts are developed for investigating genomic diversity and effective population size (θ = 4Neμ) in wildlife populations.
-
 Jan 2021
 
-First, run the [setup.sh](./setup.sh) script in the ./theta folder to auto-create the following directory structure:
-```
-theta
-  >species_x
-      >species_x_ref
-      >species_x_rm
-      >species_x_gtf
-      >sra
-         >raw
-         >cleaned
-         >aligned
-```
-         
-Once the folders are created, confirmed that all looks OK before proceeding through step 1-step X (NOTE, these scripts assume that a SLURM scheduler is used; if a different scheduler is employed (e.g., SGE) please modify script headers and module loads accordingly).
+These scripts are developed for investigating genomic diversity and effective population size (θ = 4Neμ) in wildlife populations. NOTE, these scripts assume that a SLURM scheduler is used; if a different scheduler is employed (e.g., SGE) please modify script headers and module loads accordingly).
 
-## Steps for analyzing each species
+## Steps for analyzing each species (one at a time)
 
-STEP 1: Download reference genome, repeater masker out file and annotations (if available). NOTE, the Cheetah genome is used as an example only. User's will need to designate the genome assembly for the species they are targetting. 
+STEP 1: Create folder structure and download reference genome, repeater masker out file and annotations (if available). NOTE, below the Cheetah genome is used as an example only. User's will need to designate the genome assembly for the species they are targetting. 
 
 a) For a current list of all mammalian refseq assemblies, go to: https://www.ncbi.nlm.nih.gov/datasets/genomes/?txid=40674&source_db=RefSeq
 and locate your species of interest. 
@@ -30,9 +14,11 @@ b) Identify the best / most current assembly (based upon N50, assembly levlel, e
 
 Once here, locate and navigate to the "FTP directory for RefSeq assembly" in the right hand column. This will pull up the File Transfer Protocal web page where the reference genome (e.g. GCF_002007445.1_ASM200744v2_genomic.fna.gz), repeat masker out (e.g. GCF_002007445.1_ASM200744v2_rm.out.gz) and annotations (e.g. GCF_002007445.1_ASM200744v2_genomic.gtf.gz) are available for download. 
 
-Copy the name of the reference genome build, and the link addresses to all three files (if available; if not, just enter NA when prompted).
+Copy the name of the reference genome build, and the link addresses to all three files (if available)
 
-Now that you have this information recorded, run the [setup.sh](./setup.sh) script in the ./theta folder. The user will be prompted to enter the follwing information, which will create the necessary folder structure, download all files and decompress them. 
+Now that you have this information recorded, run the [setup.sh](./setup.sh) script in the ./theta folder. The user will be prompted to enter the following information, which will create the necessary folder structure, download all files and decompress them. If the user species does not have one of these listed files, just enter NA when prompted).
+
+Now, run the [setup.sh](./setup.sh) script in the ./theta folder to 1) auto-create the proper directory structure and b) download and decompress all files:
 
 For example:
 
@@ -55,9 +41,7 @@ https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/007/445/GCF_002007445.1_ASM2007
 
 ```
 
-Save the file as "GCF_002007445.1_ASM200744v2_download.sh" within the "GCF_002007445.1_ASM200744v2" directory before running script
-
-Once completed, check the log files to ensure that all fully downloaded (100%) and were decompressed!
+Once completed, check the log files to ensure that all fully downloaded (100%), decompressed, named correctly and are not empty
 
 ```
 cat log* | grep "100%" 
