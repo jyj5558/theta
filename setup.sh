@@ -22,23 +22,21 @@ echo Please specify the path to the FTP refseq annotations:
 read gtf    
 
 echo Downlaoding reference genome, repeat masker out and annotation files. Please check log files and confirm all downloaded correctly
-
-
 wget $ref -O ./$species/${species}_ref/${species}.genomic.fna.gz -o log_ref 
-
 wget $rm -O ./$species/${species}_rm/${species}.rm.out.gz -o log_rm
-
 wget $gtf -O ./$species/${species}_gtf/${species}.gtf.gz -o log_gtf
+echo Downloads are now complete, decompressing files
 
-echo downloads complete, decompressing files
 gzip -d $species/*/*.gz
 echo " "
-echo Please confirm that all downloaded files were downloaded 100%
-cat log* | grep "100%" 
 
+echo Please confirm that all downloaded files were fully downloaded 100%
+cat log* | grep "100%" 
 echo " "
+
 echo Are all downloaded files named correctly?
 ls -lh $species/GCF*
+echo " "
 
 echo Now, the reference will be searched for a mitochondrion sequence
 grep "mitochondrion" ./$species/${species}_ref/${species}.genomic.fna | cut -f 1 
@@ -47,7 +45,7 @@ echo If a sequence was printed out, this will now be removed from the reference 
 
 filterbyname.sh include=f in=./$species/${species}_ref/${species}.genomic.fna  out=tmp.fasta names="mitochondrion" ow=t substring=t
 rm ./$species/${species}_ref/${species}.genomic.fna
-mv tmp.fasta ./$species/${species}_ref/${species}.genomic.fna
-rm tmp.fasta
+mv ./$species/${species}_ref/tmp.fasta ./$species/${species}_ref/${species}.genomic.fna
+rm ./$species/${species}_ref/tmp.fasta
 echo " "
 echo DONE, please move on to the SRR download step
