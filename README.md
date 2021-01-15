@@ -68,7 +68,7 @@ ls */
 STEP 2:
 
 Now that the files have been download and decompressed, the reference needs to be QC'd using the following scripts:
-  a) qc_reference.sh & repeatmasker_names.R
+  a) [qc_reference.sh](./qc_reference) & repeatmasker_names.R
   b) qc_reference_stats.sh & qc_reference_stats.R
 
 
