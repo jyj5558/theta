@@ -38,7 +38,7 @@ cat log* | grep "100%"
 
 echo " "
 echo Are all downloaded files named correctly?
-ls -1 $species/GCF*
+ls -lh $species/GCF*
 
 echo " "
 echo DONE, please move on to the SRR download step
