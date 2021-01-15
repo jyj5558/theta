@@ -17,7 +17,7 @@ theta
          >aligned
 ```
          
-Once the folders are created, confirmed that all looks OK before proceeding through step 1-step X (NOTE, these scripts assume that a SLURMM scheduler is used; if a different scheduler is employed please modify script headers accordingly).
+Once the folders are created, confirmed that all looks OK before proceeding through step 1-step X (NOTE, these scripts assume that a SLURM scheduler is used; if a different scheduler is employed (e.g., SGE) please modify script headers and module loads accordingly).
 
 ## Steps for analyzing each species
 
