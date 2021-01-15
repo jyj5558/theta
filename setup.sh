@@ -45,7 +45,7 @@ grep "mitochondrion" ./$species/${species}_ref/${species}.genomic.fna | cut -f 1
 echo " "
 echo If a sequence was printed out, this will now be removed from the reference genome
 
-filterbyname.sh include=t in=./$species/${species}_ref/${species}.genomic.fna  out=test.fasta names="mitochondrion" ow=t substring=t
+filterbyname.sh include=f in=./$species/${species}_ref/${species}.genomic.fna  out=test.fasta names="mitochondrion" ow=t substring=t
 
 echo " "
 echo DONE, please move on to the SRR download step
