@@ -30,26 +30,28 @@ b) Identify the best / most current assembly (based upon N50, assembly levlel, e
 
 Once here, locate and navigate to the "FTP directory for RefSeq assembly" in the right hand column. This will pull up the File Transfer Protocal web page where the reference genome (e.g. GCF_002007445.1_ASM200744v2_genomic.fna.gz), repeat masker out (e.g. GCF_002007445.1_ASM200744v2_rm.out.gz) and annotations (e.g. GCF_002007445.1_ASM200744v2_genomic.gtf.gz) are available for download. 
 
-For each file, copy the link address and paste each into a text editor in an open shell, such as:
+Copy the name of the reference genome build, and the link addresses to all three files (if available; if not, just enter NA when prompted).
+
+Now that you have this information recorded, run the [setup.sh](./setup.sh) script in the ./theta folder. The user will be prompted to enter the follwing information, which will create the necessary folder structure, download all files and decompress them. 
+
+For example:
 
 ```
-#!/bin/sh -l
-#SBATCH -A standby
-#SBATCH --time=4:00:00
-#SBATCH --job-name GCF_002007445.1_ASM200744v2_download
+bash ./setup.py
 
-cd $SLURM_SUBMIT_DIR
+Hello, what is the name of the species genome you are about to download?
+GCF_002007445.1_ASM200744v2
 
-wget "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/007/445/GCF_002007445.1_ASM200744v2/GCF_002007445.1_ASM200744v2_genomic.fna.gz" \
--O GCF_002007445.1_ASM200744v2_ref/GCF_002007445.1_ASM200744v2_genomic.fna.gz -o log_ref 
+Creating directory structure for GCF_002007445.1_ASM200744v2, please confirm that it was created correctly
 
-wget "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/007/445/GCF_002007445.1_ASM200744v2/GCF_002007445.1_ASM200744v2_rm.out.gz" \
--O GCF_002007445.1_ASM200744v2_rm/GCF_002007445.1_ASM200744v2_rm.out.gz -o log_rm
+Please specify the path to the FTP refseq genome:
+https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/007/445/GCF_002007445.1_ASM200744v2/GCF_002007445.1_ASM200744v2_genomic.fna.gz
 
- wget "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/007/445/GCF_002007445.1_ASM200744v2/GCF_002007445.1_ASM200744v2_genomic.gtf.gz" \
- -O GCF_002007445.1_ASM200744v2_rm/GCF_002007445.1_ASM200744v2_genomic.gtf.gz -o log_gtf
- 
- gzip -d */*gz
+Please specify the path to the FTP refseq rm out file:
+https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/007/445/GCF_002007445.1_ASM200744v2/GCF_002007445.1_ASM200744v2_rm.out.gz
+
+Please specify the path to the FTP refseq annotations:
+https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/007/445/GCF_002007445.1_ASM200744v2/GCF_002007445.1_ASM200744v2_genomic.gtf.gz
 
 ```
 
