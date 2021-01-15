@@ -1,12 +1,11 @@
 # Theta project
 
-These scripts are developed for investigating genomic diversity and effective population size (θ = 4Neμ) in wildlife.
+These scripts are developed for investigating genomic diversity and effective population size (θ = 4Neμ) in wildlife populations.
 
 Jan 2021
 
-The series of scripts will auto-create the following directory structure:
+First, run the setup.sh script in the ./theta folder to auto-create the following directory structure:
 ```
-
 theta
   >species_x
       >species_x_ref
@@ -30,7 +29,6 @@ and locate your species of interest.
 b) Identify the best / most current assembly (based upon N50, assembly levlel, etc) and click on the refseq hyperlink beginning with "GCF_", which will link to the NCBI genome summary web-page. Once here, locate and navigate to the "FTP directory for RefSeq assembly" in the right hand column. This will pull up the File Transfer Protocal web page where the reference genome (e.g. GCF_002007445.1_ASM200744v2_genomic.fna.gz), repeat masker out (e.g. GCF_002007445.1_ASM200744v2_rm.out.gz) and annotations (e.g. GCF_002007445.1_ASM200744v2_genomic.gtf.gz) are available for download. For each file, copy the link address and paste each into a text editor in an open shell, such as:
 
 ```
-
 #!/bin/sh -l
 #SBATCH -A standby
 #SBATCH --time=4:00:00
@@ -56,13 +54,11 @@ Save the file as "GCF_002007445.1_ASM200744v2_download.sh" within the "GCF_00200
 Once completed, check the log files to ensure that all fully downloaded (100%) and were decompressed!
 
 ```
-
 cat log* | grep "100%" 
 #There should be one line printed out for each file downloaded
 
 ls */
 #All files should be decompressed
-
 ```
 
 STEP 2:
@@ -89,7 +85,7 @@ Now, we need to load two modules:
 ml bioinfo sra-toolkit/2.10.0
 ```
 The next step is to set the path to where you want to store the temporary (large) sequence read archive files. By default, these go into your home directory, and they can quickly use up all of your home directory space. Therefore, we want to specify a location to store them that is on your scratch drive (as you have terabytes of free space here!)
-The location that you will want to specify (to store these SRA files) is here:
+The location that you will want to specify (to store these SRA files) is dependant on the user path, but for example:
 ```
 /scratch/bell/blackan/theta/GCF_002007445.1_ASM200744v2/sra/raw/
 ```
@@ -132,12 +128,12 @@ This will feed the accessions to the prefetch command, which will result in the 
 Now that the SRA files should be downloaded to your scratch drive, we can extract the paired FASTQ files from the raw prefetched data. At this point it’s important to note what type of reads you are expecting. You’ll have to ensure that you get paired end reads from the SRA accessions where they are expected. The newer program called fasterq-dump appears to be aware of paired-end datasets, and splits them accordingly by default. 
 Move into the directory containing all of the downloaded SRR files:
 ```
-/scratch/snyder/b/blackan/sra
+/scratch/bell/blackan/theta/GCF_002007445.1_ASM200744v2/sra/raw/
 ```
 And run the following command to extract the paired end FASTQ data from each accession. 
 
 ```
-ls -1 | xargs -I'{}' fasterq-dump -t /scratch/snyder/b/blackan/ -e 6 {}
+ls -1 | xargs -I'{}' fasterq-dump -t /scratch/bell/blackan/theta/GCF_002007445.1_ASM200744v2/sra/raw/ -e 6 {}
 ```
 
 By default, fasterq-dump uses 6 threads, but you can specify a different amount using the -e flag.
@@ -147,12 +143,28 @@ Note, you may need to increase the max limit size of the fastq files (20GB by de
 
 Now, you should be able to ls and see your brand new fastq files named with the SRRXXXXX_1.fastq for single end data, and SRRXXXXX_2.fastq for paired end data. 
 ```
-ls /scratch/snyder/b/blackan/sra/*fastq
-SRR6656140.sra_1.fastq  SRR6656155.sra_1.fastq  SRR6656170.sra_1.fastq  SRR6656185.sra_1.fastq  SRR6656200.sra_1.fastq
-```
+ls -1 /scratch/bell/blackan/theta/GCF_002007445.1_ASM200744v2/sra/raw/*fastq
 
-QC and mapping of SRAs
-- trimgalore.sh
+SRR6656140.sra_1.fastq  
+SRR6656155.sra_1.fastq  
+SRR6656170.sra_1.fastq  
+SRR6656185.sra_1.fastq  
+SRR6656200.sra_1.fastq
+```
+#DONE
+
+STEP-4: QC and mapping of SRAs
+
+Now that the population level data has been downloaded and converted to paired-end fastq file format, the next step is to clean the reads of low quality base calls (<Q20) and remove any adapters present in the data (while these would likely be soft masked during the alignment step, best to just remove them here). This will all be accomplished using the trimgalor program, which will auto predict the adapter sequence based upon location and prevelance of nucleotides in the reads.
+
+Copy / move the [trimgalor.sh](./trimgalore.sh) script to the following path, e.g.:
+```
+nano /scratch/bell/blackan/theta/GCF_002007445.1_ASM200744v2/sra/raw/trimgalore.sh
+```
+And then execute the SLURMM script as a job:
+
+
+
 - mapping.sh
 - realignment_single.sh (for individuals with a single SRA)
 - realignment_multiple.sh (for individuals with multiple SRAs)
