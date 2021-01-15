@@ -21,12 +21,16 @@ Once the folders are created, confirmed that all looks OK before proceeding thro
 
 ## Steps for analyzing each species
 
-STEP 1: Download reference genome, repeater masker out file and annotations (if available):
+STEP 1: Download reference genome, repeater masker out file and annotations (if available). NOTE, the Cheetah genome is used as an example only. User's will need to designate the genome assembly for the species they are targetting. 
 
 a) For a current list of all mammalian refseq assemblies, go to: https://www.ncbi.nlm.nih.gov/datasets/genomes/?txid=40674&source_db=RefSeq
 and locate your species of interest. 
 
-b) Identify the best / most current assembly (based upon N50, assembly levlel, etc) and click on the refseq hyperlink beginning with "GCF_", which will link to the NCBI genome summary web-page. Once here, locate and navigate to the "FTP directory for RefSeq assembly" in the right hand column. This will pull up the File Transfer Protocal web page where the reference genome (e.g. GCF_002007445.1_ASM200744v2_genomic.fna.gz), repeat masker out (e.g. GCF_002007445.1_ASM200744v2_rm.out.gz) and annotations (e.g. GCF_002007445.1_ASM200744v2_genomic.gtf.gz) are available for download. For each file, copy the link address and paste each into a text editor in an open shell, such as:
+b) Identify the best / most current assembly (based upon N50, assembly levlel, etc) and click on the refseq hyperlink beginning with "GCF_", which will link to the NCBI genome summary web-page. 
+
+Once here, locate and navigate to the "FTP directory for RefSeq assembly" in the right hand column. This will pull up the File Transfer Protocal web page where the reference genome (e.g. GCF_002007445.1_ASM200744v2_genomic.fna.gz), repeat masker out (e.g. GCF_002007445.1_ASM200744v2_rm.out.gz) and annotations (e.g. GCF_002007445.1_ASM200744v2_genomic.gtf.gz) are available for download. 
+
+For each file, copy the link address and paste each into a text editor in an open shell, such as:
 
 ```
 #!/bin/sh -l
