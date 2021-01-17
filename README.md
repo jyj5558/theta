@@ -31,7 +31,7 @@ Now, run the [setup.sh](./setup.sh) script in the ./theta folder to 1) auto-crea
 For example:
 
 ```
-./setup.py
+./setup.sh
 
 Hello, what is the name of the species genome you are about to download?
 GCF_002007445.1_ASM200744v2
