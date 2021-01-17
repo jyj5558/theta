@@ -5,7 +5,17 @@ These scripts are developed for investigating genomic diversity and effective po
 
 ## Steps for analyzing each species (one at a time)
 
-STEP 1: Create folder structure and download reference genome, repeater masker out file and annotations (if available). NOTE, below the Cheetah genome is used as an example only. User's will need to designate the genome assembly for the species they are targetting. 
+STEP 1: Start an interactive session and load several modules:
+
+Begin an interactive session to move to a back-end machine:
+```
+sinteractive
+```
+Load several modules required for the bash script:
+```
+ml bioinfo BBmap
+```
+STEP 2: Create folder structure and download reference genome, repeater masker out file and annotations (if available). NOTE, below the Cheetah genome is used as an example only. User's will need to designate the genome assembly for the species they are targetting. 
 
 a) For a current list of all mammalian refseq assemblies, go to: https://www.ncbi.nlm.nih.gov/datasets/genomes/?txid=40674&source_db=RefSeq
 and locate your species of interest. 
@@ -41,7 +51,7 @@ https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/007/445/GCF_002007445.1_ASM2007
 
 ```
 
-Once completed, check the log files to ensure that all fully downloaded (100%), decompressed, named correctly and are not empty
+Once completed, check the standard out to ensure that all fully downloaded (100%), decompressed, named correctly and are not empty. For example, the user should see something like this printed out on the screen when running the above script:
 
 ```
 cat log* | grep "100%" 
