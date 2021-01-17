@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#load modules
+ml bioinfo BBMap/37.93
+
 echo Hello, what is the name of the species genome you are about to download?
 read species
 echo Creating directory structure for $species, please confirm that it was created correctly
@@ -18,10 +21,10 @@ read ref
 echo Please specify the path to the FTP refseq rm out file:
 read rm
 
-echo Please specify the path to the FTP refseq annotations:
+echo Please specify the path to the FTP refseq annotations in GTF format:
 read gtf    
 
-echo Downlaoding reference genome, repeat masker out and annotation files. Please check log files and confirm all downloaded correctly
+echo Downlaoding reference genome, repeat masker out and annotation files for $species. Please check standard out and files to confirm all downloaded correctly
 wget $ref -O ./$species/${species}_ref/${species}.genomic.fna.gz -o log_ref 
 wget $rm -O ./$species/${species}_rm/${species}.rm.out.gz -o log_rm
 wget $gtf -O ./$species/${species}_gtf/${species}.gtf.gz -o log_gtf
@@ -34,7 +37,7 @@ echo Please confirm that all downloaded files were fully downloaded 100%
 cat log* | grep "100%" 
 echo " "
 
-echo Are all downloaded files named correctly?
+echo Are all downloaded files named correctly and are not empty?
 ls -lh $species/GCF*
 echo " "
 
@@ -47,4 +50,4 @@ filterbyname.sh include=f in=./$species/${species}_ref/${species}.genomic.fna ou
 rm ./$species/${species}_ref/${species}.genomic.fna
 mv ./$species/${species}_ref/tmp.fasta ./$species/${species}_ref/${species}.genomic.fna
 echo " "
-echo DONE, please move on to the SRR download step
+echo DONE-please check all files before moving on to the SRR download step
