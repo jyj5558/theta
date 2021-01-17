@@ -5,16 +5,14 @@ These scripts are developed for investigating genomic diversity and effective po
 
 ## Steps for analyzing each species (one at a time)
 
-STEP 1: Start an interactive session and load several modules:
+STEP 1: Start an interactive session:
 
 Begin an interactive session to move to a back-end machine:
 ```
-sinteractive
+#Start an interactive session on standby
+sinteractive -t 4:00:00 --mem=10G
 ```
-Load several modules required for the bash script:
-```
-ml bioinfo BBmap
-```
+
 STEP 2: Create folder structure and download reference genome, repeater masker out file and annotations (if available). NOTE, below the Cheetah genome is used as an example only. User's will need to designate the genome assembly for the species they are targetting. 
 
 a) For a current list of all mammalian refseq assemblies, go to: https://www.ncbi.nlm.nih.gov/datasets/genomes/?txid=40674&source_db=RefSeq
@@ -33,7 +31,7 @@ Now, run the [setup.sh](./setup.sh) script in the ./theta folder to 1) auto-crea
 For example:
 
 ```
-bash ./setup.py
+./setup.py
 
 Hello, what is the name of the species genome you are about to download?
 GCF_002007445.1_ASM200744v2
@@ -54,11 +52,43 @@ https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/007/445/GCF_002007445.1_ASM2007
 Once completed, check the standard out to ensure that all fully downloaded (100%), decompressed, named correctly and are not empty. For example, the user should see something like this printed out on the screen when running the above script:
 
 ```
-cat log* | grep "100%" 
-#There should be one line printed out for each file downloaded
+Please confirm that all downloaded files were fully downloaded 100%
+ 15450K .......... .                                          100%  375M=0.3s
+733150K .......... .......... .......... ....                 100%  278M=11s
+128950K .....                                                 100%  379M=1.9s
+```
+And confirm that none of the files are empty (based upon file size) and named accordingly:
 
-ls */
-#All files should be decompressed
+```
+Are all downloaded files named correctly and are not empty?
+GCF_009873245.2_mBalMus1.pri.v3/GCF_009873245.2_mBalMus1.pri.v3_gtf:
+total 400M
+-rw-r--r-- 1 blackan student 500M Oct 29 03:52 GCF_009873245.2_mBalMus1.pri.v3.gtf
+
+GCF_009873245.2_mBalMus1.pri.v3/GCF_009873245.2_mBalMus1.pri.v3_ref:
+total 2.2G
+-rw-r--r-- 1 blackan student 2.3G Oct 29 03:52 GCF_009873245.2_mBalMus1.pri.v3.genomic.fna
+
+GCF_009873245.2_mBalMus1.pri.v3/GCF_009873245.2_mBalMus1.pri.v3_rm:
+total 464M
+-rw-r--r-- 1 blackan student 544M Oct 29 03:52 GCF_009873245.2_mBalMus1.pri.v3.rm.out
+```
+Finally, the header of the mitochondrial sequence (if present) will be identified and used to remove this sequence from the reference genome. The script will print out information on this step, so please check for any memory issues or error messages:
+
+```
+Now, the reference will be searched for a mitochondrion sequence
+>NC_001601.1 Balaenoptera musculus mitochondrion, complete genome
+ 
+If a sequence was printed out, this will now be removed from the reference genome
+java -ea -Xmx8191m -cp /group/bioinfo/apps/apps/BBMap-37.93/current/ driver.FilterReadsByName include=f in=./GCF_009873245.2_mBalMus1.pri.v3/GCF_009873245.2_mBalMus1.pri.v3_ref/GCF_009873245.2_mBalMus1.pri.v3.genomic.fna out=./GCF_009873245.2_mBalMus1.pri.v3/GCF_009873245.2_mBalMus1.pri.v3_ref/tmp.fasta names=mitochondrion ow=t substring=t
+Executing driver.FilterReadsByName [include=f, in=./GCF_009873245.2_mBalMus1.pri.v3/GCF_009873245.2_mBalMus1.pri.v3_ref/GCF_009873245.2_mBalMus1.pri.v3.genomic.fna, out=./GCF_009873245.2_mBalMus1.pri.v3/GCF_009873245.2_mBalMus1.pri.v3_ref/tmp.fasta, names=mitochondrion, ow=t, substring=t]
+
+Input is being processed as unpaired
+Time:               9.713 seconds.
+Reads Processed:    106 	0.01k reads/sec
+Bases Processed:    2374868943 	244.50m bases/sec
+Reads Out:          105
+Bases Out:          2374852541
 ```
 
 #STOP HERE, UNTESTED BELOW!!!!
