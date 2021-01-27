@@ -121,12 +121,13 @@ Now, we need to load two modules:
 ```
 ml bioinfo sra-toolkit/2.10.0
 ```
-The next step is to set the path to where you want to store the temporary (large) sequence read archive files. By default, these go into your home directory, and they can quickly use up all of your home directory space. Therefore, we want to specify a location to store them that is on your scratch drive (as you have terabytes of free space here!)
-The location that you will want to specify (to store these SRA files) is dependant on the user path, but for example:
+The next step is to set the path to where you want to store the temporary (large) sequence read archive files. By default, these go into your home directory, and they can quickly use up all of your home directory space. Therefore, we want to specify a location to store them that is on your scratch drive (as you have terabytes of free space here!). The SRA files should be downloaded to the *sra/raw* directory that the previous script created for your species.
+
+For example, the path for the blue whale genome is here: 
 ```
-/scratch/bell/blackan/theta/GCF_002007445.1_ASM200744v2/sra/raw/
+/scratch/bell/dewoody/theta/GCF_009873245.2_mBalMus1.pri.v3/sra/raw
 ```
-Now that we have determined the path to where you will want to save these files, copy the path above. Once copied, run the following command: 
+Now that we have determined the path to where you will want to save these files, move to the *sra/raw* directory and print out / copy the path to this location. Once copied, run the following command: 
 ```
 vdb-config -i --interactive-mode textual
 ```
@@ -154,40 +155,76 @@ SRR6656233
 SRR6656185
 . . .
 ```
+Note, that if there were derived from the European database, they will have a *ERR* prefix, such as:
+
+```
+ERR1843087
+ERR1843088
+ERR1843089
+. . .
+```
+
 Now that we have the text file created, we need to use the “prefetch command” which will download the SRR accessions to the computing infrastructure. 
 Now, you should navigate to the folder that contains the species_x_srr.txt  file, and type this command:
 ```
 cat ./SRR.txt | xargs prefetch --max-size 200GB
 ```
 
-This will feed the accessions to the prefetch command, which will result in the raw sequences being downloaded from NCBI’s servers. You should see some progress messages as the files download.
+This will feed the accessions to the prefetch command, which will result in the raw sequences being downloaded from NCBI’s servers. You should see some progress messages as the files download. NOTE, make sure that there are no "unresolved dependancies / failed downloads" at this step!
+
  
 Now that the SRA files should be downloaded to your scratch drive, we can extract the paired FASTQ files from the raw prefetched data. At this point it’s important to note what type of reads you are expecting. You’ll have to ensure that you get paired end reads from the SRA accessions where they are expected. The newer program called fasterq-dump appears to be aware of paired-end datasets, and splits them accordingly by default. 
-Move into the directory containing all of the downloaded SRR files:
+
+Making sure that you are move within the directory containing all of the downloaded SRR files (by default this created a new *sra* folder:
 ```
-/scratch/bell/blackan/theta/GCF_002007445.1_ASM200744v2/sra/raw/
+cd /scratch/bell/dewoody/theta/GCF_009873245.2_mBalMus1.pri.v3/sra/raw/sra
 ```
-And run the following command to extract the paired end FASTQ data from each accession. 
+And confirm that there are files here, which contain data:
+```
+ls -lh ./
+```
+```
+total 2.0G
+-rw-r--r-- 1 blackan student 112M Jan 27 09:18 ERR1843087.sra
+-rw-r--r-- 1 blackan student 123M Jan 27 09:18 ERR1843088.sra
+-rw-r--r-- 1 blackan student 115M Jan 27 09:18 ERR1843089.sra
+-rw-r--r-- 1 blackan student 147M Jan 27 09:18 ERR1843090.sra
+-rw-r--r-- 1 blackan student 148M Jan 27 09:18 ERR1843091.sra
+-rw-r--r-- 1 blackan student 126M Jan 27 09:18 ERR1843092.sra
+-rw-r--r-- 1 blackan student 124M Jan 27 09:18 ERR1843093.sra
+. . .
+```
+
+Now, run the following command to extract the paired end FASTQ data from each accession and output them into the *raw* directory. 
 
 ```
-ls -1 | xargs -I'{}' fasterq-dump -t /scratch/bell/blackan/theta/GCF_002007445.1_ASM200744v2/sra/raw/ -e 6 {}
+ls -1 | xargs -I'{}' fasterq-dump -t /scratch/bell/dewoody/theta/GCF_009873245.2_mBalMus1.pri.v3/sra/raw/sra -e 6 -O ../ -b 10G -c 50G {}
 ```
 
 By default, fasterq-dump uses 6 threads, but you can specify a different amount using the -e flag.
 
 Using the -I'{}' flag of xargs, your accessions will be extracted serially, which is what we want in this case, in order to reduce the load on the server.
-Note, you may need to increase the max limit size of the fastq files (20GB by default), depending on the size of your files. 
+Note, flags have been added to above to increase the max cache size / buffer limit.
 
-Now, you should be able to ls and see your brand new fastq files named with the SRRXXXXX_1.fastq for single end data, and SRRXXXXX_2.fastq for paired end data. 
+Once the program is finished, confirm that the fastq files are downloaded and contain phased data (file sizes should be the same for R1/R2):
 ```
-ls -1 /scratch/bell/blackan/theta/GCF_002007445.1_ASM200744v2/sra/raw/*fastq
+ls -l ../*fastq
+```
+```
+-rw-r--r-- 1 blackan student 264581264 Jan 27 09:30 ../ERR1843087.sra_1.fastq
+-rw-r--r-- 1 blackan student 264581264 Jan 27 09:30 ../ERR1843087.sra_2.fastq
+-rw-r--r-- 1 blackan student 290563248 Jan 27 09:30 ../ERR1843088.sra_1.fastq
+-rw-r--r-- 1 blackan student 290563248 Jan 27 09:30 ../ERR1843088.sra_2.fastq
+. . .
+```
+Then delete empty / unecessary directories:
+```
+rm -rf ../files ../nannot ../refseq ../wgs
+```
 
-SRR6656140.sra_1.fastq  
-SRR6656155.sra_1.fastq  
-SRR6656170.sra_1.fastq  
-SRR6656185.sra_1.fastq  
-SRR6656200.sra_1.fastq
-```
+Now, you should be able to ls and see your brand new fastq files named with the [S,E]RRXXXXX_1.fastq for single end data, and [S,E]RRXXXXX_2.fastq for paired end data. 
+
+
 #DONE
 
 STEP-4: QC and mapping of SRAs
