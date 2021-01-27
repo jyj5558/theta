@@ -24,14 +24,19 @@ Once here, locate and navigate to the "FTP directory for RefSeq assembly" in the
 
 Copy the name of the reference genome build, and the link addresses to all three files (if available)
 
-Now that you have this information recorded, run the [setup.sh](./setup.sh) script in the ./theta folder. The user will be prompted to enter the following information, which will create the necessary folder structure, download all files and decompress them. If the user species does not have one of these listed files, just enter NA when prompted).
+Now that you have this information recorded, create the [setup.sh](./setup.sh) script in the ./theta folder and make the script executable:
+```
+chmod +x ./setup.sh
+```
 
-Now, run the [setup.sh](./setup.sh) script in the ./theta folder to 1) auto-create the proper directory structure and b) download and decompress all files:
+Now, run the [setup.sh](./setup.sh) script in the ./theta folder to 1) auto-create the proper directory structure and b) download and decompress all files. 
+
+The user will be prompted to enter the following information, which will create the necessary folder structure, download all files and decompress them. If the user species does not have one of these listed files, just enter NA when prompted).
 
 For example:
 
 ```
-bash ./setup.sh
+./setup.sh
 
 Hello, what is the name of the species genome you are about to download?
 GCF_002007445.1_ASM200744v2
