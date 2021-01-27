@@ -96,9 +96,7 @@ Reads Out:          105
 Bases Out:          2374852541
 ```
 
-#STOP HERE, UNTESTED BELOW!!!!
-
-STEP 2:
+STEP 2 (*UNTESTED*):
 
 Now that the files have been download and decompressed, the reference needs to be QC'd using the following scripts:
 
