@@ -229,11 +229,17 @@ STEP-4: QC and mapping of SRAs
 
 Now that the population level data has been downloaded and converted to paired-end fastq file format, the next step is to clean the reads of low quality base calls (<Q20) and remove any adapters present in the data (while these would likely be soft masked during the alignment step, best to just remove them here). This will all be accomplished using the trimgalor program, which will auto predict the adapter sequence based upon location and prevelance of nucleotides in the reads.
 
-Copy / move the [trimgalor.sh](./trimgalore.sh) script to the following path, e.g.:
+Copy / move the [cleaning.sh](./cleaning.sh) script to the following path, e.g.:
 ```
-nano /scratch/bell/blackan/theta/GCF_002007445.1_ASM200744v2/sra/raw/trimgalore.sh
+nano /scratch/bell/blackan/theta/GCF_002007445.1_ASM200744v2/sra/raw/cleaning.sh
 ```
 And then execute the SLURMM script as a job:
+
+```
+sbatch cleaning.sh
+```
+#### pipeline is tested until this step ####
+
 
 
 
@@ -241,7 +247,7 @@ And then execute the SLURMM script as a job:
 - realignment_single.sh (for individuals with a single SRA)
 - realignment_multiple.sh (for individuals with multiple SRAs)
 
-#### pipeline is tested until this step ####
+
 QC of bam dataset
 - qc_bams.sh & quantile_thresholds.R
 
