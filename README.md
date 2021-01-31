@@ -128,7 +128,7 @@ The SRA names should be recorded in the following CSV format, e.g.:
 ERR1843087,ERR1843088,ERR1843089
 ```
 Now, the user is ready to run the [download_sra.sh](./download_sra.sh) script, such as:
-``
+```
 chmod +x ./download_sra.sh
 ./download_sra.sh
 ```
@@ -137,7 +137,7 @@ The user will be prompted to paste in the name of the genome assembly, such as:
 ```
 Hello, what is the name of the species genome?
 GCF_009873245.2_mBalMus1.pri.v3
-``
+```
 This will change the working directory to this species download folder.
 The user will then be prompted to enter the CSV list of SRA accessions:
 ```
@@ -146,55 +146,9 @@ ERR1843087,ERR1843088,ERR1843089
 ```
 This script will then download all SRA files and dump them into paired-end fastq file format.
 
-Note, make sure that there are no unresolved downloads during either the SRA download or fastq!
-
-Next, we’ll need to download the SRA accession(s) that you are interested in.
-
-Copy the list of SRR accessions you are interested into a file called species_x_srr.txt 
-
-Let’s put this file at the following path:
-```
-/scratch/bell/blackan/theta/GCF_002007445.1_ASM200744v2/sra/raw/SRR.txt
-```
-This file should look something like this:
-```
-cat ./SRR.txt
-
-SRR6656231
-SRR6656187
-SRR6656230
-SRR6656186
-SRR6656233
-SRR6656185
-. . .
-```
-Note, that if there were derived from the European database, they will have a *ERR* prefix, such as:
-
-```
-ERR1843087
-ERR1843088
-ERR1843089
-. . .
-```
-
-Now that we have the text file created, we need to use the “prefetch command” which will download the SRR accessions to the computing infrastructure. 
-Now, you should navigate to the folder that contains the species_x_srr.txt  file, and type this command:
-```
-cat ./SRR.txt | xargs prefetch --max-size 200GB
-```
-
-This will feed the accessions to the prefetch command, which will result in the raw sequences being downloaded from NCBI’s servers. You should see some progress messages as the files download. NOTE, make sure that there are no "unresolved dependancies / failed downloads" at this step!
-
- 
-Now that the SRA files should be downloaded to your scratch drive, we can extract the paired FASTQ files from the raw prefetched data. At this point it’s important to note what type of reads you are expecting. You’ll have to ensure that you get paired end reads from the SRA accessions where they are expected. The newer program called fasterq-dump appears to be aware of paired-end datasets, and splits them accordingly by default. 
-
-Making sure that you are move within the directory containing all of the downloaded SRR files (by default this created a new *sra* folder:
-```
-cd /scratch/bell/dewoody/theta/GCF_009873245.2_mBalMus1.pri.v3/sra/raw/sra
-```
-
 Now, you should be able to ls and see your brand new fastq files named with the [S,E]RRXXXXX_1.fastq for single end data, and [S,E]RRXXXXX_2.fastq for paired end data. 
 
+Note, make sure that there are no unresolved downloads during either the SRA download or fastq!
 
 #DONE
 
