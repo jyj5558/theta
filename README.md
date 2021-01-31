@@ -158,7 +158,7 @@ Now that the population level data has been downloaded and converted to paired-e
 
 Copy / move the [cleaning.sh](./cleaning.sh) script to the following path, e.g.:
 ```
-nano /scratch/bell/blackan/theta/GCF_002007445.1_ASM200744v2/sra/raw/cleaning.sh
+/scratch/bell/dewoody/theta/GCF_009873245.2_mBalMus1.pri.v3/sra/raw
 ```
 And then execute the SLURMM script as a job:
 
