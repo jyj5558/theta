@@ -105,33 +105,48 @@ Now that the files have been download and decompressed, the reference needs to b
   b) [qc_reference_stats.sh](./qc_reference_stats.sh) & [qc_reference_stats.R](./qc_reference_stats.R)
 
 
-STEP 3:
+STEP 3: Locate and download SRA files for population level reads:
 
-Locate and download SRA files for population level reads:
+Locate SRA files for a given species:
+NEEDS TO BE WRITTEN!
 
-This document outlines the steps that can be taken to download Sequence Read Archive (SRA) files. The code listed below are demonstrated using my (Andrew Black’s) scratch space and paths. You will need to modify these accordingly. 
-While you can download SRA files by submitting a job, which makes more sense if downloading a lot of files, we will be doing this logged into an interactive session:
+Download SRA files. 
+We will be downloading SRA files using an interactive session:
 ```
 sinteractive -A standby -t 4:00:00 -n 6
 ```
 
-Now, we need to load two modules:
+Now, make sure the user is in the main directory (i.e., theta)
 ```
-ml bioinfo sra-toolkit/2.10.0
+cd /scratch/bell/dewoody/theta
 ```
-The next step is to set the path to where you want to store the temporary (large) sequence read archive files. By default, these go into your home directory, and they can quickly use up all of your home directory space. Therefore, we want to specify a location to store them that is on your scratch drive (as you have terabytes of free space here!). The SRA files should be downloaded to the *sra/raw* directory that the previous script created for your species.
 
-For example, the path for the blue whale genome is here: 
+The script to download these SRA files need to be run in the above directory (or the main project directory).
+The SRA names should be recorded in the following CSV format, e.g.:
+
 ```
-/scratch/bell/dewoody/theta/GCF_009873245.2_mBalMus1.pri.v3/sra/raw
+ERR1843087,ERR1843088,ERR1843089
 ```
-Now that we have determined the path to where you will want to save these files, move to the *sra/raw* directory and print out / copy the path to this location. Once copied, run the following command: 
+Now, the user is ready to run the [download_sra.sh](./download_sra.sh) script, such as:
+``
+chmod +x ./download_sra.sh
+./download_sra.sh
 ```
-vdb-config -i --interactive-mode textual
+The user will be prompted to paste in the name of the genome assembly, such as:
+
 ```
-This interactive session will ask you to specify some options. 
-Type 4, and then paste the path that you previously copied above and hit <ENTER>.
-After you input this information Type Y and <ENTER>.
+Hello, what is the name of the species genome?
+GCF_009873245.2_mBalMus1.pri.v3
+``
+This will change the working directory to this species download folder.
+The user will then be prompted to enter the CSV list of SRA accessions:
+```
+Please specify the name of the file containing sra names, this should be located in your pwd directory for GCF_009873245.2_mBalMus1.pri.v3
+ERR1843087,ERR1843088,ERR1843089
+```
+This script will then download all SRA files and dump them into paired-end fastq file format.
+
+Note, make sure that there are no unresolved downloads during either the SRA download or fastq!
 
 Next, we’ll need to download the SRA accession(s) that you are interested in.
 
@@ -176,48 +191,6 @@ Now that the SRA files should be downloaded to your scratch drive, we can extrac
 Making sure that you are move within the directory containing all of the downloaded SRR files (by default this created a new *sra* folder:
 ```
 cd /scratch/bell/dewoody/theta/GCF_009873245.2_mBalMus1.pri.v3/sra/raw/sra
-```
-And confirm that there are files here, which contain data:
-```
-ls -lh ./
-```
-```
-total 2.0G
--rw-r--r-- 1 blackan student 112M Jan 27 09:18 ERR1843087.sra
--rw-r--r-- 1 blackan student 123M Jan 27 09:18 ERR1843088.sra
--rw-r--r-- 1 blackan student 115M Jan 27 09:18 ERR1843089.sra
--rw-r--r-- 1 blackan student 147M Jan 27 09:18 ERR1843090.sra
--rw-r--r-- 1 blackan student 148M Jan 27 09:18 ERR1843091.sra
--rw-r--r-- 1 blackan student 126M Jan 27 09:18 ERR1843092.sra
--rw-r--r-- 1 blackan student 124M Jan 27 09:18 ERR1843093.sra
-. . .
-```
-
-Now, run the following command to extract the paired end FASTQ data from each accession and output them into the *raw* directory. 
-
-```
-ls -1 | xargs -I'{}' fasterq-dump -t /scratch/bell/dewoody/theta/GCF_009873245.2_mBalMus1.pri.v3/sra/raw/sra -e 6 -O ../ -b 10G -c 50G {}
-```
-
-By default, fasterq-dump uses 6 threads, but you can specify a different amount using the -e flag.
-
-Using the -I'{}' flag of xargs, your accessions will be extracted serially, which is what we want in this case, in order to reduce the load on the server.
-Note, flags have been added to above to increase the max cache size / buffer limit.
-
-Once the program is finished, confirm that the fastq files are downloaded and contain phased data (file sizes should be the same for R1/R2):
-```
-ls -l ../*fastq
-```
-```
--rw-r--r-- 1 blackan student 264581264 Jan 27 09:30 ../ERR1843087.sra_1.fastq
--rw-r--r-- 1 blackan student 264581264 Jan 27 09:30 ../ERR1843087.sra_2.fastq
--rw-r--r-- 1 blackan student 290563248 Jan 27 09:30 ../ERR1843088.sra_1.fastq
--rw-r--r-- 1 blackan student 290563248 Jan 27 09:30 ../ERR1843088.sra_2.fastq
-. . .
-```
-Then delete empty / unecessary directories:
-```
-rm -rf ../files ../nannot ../refseq ../wgs
 ```
 
 Now, you should be able to ls and see your brand new fastq files named with the [S,E]RRXXXXX_1.fastq for single end data, and [S,E]RRXXXXX_2.fastq for paired end data. 
