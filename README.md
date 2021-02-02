@@ -165,6 +165,21 @@ And then execute the SLURMM script as a job:
 ```
 sbatch cleaning.sh
 ```
+
+Once the job is finished, check the output of the slurm job to get a snapshot of the cleaning metrics. 
+User should be in the 'raw' directory and run the following command:
+```
+ls -1 *fastq > tmp.1 ; grep "Total written (filtered):" slurm* > tmp.2 ; paste tmp.1 tmp.2 ; rm tmp.*
+```
+Which should print out someting like this:
+
+```
+ERR1843087.sra_1.fastq	Total written (filtered):     92,177,528 bp (95.8%)
+ERR1843087.sra_2.fastq	Total written (filtered):     83,786,746 bp (87.5%)
+. . .
+```
+#DONE
+
 #### pipeline is tested until this step ####
 
 
