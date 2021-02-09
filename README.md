@@ -3,6 +3,33 @@ Jan 2021
 
 These scripts are developed for investigating genomic diversity and effective population size (θ = 4Neμ) in wildlife populations. NOTE, these scripts assume that a SLURM scheduler is used; if a different scheduler is employed (e.g., SGE) please modify script headers and module loads accordingly).
 
+## Finding the population data
+
+1.	Population data can be found from publications (Google scholar etc.), NCBI website, and ebi.ac.uk website …(Andrew Black’s “Zipped directory” is also helpful!)
+- Check the species carefully, sometimes they are the host, so they did not get sequenced
+
+2.	Look for Whole-genome resequencing data from Illumina Hiseq or Novaseq technologies  
+- Record S2 and S4 lane reads seperately
+
+3. Minimum read length should be 150 bps
+
+4.	The individuals only be selected from wild populations  
+-	Exclude laboratory-bred, captive-bred ..etc. populations  
+
+5.	Most of the papers have a section named ‘data availability’ 
+-	This section has the BioProject accession number(PRJNAxx…) which you can follow to find SRAs
+-	Follow the Supplementary information section of the paper for more information if available
+
+6.	Per species, SRAs from a maximum of 8 individuals should be collected
+-	These 8 individuals should belong to one population
+-	If there are multiple populations take one population with 8 individuals. If all the populations are less than 8 individuals, take the one with the highest number
+For an instance, if there are 2 populations per one species each with 6 and 4 individuals only the population with 6 individuals take into account
+-	There should be at least 2 individuals per species (minimum number) to include in the project
+
+6.	Make sure each SRA belongs to one individual and 8 SRAs belong to 8 different individuals
+-	There can be multiple SRAs for one individual and these multiple SRAs can be included in the project. The pipeline is developed with a space to add multiple SRAs. 
+
+
 ## Steps for analyzing each species (one at a time)
 
 STEP 1: Start an interactive session:
