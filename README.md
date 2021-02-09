@@ -136,7 +136,7 @@ Within the main directory (e.g., theta)
 cd /scratch/bell/dewoody/theta
 ```
 
-The user can run the [download_sra_2.sh](./download_sra_2.sh)  script, such as:
+The user can run the [download_sra_2.sh](./download_sra_2.sh) script, such as:
 ```
 chmod +x ./download_sra_2.sh
 ./download_sra_2.sh
@@ -166,18 +166,24 @@ STEP-4: QC and mapping of SRAs
 
 Now that the population level data has been downloaded and converted to paired-end fastq file format, the next step is to clean the reads of low quality base calls (<Q20) and remove any adapters present in the data (while these would likely be soft masked during the alignment step, best to just remove them here). This will all be accomplished using the trimgalor program, which will auto predict the adapter sequence based upon location and prevelance of nucleotides in the reads.
 
-Copy / move the [cleaning.sh](./cleaning.sh) script to the following path, e.g.:
+As per the SRA download step, the cleanning scripts will need to be run independently for 2- and/or 4-chemistry files.
+This can be done by:
+
+Copy / moving the [cleaning_2.sh](./cleaning_2.sh) and/or [cleaning_4.sh](./cleaning_4.sh) script(s) to the following path, e.g.:
 ```
 /scratch/bell/dewoody/theta/GCF_009873245.2_mBalMus1.pri.v3/sra/
 ```
-And then execute the SLURMM script as a job:
+And then executing the SLURMM script(s) as a job:
 
 ```
-sbatch cleaning.sh
+sbatch cleaning_2.sh
+```
+```
+sbatch cleaning_4.sh
 ```
 
 Once the job is finished, check the output of the slurm job to get a snapshot of the cleaning metrics. 
-User should be in the 'raw' directory and run the following command:
+User should be in the ./two_ch/raw or the ./four_ch/raw directory and run the following command:
 ```
 ls -1 *fastq > tmp.1 ; grep "Total written (filtered):" slurm* > tmp.2 ; paste tmp.1 tmp.2 ; rm tmp.*
 ```
