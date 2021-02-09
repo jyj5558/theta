@@ -136,7 +136,7 @@ Within the main directory (e.g., theta)
 cd /scratch/bell/dewoody/theta
 ```
 
-The user can run the [download_sra_2.sh](./download_sra_2.sh) and/or the [download_sra_4.sh](./download_sra_4.sh) script(s), such as:
+The user can run the [download_sra_2.sh](./download_sra_2.sh)  script, such as:
 ```
 chmod +x ./download_sra_2.sh
 ./download_sra_2.sh
@@ -154,6 +154,7 @@ Please specify the name of the file containing sra names, this should be located
 ERR1843087,ERR1843088,ERR1843089
 ```
 This script will then download all SRA files and dump them into paired-end fastq file format for TWO-chemistry platforms.
+
 Repeat steps above if the user also has 4-channel SRA files to download, with the [download_sra_4.sh](./download_sra_4.sh) 
 
 Now, there should be fully downloaded fastq files named with the [S,E]RRXXXXX_1.fastq for single end data, and [S,E]RRXXXXX_2.fastq for paired end data within the ./two_ch/raw and/or ./four_ch/raw directories. 
