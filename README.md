@@ -111,31 +111,40 @@ Locate SRA files for a given species:
 NEEDS TO BE WRITTEN!
 
 Download SRA files. 
-We will be downloading SRA files using an interactive session:
+Note, as per opinion piece linked [here](https://onlinelibrary.wiley.com/doi/full/10.1111/1755-0998.13309?campaign=wolearlyview) SRA files need to be categorized according to the sequencing platform they were generated on (i.e., 2- or 4-channel chemistry) to avoid biases in generating theta estimates. 
+
+Therefore, please create two lists (if applicable): 1) a comma seperated list of SRA files generated using 2-channel chemistry and 2) a comma seperated list of SRA files generated using 4-channel chemistry. 
+
+For example, 
+
 ```
-sinteractive -A standby -t 4:00:00 -n 6
+#Two-channel chemistry SRA names
+ERR1843087,ERR1843088,ERR1843089
 ```
 
-Now, make sure the user is in the main directory (i.e., theta)
+```
+#Four-channel chemistry SRA names
+SRR10066840,SRR10066841,SRR10066842
+```
+Now, the user will need to download the SRA files using an interactive session:
+```
+sinteractive -A standby -t 4:00:00 -n 6 --mem=10G
+```
+
+Within the main directory (e.g., theta)
 ```
 cd /scratch/bell/dewoody/theta
 ```
 
-The script to download these SRA files need to be run in the above directory (or the main project directory).
-The SRA names should be recorded in the following CSV format, e.g.:
-
+The user can run the [download_sra_2.sh](./download_sra_2.sh) and/or the [download_sra_4.sh](./download_sra_4.sh) script(s), such as:
 ```
-ERR1843087,ERR1843088,ERR1843089
-```
-Now, the user is ready to run the [download_sra.sh](./download_sra.sh) script, such as:
-```
-chmod +x ./download_sra.sh
-./download_sra.sh
+chmod +x ./download_sra_2.sh
+./download_sra_2.sh
 ```
 The user will be prompted to paste in the name of the genome assembly, such as:
 
 ```
-Hello, what is the name of the species genome?
+Hello, what is the name of the accession for this species genome?
 GCF_009873245.2_mBalMus1.pri.v3
 ```
 This will change the working directory to this species download folder.
@@ -144,13 +153,13 @@ The user will then be prompted to enter the CSV list of SRA accessions:
 Please specify the name of the file containing sra names, this should be located in your pwd directory for GCF_009873245.2_mBalMus1.pri.v3
 ERR1843087,ERR1843088,ERR1843089
 ```
-This script will then download all SRA files and dump them into paired-end fastq file format.
+This script will then download all SRA files and dump them into paired-end fastq file format for TWO-chemistry platforms.
+Repeat steps above if the user also has 4-channel SRA files to download, with the [download_sra_4.sh](./download_sra_4.sh) 
 
-Now, you should be able to ls and see your brand new fastq files named with the [S,E]RRXXXXX_1.fastq for single end data, and [S,E]RRXXXXX_2.fastq for paired end data. 
+Now, there should be fully downloaded fastq files named with the [S,E]RRXXXXX_1.fastq for single end data, and [S,E]RRXXXXX_2.fastq for paired end data within the ./two_ch/raw and/or ./four_ch/raw directories. 
 
 Note, make sure that there are no unresolved downloads during either the SRA download or fastq!
 
-#DONE
 
 STEP-4: QC and mapping of SRAs
 
