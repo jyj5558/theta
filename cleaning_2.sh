@@ -13,6 +13,9 @@ module load cutadapt/2.5
 module load fastqc
 
 
+echo Moving to directory that houses raw paired-end fastq files for TWO channel chemistry
+cd ./two_ch/raw
+
 for i in $(ls -1 *fastq | sed 's/_[1,2].fastq/ /g' | uniq)
 do
 echo "checking quality scores of paired-fastq sample $i"
@@ -29,14 +32,10 @@ cat ${i}_1_fastqc/summary.txt ${i}_2_fastqc/summary.txt > ${i}_fastqc_summary.tx
 FILE=$(grep "FAIL" ${i}_fastqc_summary.txt)
 echo "$FILE"
 
-trim_galore --stringency 1 --length 30 --quality 20 --fastqc_args "--nogroup" -o ../cleaned --paired ${i}_1.fastq ${i}_2.fastq
+echo trim_galore --stringency 1 --length 30 --quality 20 --fastqc_args "--nogroup" -o ../cleaned --paired ${i}_1.fastq ${i}_2.fastq
 
 done
-
-
 # remove excess files
 rm -rf fastq_files.txt
 rm -rf *_fastqc_summary.txt
 rm -rf fail-txt
-
-# END
