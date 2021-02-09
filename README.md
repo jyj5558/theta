@@ -7,6 +7,7 @@ These scripts are developed for investigating genomic diversity and effective po
 
 1.	Population data can be found from publications (Google scholar etc.), NCBI website, and ebi.ac.uk website …(Andrew Black’s “Zipped directory” is also helpful!)
 - Check the species carefully, sometimes they are the host, so they did not get sequenced
+- Andrew Black's zipped folder contains separate files for many of the species in the google document. You can find BioProject accession number, BioSample number ..etc from     the respective file to use in the NCBI, ebi.ac.uk searches to find SRAs
 
 2.	Look for Whole-genome resequencing data from Illumina Hiseq or Novaseq technologies  
 - Record S2 and S4 lane reads seperately
