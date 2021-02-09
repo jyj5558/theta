@@ -15,7 +15,7 @@ module load fastqc
 
 
 echo Moving to directory that houses raw paired-end fastq files for TWO channel chemistry
-cd ../four_ch/raw
+cd ./four_ch/raw
 
 for g in $(ls -1 *fastq | sed 's/_[1,2].fastq/ /g' | uniq)
 do
