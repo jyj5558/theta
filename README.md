@@ -10,7 +10,7 @@ https://docs.google.com/document/d/1vyvKtTTdbAaev23nXTlfw-awJjivq9ENdmS1YWzZW4I/
 
 ## Finding the population data
 
-1.	Population data can be found from publications (Google scholar etc.), NCBI website, and ebi.ac.uk website …(Andrew Black’s “Zipped directory” is also helpful!)
+1.	Population data can be found from publications (Google scholar etc.), NCBI website, and ebi.ac.uk website(https://www.ebi.ac.uk/) …(Andrew Black’s “Zipped directory” is also helpful!)
 - Check the species carefully, sometimes they are the host, so they did not get sequenced
 - Andrew Black's zipped folder contains separate files for many of the species in the google document. You can find BioProject accession number, BioSample number ..etc from     the respective file to use in the NCBI, ebi.ac.uk searches to find SRAs
 
