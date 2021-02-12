@@ -3,6 +3,11 @@ Jan 2021
 
 These scripts are developed for investigating genomic diversity and effective population size (θ = 4Neμ) in wildlife populations. NOTE, these scripts assume that a SLURM scheduler is used; if a different scheduler is employed (e.g., SGE) please modify script headers and module loads accordingly).
 
+## link to google doc with SRA and other info
+https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469
+## link to the weekl agenda
+https://docs.google.com/document/d/1vyvKtTTdbAaev23nXTlfw-awJjivq9ENdmS1YWzZW4I/edit
+
 ## Finding the population data
 
 1.	Population data can be found from publications (Google scholar etc.), NCBI website, and ebi.ac.uk website …(Andrew Black’s “Zipped directory” is also helpful!)
