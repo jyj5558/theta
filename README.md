@@ -14,8 +14,9 @@ https://docs.google.com/document/d/1vyvKtTTdbAaev23nXTlfw-awJjivq9ENdmS1YWzZW4I/
 - Check the species carefully, sometimes they are the host, so they did not get sequenced
 - Andrew Black's zipped folder contains separate files for many of the species in the google document. You can find BioProject accession number, BioSample number ..etc from     the respective file to use in the NCBI, ebi.ac.uk searches to find SRAs
 
-2.	Look for Whole-genome resequencing data from Illumina Hiseq or Novaseq technologies  
+2.	Look for Whole-genome resequencing data from Illumina technologies (any Illumina sequencing platform is fine) 
 - Record S2 and S4 lane reads seperately
+- If S2 and S4 lane information is not in the publication, find the year of the sequencing platform launched and from there get the lane information. 
 
 3. Minimum read length should be 150 bps
 
