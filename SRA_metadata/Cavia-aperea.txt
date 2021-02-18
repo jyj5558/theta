@@ -1,0 +1,1 @@
+SRR1146518,WGS,202,12474638068,PRJNA212237,SAMN02595912,6494246327,LEIBNIZ INSTITUTE FOR ZOO AND WILDLIFE RESEARCH,public,"sra,fastq","ncbi,s3,gs","ncbi.public,gs.US,s3.us-east-1",SRX448723,Illumina HiSeq 2000,C.ape2.3_muscle.liver_MP,PAIRED,unspecified,GENOMIC,Cavia aperea,ILLUMINA,2015-07-22T00:00:00Z,C.ape2.3,male,SRP035583,wild guinea pig,,,,,,"muscle, liver",,,,,,,,,,,,,,,,,

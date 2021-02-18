@@ -1,0 +1,1 @@
+SRR8770339,2yr,WGS,302,145913405544,PRJNA526040,SAMN11172698,Model organism or animal,6/16/2016,53451191013,NIH,public,"sra,fastq","s3,ncbi,gs","s3.us-east-1,gs.US,ncbi.public",6/22/18,SRX5560400,Illumina NovaSeq 6000,TR1022,TR1022_brain,PAIRED,RANDOM,GENOMIC,Grammomys surdaster,ILLUMINA,2019-03-22T00:00:00Z,TR1022_brain,female,SRP188949,brain
