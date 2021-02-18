@@ -1,24 +1,25 @@
 # Theta project
-Jan 2021
+Feb 2021
 
 These scripts are developed for investigating genomic diversity and effective population size (θ = 4Neμ) in wildlife populations. NOTE, these scripts assume that a SLURM scheduler is used; if a different scheduler is employed (e.g., SGE) please modify script headers and module loads accordingly).
 
 ## link to google doc with SRA and other info
-https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469
-## link to the weekl agenda
-https://docs.google.com/document/d/1vyvKtTTdbAaev23nXTlfw-awJjivq9ENdmS1YWzZW4I/edit
+[here](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469) 
+
+## link to the weekly agenda
+[here](https://docs.google.com/document/d/1vyvKtTTdbAaev23nXTlfw-awJjivq9ENdmS1YWzZW4I/) 
 
 ## Finding the population data
 
 1.	Population data can be found from publications (Google scholar etc.), NCBI website, and ebi.ac.uk website(https://www.ebi.ac.uk/) …(Andrew Black’s “Zipped directory” is also helpful!)
 - Check the species carefully, sometimes they are the host, so they did not get sequenced
-- Andrew Black's zipped folder contains separate files for many of the species in the google document. You can find BioProject accession number, BioSample number ..etc from     the respective file to use in the NCBI, ebi.ac.uk searches to find SRAs
+-  [SRA_metadata](./SRA_metadata/) contains separate files for many of the species. You can find BioProject accession number, BioSample number ..etc from the respective file to use
 
 2.	Look for Whole-genome resequencing data from Illumina technologies (any Illumina sequencing platform is fine) 
 - Record S2 and S4 lane reads seperately
 - If S2 and S4 lane information is not in the publication, find the year of the sequencing platform launched and from there get the lane information. 
 
-3. Minimum read length should be 150 bps
+3. Minimum read length should be 150 bps, reads should be paired-end only (R1/R2)
 
 4.	The individuals only be selected from wild populations  
 -	Exclude laboratory-bred, captive-bred ..etc. populations  
