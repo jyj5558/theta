@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=TrimGalore_4
+#SBATCH --job-name=TrimGalore
 #SBATCH -A fnrquail
-#SBATCH -t 300:00:00
+#SBATCH -t 4:00:00
 #SBATCH -N 1
 #SBATCH -n 1
 
@@ -19,6 +19,7 @@ cd ./four_ch/raw
 
 for g in $(ls -1 *fastq | sed 's/_[1,2].fastq/ /g' | uniq)
 do
+GENOME=`ls -1 ../../../ | grep "ref" | sed 's/_ref//g'`
 echo "checking quality scores of paired-fastq sample $g"
 
 # check quality of reads
@@ -37,6 +38,10 @@ trim_galore --stringency 1 --length 30 --quality 20 --fastqc_args "--nogroup" -o
 
 done
 
+echo Now aggregating all fastqc reports, pre and post cleaning
+multiqc ../cleaned/ -n ../${GENOME}_multiqc.html -f -d --no-data-dir 
+echo Please download the multiqc report and view in a web browser before proceeding
+echo Done with the cleaning step, please proceed to mapping
 
 # remove excess files
 rm -rf fastq_files.txt
