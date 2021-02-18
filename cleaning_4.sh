@@ -11,7 +11,7 @@ module load bioinfo
 module load TrimGalore
 module load cutadapt/2.5
 module load fastqc
-
+module load MULTIQC
 
 
 echo Moving to directory that houses raw paired-end fastq files for TWO channel chemistry
