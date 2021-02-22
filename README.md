@@ -4,6 +4,7 @@ These scripts are developed for investigating genomic diversity and effective po
 
 ## Project organization links
 [Google doc with data and links](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469) 
+
 [Weekly agenda and notes](https://docs.google.com/document/d/1vyvKtTTdbAaev23nXTlfw-awJjivq9ENdmS1YWzZW4I/) 
 
 ## Script and directory structure overview
