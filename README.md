@@ -3,8 +3,7 @@
 These scripts are developed for investigating genomic diversity and effective population size (θ = 4Neμ) in wildlife populations. NOTE, these scripts assume that a SLURM scheduler is used; if a different scheduler is employed (e.g., SGE) please modify script headers and module loads accordingly).
 
 ## Project organization links
-[Google doc with data and links](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469) 
-
+[Google doc with data and links](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469); 
 [Weekly agenda and notes](https://docs.google.com/document/d/1vyvKtTTdbAaev23nXTlfw-awJjivq9ENdmS1YWzZW4I/) 
 
 ## Script and directory structure overview
@@ -25,14 +24,14 @@ Analyses
 ###Directory overview
 To make things easier to automate later, we will use a standardized directory structure based on the target species scientific name (Genus-species), genome assembly accession number (accession), and other labels. The structure looks like this:
 Genus-species
-->accession_ref: reference genome assembly
-->accession_rm: repeat-masked reference genome assembly
-->accession_gtf: reference genome assembly annotation
-->mappability: reference genome assembly quality assessment
-->sra: holds several levels of population data
-->->raw: raw SRAs, kept for now to help with debugging
-->->cleaned: cleaned SRAs that are ready for mapping
-->->mapped: SRAs mapped to reference genome
+-accession_ref: reference genome assembly
+-accession_rm: repeat-masked reference genome assembly
+-accession_gtf: reference genome assembly annotation
+-mappability: reference genome assembly quality assessment
+-sra: holds several levels of population data
+--raw: raw SRAs, kept for now to help with debugging
+--cleaned: cleaned SRAs that are ready for mapping
+--mapped: SRAs mapped to reference genome
 
 ## Reference download and QC - step1_ref_download_QC.sh
 This script downloads reference, repeat, and annotation data and then identifyies repeats, estimates mappability and finds all of the short scaffolds. The output files include: 	
