@@ -7,7 +7,7 @@ These scripts are developed for investigating genomic diversity and effective po
 [Weekly agenda and notes](https://docs.google.com/document/d/1vyvKtTTdbAaev23nXTlfw-awJjivq9ENdmS1YWzZW4I/) 
 
 ## Script and directory structure overview
-###Script overview and order
+Script overview and order
 Step 1: Reference download and QC (step1_ref_download_QC.sh) 
 Step 2: Population data identification, download, and cleaning (step2_SRA_download_clean.sh)
 Step 3: ...
@@ -21,16 +21,25 @@ QC of bam dataset
 Analyses
 - angsd.sh
 
-###Directory overview
+Directory overview
 To make things easier to automate later, we will use a standardized directory structure based on the target species scientific name (Genus-species), genome assembly accession number (accession), and other labels. The structure looks like this:
+
 Genus-species
+
 -accession_ref: reference genome assembly
+
 -accession_rm: repeat-masked reference genome assembly
+
 -accession_gtf: reference genome assembly annotation
+
 -mappability: reference genome assembly quality assessment
+
 -sra: holds several levels of population data
+
 --raw: raw SRAs, kept for now to help with debugging
+
 --cleaned: cleaned SRAs that are ready for mapping
+
 --mapped: SRAs mapped to reference genome
 
 ## Reference download and QC - step1_ref_download_QC.sh
