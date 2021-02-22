@@ -6,26 +6,7 @@ These scripts are developed for investigating genomic diversity and effective po
 - [Google doc with data and links](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469)
 - [Weekly agenda and notes](https://docs.google.com/document/d/1vyvKtTTdbAaev23nXTlfw-awJjivq9ENdmS1YWzZW4I/) 
 
-## Script and directory structure overview
-
-Script overview and order
-
-**Step 1:** Reference download and QC (step1_ref_download_QC.sh)
-
-**Step 2:** Population data identification, download, and cleaning (step2_SRA_download_clean.sh)
-
-**Step 3:** ...
-- mapping.sh
-- realignment_single.sh (for individuals with a single SRA)
-- realignment_multiple.sh (for individuals with multiple SRAs)
-
-QC of bam dataset
-- qc_bams.sh & quantile_thresholds.R
-
-Analyses
-- angsd.sh
-
-**Directory overview**
+## Directory structure overview
 
 To make things easier to automate later, we will use a standardized directory structure based on the target species scientific name (Genus-species), genome assembly accession number (accession), and other labels. The structure looks like this:
 
@@ -39,7 +20,9 @@ Genus-species
 - sra/cleaned: cleaned SRAs that are ready for mapping
 - sra/mapped: SRAs mapped to reference genome
 
-## Reference download and QC - step1_ref_download_QC.sh
+All of the Genus-species directories will be at /scratch/bell/dewoody/theta
+
+## Step 1. Reference download and QC - step1_ref_download_QC.sh
 
 This script downloads reference, repeat, and annotation data and then identifyies repeats, estimates mappability and finds all of the short scaffolds. The output files include: 	
 1. ref.fa (reference file with scaffolds>100kb)							
@@ -60,7 +43,7 @@ sbatch /scratch/bell/jwillou/theta/step1_ref_download_QC.sh Manis-javanica GCF_0
 Note that this requires genmap. I've installed this in DeWoody scratch and then added a PATH update for this location, but we should watch for errors on this step.
 
 
-## Population data identification, download, and cleaning
+## Step 2. Population data identification, download, and cleaning
 **Identifying population data**
 
 We need to find sequence data for populations corresponding to the reference genome assemblies that are available. To do this, we will first look for SRA data by species and then check to see that it meets the criteria outlined below.
@@ -86,4 +69,14 @@ Usage: step2_SRA_download_clean.sh Genus-species
 - SRAs.txt: A comma separated list of SRAs to download (should be on a single row). Note that SRAS.txt must be in /scratch/bell/dewoody/theta/${genus_species}/.
 
 
+**Steps 3+:** To be completed.
+- mapping.sh
+- realignment_single.sh (for individuals with a single SRA)
+- realignment_multiple.sh (for individuals with multiple SRAs)
+
+QC of bam dataset
+- qc_bams.sh & quantile_thresholds.R
+
+Analyses
+- angsd.sh
 
