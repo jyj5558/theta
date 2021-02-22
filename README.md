@@ -14,7 +14,7 @@ Genus-species
 - accession_ref: reference genome assembly
 - accession_rm: repeat-masked reference genome assembly
 - accession_gtf: reference genome assembly annotation
-- -mappability: reference genome assembly quality assessment
+- mappability: reference genome assembly quality assessment
 - sra: holds several levels of population data
 - sra/raw: raw SRAs, kept for now to help with debugging
 - sra/cleaned: cleaned SRAs that are ready for mapping
@@ -36,11 +36,11 @@ Usage: step1_download_QC.sh Genus-species accession PUid pathway
 - PUid: this tells this script where to find the R scripts (is there a better way to do this?)
 - pathway: include NCBI path up to but not including file extension, e.g. /genomes/all/GCF/001/890/085/GCF_001890085.1_ASM189008v1/GCF_001890085.1_ASM189008v1
 
-Eventually, we will write a script to automate running these but for now we will test one species at a time. To run this step, use something like this:
+To run this step, use something like this:
 
 sbatch /scratch/bell/jwillou/theta/step1_ref_download_QC.sh Manis-javanica GCF_001685135.1 /genomes/all/GCF/001/890/085/GCF_001890085.1_ASM189008v1/GCF_001890085.1_ASM189008v1 jwillou
 
-Note that this requires genmap. I've installed this in DeWoody scratch and then added a PATH update for this location, but we should watch for errors on this step.
+Eventually, we will write a script to automate running these but for now we will test one species at a time. Note that this requires genmap; I've installed this in DeWoody scratch and then added a PATH update for this location, but we should watch for errors on this step.
 
 
 ## Step 2. Population data identification, download, and cleaning
