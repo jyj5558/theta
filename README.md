@@ -7,10 +7,12 @@ These scripts are developed for investigating genomic diversity and effective po
 - [Weekly agenda and notes](https://docs.google.com/document/d/1vyvKtTTdbAaev23nXTlfw-awJjivq9ENdmS1YWzZW4I/) 
 
 ## Script and directory structure overview
+
 Script overview and order
+
 **Step 1:** Reference download and QC (step1_ref_download_QC.sh)
 
-**Step 2: **Population data identification, download, and cleaning (step2_SRA_download_clean.sh)
+**Step 2:** Population data identification, download, and cleaning (step2_SRA_download_clean.sh)
 
 **Step 3:** ...
 - mapping.sh
@@ -24,6 +26,7 @@ Analyses
 - angsd.sh
 
 **Directory overview**
+
 To make things easier to automate later, we will use a standardized directory structure based on the target species scientific name (Genus-species), genome assembly accession number (accession), and other labels. The structure looks like this:
 
 Genus-species
@@ -37,6 +40,7 @@ Genus-species
 - sra/mapped: SRAs mapped to reference genome
 
 ## Reference download and QC - step1_ref_download_QC.sh
+
 This script downloads reference, repeat, and annotation data and then identifyies repeats, estimates mappability and finds all of the short scaffolds. The output files include: 	
 1. ref.fa (reference file with scaffolds>100kb)							
 2. ok.bed (regions to analyze in angsd etc)		
@@ -57,7 +61,8 @@ Note that this requires genmap. I've installed this in DeWoody scratch and then 
 
 
 ## Population data identification, download, and cleaning
-###Identifying population data
+**Identifying population data**
+
 We need to find sequence data for populations corresponding to the reference genome assemblies that are available. To do this, we will first look for SRA data by species and then check to see that it meets the criteria outlined below.
 
 1. Start looking for population data at NCBI (https://www.ncbi.nlm.nih.gov/genbank/), EMBL (https://www.ebi.ac.uk/), publications (Google scholar etc.), or in Andrew Black’s downloaded SRA directory (available in this repo under SRA_metadata) for the target species. The target species is listed in [our Google doc of data](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469). Be sure to check the species carefully, sometimes the target species is the host, meaning that they will show up in the search but did not actually get sequenced.
@@ -70,7 +75,8 @@ Andrew Black's [SRA_metadata](./SRA_metadata/) contains separate files for many 
 For an instance, if there are 2 populations of black bears, one with 6 and the other with 4 individuals, record SRAs for the population with 6 individuals. We need at least 2 individuals per species (minimum number) to include in the project.
 7. Make sure each SRA belongs to one individual and 8 SRAs belong to 8 different individuals. There can be multiple SRAs for one individual and these multiple SRAs can be included in the project. The pipeline is developed with a space to add multiple SRAs. 
 
-### Download and clean population data - step2_SRA_download_clean.sh
+**Download and clean population data - step2_SRA_download_clean.sh**
+
 This script downloads SRAs for our target species and then checks the initial quality of the reads, cleans the reads, and checks the read quality again after cleaning. The output files include:
 1. SRAs downloaded and unzipped, in sras/raw
 2. SRAs cleaned (trimmed), in sras/cleaned
