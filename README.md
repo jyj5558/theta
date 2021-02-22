@@ -21,25 +21,17 @@ QC of bam dataset
 Analyses
 - angsd.sh
 
-Directory overview
+**Directory overview**
 To make things easier to automate later, we will use a standardized directory structure based on the target species scientific name (Genus-species), genome assembly accession number (accession), and other labels. The structure looks like this:
 
 Genus-species
-
 -accession_ref: reference genome assembly
-
 -accession_rm: repeat-masked reference genome assembly
-
 -accession_gtf: reference genome assembly annotation
-
 -mappability: reference genome assembly quality assessment
-
 -sra: holds several levels of population data
-
 --raw: raw SRAs, kept for now to help with debugging
-
 --cleaned: cleaned SRAs that are ready for mapping
-
 --mapped: SRAs mapped to reference genome
 
 ## Reference download and QC - step1_ref_download_QC.sh
