@@ -1,11 +1,12 @@
-# get stats for the reference qc
-#in R
+pwd       = commandArgs(trailingOnly=TRUE)[2]
+accession = commandArgs(trailingOnly=TRUE)[3]
+setwd(pwd)
 
 #################
 # estimate number of sites with no repeats
 #################
 
-a <- read.table("nonrepeat.bed", header = F)
+a <- read.table(paste(accession, "_rm/", "nonrepeat.bed", sep=""), header = F)
 
 # make header
 names(a) <- c("chr","start","stop")
@@ -22,7 +23,7 @@ write.table(ok, file = "norepeat.txt", row.names = F, col.names = F)
 # estimate number of sites with mappability == 1
 #################
 
-a <- read.table("mappability.bed", header = F)
+a <- read.table("mappability/mappability.bed", header = F)
 
 # make header
 names(a) <- c("chr","start","stop")

@@ -1,7 +1,12 @@
-# change scaffold names in repeatmasker file
-#in R
-
+#install.packages("dplyr", lib="/scratch/bell/dewoody/rlibs/", repos='http://cran.us.r-project.org')
+.libPaths("/scratch/bell/dewoody/rlibs/") 
 library(dplyr)
+
+pwd = commandArgs(trailingOnly=TRUE)[2]
+print(pwd)
+setwd(pwd)
+
+#change scaffold names in repeatmasker file to match updated assembly names
 
 #################
 # change scaffold names repeatmasker
