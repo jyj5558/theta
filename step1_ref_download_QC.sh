@@ -118,10 +118,12 @@ then
 	tail -n +4 rm.out > rm.body
 	head -n 3 rm.out > rm.header
 	sed -i 's/\*//g' rm.body 
-	Rscript /scratch/bell/${user}/theta/source/repeatmasker_names.R --args /scratch/bell/dewoody/theta/${genus_species}/${accession}_rm
-	#Rscript /scratch/bell/jwillou/theta/source/repeatmasker_names.R --args /scratch/bell/dewoody/theta/Manis-javanica/GCF_011064425.1_rm
+	cd /scratch/bell/${user}/theta/source/
+	Rscript repeatmasker_names.R --args /scratch/bell/dewoody/theta/${genus_species}/${accession}_rm ${genus_species} ${accession}
+	cd /scratch/bell/dewoody/theta/${genus_species}/${accession}_rm
 	sed -i 's/"//g' rm_edited.body 
 	cat rm.header rm_edited.body > rm.out
+	rm rm_edited.body
 	cat rm.out |tail -n +4|awk '{print $5,$6,$7,$11}'|sed 's/ /\t/g' > repeats.bed # make bed file
 else	
 	# if no rm.out file is available run RepeatMasker
@@ -140,13 +142,15 @@ then
 	# change  names to fit ref.fa and rm.out 
 	tail -n +5 gtf.gtf > gtf.body
 	head -n 4 gtf.gtf > gtf.header
-	Rscript /scratch/bell/${user}/theta/source/annotation_names.R --args /scratch/bell/dewoody/theta/${genus_species}/${accession}_gtf
-	#Rscript /scratch/bell/jwillou/theta/source/annotation_names.R --args /scratch/bell/dewoody/theta/${genus_species}/${accession}_gtf
+	cd /scratch/bell/${user}/theta/source/
+	Rscript annotation_names.R --args /scratch/bell/dewoody/theta/${genus_species}/${accession}_gtf ${genus_species} ${accession}
+	cd /scratch/bell/dewoody/theta/${genus_species}/${accession}_gtf
 	sed -i 's/"//g' gtf_edited.body 
 	cat gtf.header gtf_edited.body > gtf.gtf
+	rm gtf_edited.body
 else	
 	# if no rm.out file is available run RepeatMasker
-	printf "no annotation/gtf availalbe" > log_gtf
+	printf "no annotation availalbe" > log_gtf
 fi
 cd ../ #move back to species/accession directory
 
@@ -227,8 +231,9 @@ rm -rf ${accession}_rm/repeats.bed
 rm -rf ${accession}_ref/sorted.fa
 
 #output some QC stats
-Rscript /scratch/bell/${user}/theta/source/qc_reference_stats.R --args /scratch/bell/dewoody/theta/${genus_species}/ $accession
-$Rscript /scratch/bell/jwillou/theta/source/qc_reference_stats.R --args /scratch/bell/dewoody/theta/${genus_species}/ $accession
+cd /scratch/bell/${user}/theta/source/
+Rscript qc_reference_stats.R --args /scratch/bell/dewoody/theta/${genus_species}/ $genus_species $accession 
+cd /scratch/bell/dewoody/theta/${genus_species}/
 
 map=$(sed -n '1p' okmap.txt)
 repeats=$(sed -n '1p' norepeat.txt)

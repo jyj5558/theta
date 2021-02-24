@@ -3,7 +3,9 @@
 library(dplyr)
 
 pwd = commandArgs(trailingOnly=TRUE)[2]
-print(pwd)
+g_s = commandArgs(trailingOnly=TRUE)[3]
+acc = commandArgs(trailingOnly=TRUE)[4]
+
 setwd(pwd)
 
 #change scaffold names in repeatmasker file to match updated assembly names
@@ -13,10 +15,10 @@ setwd(pwd)
 #################
 
 # read data and name files
-df <- read.table("rm.body", header = F)
+df <- read.table(paste("/scratch/bell/dewoody/theta/", g_s, "/", acc, "_rm/rm.body", sep=""), header = F)
 colnames(df) = c('a','b','c','d','ID','e','f','g','h','i','j','k','l','m','n')
 
-df.name <- read.table("ID.txt", header =F)
+df.name <- read.table(paste("/scratch/bell/dewoody/theta/", g_s, "/", acc, "_rm/ID.txt", sep=""), header =F)
 colnames(df.name) = c('ID','scaffold')
 
 # find replace ID with scaffold name
@@ -25,8 +27,7 @@ df1$ID <- df1$name
 
 # change order of columns
 df2 <- df1[c('a','b','c','d','scaffold','e','f','g','h','i','j','k','l','m','n')]
-
-write.table(df2, file = "rm_edited.body", sep = "\t",row.names = F, col.names = F)
+write.table(df2, file = paste("/scratch/bell/dewoody/theta/", g_s, "/", acc, "_rm/rm_edited.body", sep=""), sep = "\t",row.names = F, col.names = F)
 
 # END
 
