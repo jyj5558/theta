@@ -67,7 +67,7 @@ There are several ways to find these data, but the workflow that seems to work t
 4. Once you find a BioProject that looks like it meets the criteria we need, click through to the list of BioSamples (from the table near the bottom of the page) and look at the BioSamples that relate to that BioProject. Scan through the BioSamples until you find 8 (maximum) individuals that were sampled in the same area. Sometimes, sampling location is not noted on the BioSample page. Unless all of the samples for the project were collected from the same location (this information would be in the paper), missing sampling location information will mean that we cannot use these data and you'll need to start back at the BioProjects list again.
 5. Once you have found 8 BioSamples that will work (or, if you found at least 2 and exhausted all other BioProject options), you can add the data we need to [our Google doc of data](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469). Note that if you cannot find what you need looking through NCBI, you can use google scholar to look for literature directly. Most of the papers have a section named ‘data availability’ and this section has the BioProject accession number(PRJNAxx…) which you can follow to find the data we need. 
 
-Data needed in the [Google doc](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469). 
+Data needed in the [Google doc](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469): 
 
 1. BioProject number (if relevant)
 2. link to the reference paper noted in NCBI (or alternatively the one you used to find the data)
