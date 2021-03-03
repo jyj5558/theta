@@ -22,8 +22,12 @@ Genus-species
 
 All of the Genus-species directories will be at /scratch/bell/dewoody/theta
 
-## Step 1. Reference download and QC - step1_ref_download_QC.sh
+## Step 1. Reference downloading and QC
+**Identifying reference assembly data**
 
+We need to find reference assembly accession information for as many species as possible. Whenever possible, we will target RefSeq assemblies on NCBI Genbank. Once the target assembly is located for a particular species, we will use the accession number and file path (found under the FTP links on the right side) to dowload assemblies effeciently.
+
+**Download and perform QC on reference assembly - step1_ref_download_QC.sh**
 This script downloads reference, repeat, and annotation data and then identifyies repeats, estimates mappability and finds all of the short scaffolds. The output files include: 	
 1. ref.fa (reference file with scaffolds>100kb)							
 2. ok.bed (regions to analyze in angsd etc)		
@@ -46,18 +50,35 @@ Eventually, we will write a script to automate running these but for now we will
 ## Step 2. Population data identification, download, and cleaning
 **Identifying population data**
 
-We need to find sequence data for populations corresponding to the reference genome assemblies that are available. To do this, we will first look for SRA data by species and then check to see that it meets the criteria outlined below.
+We need to find sequence data for populations corresponding to the reference genome assemblies that are available. For each species with an existing reference assembly (see [our Google doc of data](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469) for more information), we are looking for short read sequencing data that has been generated for a population. In particular, the data sets need to have these characteristics:
 
-1. Start by searching for your target species on NCBI (https://www.ncbi.nlm.nih.gov/genbank/), EMBL (https://www.ebi.ac.uk/), publications (Google scholar etc.), or in Andrew Black’s downloaded SRA directory (available in this repo under SRA_metadata) for the target species. The target species is listed in [our Google doc of data](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469). Be sure to check the species carefully, sometimes the target species is the host, meaning that they will show up in the search but did not actually get sequenced.
-Andrew Black's [SRA_metadata](./SRA_metadata/) contains separate files for many of the species. You can find BioProject accession number, BioSample number ..etc from the respective file to use and then double check those numbers in NCBI.
-2. In NCBI, it is often easiest to narrow things by BioProject and then use some of the filters (e.g. genome sequencing, mammals, etc.) Once you find a BioProject that looks like it meets the criteria we need, you can click through and look at the BioSamples that relate to that BioProject. 
-3. Be sure that the data associated with each BioSample is whole-genome resequencing data using Illlumina Hi-Seq or Nova Seq (but not MiSeq). Record the platform used in the google doc so we can look for systematic biases later. This is usually found in the NCBI record but if not you will need to look in the reference noted in the NCBI record.
-4. Be sure that the read length should is 150 base pairs or longer and that the reads should are paired-end. (Paired end reads will always have R1 and R2 files.)
-5. Check that the sequenced individuals were captured from wild populations. (We will exclude laboratory-bred or other captive-bred populations.) 
-6. If you cannot find what you need looking through NCBI, you can use google scholar to look for literature directly. Most of the papers have a section named ‘data availability’ and this section has the BioProject accession number(PRJNAxx…) which you can follow to find SRAs. (The SRAs are the unique identifiers for the NCBI-submitted data we want.) Follow the Supplementary information section of the paper for more information if it is available.
-7. For each species, SRAs from a maximum of 8 individuals should be collected. The 8 individuals should belong to one population (as defined by the original authors). If there are multiple populations use sequences from the population with 8 individuals and add a note in the google sheet. If all the populations are less than 8 individuals, use data from the population with the highest number of individuals sequenced. For instance, if there are 2 populations of black bears, one with 6 and the other with 4 individuals, record SRAs for the population with 6 individuals. We need at least 2 individuals per species (minimum number) to include in the project.
-8. Make sure each SRA belongs to one individual and 8 SRAs belong to 8 different individuals. There can be multiple SRAs for one individual and these multiple SRAs can be included in the project. The pipeline is developed with a space to add multiple SRAs.
-9. In some cases, it will be much easier to extract sample accession numbers instead of all of the SRAs. This is totally fine and will work in our pipeline.
+1. whole-genome resequencing data (not RNAseq, RADseq, etc.)
+2. generated using the Illlumina Hi-Seq or Nova Seq platforms (not MiSeq) 
+3. be comprised of paired=end reads with lengths of 150 base pairs or longer (paired end reads will  have R1 and R2 files)
+4. sequenced individuals were captured from wild populations (we will exclude laboratory-bred or other captive-bred populations)
+5. sequenced individuals should all belong to the same population; this can be tough to identify for some species, so we will go with the definition used by the authors that published the sequencing data
+6. a minimum of 2 individuals but ideally up to 8 individuals were sequenced independently (more than one individual cannot be contained in a single sequencing data file/SRA); it is fine if there are  multiple files (SRAs) for one individual
+
+There are several ways to find these data, but the workflow that seems to work the best often begins with NCBI and then transitions to primarily literature. (Other usable starting places include  EMBL (https://www.ebi.ac.uk/) and Andrew Black's [SRA_metadata](./SRA_metadata/), which contains information about NCBI files for many of the species of interest.)
+
+1. Start by searching for your target species on NCBI (https://www.ncbi.nlm.nih.gov/genbank/), targeting BioProjects. B
+2. Use some of the BioProject filters (e.g. genome sequencing, mammals, etc.) to limit the number of records for the particular target species. Then, read through the descriptions of the BioProjects to find one that seems to meet the criteria above. At this stage, it is important to notice what was sequenced (we want whole genomes and not RNA) and how many BioSamples are included in the project (we need at least 2 but 8 individuals is the target). Be sure to check the species of each BioProject carefully because sometimes our target species is the host of the sequenced species, meaning that they will show up in the search but will not have been sequenced and so will not be what we need. 
+3. At this point it is often helpful to pull up the reference paper noted on the BioProjects page to see if the samples collected for this project will meet our criteria. If the samples will not work for us, go back to the list of BioProjects and try another one. 
+4. Once you find a BioProject that looks like it meets the criteria we need, click through to the list of BioSamples (from the table near the bottom of the page) and look at the BioSamples that relate to that BioProject. Scan through the BioSamples until you find 8 (maximum) individuals that were sampled in the same area. Sometimes, sampling location is not noted on the BioSample page. Unless all of the samples for the project were collected from the same location (this information would be in the paper), missing sampling location information will mean that we cannot use these data and you'll need to start back at the BioProjects list again.
+5. Once you have found 8 BioSamples that will work (or, if you found at least 2 and exhausted all other BioProject options), you can add the data we need to [our Google doc of data](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469). Note that if you cannot find what you need looking through NCBI, you can use google scholar to look for literature directly. Most of the papers have a section named ‘data availability’ and this section has the BioProject accession number(PRJNAxx…) which you can follow to find the data we need. 
+
+Data needed in the [Google doc](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469). 
+
+1. BioProject number (if relevant)
+2. link to the reference paper noted in NCBI (or alternatively the one you used to find the data)
+3. sequencing platform used; this is usually found in the NCBI record but if not you will need to look in the reference noted in the NCBI record
+5. name, sampling location, or other identifying information about the population you chose so that we can look back later for more information as needed; it is simplest to use either the name used by the authors in the paper or the sampling location noted in the BioSample information
+6. total number of populations available, if there is more than one set in the paper/BioProject
+7. total number of individuals with data available in the population you chose
+8. number of individuals with exported SRA or sample accession numbers added to the google sheet
+9. comma separated list of SRAs or sample accession numbers; there should be no spaces between items in the list
+
+Hint for extracting SRAs/BioSample accession numbersL In some cases, it will be much easier to extract sample accession numbers instead of all of the SRAs, and this is totally fine and will work in our pipeline. To do this effeciently, you can tick the boxes in the list of BioSamples for the sample numbers you want to export, go up to 'Send to' at the top of the page, choose 'File' and 'Accessions List', then click 'Create File'. This will generate a list of accession numbers in a text file, but they are newline separated instead of comma separated. Use find and replace to change this, and then paste the whole line into the google doc. See this video for a walkthrough.
 
 **Download and clean population data - step2_SRA_download_clean.sh**
 
