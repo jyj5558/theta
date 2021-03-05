@@ -57,7 +57,7 @@ We need to find sequence data for populations corresponding to the reference gen
 3. be comprised of paired=end reads with lengths of 150 base pairs or longer (paired end reads will  have R1 and R2 files)
 4. sequenced individuals were captured from wild populations (we will exclude laboratory-bred or other captive-bred populations)
 5. sequenced individuals should all belong to the same population; this can be tough to identify for some species, so we will go with the definition used by the authors that published the sequencing data
-6. a minimum of 2 individuals but ideally up to 8 individuals were sequenced independently (more than one individual cannot be contained in a single sequencing data file/SRA); it is fine if there are  multiple files (SRAs) for one individual
+6. a minimum of 8 individuals but ideally up to 25 individuals were sequenced independently (more than one individual cannot be contained in a single sequencing data file/SRA); it is fine if there are  multiple files (SRAs) for one individual
 
 There are several ways to find these data, but the workflow that seems to work the best often begins with NCBI and then transitions to primarily literature. (Other usable starting places include  EMBL (https://www.ebi.ac.uk/) and Andrew Black's [SRA_metadata](./SRA_metadata/), which contains information about NCBI files for many of the species of interest.)
 
