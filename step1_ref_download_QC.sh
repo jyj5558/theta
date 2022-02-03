@@ -27,10 +27,10 @@ export PATH=/scratch/bell/dewoody/genmap-build/bin:$PATH
 #separate as Black suggested
 #PUid: this tells this script where to find the R scripts 
 #pathway: include NCBI path up to but not including file extension, e.g.
-#/genomes/all/GCF/001/890/085/GCF_001890085.1_ASM189008v1/GCF_001890085.1_ASM189008v1
+# genomes/all/GCF/001/890/085/GCF_001890085.1_ASM189008v1/GCF_001890085.1_ASM189008v1
 #
 #Example sbatch (we can write a script to create all of these commands later)
-#sbatch /scratch/bell/jwillou/theta/step1_ref_download_QC.sh Manis-javanica GCF_001685135.1 /genomes/all/GCF/001/890/085/GCF_001890085.1_ASM189008v1/GCF_001890085.1_ASM189008v1 jwillou
+#sbatch /scratch/bell/jwillou/theta/step1_ref_download_QC.sh Manis-javanica GCF_001685135.1 genomes/all/GCF/001/890/085/GCF_001890085.1_ASM189008v1/GCF_001890085.1_ASM189008v1 jwillou
 #
 #
 #Need to have genmap installed and in your path (e.g. export PATH=/home/abruenic/genmap-build/bin:$PATH)
@@ -54,8 +54,8 @@ export PATH=/scratch/bell/dewoody/genmap-build/bin:$PATH
 
 genus_species=$1
 accession=$2
-user=$3
-pathway=$4
+pathway=$3
+user=$4
 
 cd /scratch/bell/dewoody/theta/
 
