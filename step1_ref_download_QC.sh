@@ -16,29 +16,26 @@ module load BEDTools
 module load BBMap
 module load r
 module load bioinfo BBMap/37.93
-export PATH=/scratch/bell/dewoody/genmap-build/bin:$PATH
+export PATH=$PATH:~/genmap-build/bin
 
 ####usage and notes####
 #usage:
-#step1_download_QC.sh Genus-species accession PUid pathway
+#step1_download_QC.sh Genus-species accession pathway user
 #Genus-species: this is used in the directory naming as Erangi suggested, to make browsing 
 #a bit more doable for us humans
 #accession: this is also used in the directory, to keep multiple reference assemblies
 #separate as Black suggested
-#PUid: this tells this script where to find the R scripts 
 #pathway: include NCBI path up to but not including file extension, e.g.
 # genomes/all/GCF/001/890/085/GCF_001890085.1_ASM189008v1/GCF_001890085.1_ASM189008v1
-#
+# Do NOT include "https://ftp.ncbi.nlm.nih.gov/" in the path
 #Example sbatch (we can write a script to create all of these commands later)
 #sbatch /scratch/bell/jwillou/theta/step1_ref_download_QC.sh Manis-javanica GCF_001685135.1 genomes/all/GCF/001/890/085/GCF_001890085.1_ASM189008v1/GCF_001890085.1_ASM189008v1 jwillou
 #
 #
-#Need to have genmap installed and in your path (e.g. export PATH=/home/abruenic/genmap-build/bin:$PATH)
-#genmap and installation instructions can be found at: https://github.com/cpockrandt/genmap
-#I installed this in DeWoody scratch and then added a PATH update for this location, 
-#but we should watch for errors on this step.
+#You NEED to have genmap installed and installed correctly at your home directory (~/) 
+#genmap installation instructions can be found at: https://github.com/cpockrandt/genmap
 #
-#Need to have theta git repo cloned 
+#Need to have theta git repo cloned or uploaded to your home path
 #
 #
 #This script downloads reference, repeat, and annotation data and then identifyies repeats, 
