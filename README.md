@@ -60,7 +60,11 @@ We need to find sequence data for populations corresponding to the reference gen
 6. a minimum of 8 individuals but ideally up to 25 individuals were sequenced independently (more than one individual cannot be contained in a single sequencing data file/SRA); it is fine if there are  multiple files (SRAs) for one individual
 
 There are several ways to find these data, but the workflow that seems to work the best often begins with NCBI and then transitions to primarily literature. (Other usable starting places include  EMBL (https://www.ebi.ac.uk/) and Andrew Black's [SRA_metadata](./SRA_metadata/), which contains information about NCBI files for many of the species of interest.)
+If you use a [SRA_metadata](./SRA_metadata/) to identify / download SRA files, you can download/copy the .txt file and extract relevant columns (SRAs,population(s),sequencing platform) and save them in a new file, such as:
 
+```
+cat Marmota-marmota-marmota.txt | tr '[,]' '[\t]' |  cut -f 1,27,33 | sed 's/ /_/g' > Marmota-marmota-marmota_meta.txt
+```
 1. Start by searching for your target species on NCBI (https://www.ncbi.nlm.nih.gov/genbank/), targeting BioProjects. B
 2. Use some of the BioProject filters (e.g. genome sequencing, mammals, etc.) to limit the number of records for the particular target species. Then, read through the descriptions of the BioProjects to find one that seems to meet the criteria above. At this stage, it is important to notice what was sequenced (we want whole genomes and not RNA) and how many BioSamples are included in the project (we need at least 2 but 8 individuals is the target). Be sure to check the species of each BioProject carefully because sometimes our target species is the host of the sequenced species, meaning that they will show up in the search but will not have been sequenced and so will not be what we need. 
 3. At this point it is often helpful to pull up the reference paper noted on the BioProjects page to see if the samples collected for this project will meet our criteria. If the samples will not work for us, go back to the list of BioProjects and try another one. 
