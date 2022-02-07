@@ -18,25 +18,7 @@ module load r
 module load bioinfo BBMap/37.93
 export PATH=$PATH:~/genmap-build/bin
 
-####usage and notes####
-#usage:
-#step1_download_QC.sh Genus-species accession pathway user
-#Genus-species: this is used in the directory naming as Erangi suggested, to make browsing 
-#a bit more doable for us humans
-#accession: this is also used in the directory, to keep multiple reference assemblies
-#separate as Black suggested
-#pathway: include NCBI path up to but not including file extension, e.g.
-# genomes/all/GCF/001/890/085/GCF_001890085.1_ASM189008v1/GCF_001890085.1_ASM189008v1
-# Do NOT include "https://ftp.ncbi.nlm.nih.gov/" in the path
-#Example sbatch (we can write a script to create all of these commands later)
-#sbatch /scratch/bell/jwillou/theta/step1_ref_download_QC.sh Manis-javanica GCF_001685135.1 genomes/all/GCF/001/890/085/GCF_001890085.1_ASM189008v1/GCF_001890085.1_ASM189008v1 jwillou
-#
-#
-#You NEED to have genmap installed and installed correctly at your home directory (~/) 
-#genmap installation instructions can be found at: https://github.com/cpockrandt/genmap
-#
-#Need to have theta git repo cloned or uploaded to your home path
-#
+####notes####
 #
 #This script downloads reference, repeat, and annotation data and then identifyies repeats, 
 #estimates mappability and finds all of the short scaffolds. The output files include: 	
@@ -47,12 +29,33 @@ export PATH=$PATH:~/genmap-build/bin
 #if a masked genome isn't available (i.e. rm.out), script will create one using the mammal 
 #repeat library --- we should change this if we move on from mammals!
 #
-####end usage and notes####
+####usage####
+#
+#User will need to input (paste) information for the following variables below:
+#
+#Genus-species: this is used in the directory naming as Erangi suggested, to make browsing
+#a bit more doable for us humans
+#accession: this is also used in the directory, to keep multiple reference assemblies
+#separate as Black suggested
+#pathway: include full NCBI url to FTP site (containing directory)                                          
+#assembly:name of assembly
+#
+#Example of defined variables below 
+#genus_species=Balaenoptera-musculus
+#accession=GCF_009873245.2
+#pathway=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/009/873/245/GCF_009873245.2_mBalMus1.pri.v3/
+#assembly=mBalMus1.pri.v3
+#user=blackan
+#Once these have been defined, save and close slurrm job and submit
+#sbatch step1_download_QC.sh
 
-genus_species=$1
-accession=$2
-pathway=$3
-user=$4
+
+ ####end usage and notes####
+
+genus_species=Taxidea-taxus
+accession=GCA_003697995.1
+pathway=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/697/995/GCA_003697995.1_ASM369799v1/
+assembly=ASM369799v1
 
 cd /scratch/bell/dewoody/theta/
 
@@ -63,17 +66,17 @@ mkdir ./$genus_species/${accession}_gtf
 cd $genus_species
 
 #reference 
-wget -O ${accession}_ref/${accession}.fna.gz https://ftp.ncbi.nlm.nih.gov/${pathway}_genomic.fna.gz 
+wget -O ${accession}_ref/${accession}.fna.gz ${pathway}${accession}_${assembly}_genomic.fna.gz 
 gunzip ${accession}_ref/${accession}.fna.gz
 cp ${accession}_ref/${accession}.fna ${accession}_ref/original.fa # keep a copy of the original reference
 
 #repeatmasker
-wget -O ${accession}_rm/${accession}.rm.out.gz https://ftp.ncbi.nlm.nih.gov/${pathway}_rm.out.gz 
+wget -O ${accession}_rm/${accession}.rm.out.gz ${pathway}${accession}_${assembly}_rm.out.gz 
 gunzip ${accession}_rm/${accession}.rm.out.gz
 cp ${accession}_rm/${accession}.rm.out ${accession}_rm/rm.out # keep a copy of the original repeatmasker
 
 #annotation
-wget -O ${accession}_gtf/${accession}.gtf.gz https://ftp.ncbi.nlm.nih.gov/${pathway}_genomic.gtf.gz 
+wget -O ${accession}_gtf/${accession}.gtf.gz ${pathway}${accession}_${assembly}_genomic.gtf.gz 
 gunzip ${accession}_gtf/${accession}.gtf.gz
 cp ${accession}_gtf/${accession}.gtf ${accession}_gtf/gtf.gtf # keep a copy of the original annotation
 
@@ -115,7 +118,7 @@ then
 	tail -n +4 rm.out > rm.body
 	head -n 3 rm.out > rm.header
 	sed -i 's/\*//g' rm.body 
-	cd /scratch/bell/${user}/theta/source/
+	cd /scratch/bell/${USER}/theta/source/
 	Rscript repeatmasker_names.R --args /scratch/bell/dewoody/theta/${genus_species}/${accession}_rm ${genus_species} ${accession}
 	cd /scratch/bell/dewoody/theta/${genus_species}/${accession}_rm
 	sed -i 's/"//g' rm_edited.body 
@@ -139,7 +142,7 @@ then
 	# change  names to fit ref.fa and rm.out 
 	tail -n +5 gtf.gtf > gtf.body
 	head -n 4 gtf.gtf > gtf.header
-	cd /scratch/bell/${user}/theta/source/
+	cd /scratch/bell/${USER}/theta/source/
 	Rscript annotation_names.R --args /scratch/bell/dewoody/theta/${genus_species}/${accession}_gtf ${genus_species} ${accession}
 	cd /scratch/bell/dewoody/theta/${genus_species}/${accession}_gtf
 	sed -i 's/"//g' gtf_edited.body 
@@ -153,11 +156,11 @@ cd ../ #move back to species/accession directory
 
 ####assess mappability of reference####
 rm -rf index
-/scratch/bell/dewoody/genmap-build/bin/genmap index -F ${accession}_ref/ref.fa -I index -S 50 # build an index 
+genmap index -F ${accession}_ref/ref.fa -I index -S 50 # build an index 
 
 # compute mappability, k = kmer of 100bp, E = # two mismatches
 mkdir mappability
-/scratch/bell/dewoody/genmap-build/bin/genmap map -K 100 -E 2 -I index -O /scratch/bell/dewoody/theta/${genus_species}/mappability -t -w -bg                
+genmap map -K 100 -E 2 -I index -O /scratch/bell/dewoody/theta/${genus_species}/mappability -t -w -bg                
 
 # sort bed 
 sortBed -i ${accession}_rm/repeats.bed > ${accession}_rm/repeats_sorted.bed 
@@ -228,7 +231,7 @@ rm -rf ${accession}_rm/repeats.bed
 rm -rf ${accession}_ref/sorted.fa
 
 #output some QC stats
-cd /scratch/bell/${user}/theta/source/
+cd /scratch/bell/${USER}/theta/source/
 Rscript qc_reference_stats.R --args /scratch/bell/dewoody/theta/${genus_species}/ $genus_species $accession 
 cd /scratch/bell/dewoody/theta/${genus_species}/
 
