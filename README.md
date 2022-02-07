@@ -45,7 +45,6 @@ genus_species=Balaenoptera-musculus
 accession=GCF_009873245.2
 pathway=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/009/873/245/GCF_009873245.2_mBalMus1.pri.v3/
 assembly=mBalMus1.pri.v3
-user=blackan
 ```
 Once these have been defined, save and close slurrm job and submit
 Before running, make sure that the program genmap is installed at $USER home directory and in $PATH, such as:
