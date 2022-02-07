@@ -15,10 +15,6 @@ Genus-species
 - accession_rm: repeat-masked reference genome assembly
 - accession_gtf: reference genome assembly annotation
 - mappability: reference genome assembly quality assessment
-- sra: holds several levels of population data
-- sra/raw: raw SRAs, kept for now to help with debugging
-- sra/cleaned: cleaned SRAs that are ready for mapping
-- sra/mapped: SRAs mapped to reference genome
 
 All of the Genus-species directories will be at /scratch/bell/dewoody/theta
 
@@ -41,7 +37,7 @@ a bit more doable for us humans
 accession: this is also used in the directory, to keep multiple reference assemblies
 separate as Black suggested
 pathway: include full NCBI url to FTP site (containing directory)
-assembly:name of assembly
+assembly:name of genonme assembly
 
 Example of defined variables below
 ```
