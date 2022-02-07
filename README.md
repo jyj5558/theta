@@ -34,17 +34,37 @@ This script downloads reference, repeat, and annotation data and then identifyie
 3. map_repeat_summary.txt (summary of ref quality)							
 4. if a masked genome isn't available (i.e. rm.out), script will create one using the mammal repeat library --- we should update this if we move on from mammals!
 
-Usage: step1_download_QC.sh Genus-species accession PUid pathway
-- Genus-species: this is used in the directory naming as Erangi suggested, to make browsing  a bit more doable for us humans
-- accession: this refers to the NCBI ref seq accession number and is also used in the directory, to keep multiple reference assemblies separate as Black suggested
-- PUid: this tells this script where to find the R scripts (is there a better way to do this?)
-- pathway: include NCBI path up to but not including file extension, e.g. /genomes/all/GCF/001/890/085/GCF_001890085.1_ASM189008v1/GCF_001890085.1_ASM189008v1
+User will need to input (paste) information for the following variables within the step1_ref_download_QC.sh file:
 
-To run this step, use something like this:
+Genus-species: this is used in the directory naming as Erangi suggested, to make browsing
+a bit more doable for us humans
+accession: this is also used in the directory, to keep multiple reference assemblies
+separate as Black suggested
+pathway: include full NCBI url to FTP site (containing directory)
+assembly:name of assembly
 
-sbatch /scratch/bell/jwillou/theta/step1_ref_download_QC.sh Manis-javanica GCF_001685135.1 /genomes/all/GCF/001/890/085/GCF_001890085.1_ASM189008v1/GCF_001890085.1_ASM189008v1 jwillou
+Example of defined variables below
+```
+genus_species=Balaenoptera-musculus
+accession=GCF_009873245.2
+pathway=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/009/873/245/GCF_009873245.2_mBalMus1.pri.v3/
+assembly=mBalMus1.pri.v3
+user=blackan
+```
+Once these have been defined, save and close slurrm job and submit
+Before running, make sure that the program genmap is installed at $USER home directory and in $PATH, such as:
+```
+export PATH=$PATH:~/genmap-build/bin
+```
+```
+genmap --help
+```
+If program usage prints out, you are ready to submit the SLURMM job (below). If the command is not found, set $PATH accordingly.
+```
+sbatch step1_download_QC.sh
+```
 
-Eventually, we will write a script to automate running these but for now we will test one species at a time. Note that this requires genmap; I've installed this in DeWoody scratch and then added a PATH update for this location, but we should watch for errors on this step.
+Eventually, we will write a script to automate running these in batch but for now we will test one species at a time.
 
 
 ## Step 2. Population data identification, download, and cleaning
