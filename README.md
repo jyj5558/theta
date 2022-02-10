@@ -74,32 +74,30 @@ We need to find sequence data for populations corresponding to the reference gen
 5. sequenced individuals should all belong to the same population; this can be tough to identify for some species, so we will go with the definition used by the authors that published the sequencing data
 6. a minimum of 8 individuals but ideally up to 25 individuals were sequenced independently (more than one individual cannot be contained in a single sequencing project); it is fine if there are  multiple files (SRAs) for one individual
 
-There are three main ways to find these data, it is important to use all three methods for all target species.
+There are two pathways to find these data, it is important to use both methods for all target species.
 
-1) Open up the [Google doc sheet](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469), locate your species of interest and click on the genome accession number (e.g., GCA_003697995.1) to follow the hyperlink. This will bring you the species NCBI page, where you will see a hyperlink called "Organism name" (e.g., Taxidea taxus jeffersonii (American badger)). Clicking this link will bring you to the NCBI taxonomy page for this species, where you will notice a table in the right hand corner. Click on the "SRA Experiments" number, which will list the number of Entrez records associated with this species. Click on all SRA experiments of relevance (i.e., Illumina WGS paired end data) and click the "send to" button, choosing 'Run selector'. This will enable user to select these files and click the 'metadata' button. Copy the entire contents and paste into species [SRA_metadata](./SRA_metadata/). Most will be current, but there is a chance of new files existing as it has been a year since these files were created. Download / pull fresh git theta folder to your $CLUSTER_HOME, as [step2_SRA_download_clean.sh](./step2_SRA_download_clean.sh) will extract SRA and population level data from this metadata file.
+1) 
+a: Open up the [Google doc sheet](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469), locate and copy the name of your species of interest 
+b: Paste this into the [NCBI taxonomy browser](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi), remove the "-" and search. Copy the search result as a hyperlink into the [Google doc sheet](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469) under genus-species.
+c: Click on the "SRA Experiments" number, which will list the number of Entrez records associated with this species. Click on all SRA experiments of relevance (i.e., Illumina WGS paired end data) and click the "send to" button, choosing clipboard. Repeat for each relevant BioProject until clipboard is populated with all available usable data. 
+d: Navigate to clipboard and 'send data' to the 'Run selector'. Click on the 'metadata' icon to download file. Alternatively, go up to 'Send to' at the top of the page, choose 'File' and 'Accessions List', then click 'Create File'
+e: Open this file with Excel, convert text to columns (comma seperated delimiter) and remove/edit the file until it has the same order and headers as below:
 
+```
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex
+ERR3299081	PRJEB8272	SAMEA5577702	Marmota marmota marmota	Gsies	NextSeq 500	PAIRED	female
+ERR3299082	PRJEB8272	SAMEA5577703	Marmota marmota marmota	Gsies	NextSeq 500	PAIRED	male
+ERR3299083	PRJEB8272	SAMEA5577704	Marmota marmota marmota	Gsies	NextSeq 500	PAIRED	male
+ERR3294906	PRJEB8272	SAMEA5577694	Marmota marmota marmota	Mauls	Illumina HiSeq 2500	PAIRED	female
+```
+f: Copy and paste this into the species file in [SRA_metadata](./SRA_metadata/).
+g: Download / pull git repository to $CLUSTER_SCRATCH
 
-
-
-2) Start by searching for your target species on NCBI (https://www.ncbi.nlm.nih.gov/genbank/), targeting BioProjects. Use some of the BioProject filters (e.g. genome sequencing, mammals, etc.) to limit the number of records for the particular target species. Then, read through the descriptions of the BioProjects to find one that seems to meet the criteria above. At this stage, it is important to notice what was sequenced (we want whole genomes and not RNA) and how many BioSamples are included in the project (we need at least 2 but 8 individuals is the target). Be sure to check the species of each BioProject carefully because sometimes our target species is the host of the sequenced species, meaning that they will show up in the search but will not have been sequenced and so will not be what we need. 
-At this point it is often helpful to pull up the reference paper noted on the BioProjects page to see if the samples collected for this project will meet our criteria. If the samples will not work for us, go back to the list of BioProjects and try another one. 
-Once you find a BioProject that looks like it meets the criteria we need, click through to the list of BioSamples (from the table near the bottom of the page) and look at the BioSamples that relate to that BioProject. Scan through the BioSamples until you find 8 (maximum) individuals that were sampled in the same area. Sometimes, sampling location is not noted on the BioSample page. Unless all of the samples for the project were collected from the same location (this information would be in the paper), missing sampling location information will mean that we cannot use these data and you'll need to start back at the BioProjects list again.
-Once you have found 8 BioSamples that will work (or, if you found at least 2 and exhausted all other BioProject options), use NCBI run selector to load all SRA and copy this metadata into target species [SRA_metadata](./SRA_metadata/) file. Make sure to download / pull fresh theta directory to $CLUSTER_SCRATCH
  
-3) To verify that all available data was found for a given species, use google scholar to look for literature directly. For each genus-species, use search terms  "Whole Genome" OR "resequencing" OR "genomic" and >2010. Manually curate search results. Most of the papers have a section named ‘data availability’ and this section has the BioProject accession number(PRJNAxx…) which you can follow to find the data we need. 
+2) To verify that all available data was found for a given species, use google scholar to look for literature directly. For each genus-species, use search terms  "Whole Genome" OR "resequencing" OR "genomic" and >2010. Manually curate search results. Most of the papers have a section named ‘data availability’ and this section has the BioProject accession number(PRJNAxx…) which you can follow to find the data we need. 
 
-Data needed in the [Google doc](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469): 
+Fill out all missing fields for target species in the [Google doc](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469): 
 
-1. BioProject number (if relevant)
-2. link to the reference paper noted in NCBI (or alternatively the one you used to find the data)
-3. sequencing platform used; this is usually found in the NCBI record but if not you will need to look in the reference noted in the NCBI record
-5. name, sampling location, or other identifying information about the population you chose so that we can look back later for more information as needed; it is simplest to use either the name used by the authors in the paper or the sampling location noted in the BioSample information
-6. total number of populations available, if there is more than one set in the paper/BioProject
-7. total number of individuals with data available in the population you chose
-8. number of individuals with exported SRA or sample accession numbers added to the google sheet
-9. comma separated list of SRAs or sample accession numbers; there should be no spaces between items in the list
-
-Hint for extracting SRAs/BioSample accession numbers: In some cases, it will be much easier to extract sample accession numbers instead of all of the SRAs, and this is totally fine and will work in our pipeline. To do this effeciently, you can tick the boxes in the list of BioSamples for the sample numbers you want to export, go up to 'Send to' at the top of the page, choose 'File' and 'Accessions List', then click 'Create File'. This will generate a list of accession numbers in a text file, but they are newline separated instead of comma separated. Use find and replace to change this, and then paste the whole line into the google doc. See [this video](https://github.com/AnnaBrunicheOlsen/theta/blob/master/help/export%20sample%20numbers.mov) for a walkthrough.
 
 **Download and clean population data - step2_SRA_download_clean.sh**
 
