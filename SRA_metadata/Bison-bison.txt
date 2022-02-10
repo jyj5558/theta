@@ -1,1 +1,49 @@
-SRR3951493,WGS,280,959264417,SAMN04913877,463159504,CFSAN,public,"realign,sra,wgmlst_sig","ncbi,gs,s3","ncbi.public,s3.us-east-1,gs.US",SRX1976289,NextSeq 500,Escherichia coli Nextera XT shotgun,PAIRED,RANDOM,GENOMIC,Escherichia coli,ILLUMINA,2016-07-25T00:00:00Z,CFSAN038952,SRP058582,MOD1-ECOR30,PRJNA230969,Pathogen.env,missing,,,,,,,,,,,clinical/host-associated,missing,Canada,North America,Canada,missing,Bison bison (bison),ECOR30; CFSAN038952,missing,missing,missing
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex
+SRR3509077	PRJNA321590	SAMN05000823	Bison bison	not applicable	Illumina HiSeq 2500	PAIRED	male
+SRR3509078	PRJNA321590	SAMN05000823	Bison bison	not applicable	Illumina HiSeq 2500	PAIRED	male
+SRR3527385	PRJNA321590	SAMN05000823	Bison bison	not applicable	Illumina HiSeq 2500	PAIRED	male
+SRR3530403	PRJNA321590	SAMN05000810	Bison bonasus	not applicable	Illumina HiSeq 2500	PAIRED	male
+SRR3530411	PRJNA321590	SAMN05000810	Bison bonasus	not applicable	Illumina HiSeq 2500	PAIRED	male
+SRR3530515	PRJNA321590	SAMN05000823	Bison bison	not applicable	Illumina HiSeq 2500	PAIRED	male
+SRR3530525	PRJNA321590	SAMN05000823	Bison bison	not applicable	Illumina HiSeq 2500	PAIRED	male
+SRR12514558	PRJNA658430	SAMN15870394	Bison bison bison	Plains bison	Illumina HiSeq 2500	PAIRED	female
+SRR12514559	PRJNA658430	SAMN15870393	Bison bison bison	Plains bison	Illumina HiSeq 2500	PAIRED	female
+SRR12514560	PRJNA658430	SAMN15870392	Bison bison bison	Plains bison	Illumina HiSeq 2500	PAIRED	female
+SRR12514561	PRJNA658430	SAMN15870391	Bison bison bison	Plains bison	Illumina HiSeq 2500	PAIRED	female
+SRR12514562	PRJNA658430	SAMN15870390	Bison bison bison	Plains bison	Illumina HiSeq 2500	PAIRED	Missing
+SRR12514563	PRJNA658430	SAMN15870425	Bison bison athabascae	Wood bison	HiSeq X Ten	PAIRED	Missing
+SRR12514564	PRJNA658430	SAMN15870389	Bison bison bison	Plains bison	Illumina HiSeq 2500	PAIRED	Missing
+SRR12514565	PRJNA658430	SAMN15870424	Bison bison athabascae	Wood bison	HiSeq X Ten	PAIRED	Missing
+SRR12514566	PRJNA658430	SAMN15870423	Bison bison athabascae	Wood bison	HiSeq X Ten	PAIRED	Missing
+SRR12514567	PRJNA658430	SAMN15870422	Bison bison athabascae	Wood bison	HiSeq X Ten	PAIRED	Missing
+SRR12514568	PRJNA658430	SAMN15870421	Bison bison athabascae	Wood bison	HiSeq X Ten	PAIRED	female
+SRR12514569	PRJNA658430	SAMN15870420	Bison bison athabascae	Wood bison	HiSeq X Ten	PAIRED	male
+SRR12514570	PRJNA658430	SAMN15870419	Bison bison athabascae	Wood bison	HiSeq X Ten	PAIRED	male
+SRR12514571	PRJNA658430	SAMN15870418	Bison bison athabascae	Wood bison	HiSeq X Ten	PAIRED	Missing
+SRR12514572	PRJNA658430	SAMN15870417	Bison bison athabascae	Wood bison	HiSeq X Ten	PAIRED	Missing
+SRR12514573	PRJNA658430	SAMN15870416	Bison bison athabascae	Wood bison	Illumina HiSeq 2500	PAIRED	Missing
+SRR12514574	PRJNA658430	SAMN15870415	Bison bison athabascae	Wood bison	Illumina HiSeq 2500	PAIRED	Missing
+SRR12514575	PRJNA658430	SAMN15870388	Bison bison bison	Plains bison	Illumina HiSeq 2500	PAIRED	Missing
+SRR12514576	PRJNA658430	SAMN15870414	Bison bison athabascae	Wood bison	Illumina HiSeq 2500	PAIRED	Missing
+SRR12514577	PRJNA658430	SAMN15870413	Bison bison athabascae	Wood bison	Illumina HiSeq 2500	PAIRED	Missing
+SRR12514578	PRJNA658430	SAMN15870412	Bison bison	Missing	HiSeq X Ten	PAIRED	Missing
+SRR12514579	PRJNA658430	SAMN15870411	Bison bison	Missing	HiSeq X Ten	PAIRED	Missing
+SRR12514580	PRJNA658430	SAMN15870410	Bison bison bison	Plains bison	HiSeq X Ten	PAIRED	Missing
+SRR12514581	PRJNA658430	SAMN15870409	Bison bison bison	Plains bison	HiSeq X Ten	PAIRED	Missing
+SRR12514582	PRJNA658430	SAMN15870408	Bison bison bison	Plains bison	HiSeq X Ten	PAIRED	Missing
+SRR12514583	PRJNA658430	SAMN15870407	Bison bison bison	Plains bison	HiSeq X Ten	PAIRED	Missing
+SRR12514584	PRJNA658430	SAMN15870405	Bison bison bison	Plains bison	HiSeq X Ten	PAIRED	Missing
+SRR12514585	PRJNA658430	SAMN15870404	Bison bison bison	Plains bison	HiSeq X Ten	PAIRED	Missing
+SRR12514586	PRJNA658430	SAMN15870403	Bison bison bison	Plains bison	HiSeq X Ten	PAIRED	Missing
+SRR12514587	PRJNA658430	SAMN15870402	Bison bison bison	Plains bison	HiSeq X Ten	PAIRED	Missing
+SRR12514588	PRJNA658430	SAMN15870401	Bison bison bison	Plains bison	HiSeq X Ten	PAIRED	Missing
+SRR12514589	PRJNA658430	SAMN15870406	Bison bison bison	Plains bison	HiSeq X Ten	PAIRED	Missing
+SRR12514590	PRJNA658430	SAMN15870400	Bison bison bison	Plains bison	HiSeq X Ten	PAIRED	Missing
+SRR12514591	PRJNA658430	SAMN15870399	Bison bison bison	Plains bison	HiSeq X Ten	PAIRED	Missing
+SRR12514592	PRJNA658430	SAMN15870398	Bison bison bison	Plains bison	HiSeq X Ten	PAIRED	Missing
+SRR12514593	PRJNA658430	SAMN15870397	Bison bison bison	Plains bison	HiSeq X Ten	PAIRED	Missing
+SRR12514594	PRJNA658430	SAMN15870396	Bison bison bison	Plains bison	HiSeq X Ten	PAIRED	Missing
+SRR12514595	PRJNA658430	SAMN15870387	Bison bison bison	Plains bison	Illumina HiSeq 2500	PAIRED	Missing
+SRR12514596	PRJNA658430	SAMN15870395	Bison bison bison	Plains bison	HiSeq X Ten	PAIRED	Missing
+SRR12514597	PRJNA658430	SAMN15870386	Bison bison bison	Plains bison	Illumina HiSeq 2500	PAIRED	Missing
+SRR12514598	PRJNA658430	SAMN15870385	Bison bison bison	Plains bison	Illumina HiSeq 2500	PAIRED	Missing
