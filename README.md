@@ -30,7 +30,7 @@ This script downloads reference, repeat, and annotation data and then identifyie
 3. map_repeat_summary.txt (summary of ref quality)							
 4. if a masked genome isn't available (i.e. rm.out), script will create one using the mammal repeat library --- we should update this if we move on from mammals!
 
-User will need to input (paste) information for the following variables within the step1_ref_download_QC.sh file:
+User will need to input (paste) information for the following variables _within the step1_ref_download_QC.sh file:_
 
 Genus-species: this is used in the directory naming as Erangi suggested, to make browsing
 a bit more doable for us humans
@@ -46,7 +46,7 @@ accession=GCF_009873245.2
 pathway=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/009/873/245/GCF_009873245.2_mBalMus1.pri.v3/
 assembly=mBalMus1.pri.v3
 ```
-Once these have been defined, save and close slurm job and submit
+Once these have been defined, save and close slurm job
 Before running, make sure that the program genmap is installed at $USER home directory and in $PATH, such as:
 ```
 export PATH=$PATH:~/genmap-build/bin
@@ -55,6 +55,18 @@ export PATH=$PATH:~/genmap-build/bin
 genmap --help
 ```
 If program usage prints out, you are ready to submit the SLURMM job (below). If the command is not found, set $PATH accordingly.
+To install genmap in your home directory, 
+```
+$ cd ~
+$ git clone --recursive https://github.com/cpockrandt/genmap.git
+$ mkdir genmap-build && cd genmap-build
+$ module load cmake
+$ cmake ../genmap -DCMAKE_BUILD_TYPE=Release
+$ make genmap
+$ ./bin/genmap
+```
+(refer to https://github.com/cpockrandt/genmap for details)
+Submit slurm job
 ```
 sbatch step1_download_QC.sh
 ```
