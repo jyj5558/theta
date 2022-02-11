@@ -37,7 +37,7 @@ a bit more doable for us humans
 accession: this is also used in the directory, to keep multiple reference assemblies
 separate as Black suggested
 pathway: include full NCBI url to FTP site (containing directory)
-assembly:name of genonme assembly
+assembly:name of genome assembly
 
 Example of defined variables below
 ```
@@ -46,7 +46,7 @@ accession=GCF_009873245.2
 pathway=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/009/873/245/GCF_009873245.2_mBalMus1.pri.v3/
 assembly=mBalMus1.pri.v3
 ```
-Once these have been defined, save and close slurrm job and submit
+Once these have been defined, save and close slurm job and submit
 Before running, make sure that the program genmap is installed at $USER home directory and in $PATH, such as:
 ```
 export PATH=$PATH:~/genmap-build/bin
