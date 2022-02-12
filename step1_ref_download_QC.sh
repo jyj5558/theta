@@ -182,7 +182,7 @@ sed -i 's/ /\t/g' ${accession}_ref/ref_sorted.genome
 bedtools complement -i ${accession}_rm/repeats_sorted.bed -g ${accession}_ref/ref_sorted.genome > ${accession}_rm/nonrepeat.bed
 
 # clean mappability file, remove sites with <1 mappability                                                    
-awk '$4 == 1' mappability/mappability.bedgraph > mappability/map.bed                                           
+awk '$4 == 1' mappability/ref.genmap.bedgraph > mappability/map.bed                                           
 awk 'BEGIN {FS="\t"}; {print $1 FS $2 FS $3}' mappability/map.bed > mappability/mappability.bed
 rm mappability/map.bed
 
