@@ -19,7 +19,7 @@ module load sra-toolkit
 #Genus-species: this is used in the directory naming as Erangi suggested, to make browsing 
 #a bit more doable for us humans
 #
-#Note: SRAS.txt must be in /scratch/bell/dewoody/theta/${genus_species}/
+#Note: SRAs.txt must be in /scratch/bell/dewoody/theta/${genus_species}/
 #SRAs.txt: comma separated list of SRAs to download (should be on a single row)
 #
 ####end usage and notes####
