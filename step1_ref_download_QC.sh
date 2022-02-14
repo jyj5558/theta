@@ -15,7 +15,6 @@ module load cmake/3.9.4
 module load BEDTools
 module load BBMap
 module load r
-module load bioinfo BBMap/37.93
 export PATH=$PATH:~/genmap-build/bin
 
 ####notes####
@@ -45,17 +44,16 @@ export PATH=$PATH:~/genmap-build/bin
 #accession=GCF_009873245.2
 #pathway=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/009/873/245/GCF_009873245.2_mBalMus1.pri.v3/
 #assembly=mBalMus1.pri.v3
-#user=blackan
 #Once these have been defined, save and close slurrm job and submit
 #sbatch step1_download_QC.sh
 
 
  ####end usage and notes####
 
-genus_species=Taxidea-taxus
-accession=GCA_003697995.1
-pathway=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/697/995/GCA_003697995.1_ASM369799v1/
-assembly=ASM369799v1
+genus_species=
+accession=
+pathway=
+assembly=
 
 cd /scratch/bell/dewoody/theta/
 
@@ -84,7 +82,7 @@ cp ${accession}_gtf/${accession}.gtf ${accession}_gtf/gtf.gtf # keep a copy of t
 ls -lh ${accession}* > download_log
 
 ####search for and isolate mito seq in ref genome####
-grep "mitochondrion" ${accession}_ref/original.fa | cut -f 1 
+grep "mitochondrion" ${accession}_ref/original.fa | cut -f 1 > mito_header.txt #If no mitochondrial sequence present in reference, will be blank. Otherwise contain header
 filterbyname.sh include=f in=${accession}_ref/original.fa out=${accession}_ref/original.tmp.fa names="mitochondrion" ow=t substring=t
 rm ${accession}_ref/original.fa
 mv ${accession}_ref/original.tmp.fa ${accession}_ref/original.fa      
