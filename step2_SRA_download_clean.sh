@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=TrimGalore
-#SBATCH -A fnrfdewoody
+#SBATCH -A fnrdewoody
 #SBATCH -t 4:00:00
 #SBATCH -N 1
 #SBATCH -n 1
@@ -19,13 +19,17 @@ module load sra-toolkit
 #Genus-species: this is used in the directory naming as Erangi suggested, to make browsing 
 #a bit more doable for us humans
 #
-#Note: SRAs.txt must be in /scratch/bell/dewoody/theta/${genus_species}/
+#Note: SRAS.txt must be in /scratch/bell/dewoody/theta/${genus_species}/
 #SRAs.txt: comma separated list of SRAs to download (should be on a single row)
 #
 ####end usage and notes####
 
-genus_species=$1
+genus_species=Marmota-marmota-marmota
+
+#Extract releveant info from metadata file in theta directory for target species and save in species folder:
 cd /scratch/bell/dewoody/theta/${genus_species}/
+cat $CLUSTER_SCRATCH/theta/SRA_metadata/${genus_species}.txt | sed 's/ /_/g'  > ${genus_species}_SRA.txt
+
 
 ####create directories and download SRAs####
 mkdir -p ./sra/raw
@@ -34,31 +38,28 @@ mkdir ./sra/aligned
 
 cd /scratch/bell/dewoody/theta/${genus_species}/sra/raw/
 
-cat ../../SRAs.txt |  tr "," "\n" | while read g
+cat ../../${genus_species}_SRA.txt | cut -f 1 | tail -n +2 | while read g
 do
-echo ${g} | xargs prefetch --max-size 500GB ${g} -O ./
+mkdir ${g}
 cd ${g}
+echo ${g} | xargs prefetch --max-size 500GB ${g} -O ./
 echo ${g}.sra | xargs fasterq-dump -e 6
-find . -name '*.fastq' -exec mv {} ../ \;
-cd ../
-rm -r ${g}
+rm -f ${g}.sra
 
 # check quality of reads
-fastqc ${g}.sra_1.fastq --extract --quiet
-fastqc ${g}.sra_2.fastq --extract --quiet
-rm ${g}.sra_1_fastqc.zip
-rm ${g}.sra_2_fastqc.zip
+fastqc ${g}_1.fastq --extract --quiet
+fastqc ${g}_2.fastq --extract --quiet
+rm ${g}_1_fastqc.zip
+rm ${g}_2_fastqc.zip
 
-# merge output from fastqc and check for FAILs
-cat ${g}.sra_1_fastqc/summary.txt ${g}.sra_2_fastqc/summary.txt > ${g}_fastqc_summary.txt
+merge output from fastqc and check for FAILs
+cat ${g}_1_fastqc/summary.txt ${g}_2_fastqc/summary.txt > ${g}_fastqc_summary.txt
 FILE=$(grep "FAIL" ${g}_fastqc_summary.txt)
-echo "raw"
-echo "$FILE"
-mv ${g}.sra_1_fastqc*  ${g}
-mv ${g}.sra_2_fastqc*  ${g}
+echo mv ${g}_1_fastqc*  ${g}
+echo mv ${g}_2_fastqc*  ${g}
 
 #trim adapters
-trim_galore --stringency 1 --length 30 --quality 20 --fastqc_args "--nogroup" -o ../cleaned --paired ${g}.sra_1.fastq ${g}.sra_2.fastq
+trim_galore --stringency 1 --length 30 --quality 20 --fastqc_args "--nogroup" -o ../cleaned --paired ${g}_1.fastq ${g}_2.fastq
 
 # check quality of trimmed reads
 cd ../cleaned
@@ -69,8 +70,8 @@ FILE=$(grep "FAIL" ${g}_fastqc_summary.txt)
 echo "cleaned"
 echo "$FILE"
 rm ${g}_fastqc_summary.txt
-rm ${g}.sra_1_val_1_fastqc.html
-rm ${g}.sra_2_val_2_fastqc.html
+rm ${g}_1_val_1_fastqc.html
+rm ${g}_2_val_2_fastqc.html
 done
 
 # END
