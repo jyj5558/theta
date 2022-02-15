@@ -3,7 +3,7 @@
 #SBATCH -A standby
 #SBATCH -t 4:00:00 
 #SBATCH -N 1 
-#SBATCH -n 1 
+#SBATCH -n 10
 #SBATCH --mem=50G
 
 module load bioinfo
@@ -158,7 +158,7 @@ genmap index -F ${accession}_ref/ref.fa -I index -S 50 # build an index
 
 # compute mappability, k = kmer of 100bp, E = # two mismatches
 mkdir mappability
-genmap map -K 100 -E 2 -I index -O /scratch/bell/dewoody/theta/${genus_species}/mappability -t -w -bg                
+genmap map -K 100 -E 2 -T 10 -I index -O /scratch/bell/dewoody/theta/${genus_species}/mappability -t -w -bg                
 
 # sort bed 
 sortBed -i ${accession}_rm/repeats.bed > ${accession}_rm/repeats_sorted.bed 
@@ -172,9 +172,9 @@ sed -i 's/ /\t/g' ${accession}_ref/ref2.genome
 sortBed -i ${accession}_ref/ref2.genome > ${accession}_ref/ref3.genome
 awk '{print $1, $2 }' ${accession}_ref/ref3.genome > ${accession}_ref/ref_sorted.genome
 sed -i 's/ /\t/g' ${accession}_ref/ref_sorted.genome
-#rm ${accession}_ref/ref.genome
-#rm ${accession}_ref/ref2.genome
-#rm ${accession}_ref/ref3.genome
+rm ${accession}_ref/ref.genome
+rm ${accession}_ref/ref2.genome
+rm ${accession}_ref/ref3.genome
 
 # find nonrepeat regions
 bedtools complement -i ${accession}_rm/repeats_sorted.bed -g ${accession}_ref/ref_sorted.genome > ${accession}_rm/nonrepeat.bed
