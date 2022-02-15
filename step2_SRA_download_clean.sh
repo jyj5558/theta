@@ -12,10 +12,16 @@ module load cutadapt/2.5
 module load fastqc
 module load sra-toolkit
 
-####usage and notes####
+####notes and usage####
 #
+##Notes##
+#Edit the step2_SRA_download_clean.sh script, to add target species "genus-species"
+#Example:
+#genus_species=Marmota-marmota-marmota
+#theta git should be cloned at $CLUSTER_SCRATCH (e.g., /scratch/bell/blackan/)
 #usage:
-#step2_SRA_download_clean.sh Genus-species 
+#sbatch step2_SRA_download_clean
+#
 #Genus-species: this is used in the directory naming as Erangi suggested, to make browsing 
 #a bit more doable for us humans
 #
@@ -24,7 +30,7 @@ module load sra-toolkit
 #
 ####end usage and notes####
 
-genus_species=Marmota-marmota-marmota
+genus_species=
 
 #Extract releveant info from metadata file in theta directory for target species and save in species folder:
 cd /scratch/bell/dewoody/theta/${genus_species}/
