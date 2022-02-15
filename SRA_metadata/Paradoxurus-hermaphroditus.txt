@@ -1,1 +1,2 @@
-SRR11431891,not collected,WGS,500,85852129500,"Dr. Klaus-Peter Koepfli\, Smithsonian Conservation Biology Institute\, National Zoological Park",PRJNA399364,SAMN07678048,Model organism or animal,not applicable,52456612597,BROAD INSTITUTE,public,not applicable,"sra,bam","s3,gs,ncbi","s3.us-east-1,gs.US,ncbi.public",adult,not applicable,SRX8010123,Illumina HiSeq 2500,BSD07,ParHer_BSD07,PAIRED,RANDOM,GENOMIC,Paradoxurus hermaphroditus,ILLUMINA,2020-03-27T00:00:00Z,ParHer_1_DISCOVAR,missing,SRP254264,not applicable,not applicable
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex
+SRR11431891	PRJNA399364	SAMN07678048	Paradoxurus hermaphroditus		Illumina HiSeq 2500	PAIRED	UK
