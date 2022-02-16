@@ -91,7 +91,7 @@ There are two pathways to find these data, it is important to use both methods f
 1) 
 a: Open up the [Google doc sheet](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469), locate and copy the name of your species of interest 
 b: Paste this into the [NCBI taxonomy browser](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi), remove the "-" and search. Copy the search result as a hyperlink into the [Google doc sheet](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469) under genus-species.
-c: Click on the "SRA Experiments" number, which will list the number of Entrez records associated with this species. Click on all SRA experiments of relevance (i.e., Illumina WGS paired end data) and click the "Send to" button, choosing clipboard. Repeat for each relevant BioProject until clipboard is populated with all available usable data. 
+c: Click on the "SRA Experiments" number, which will list the number of Entrez records associated with this species. Click on all SRA experiments of relevance (i.e., Illumina WGS paired end data) and click the "Send to" button, choosing clipboard. Repeat for each relevant BioProject until clipboard is populated with all available usable data. (When there are too many SRAs, apply "advanced search filter" right below the search window to narrow down data. Add relevant filters, such as "Add 'paired'" or "Add 'WGS'". Click "Search" and at the search result page, click "Send results to Run selector" to send all SRAs at once.)
 d: Navigate to clipboard and 'Send to' to the 'Run selector'. Click on the 'metadata' icon to download file (you can filter available data once more in this page). Alternatively, go up to 'Send to' at the top of the page, choose 'File' and 'Accessions List', then click 'Create File'
 e: Open this file with Excel, convert text to columns (comma seperated delimiter) and remove/edit the file until it has the same order and headers as below:
 
@@ -106,7 +106,7 @@ f: Copy and paste this into the species file in [SRA_metadata](./SRA_metadata/).
 g: Download / pull git repository to $CLUSTER_SCRATCH
 
  
-2) To verify that all available data was found for a given species, use google scholar to look for literature directly. For each genus-species, use search terms  "Whole Genome" OR "resequencing" OR "genomic" and >2010. Manually curate search results. Most of the papers have a section named ‘data availability’ and this section has the BioProject accession number(PRJNAxx…) which you can follow to find the data we need. 
+2) To verify that all available data was found for a given species, use google scholar to look for literature directly. For each genus-species, use search terms  "Whole Genome" OR "resequencing" OR "genomic" and >2010. Manually curate search results. Most of the papers have a section named ‘data availability’ and this section has the BioProject accession number(PRJNAxx…) which you can follow to find the data we need. Otherwise, search the project number based on SRA metadata (e.g. PRJNA54005), and you can find "Literature" box showing the number of associated publications in PubMed, PubMed Central, etc.
 
 Fill out all missing fields for target species in the [Google doc](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469): 
 
