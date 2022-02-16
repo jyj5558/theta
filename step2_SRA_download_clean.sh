@@ -2,7 +2,7 @@
 #SBATCH --job-name=TrimGalore
 #SBATCH -A fnrdewoody
 #SBATCH -t 4:00:00
-#SBATCH -N 1
+#SBATCH -N 6
 #SBATCH -n 1
 #SBATCH --mem=50G
 
@@ -46,8 +46,7 @@ cd /scratch/bell/dewoody/theta/${genus_species}/sra/raw/
 
 cat ../../${genus_species}_SRA.txt | cut -f 1 | tail -n +2 | while read g
 do
-do
-fasterq-dump -e 6 -I ${g} -O ./ --progress
+fasterq-dump -e 6 ${g} -O ./ --progress
 
 # check quality of reads
 fastqc ${g}_1.fastq --extract --quiet
