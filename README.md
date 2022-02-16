@@ -106,7 +106,7 @@ f: Copy and paste this into the species file in [SRA_metadata](./SRA_metadata/).
 g: Download / pull git repository to $CLUSTER_SCRATCH
 
  
-2) To verify that all available data was found for a given species, use google scholar to look for literature directly. For each genus-species, use search terms  "Whole Genome" OR "resequencing" OR "genomic" and >2010. Manually curate search results. Most of the papers have a section named ‘data availability’ and this section has the BioProject accession number(PRJNAxx…) which you can follow to find the data we need. Otherwise, search the project number based on SRA metadata (e.g. PRJNA54005), and you can find "Literature" box showing the number of associated publications in PubMed, PubMed Central, etc.
+2) To verify that all available data was found for a given species, use google scholar to look for literature directly. For each genus-species, use search terms  "Whole Genome" OR "resequencing" OR "genomic" and >2010. Manually curate search results. Most of the papers have a section named ‘data availability’ and this section has the BioProject accession number(PRJNAxx…) which you can follow to find the data we need. Otherwise, search the potential project number based on SRA metadata (e.g. PRJNA54005) targetting "All Databases", and you can find "Literature" box showing the number of associated publications in PubMed, PubMed Central, etc.
 
 Fill out all missing fields for target species in the [Google doc](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469): 
 
