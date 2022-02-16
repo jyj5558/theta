@@ -55,7 +55,7 @@ export PATH=$PATH:~/genmap-build/bin
 genmap --help
 ```
 If program usage prints out, you are ready to submit the SLURMM job (below). If the command is not found, set $PATH accordingly.
-To install genmap in your home directory, 
+To install genmap in your home directory, (refer to https://github.com/cpockrandt/genmap for details)
 ```
 $ cd ~
 $ git clone --recursive https://github.com/cpockrandt/genmap.git
@@ -65,7 +65,7 @@ $ cmake ../genmap -DCMAKE_BUILD_TYPE=Release
 $ make genmap
 $ ./bin/genmap
 ```
-(refer to https://github.com/cpockrandt/genmap for details)
+
 Submit slurm job
 ```
 sbatch step1_download_QC.sh
