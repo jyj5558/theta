@@ -46,11 +46,8 @@ cd /scratch/bell/dewoody/theta/${genus_species}/sra/raw/
 
 cat ../../${genus_species}_SRA.txt | cut -f 1 | tail -n +2 | while read g
 do
-mkdir ${g}
-cd ${g}
-echo ${g} | xargs prefetch --max-size 500GB ${g} -O ./
-echo ${g}.sra | xargs fasterq-dump -e 6
-rm -f ${g}.sra
+do
+fasterq-dump -e 6 -I ${g} -O ./ --progress
 
 # check quality of reads
 fastqc ${g}_1.fastq --extract --quiet
