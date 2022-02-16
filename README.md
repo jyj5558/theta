@@ -21,7 +21,7 @@ All of the Genus-species directories will be at /scratch/bell/dewoody/theta
 ## Step 1. Reference downloading and QC
 **Identifying reference assembly data**
 
-We need to find reference assembly accession information for as many species as possible. Whenever possible, we will target RefSeq assemblies on NCBI Genbank. Once the target assembly is located for a particular species, we will use the accession number and file path (found under the FTP links on the right side) to dowload assemblies effeciently.
+We need to find reference assembly accession information for as many species as possible. Whenever possible, we will target Chromosome level RefSeq assemblies on NCBI Genbank. Once the target assembly is located for a particular species, we will use the accession number and file path (found under the FTP links on the right side) to dowload assemblies effeciently.
 
 **Download and perform QC on reference assembly - step1_ref_download_QC.sh**
 This script downloads reference, repeat, and annotation data and then identifyies repeats, estimates mappability and finds all of the short scaffolds. The output files include: 	
