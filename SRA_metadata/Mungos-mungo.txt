@@ -1,1 +1,2 @@
-SRR7704821,not collected,WGS,502,109769170874,"Dr. Oliver Ryder\, San Diego Zoo Institute for Conservation Research",PRJNA399406,SAMN07678097,Model organism or animal,not applicable,66343110606,BROAD INSTITUTE,public,not applicable,"bam,sra","gs,ncbi,s3","gs.US,ncbi.public,s3.us-east-1",adult,not applicable,SRX4562094,Illumina HiSeq 2500,US063,MunMunMun_U063,PAIRED,RANDOM,GENOMIC,Mungos mungo,ILLUMINA,2019-08-01T00:00:00Z,MunMunMun_1_DISCOVAR,missing,SRP158219,not applicable,not applicable
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex
+SRR7704821	PRJNA399406	SAMN07678097	Mungos mungo	UK	Illumina HiSeq 2500	PAIRED	UK
