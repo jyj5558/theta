@@ -1,1 +1,5 @@
-SRR6053072,WGS,302,2344146952,SAMN07543008,1074764063,LOUISIANA STATE UNIVERSITY,public,"sra,fastq","ncbi,gs,s3","gs.US,ncbi.public,s3.us-east-1",SRX3199986,Illumina HiSeq 3000,Ateles_geoffroyi_FMNH_165380,PAIRED,Hybrid Selection,GENOMIC,Ateles geoffroyi,ILLUMINA,2017-09-20T00:00:00Z,Ateles-geoffroyi-FMNH165380,SRP118182,PRJNA390442,,,,,,,,,,,,,,,,,,,,,,,,not collected,Model organism or animal,not applicable,not applicable,not collected,not applicable,not applicable,not collected,not applicable
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex
+SRR2040129	PRJNA284191	SAMN03699689	Eulemur macaco	USA: North Carolina	Illumina HiSeq 2000	PAIRED	female
+SRR2041090	PRJNA284191	SAMN03733424	Eulemur macaco	USA: North Carolina	Illumina HiSeq 2500	PAIRED	UK
+SRR2042897	PRJNA284191	SAMN03733425	Eulemur macaco	USA: North Carolina	Illumina HiSeq 2500	PAIRED	UK
+SRR2043670	PRJNA284191	SAMN03733423	Eulemur macaco	USA: North Carolina	Illumina HiSeq 2500	PAIRED	UK
