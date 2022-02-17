@@ -1,1 +1,5 @@
-SRR11431895,WGS,500,86296678000,SAMN07678100,51938743933,BROAD INSTITUTE,public,"sra,bam","ncbi,s3,gs","s3.us-east-1,ncbi.public,gs.US",SRX8010127,Illumina HiSeq 2500,NycCou_BS32,PAIRED,RANDOM,GENOMIC,Nycticebus coucang,ILLUMINA,2020-03-27T00:00:00Z,NycCou_1_DISCOVAR,SRP254268,PRJNA399409,missing,not collected,,"Dr. Oliver Ryder\, San Diego Zoo Institute for Conservation Research",Model organism or animal,not applicable,,not applicable,,adult,,not applicable,,,,,,,,,,,BS32,,,,,,not applicable,not applicable,
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex
+SRR2040129	PRJNA284191	SAMN03699689	Eulemur macaco	USA: North Carolina	Illumina HiSeq 2000	PAIRED	female
+SRR2041090	PRJNA284191	SAMN03733424	Eulemur macaco	USA: North Carolina	Illumina HiSeq 2500	PAIRED	UK
+SRR2042897	PRJNA284191	SAMN03733425	Eulemur macaco	USA: North Carolina	Illumina HiSeq 2500	PAIRED	UK
+SRR2043670	PRJNA284191	SAMN03733423	Eulemur macaco	USA: North Carolina	Illumina HiSeq 2500	PAIRED	UK
