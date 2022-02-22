@@ -21,7 +21,7 @@ All of the Genus-species directories will be at /scratch/bell/dewoody/theta
 ## Step 1. Reference downloading and QC
 **Identifying reference assembly data**
 
-We need to find reference assembly accession information for as many species as possible. Whenever possible, we will target Chromosome level RefSeq assemblies on NCBI Genbank. Once the target assembly is located for a particular species, we will use the accession number and file path (found under the FTP links on the right side) to dowload assemblies effeciently.
+We need to find reference assembly accession information for as many species as possible. Whenever possible, we will target Chromosome level RefSeq assemblies on NCBI. Once the target assembly is located for a particular species, we will use the accession number and file path (found under the FTP links on the right side) and assembly name to dowload resources effeciently.
 
 **Download and perform QC on reference assembly - step1_ref_download_QC.sh**
 This script downloads reference, repeat, and annotation data and then identifyies repeats, estimates mappability and finds all of the short scaffolds. The output files include: 	
@@ -34,10 +34,13 @@ User will need to input (paste) information for the following variables _within 
 
 Genus-species: this is used in the directory naming as Erangi suggested, to make browsing
 a bit more doable for us humans
+
 accession: this is also used in the directory, to keep multiple reference assemblies
 separate as Black suggested
+
 pathway: include full NCBI url to FTP site (containing directory)
-assembly:name of genome assembly
+
+assembly: name of genome assembly
 
 Example of defined variables below
 ```
@@ -46,7 +49,8 @@ accession=GCF_009873245.2
 pathway=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/009/873/245/GCF_009873245.2_mBalMus1.pri.v3/
 assembly=mBalMus1.pri.v3
 ```
-Once these have been defined, save and close slurm job
+Once these have been defined, save and close slurm job script
+
 Before running, make sure that the program genmap is installed at $USER home directory and in $PATH, such as:
 ```
 export PATH=$PATH:~/genmap-build/bin
@@ -77,7 +81,7 @@ Eventually, we will write a script to automate running these in batch but for no
 ## Step 2. Population data identification, download, and cleaning
 **Identifying population data**
 
-We need to find sequence data for populations corresponding to the reference genome assemblies that are available. For each species with an existing reference assembly (see [our Google doc of data](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469) for more information), we are looking for short read sequencing data that has been generated for a population. In particular, the data sets need to have these characteristics:
+We need to find sequence data for populations corresponding to the reference genome assemblies that are available. For each species with an existing reference assembly (see [our Google doc of data](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469) for more information), we are looking for short read sequencing data that has been generated for a single population. In particular, the data sets need to have these characteristics:
 
 1. whole-genome resequencing data (not RNAseq, RADseq, etc.)
 2. generated using the Illlumina Hi-Seq or Nova Seq platforms (not MiSeq) 
