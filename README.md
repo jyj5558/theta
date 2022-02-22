@@ -92,8 +92,11 @@ There are two pathways to find these data, it is important to use both methods f
 a: Open up the [Google doc sheet](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469), locate and copy the name of your species of interest 
 
 b: Paste this into the [NCBI taxonomy browser](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi), remove the "-" and search. Copy the search result as a hyperlink into the [Google doc sheet](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469) under genus-species.
+
 c: Click on the "SRA Experiments" number, which will list the number of Entrez records associated with this species. Click on all SRA experiments of relevance (i.e., Illumina WGS paired end data) and click the "Send to" button, choosing clipboard. Repeat for each relevant BioProject until clipboard is populated with all available usable data. (When there are too many SRAs, apply "advanced search filter" right below the search window to narrow down data. Add relevant filters, such as "Add 'paired'" & "Add 'WGS'". Click "Search" and at the search result page, click "Send results to Run selector" to send all SRAs at once.)
+
 d: Navigate to clipboard and 'Send to' to the 'Run selector'. Click on the 'metadata' icon to download file (you can filter available data once more in this page). Alternatively, go up to 'Send to' at the top of the page, choose 'File' and 'Accessions List', then click 'Create File'
+
 e: Open this file with Excel, convert text to columns (comma seperated delimiter) and remove/edit the file until it has the same order and headers as below:
 
 ```
@@ -103,7 +106,9 @@ ERR3299082	PRJEB8272	SAMEA5577703	Marmota marmota marmota	Gsies	NextSeq 500	PAIR
 ERR3299083	PRJEB8272	SAMEA5577704	Marmota marmota marmota	Gsies	NextSeq 500	PAIRED	male
 ERR3294906	PRJEB8272	SAMEA5577694	Marmota marmota marmota	Mauls	Illumina HiSeq 2500	PAIRED	female
 ```
+
 f: Copy and paste this into the species file in [SRA_metadata](./SRA_metadata/).
+
 g: Download / pull git repository to $CLUSTER_SCRATCH
 
  
@@ -115,12 +120,12 @@ Fill out all missing fields for target species in the [Google doc](https://docs.
 **Download and clean population data - step2_SRA_download_clean.sh**
 
 This script downloads SRAs for our target species and then checks the initial quality of the reads, cleans the reads, and checks the read quality again after cleaning. The output files include:
-1. SRAs downloaded and unzipped, in sras/raw
-2. SRAs cleaned (trimmed), in sras/cleaned
+1. SRAs downloaded and unzipped, in sra/raw
+2. SRAs cleaned (trimmed), in sra/cleaned
 
-Usage: step2_SRA_download_clean.sh Genus-species 
-- Genus-species: This is used in the directory naming (see step 1), so we need it to make sure the SRAs are saved in the correct location.
-- SRAs.txt: A comma separated list of SRAs to download (should be on a single row). Note that SRAS.txt must be in /scratch/bell/dewoody/theta/${genus_species}/.
+Usage: sbatch step2_SRA_download_clean.sh
+- Genus-species: This will need to be enterred in the the above script and follow the directory naming (see step 1), so we need it to make sure the SRAs are saved in the correct location.
+- SRAs.txt: Make sure you have the species SRA metadata in the correct format and in the theta directory BEFORE running. It should be in theta/SRA_metadata/genus-species.txt
 
 
 **Steps 3+:** To be completed.
