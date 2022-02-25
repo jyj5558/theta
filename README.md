@@ -84,9 +84,9 @@ Eventually, we will write a script to automate running these in batch but for no
 We need to find sequence data for populations corresponding to the reference genome assemblies that are available. For each species with an existing reference assembly (see [our Google doc of data](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469) for more information), we are looking for short read sequencing data that has been generated for a single population. In particular, the data sets need to have these characteristics:
 
 1. whole-genome resequencing data (not RNAseq, RADseq, etc.)
-2. generated using the Illlumina Hi-Seq or Nova Seq platforms (not MiSeq) 
+2. generated using the Illlumina Hi-Seq or Nova Seq platforms (not MiSeq) (Library should not be constructed for Reduced Representation or anything that substantially lowers "Bases")
 3. be comprised of paired=end reads with lengths of 150 base pairs or longer (paired end reads will  have R1 and R2 files)
-4. sequenced individuals were captured from wild populations (we will exclude laboratory-bred or other captive-bred populations)
+4. sequenced individuals were captured from wild populations (we will exclude laboratory-bred or other captive-bred populations; but please record this info, too, in "Notes")
 5. sequenced individuals should all belong to the same population; this can be tough to identify for some species, so we will go with the definition used by the authors that published the sequencing data
 6. a minimum of 8 individuals but ideally up to 25 individuals were sequenced independently (more than one individual cannot be contained in a single sequencing project); it is fine if there are  multiple files (SRAs) for one individual
 
@@ -102,6 +102,7 @@ c: Click on the "SRA Experiments" number, which will list the number of Entrez r
 d: Navigate to clipboard and 'Send to' to the 'Run selector'. Click on the 'metadata' icon to download file (you can filter available data once more in this page). Alternatively, go up to 'Send to' at the top of the page, choose 'File' and 'Accessions List', then click 'Create File'
 
 e: Open this file with Excel, convert text to columns (comma seperated delimiter) and remove/edit the file until it has the same order and headers as below:
+(ReadLength should be included, and it can be found in SRA search page)
 
 ```
 Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex
