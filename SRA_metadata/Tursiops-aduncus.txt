@@ -1,9 +1,122 @@
-SRR5357655,WGS,287,134220225390,PRJNA369596,SAMN06289676,Model organism or animal,56462432331,EWHA WOMANS UNIVERSITY,public,"sra,fastq","s3,gs,ncbi","gs.US,s3.us-east-1,ncbi.public",SRX2653495,Illumina HiSeq 4000,4th_Tursiops_aduncus_350bp_forward,PAIRED,RANDOM,GENOMIC,Tursiops aduncus,ILLUMINA,2017-09-01T00:00:00Z,T_aduncus_04,female,SRP102106,muscle,adult,,,Republic of Korea,,,,,,,,,,,,,,
-SRR5357656,WGS,284,88127878767,PRJNA369596,SAMN06289675,Model organism or animal,35978279764,EWHA WOMANS UNIVERSITY,public,"fastq,sra","s3,ncbi,gs","gs.US,ncbi.public,s3.us-east-1",SRX2653496,Illumina HiSeq 4000,3rd_Tursiops_aduncus_350bp_forward,PAIRED,RANDOM,GENOMIC,Tursiops aduncus,ILLUMINA,2017-09-01T00:00:00Z,T_aduncus_03,male,SRP102106,ventral muscle,adult,,,Republic of Korea,,,,,,,,,,,,,,
-SRR5357657,WGS,282,96866160649,PRJNA369596,SAMN06289674,Model organism or animal,39339974310,EWHA WOMANS UNIVERSITY,public,"sra,fastq","gs,s3,ncbi","gs.US,ncbi.public,s3.us-east-1",SRX2653497,Illumina HiSeq 4000,2nd_Tursiops_aduncus_350bp_forward,PAIRED,RANDOM,GENOMIC,Tursiops aduncus,ILLUMINA,2017-09-01T00:00:00Z,T_aduncus_02,male,SRP102106,muscle,adult,,,Republic of Korea,,,,,,,,,,,,,,
-SRR5357658,WGS,177,39978002619,PRJNA369596,SAMN06289673,Model organism or animal,29566221187,EWHA WOMANS UNIVERSITY,public,"fastq,sra","s3,gs,ncbi","gs.US,s3.us-east-1,ncbi.public",SRX2653498,Illumina HiSeq 2500,1st_Tursiops_aduncus_10Kbp_forward,PAIRED,RANDOM,GENOMIC,Tursiops aduncus,ILLUMINA,2017-09-01T00:00:00Z,T_aduncus_01,female,SRP102106,fin muscle,adult,CRI000098,South Korea,,,,,,,,,,,,,,,
-SRR5357659,WGS,169,36375575670,PRJNA369596,SAMN06289673,Model organism or animal,26557966961,EWHA WOMANS UNIVERSITY,public,"sra,fastq","s3,ncbi,gs","gs.US,ncbi.public,s3.us-east-1",SRX2653499,Illumina HiSeq 2500,1st_Tursiops_aduncus_5Kbp_forward,PAIRED,RANDOM,GENOMIC,Tursiops aduncus,ILLUMINA,2017-09-01T00:00:00Z,T_aduncus_01,female,SRP102106,fin muscle,adult,CRI000098,South Korea,,,,,,,,,,,,,,,
-SRR5357660,WGS,462,71329628328,PRJNA369596,SAMN06289673,Model organism or animal,43740848115,EWHA WOMANS UNIVERSITY,public,"sra,fastq","gs,ncbi,s3","s3.us-east-1,ncbi.public,gs.US",SRX2653500,Illumina HiSeq 2500,1st_Tursiops_aduncus_550bp_2nd_forward,PAIRED,RANDOM,GENOMIC,Tursiops aduncus,ILLUMINA,2017-09-01T00:00:00Z,T_aduncus_01,female,SRP102106,fin muscle,adult,CRI000098,South Korea,,,,,,,,,,,,,,,
-SRR5357661,WGS,464,70020728094,PRJNA369596,SAMN06289673,Model organism or animal,42927214436,EWHA WOMANS UNIVERSITY,public,"sra,fastq","gs,ncbi,s3","ncbi.public,gs.US,s3.us-east-1",SRX2653501,Illumina HiSeq 2500,1st_Tursiops_aduncus_550bp_1st_forward,PAIRED,RANDOM,GENOMIC,Tursiops aduncus,ILLUMINA,2017-09-01T00:00:00Z,T_aduncus_01,female,SRP102106,fin muscle,adult,CRI000098,South Korea,,,,,,,,,,,,,,,
-SRR5357662,WGS,475,65363619200,PRJNA369596,SAMN06289673,Model organism or animal,38146475845,EWHA WOMANS UNIVERSITY,public,"fastq,sra","s3,gs,ncbi","s3.us-east-1,gs.US,ncbi.public",SRX2653502,Illumina HiSeq 2500,1st_Tursiops_aduncus_350bp_2nd_forward,PAIRED,RANDOM,GENOMIC,Tursiops aduncus,ILLUMINA,2017-09-01T00:00:00Z,T_aduncus_01,female,SRP102106,fin muscle,adult,CRI000098,South Korea,,,,,,,,,,,,,,,
-SRR5357663,WGS,476,62713096235,PRJNA369596,SAMN06289673,Model organism or animal,36199247841,EWHA WOMANS UNIVERSITY,public,"sra,fastq","s3,ncbi,gs","gs.US,ncbi.public,s3.us-east-1",SRX2653503,Illumina HiSeq 2500,1st_Tursiops_aduncus_350bp_1st_forward,PAIRED,RANDOM,GENOMIC,Tursiops aduncus,ILLUMINA,2017-09-01T00:00:00Z,T_aduncus_01,female,SRP102106,fin muscle,adult,CRI000098,South Korea,,,,,,,,,,,,,,,
+Run	BioProject	BioSample	ScientificName		pop	Instrument	LibraryLayout	Sex
+SRR13817251	PRJNA705721	SAMN18097340	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	female
+SRR13817240	PRJNA705721	SAMN18097341	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817229	PRJNA705721	SAMN18097342	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817225	PRJNA705721	SAMN18097343	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817224	PRJNA705721	SAMN18097344	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817223	PRJNA705721	SAMN18097345	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817222	PRJNA705721	SAMN18097346	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817253	PRJNA705721	SAMN18097365	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817252	PRJNA705721	SAMN18097366	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817250	PRJNA705721	SAMN18097367	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817249	PRJNA705721	SAMN18097368	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817248	PRJNA705721	SAMN18097369	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817247	PRJNA705721	SAMN18097370	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817246	PRJNA705721	SAMN18097371	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817245	PRJNA705721	SAMN18097372	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817244	PRJNA705721	SAMN18097373	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817243	PRJNA705721	SAMN18097374	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817231	PRJNA705721	SAMN18097385	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817230	PRJNA705721	SAMN18097386	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817228	PRJNA705721	SAMN18097387	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817227	PRJNA705721	SAMN18097388	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817226	PRJNA705721	SAMN18097389	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839560	PRJNA598135	SAMN13699154	Delphinus delphis		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839549	PRJNA598135	SAMN13699155	Lagenodelphis hosei		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839538	PRJNA598135	SAMN13699156	Lagenodelphis hosei		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817232	PRJNA705721	SAMN18097384	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817242	PRJNA705721	SAMN18097375	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817241	PRJNA705721	SAMN18097376	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817239	PRJNA705721	SAMN18097377	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR13817238	PRJNA705721	SAMN18097378	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839571	PRJNA598135	SAMN13699153	Stenella attenuata		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839594	PRJNA598135	SAMN13699150	Steno bredanensis		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839593	PRJNA598135	SAMN13699151	Steno bredanensis		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839527	PRJNA598135	SAMN13699159	Stenella coeruleoalba		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839592	PRJNA598135	SAMN13699160	Stenella coeruleoalba		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839582	PRJNA598135	SAMN13699152	Stenella frontalis		AustraliaRAD	Illumina HiSeq 2500	PAIRED	male
+SRR10839529	PRJNA598135	SAMN13699157	Stenella longirostris		AustraliaRAD	Illumina HiSeq 2500	PAIRED	female
+SRR10839528	PRJNA598135	SAMN13699158	Stenella longirostris		AustraliaRAD	Illumina HiSeq 2500	PAIRED	male
+SRR13817237	PRJNA705721	SAMN18097379	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	male
+SRR13817236	PRJNA705721	SAMN18097380	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	female
+SRR13817235	PRJNA705721	SAMN18097381	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	male
+SRR13817234	PRJNA705721	SAMN18097382	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	male
+SRR13817233	PRJNA705721	SAMN18097383	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	male
+SRR10839583	PRJNA598135	SAMN13699169	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	female
+SRR10839581	PRJNA598135	SAMN13699170	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	female
+SRR10839580	PRJNA598135	SAMN13699171	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	female
+SRR10839579	PRJNA598135	SAMN13699172	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	male
+SRR10839578	PRJNA598135	SAMN13699173	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	male
+SRR10839577	PRJNA598135	SAMN13699174	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	male
+SRR10839576	PRJNA598135	SAMN13699175	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	male
+SRR10839575	PRJNA598135	SAMN13699176	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	male
+SRR10839590	PRJNA598135	SAMN13699162	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	female
+SRR10839591	PRJNA598135	SAMN13699161	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	female
+SRR10839589	PRJNA598135	SAMN13699163	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839588	PRJNA598135	SAMN13699164	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839587	PRJNA598135	SAMN13699165	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839586	PRJNA598135	SAMN13699166	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839585	PRJNA598135	SAMN13699167	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839584	PRJNA598135	SAMN13699168	Tursiops aduncus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839574	PRJNA598135	SAMN13699177	Tursiops australis		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839573	PRJNA598135	SAMN13699178	Tursiops australis		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839572	PRJNA598135	SAMN13699179	Tursiops australis		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839570	PRJNA598135	SAMN13699180	Tursiops australis		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839569	PRJNA598135	SAMN13699181	Tursiops australis		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839568	PRJNA598135	SAMN13699182	Tursiops australis		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839567	PRJNA598135	SAMN13699183	Tursiops australis		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839566	PRJNA598135	SAMN13699184	Tursiops australis		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839539	PRJNA598135	SAMN13699209	Tursiops truncatus		AustraliaRAD	Illumina HiSeq 2500	PAIRED	not determined
+SRR10839537	PRJNA598135	SAMN13699210	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839536	PRJNA598135	SAMN13699211	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR10839535	PRJNA598135	SAMN13699212	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR10839534	PRJNA598135	SAMN13699213	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839533	PRJNA598135	SAMN13699214	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR10839532	PRJNA598135	SAMN13699215	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839531	PRJNA598135	SAMN13699216	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR10839530	PRJNA598135	SAMN13699217	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839548	PRJNA598135	SAMN13699200	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839547	PRJNA598135	SAMN13699201	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR10839546	PRJNA598135	SAMN13699202	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839545	PRJNA598135	SAMN13699203	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR10839544	PRJNA598135	SAMN13699204	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR10839543	PRJNA598135	SAMN13699205	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839542	PRJNA598135	SAMN13699206	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839541	PRJNA598135	SAMN13699207	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839540	PRJNA598135	SAMN13699208	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839565	PRJNA598135	SAMN13699185	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR10839564	PRJNA598135	SAMN13699186	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR10839563	PRJNA598135	SAMN13699187	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839562	PRJNA598135	SAMN13699188	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839561	PRJNA598135	SAMN13699189	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR10839559	PRJNA598135	SAMN13699190	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR10839558	PRJNA598135	SAMN13699191	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839557	PRJNA598135	SAMN13699192	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839556	PRJNA598135	SAMN13699193	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839555	PRJNA598135	SAMN13699194	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839554	PRJNA598135	SAMN13699195	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839553	PRJNA598135	SAMN13699196	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839550	PRJNA598135	SAMN13699199	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839552	PRJNA598135	SAMN13699197	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR10839551	PRJNA598135	SAMN13699198	Tursiops truncatus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR13817274	PRJNA705721	SAMN18097337	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR13817273	PRJNA705721	SAMN18097338	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR13817262	PRJNA705721	SAMN18097339	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR13817272	PRJNA705721	SAMN18097347	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR13817271	PRJNA705721	SAMN18097348	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR13817270	PRJNA705721	SAMN18097349	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR13817269	PRJNA705721	SAMN18097350	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR13817268	PRJNA705721	SAMN18097351	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR13817267	PRJNA705721	SAMN18097352	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR13817266	PRJNA705721	SAMN18097353	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR13817265	PRJNA705721	SAMN18097354	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR13817264	PRJNA705721	SAMN18097355	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR13817263	PRJNA705721	SAMN18097356	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR13817261	PRJNA705721	SAMN18097357	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR13817260	PRJNA705721	SAMN18097358	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR13817259	PRJNA705721	SAMN18097359	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR13817258	PRJNA705721	SAMN18097360	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	male
+SRR13817257	PRJNA705721	SAMN18097361	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR13817256	PRJNA705721	SAMN18097362	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR13817255	PRJNA705721	SAMN18097363	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
+SRR13817254	PRJNA705721	SAMN18097364	Tursiops aduncus		AustraliaWGS	Illumina NovaSeq 6000	PAIRED	female
