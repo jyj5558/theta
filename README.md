@@ -8,20 +8,20 @@ These scripts are developed for investigating genomic diversity and effective po
 
 ## Directory structure overview
 
-To make things easier to automate later, we will use a standardized directory structure based on the target species scientific name (Genus-species), genome assembly accession number (accession), and other labels. The structure looks like this:
+To make things easier to automate later, we will use a standardized directory structure based on the target species scientific name (Genus-species), genome assembly accession number (accession), and other labels. The folder structure looks like this:
 
-Genus-species
-- accession_ref: reference genome assembly
-- accession_rm: repeat-masked reference genome assembly
-- accession_gtf: reference genome assembly annotation
-- mappability: reference genome assembly quality assessment
+Genus-species/
+     - accession_ref: reference genome assembly
+     - accession_rm: repeat-masked reference genome assembly
+     - accession_gtf: reference genome assembly annotation
+     - mappability: reference genome assembly quality assessment
 
-All of the Genus-species directories will be at /scratch/bell/dewoody/theta
+All of the Genus-species directories will be created at /scratch/bell/dewoody/theta
 
 ## Step 1. Reference downloading and QC
 **Identifying reference assembly data**
 
-We need to find reference assembly accession information for as many species as possible. Whenever possible, we will target Chromosome level RefSeq assemblies on NCBI. Once the target assembly is located for a particular species, we will use the accession number and file path (found under the FTP links on the right side) and assembly name to dowload resources effeciently.
+We need to find reference assembly accession information for as many species as possible. Whenever possible, we will target Chromosome level RefSeq assemblies on NCBI. Once the target assembly is located for a particular species, we will use the accession number and file path (found under the FTP links on the right side of NCBI) and assembly name to download resources effeciently.
 
 **Download and perform QC on reference assembly - step1_ref_download_QC.sh**
 This script downloads reference, repeat, and annotation data and then identifyies repeats, estimates mappability and finds all of the short scaffolds. The output files include: 	
@@ -30,17 +30,17 @@ This script downloads reference, repeat, and annotation data and then identifyie
 3. map_repeat_summary.txt (summary of ref quality)							
 4. if a masked genome isn't available (i.e. rm.out), script will create one using the mammal repeat library --- we should update this if we move on from mammals!
 
-User will need to input (paste) information for the following variables _within the step1_ref_download_QC.sh file:_
+User will need to input (paste) information for the following variables within the _step1_ref_download_QC.sh file:_
 
-Genus-species: this is used in the directory naming as Erangi suggested, to make browsing
+`Genus-species`: this is used in the directory naming as Erangi suggested, to make browsing
 a bit more doable for us humans
 
-accession: this is also used in the directory, to keep multiple reference assemblies
+`accession`: this is also used in the directory, to keep multiple reference assemblies
 separate as Black suggested
 
-pathway: include full NCBI url to FTP site (containing directory)
+`pathway`: include full NCBI url to FTP site (containing directory)
 
-assembly: name of genome assembly
+`assembly`: name of genome assembly
 
 Example of defined variables below
 ```
@@ -72,10 +72,10 @@ $ ./bin/genmap
 
 Submit slurm job
 ```
-sbatch step1_download_QC.sh
+sbatch /scratch/bell/$USER/theta/step1_download_QC.sh
 ```
 
-Eventually, we will write a script to automate running these in batch but for now we will test one species at a time.
+Eventually, we will write a script to automate running these in batch but for now we will download one species at a time.
 
 
 ## Step 2. Population data identification, download, and cleaning
@@ -102,25 +102,26 @@ c: Click on the "SRA Experiments" number, which will list the number of Entrez r
 d: Navigate to clipboard and 'Send to' to the 'Run selector'. Click on the 'metadata' icon to download file (you can filter available data once more in this page). Alternatively, go up to 'Send to' at the top of the page, choose 'File' and 'Accessions List', then click 'Create File'
 
 e: Open this file with Excel, convert text to columns (comma seperated delimiter) and remove/edit the file until it has the same order and headers as below:
-(ReadLength should be included, and it can be found in SRA search page)
+(ReadLength should be included, and it can be found in SRA search page). It should be in tab seperated format
 
 ```
-Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex
-ERR3299081	PRJEB8272	SAMEA5577702	Marmota marmota marmota	Gsies	NextSeq 500	PAIRED	female
-ERR3299082	PRJEB8272	SAMEA5577703	Marmota marmota marmota	Gsies	NextSeq 500	PAIRED	male
-ERR3299083	PRJEB8272	SAMEA5577704	Marmota marmota marmota	Gsies	NextSeq 500	PAIRED	male
-ERR3294906	PRJEB8272	SAMEA5577694	Marmota marmota marmota	Mauls	Illumina HiSeq 2500	PAIRED	female
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex AvgSpotlength
+ERR3299081	PRJEB8272	SAMEA5577702	Marmota marmota marmota	Gsies	NextSeq 500	PAIRED	female 300
+ERR3299082	PRJEB8272	SAMEA5577703	Marmota marmota marmota	Gsies	NextSeq 500	PAIRED	male 300
+ERR3299083	PRJEB8272	SAMEA5577704	Marmota marmota marmota	Gsies	NextSeq 500	PAIRED	male 300
+ERR3294906	PRJEB8272	SAMEA5577694	Marmota marmota marmota	Mauls	Illumina HiSeq 2500	PAIRED	female 300
 ```
 
 f: Copy and paste this into the species file in [SRA_metadata](./SRA_metadata/).
 
-g: Download / pull git repository to $CLUSTER_SCRATCH
+g: Download / pull git repository to $CLUSTER_SCRATCH or paste new metadata for your target species directly into existing Genus-species file in $USER theta folder
 
  
 2) To verify that all available data was found for a given species, use google scholar to look for literature directly. For each genus-species, use search terms  "Whole Genome" OR "resequencing" OR "genomic" and >2010. Manually curate search results. Most of the papers have a section named ‘data availability’ and this section has the BioProject accession number(PRJNAxx…) which you can follow to find the data we need. Otherwise, on NCBI, search the project number written in SRA metadata file (e.g. PRJNA54005) targetting "All Databases", and you can find "Literature" box showing the number of associated publications in PubMed, PubMed Central, etc. Here you can find the project description, too, which normally has a statement about sample sources.
 
 Fill out all missing fields for target species in the [Google doc](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469): 
 
+`NOTE`: It is important to estimate coverage for resequencing data. We really want to target low coverage WGS. Do a back of the envelope calculation for each SRA file to ensure that it is less than 20x. Black found it easiest to do in the excel file when creating the metadata by) using the number of bases in the SRA/2 / genome size and averaging it among all SRA samples (just look for outliers above 20x). This information (i.e., average) can be put in the 'coverage' column in the shared google doc.
 
 **Download and clean population data - step2_SRA_download_clean.sh**
 
@@ -128,9 +129,13 @@ This script downloads SRAs for our target species and then checks the initial qu
 1. SRAs downloaded and unzipped, in sra/raw
 2. SRAs cleaned (trimmed), in sra/cleaned
 
-Usage: sbatch step2_SRA_download_clean.sh
-- Genus-species: This will need to be enterred in the the above script and follow the directory naming (see step 1), so we need it to make sure the SRAs are saved in the correct location.
-- SRAs.txt: Make sure you have the species SRA metadata in the correct format and in the theta directory BEFORE running. It should be in theta/SRA_metadata/genus-species.txt
+```
+sbatch /scratch/bell/$USER/theta/step1_download_QC.sh
+```
+User will need to enter the following information:
+`Genus-species`: This will need to be enterred in the the above script and follow the directory naming (see step 1), so we need it to make sure the SRAs are saved in the correct location.
+
+`NOTE` make sure that the Genus-species-SRAs.txt is updated first: Make sure you have the species SRA metadata in the correct format and in the theta directory BEFORE running. It should be in theta/SRA_metadata/genus-species.txt
 
 
 **Steps 3+:** To be completed.
