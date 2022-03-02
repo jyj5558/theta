@@ -49,6 +49,9 @@ accession=GCF_009873245.2
 pathway=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/009/873/245/GCF_009873245.2_mBalMus1.pri.v3/
 assembly=mBalMus1.pri.v3
 ```
+`NOTE`, it is strongly recommended to add the name of the genus-species to the job name as well (for debugging/tracking purposes) as in:
+#SBATCH --job-name=qcREF-Balaenoptera-musculus
+
 Once these have been defined, save and close slurm job script
 
 Before running, make sure that the program genmap is installed at $USER home directory and in $PATH, such as:
@@ -129,19 +132,47 @@ This script downloads SRAs for our target species and then checks the initial qu
 1. SRAs downloaded and unzipped, in sra/raw
 2. SRAs cleaned (trimmed), in sra/cleaned
 
-```
-sbatch /scratch/bell/$USER/theta/step1_download_QC.sh
-```
+
+Usage:
+
 User will need to enter the following information:
 `Genus-species`: This will need to be enterred in the the above script and follow the directory naming (see step 1), so we need it to make sure the SRAs are saved in the correct location.
 
 `NOTE` make sure that the Genus-species-SRAs.txt is updated first: Make sure you have the species SRA metadata in the correct format and in the theta directory BEFORE running. It should be in theta/SRA_metadata/genus-species.txt
 
+`NOTE`, it is strongly recommended to add the name of the genus-species to the job name as well (for debugging/tracking purposes) as in:
+#SBATCH --job-name=SRA-Balaenoptera-musculus
 
-**Steps 3+:** To be completed.
-- mapping.sh
-- realignment_single.sh (for individuals with a single SRA)
-- realignment_multiple.sh (for individuals with multiple SRAs)
+To run, simply submit the following command:
+```
+sbatch /scratch/bell/$USER/theta/step1_download_QC.sh
+```
+
+**Steps 3: Mapping cleaned SRA fastq files to the reference assembly - step3_mapping.sh** 
+
+This script will align each paired fastq file to the reference, validate the output sam file, sort based upon read coordinate, mark pcr duplicates and perform indel realignment. Mapping and depth statistics will be output. 
+-Binary alignment mapping files: Curated files will be found within ./final_bams
+-Summary statistic files will be found within: ./alignment
+
+Usage:
+
+User will need to enter the following information:
+`Genus-species`: This will need to be enterred in the the above script and follow the directory naming (see step 1), so we need it to make sure the SRAs are saved in the correct location.
+
+`NOTE` make sure that the Genus-species-SRAs.txt is updated first: Make sure you have the species SRA metadata in the correct format and in the theta directory BEFORE running. It should be in theta/SRA_metadata/genus-species.txt
+
+`NOTE`, it is strongly recommended to add the name of the genus-species to the job name as well (for debugging/tracking purposes) as in:
+#SBATCH --job-name=SRA-Balaenoptera-musculus
+
+To run, simply submit the following command:
+```
+sbatch /scratch/bell/$USER/theta/step1_download_QC.sh
+```
+
+`NOTE`, please check for any bugs with the step3 script, it is still new!
+
+
+**Steps 4: QC bams? - NEEDS WORK** 
 
 QC of bam dataset
 - qc_bams.sh & quantile_thresholds.R
