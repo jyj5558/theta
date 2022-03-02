@@ -1,10 +1,12 @@
 #!/bin/bash
-#SBATCH --job-name=TrimGalore
-#SBATCH -A highmem
-#SBATCH -t 20:00:00
+#SBATCH --job-name=SRA_QC
+#SBATCH -A fnrdewoody
+#SBATCH -t 2-00:00:00
 #SBATCH -N 1
 #SBATCH -n 20
 #SBATCH --mem=50G
+#SBATCH -e %x_%j.err
+#SBATCH -o %x_%j.out
 
 module load bioinfo
 module load TrimGalore
@@ -20,7 +22,7 @@ module load sra-toolkit
 #genus_species=Marmota-marmota-marmota
 #theta git should be cloned at $CLUSTER_SCRATCH (e.g., /scratch/bell/blackan/)
 #usage:
-#sbatch step2_SRA_download_clean
+#sbatch /scratch/bell/$USER/theta/step2_SRA_download_clean.sh
 #
 #Genus-species: this is used in the directory naming as Erangi suggested, to make browsing 
 #a bit more doable for us humans
