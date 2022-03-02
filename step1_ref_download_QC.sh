@@ -5,6 +5,8 @@
 #SBATCH -N 1 
 #SBATCH -n 10
 #SBATCH --mem=50G
+#SBATCH -e %x_%j.err
+#SBATCH -o %x_%j.out
 
 module load bioinfo
 module load bioawk
@@ -45,7 +47,7 @@ export PATH=$PATH:~/genmap-build/bin
 #pathway=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/009/873/245/GCF_009873245.2_mBalMus1.pri.v3/
 #assembly=mBalMus1.pri.v3
 #Once these have been defined, save and close slurrm job and submit
-#sbatch step1_download_QC.sh
+#sbatch /scratch/bell/$USER/theta/step1_download_QC.sh
 
 
  ####end usage and notes####
@@ -125,7 +127,7 @@ then
 	cat rm.out |tail -n +4|awk '{print $5,$6,$7,$11}'|sed 's/ /\t/g' > repeats.bed # make bed file
 else	
 	# if no rm.out file is available run RepeatMasker
-	RepeatMasker -qq -species mammal ../${accession}_ref/ref.fa 
+	RepeatMasker -qq -species mammal ../${accession}_ref/ref.fa -pa 4 
 	cat repeatmasker.fa.out|tail -n +4|awk '{print $5,$6,$7,$11}'|sed 's/ /\t/g' > repeats.bed  #make bed file
 fi
 
