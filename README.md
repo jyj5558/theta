@@ -86,7 +86,7 @@ Eventually, we will write a script to automate running these in batch but for no
 
 We need to find sequence data for populations corresponding to the reference genome assemblies that are available. For each species with an existing reference assembly (see [our Google doc of data](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469) for more information), we are looking for short read sequencing data that has been generated for a single population. In particular, the data sets need to have these characteristics:
 
-1. whole-genome resequencing data (not RNAseq, RADseq, etc.)
+1. whole-genome resequencing data (not RNAseq, RADseq, etc., also check if it is exom sequencing data.)
 2. generated using the Illlumina Hi-Seq or Nova Seq platforms (not MiSeq) (Library should not be constructed for Reduced Representation or anything that substantially lowers "Bases")
 3. be comprised of paired=end reads with lengths of 150 base pairs or longer (paired end reads will  have R1 and R2 files)
 4. sequenced individuals were captured from wild populations (we will exclude laboratory-bred or other captive-bred populations; but please record this info, too, in "Notes")
