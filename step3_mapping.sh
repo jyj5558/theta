@@ -80,10 +80,10 @@ PicardCommandLine CreateSequenceDictionary reference=../../*_ref/ref.fa output=.
 
 # local realignment of reads
 rm -rf forIndelRealigner.intervals
-GenomeAnalysisTK -nt 20 -T RealignerTargetCreator -R ../../*_ref/ref.fa -I ${i}_marked.bam -o forIndelRealigner.intervals
+GenomeAnalysisTK -nt 20 -T RealignerTargetCreator -R ../../*_ref/ref.fa -I ${i}_marked.bam -o ${i}_forIndelRealigner.intervals
 
 #Realign with established intervals
-GenomeAnalysisTK -T IndelRealigner -R ../../*ref/ref.fa -I ${i}_marked.bam -targetIntervals forIndelRealigner.intervals -o ../final_bams/${i}.bam
+GenomeAnalysisTK -T IndelRealigner -R ../../*ref/ref.fa -I ${i}_marked.bam -targetIntervals ${i}_forIndelRealigner.intervals -o ../final_bams/${i}.bam
 
 cd /scratch/bell/dewoody/theta/${genus_species}/sra/aligned/final_bams/
 
