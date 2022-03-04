@@ -1,1 +1,5 @@
-SRR9987985,WGS,500,90606604500,PRJNA399372,SAMN07678036,52688342891,BROAD INSTITUTE,public,"sra,bam","ncbi,gs,s3","s3.us-east-1,ncbi.public,gs.US",SRX6727375,Illumina HiSeq 2500,BS02,PAIRED,RANDOM,GENOMIC,Alouatta palliata,ILLUMINA,2019-08-16T00:00:00Z,AloPal_1_DISCOVAR,SRP218565,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Model organism or animal,not applicable,adult
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR9655168	PRJNA553235	SAMN10407156	Alouatta palliata	Veracruz, Mexico	Illumina HiSeq 4000	PAIRED	female	302	27110646304
+SRR9655169	PRJNA553235	SAMN10407140	Alouatta palliata	Veracruz, Mexico	Illumina HiSeq 4000	PAIRED	female	302	37169098772
+SRR9655170	PRJNA553235	SAMN10407285	Alouatta palliata	Veracruz, Mexico	Illumina HiSeq 4000	PAIRED	male	302	16419443738
+SRR9655171	PRJNA553235	SAMN10407294	Alouatta palliata	Veracruz, Mexico	Illumina HiSeq 4000	PAIRED	male	302	27408258546
