@@ -49,14 +49,14 @@ do
 
 
 # index reference 
-bwa index -a bwtsw ../../*_ref/ref.fa
+bwa index -a bwtsw ../../*_ref/ref_100k.fa
 
 #and  index reference sequence in preparation for step4
-samtools faidx ../../*_ref/ref.fa
+samtools faidx ../../*_ref/ref_100k.fa
 
 #perform alignment using twenty CPUs and bwa mem algorithm
 rm ../aligned/*sam
-bwa mem -t 20 -M -R "@RG\tID:group1\tSM:${i}\tPL:illumina\tLB:lib1\tPU:unit1" ../../*_ref/ref.fa  ${i}_1_val_1.fq ${i}_2_val_2.fq > ../aligned/${i}.sam
+bwa mem -t 20 -M -R "@RG\tID:group1\tSM:${i}\tPL:illumina\tLB:lib1\tPU:unit1" ../../*_ref/ref_100k.fa  ${i}_1_val_1.fq ${i}_2_val_2.fq > ../aligned/${i}.sam
 
 #Move to the directory containing the alignment files
 cd /scratch/bell/dewoody/theta/${genus_species}/sra/aligned/
@@ -75,23 +75,23 @@ PicardCommandLine SortSam INPUT=${i}.sam OUTPUT=${i}_sorted.bam SORT_ORDER=coord
 PicardCommandLine MarkDuplicates INPUT=${i}_sorted.bam OUTPUT=./${i}_marked.bam METRICS_FILE=${i}_metrics.txt
 PicardCommandLine BuildBamIndex INPUT=./${i}_marked.bam
 
-rm -rf ../../*_ref/ref.dict
-PicardCommandLine CreateSequenceDictionary reference=../../*_ref/ref.fa output=../../*_ref/ref.dict
+rm -rf ../../*_ref/ref_100k.dict
+PicardCommandLine CreateSequenceDictionary reference=../../*_ref/ref_100k.fa output=../../*_ref/ref_100k.dict
 
 # local realignment of reads
 rm -rf forIndelRealigner.intervals
-GenomeAnalysisTK -nt 20 -T RealignerTargetCreator -R ../../*_ref/ref.fa -I ${i}_marked.bam -o ${i}_forIndelRealigner.intervals
+GenomeAnalysisTK -nt 20 -T RealignerTargetCreator -R ../../*_ref/ref_100k.fa -I ${i}_marked.bam -o ${i}_forIndelRealigner.intervals
 
 #Realign with established intervals
-GenomeAnalysisTK -T IndelRealigner -R ../../*ref/ref.fa -I ${i}_marked.bam -targetIntervals ${i}_forIndelRealigner.intervals -o ../final_bams/${i}.bam
+GenomeAnalysisTK -T IndelRealigner -R ../../*ref/ref_100k.fa -I ${i}_marked.bam -targetIntervals ${i}_forIndelRealigner.intervals -o ../final_bams/${i}.bam
 
 cd /scratch/bell/dewoody/theta/${genus_species}/sra/aligned/final_bams/
 
 #Get some summar stats on bam files
 rm *.txt
-samtools flagstat ./${i}.bam > ./${i}_mapping.txt
-samtools depth -a ./${i}.bam | awk '{c++;s+=$3}END{print s/c}' > ./${i}_stats.txt
-samtools depth -a ./${i}.bam | awk '{c++; if($3>0) total+=1}END{print (total/c)*100}' > ./${i}_depth.txt
+samtools flagstat ./${i}_marked.bam > ./${i}_mapping.txt
+samtools depth -a ./${i}_marked.bam | awk '{c++;s+=$3}END{print s/c}' > ./${i}_stats.txt
+samtools depth -a ./${i}_marked.bam | awk '{c++; if($3>0) total+=1}END{print (total/c)*100}' > ./${i}_depth.txt
 
 cd /scratch/bell/dewoody/theta/${genus_species}/sra/cleaned/
 done
