@@ -19,7 +19,7 @@ Genus-species/
 All of the Genus-species directories will be created at /scratch/bell/dewoody/theta
 
 ## Cloning Git repo to your cluster directory
-Locate to your directory that you want to clone git repo and run the code below
+Locate to your $CLUSTER_SCRATCH (e.g., /scratch/bell/blackan/) and run the code below to clone Theta git repo 
 ```
 git clone https://github.com/AnnaBrunicheOlsen/theta
 ```
