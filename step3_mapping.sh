@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=align
+#SBATCH --job-name=S3_Genus-species
 #SBATCH -A fnrquail
 #SBATCH -t 4-00:00:00 
 #SBATCH -N 1 
@@ -34,8 +34,15 @@ module load bamtools
 #
 ####end usage and notes####
 
-#designate target species
-genus_species=Tursiops-aduncus
+##########################
+#designate target species#
+##########################
+
+genus_species=
+
+########################
+#Do not edit code below#
+########################
 
 #Make a new directory to house processed alignment files
 mkdir /scratch/bell/dewoody/theta/${genus_species}/sra/final_bams/
