@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=SRA_QC
+#SBATCH --job-name=S2_Genus-species
 #SBATCH -A fnrdewoody
 #SBATCH -t 2-00:00:00
 #SBATCH -N 1
@@ -32,7 +32,15 @@ module load sra-toolkit
 #
 ####end usage and notes####
 
+################################
+#Enter undefined variable below#
+################################
+
 genus_species=
+
+#########################
+#DO NOT EDIT BELOW CODE #
+#########################
 
 #Extract releveant info from metadata file in theta directory for target species and save in species folder:
 
