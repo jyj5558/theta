@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH --job-name=qcRef
-#SBATCH -A standby
-#SBATCH -t 4:00:00 
+#SBATCH --job-name=S1_Genus-species
+#SBATCH -A fnrdewoody
+#SBATCH -t 6-00:00:00 
 #SBATCH -N 1 
-#SBATCH -n 10
+#SBATCH -n 20
 #SBATCH --mem=50G
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
@@ -51,12 +51,20 @@ export PATH=$PATH:~/genmap-build/bin
 
 
  ####end usage and notes####
+###########################################
+#ENTER INFORMATION FOR FOLLOWING VARIABLES#
+###########################################
 
 genus_species=
 accession=
 pathway=
 assembly=
 
+########################
+#DO NOT EDIT BELOW CODE#
+########################
+
+#Move to JADs scratch space
 cd /scratch/bell/dewoody/theta/
 
 ####create directories and download reference genome, repeat masker, and annotation####
@@ -65,25 +73,25 @@ mkdir ./$genus_species/${accession}_rm
 mkdir ./$genus_species/${accession}_gtf
 cd $genus_species
 
-#reference 
+#Download reference genome
 wget -O ${accession}_ref/${accession}.fna.gz ${pathway}${accession}_${assembly}_genomic.fna.gz 
 gunzip ${accession}_ref/${accession}.fna.gz
 cp ${accession}_ref/${accession}.fna ${accession}_ref/original.fa # keep a copy of the original reference
 
-#repeatmasker
+#Download repeatmasker file (if available)
 wget -O ${accession}_rm/${accession}.rm.out.gz ${pathway}${accession}_${assembly}_rm.out.gz 
 gunzip ${accession}_rm/${accession}.rm.out.gz
 cp ${accession}_rm/${accession}.rm.out ${accession}_rm/rm.out # keep a copy of the original repeatmasker
 
-#annotation
+#Download annotation file (if available)
 wget -O ${accession}_gtf/${accession}.gtf.gz ${pathway}${accession}_${assembly}_genomic.gtf.gz 
 gunzip ${accession}_gtf/${accession}.gtf.gz
 cp ${accession}_gtf/${accession}.gtf ${accession}_gtf/gtf.gtf # keep a copy of the original annotation
 
-#print out file sizes for checking
+#print out file sizes for checking later
 ls -lh ${accession}* > download_log
 
-####search for and isolate mito seq in ref genome####
+#search for and remove mito seq in ref genome. Will only work if marked in assembly!
 grep "mitochondrion" ${accession}_ref/original.fa | cut -f 1 > mito_header.txt #If no mitochondrial sequence present in reference, will be blank. Otherwise contain header
 filterbyname.sh include=f in=${accession}_ref/original.fa out=${accession}_ref/original.tmp.fa names="mitochondrion" ow=t substring=t
 rm ${accession}_ref/original.fa
@@ -108,7 +116,7 @@ awk '{ print $1, $NF }' ${accession}_ref/scaffold_names.txt > ${accession}_ref/I
 cp ${accession}_ref/ID.txt ${accession}_rm/ID.txt
 cp ${accession}_ref/ID.txt ${accession}_gtf/ID.txt
 
-####prep repeatmasked file for later processing, create a rm.out if one is not available####
+#prep repeatmasked file for later processing, create a rm.out if one is not available. 
 cd ${accession}_rm/ #move into rm directory
 
 FILE1=$"rm.out"
@@ -126,8 +134,8 @@ then
 	rm rm_edited.body
 	cat rm.out |tail -n +4|awk '{print $5,$6,$7,$11}'|sed 's/ /\t/g' > repeats.bed # make bed file
 else	
-	# if no rm.out file is available run RepeatMasker
-	RepeatMasker -qq -species mammal ../${accession}_ref/ref.fa -pa 4 
+	# if no rm.out file is available run RepeatMasker. Note, this takes a long time!
+	RepeatMasker -qq -species mammal ../${accession}_ref/ref.fa -pa 10 
 	cat repeatmasker.fa.out|tail -n +4|awk '{print $5,$6,$7,$11}'|sed 's/ /\t/g' > repeats.bed  #make bed file
 fi
 
@@ -205,7 +213,7 @@ bioawk -c fastx '{ if(length($seq) > 100000) { print ">"$name; print $seq }}' ${
 # index
 samtools faidx ${accession}_ref/ref_100k.fa
 
-# make list with the >10kb scaffolds
+# make list with the >100kb scaffolds
 awk '{ print $1, $2, $2 }' ${accession}_ref/ref_100k.fa.fai > ${accession}_ref/chrs.info
 
 # replace column 2 with zeros
