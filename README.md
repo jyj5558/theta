@@ -19,26 +19,27 @@ Genus-species/
 All of the Genus-species directories will be created at /scratch/bell/dewoody/theta
 
 ## Cloning Git repo to your cluster directory
-Locate to your $CLUSTER_SCRATCH (e.g., /scratch/bell/blackan/) and run the code below to clone Theta git repo 
+Clone the theta git repos to user scratch path (e.g., /scratch/bell/blackan/) by running the following code
 ```
+cd /scratch/bell/$USER/
 git clone https://github.com/AnnaBrunicheOlsen/theta
 ```
 
 ## Step 1. Reference downloading and QC
 **Identifying reference assembly data**
 
-We need to find reference assembly accession information for as many species as possible. Whenever possible, we will target Chromosome level RefSeq assemblies on NCBI. Once the target assembly is located for a particular species, we will use the accession number and file path (found under the FTP links on the right side of NCBI) and assembly name to download resources effeciently.
+We need to find reference assembly accession information for as many species as possible. Whenever possible, we will target Chromosome level RefSeq assemblies on NCBI. Once the target assembly is located for a particular species, we will use the accession number, assembly name and url path (found under the FTP links on the right side of NCBI) and assembly name to download resources effeciently.
 
 **Download and perform QC on reference assembly - step1_ref_download_QC.sh**
 This script downloads reference, repeat, and annotation data and then identifyies repeats, estimates mappability and finds all of the short scaffolds. The output files include: 	
-1. ref.fa (reference file with scaffolds>100kb)							
+1. ref_100k.fa (reference file with scaffolds>100kb)							
 2. ok.bed (regions to analyze in angsd etc)		
 3. map_repeat_summary.txt (summary of ref quality)							
 4. if a masked genome isn't available (i.e. rm.out), script will create one using the mammal repeat library --- we should update this if we move on from mammals!
 
 User will need to input (paste) information for the following variables within the _step1_ref_download_QC.sh file:_
 
-`Genus-species`: this is used in the directory naming as Erangi suggested, to make browsing
+`Genus_species`: this is used in the directory naming as Erangi suggested, to make browsing
 a bit more doable for us humans
 
 `accession`: this is also used in the directory, to keep multiple reference assemblies
@@ -56,7 +57,7 @@ pathway=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/009/873/245/GCF_009873245.2
 assembly=mBalMus1.pri.v3
 ```
 `NOTE`, it is strongly recommended to add the name of the genus-species to the job name as well (for debugging/tracking purposes) as in:
-#SBATCH --job-name=qcREF-Balaenoptera-musculus
+#SBATCH --job-name=S1_Balaenoptera-musculus
 
 Once these have been defined, save and close slurm job script
 
@@ -90,14 +91,14 @@ Eventually, we will write a script to automate running these in batch but for no
 ## Step 2. Population data identification, download, and cleaning
 **Identifying population data**
 
-We need to find sequence data for populations corresponding to the reference genome assemblies that are available. For each species with an existing reference assembly (see [our Google doc of data](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469) for more information), we are looking for short read sequencing data that has been generated for a single population. In particular, the data sets need to have these characteristics:
+We need to find sequence data for a single population corresponding to the reference genome assemblies that are available. For each species with an existing reference assembly (see [our Google doc of data](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469) for more information), we are looking for short read sequencing data that has been generated for a single population. In particular, the data sets need to have these characteristics:
 
 1. whole-genome resequencing data (not RNAseq, RADseq, etc., also check if it is exom sequencing data.)
 2. generated using the Illlumina Hi-Seq or Nova Seq platforms (not MiSeq) (Library should not be constructed for Reduced Representation or anything that substantially lowers "Bases")
 3. be comprised of paired=end reads with lengths of 150 base pairs or longer (paired end reads will  have R1 and R2 files)
-4. sequenced individuals were captured from wild populations (we will exclude laboratory-bred or other captive-bred populations; but please record this info, too, in "Notes")
-5. sequenced individuals should all belong to the same population; this can be tough to identify for some species, so we will go with the definition used by the authors that published the sequencing data
-6. a minimum of 8 individuals but ideally up to 25 individuals were sequenced independently (more than one individual cannot be contained in a single sequencing project); if there are  multiple files (SRAs) for one individual, choose the best one based on "Bases". 
+4. sequenced individuals were captured from wild populations (we will exclude laboratory-bred or other captive-bred populations; but please record this info, too, in "Notes") #THIS SHOULD BE CHANGED TO ACCEPT ALL RIGHT?
+5. sequenced individuals should all belong to the same population; this can be tough to identify for some species, so we will go with the definition used by the authors that published the sequencing data (assuming there is an associated publication)
+6. a minimum of 8 individuals but ideally up to 25 individuals were sequenced independently (more than one individual cannot be contained in a single sequencing project); if there are  multiple files (SRAs) for one individual, choose the best one based on "Bases". #Minimum of 2 but 25max?
 
 There are two pathways to find these data, it is important to use both methods for all target species.
 
@@ -147,7 +148,7 @@ User will need to enter the following information:
 `NOTE` make sure that the Genus-species-SRAs.txt is updated first: Make sure you have the species SRA metadata in the correct format and in the theta directory BEFORE running. It should be in theta/SRA_metadata/genus-species.txt
 
 `NOTE`, it is strongly recommended to add the name of the genus-species to the job name as well (for debugging/tracking purposes) as in:
-#SBATCH --job-name=SRA-Balaenoptera-musculus
+#SBATCH --job-name=S2_Balaenoptera-musculus
 
 To run, simply submit the following command:
 ```
@@ -178,11 +179,30 @@ sbatch /scratch/bell/$USER/theta/step1_download_QC.sh
 `NOTE`, please check for any bugs with the step3 script, it is still new!
 
 
-**Steps 4: QC bams? - NEEDS WORK** 
+**Download and clean population data - step2_SRA_download_clean.sh**
 
-QC of bam dataset
+This script will estimate the Site Frequency Spectrum and Wattersons theta, in sliding windows. The output file will contain mean with SD.
+The output file:
+1. Wattersons_theta_${Genus-species}.txt
+
+
+Usage:
+
+User will need to enter the following information:
+`Genus-species`: This will need to be enterred in the the above script and follow the directory naming
+
+
+`NOTE`, it is strongly recommended to add the name of the genus-species to the job name as well (for debugging/tracking purposes) as in:
+#SBATCH --job-name=S4_Balaenoptera-musculus
+
+To run, simply submit the following command:
+```
+sbatch /scratch/bell/$USER/theta/step4_theta.sh
+```
+`NOTE`, this script has NOT been tested yet (3/9/22)!
+
+#################################
+#################################
+QC of bam dataset #SHOULD WE ADD THIS? I do not know where the quantile_thresholds.R file is
 - qc_bams.sh & quantile_thresholds.R
-
-Analyses
-- angsd.sh
 
