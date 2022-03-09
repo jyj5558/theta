@@ -1,25 +1,13 @@
 Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
-SRR10241492	PRJNA564823	SAMN12723975	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	female	300	24811844400
 SRR10241493	PRJNA564823	SAMN12723975	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	female	300	25007460000
-SRR10241494	PRJNA564823	SAMN12724023	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	male	300	22338678300
 SRR10241495	PRJNA564823	SAMN12724023	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	male	300	22505040000
-SRR10241496	PRJNA564823	SAMN12724024	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	female	300	26279244300
 SRR10241497	PRJNA564823	SAMN12724024	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	female	300	26454051300
-SRR10241498	PRJNA564823	SAMN12724025	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	female	300	26140527300
 SRR10241499	PRJNA564823	SAMN12724025	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	female	300	26311704900
-SRR10241500	PRJNA564823	SAMN12724052	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	female	300	25652765400
 SRR10241501	PRJNA564823	SAMN12724052	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	female	300	25820058600
-SRR10241502	PRJNA564823	SAMN12724098	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	male	300	23704555200
 SRR10241503	PRJNA564823	SAMN12724098	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	male	300	29048677800
-SRR10241504	PRJNA564823	SAMN12724105	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	male	300	23503348500
 SRR10241505	PRJNA564823	SAMN12724105	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	male	300	23723285400
-SRR10241506	PRJNA564823	SAMN12724146	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	male	300	23548495200
 SRR10241507	PRJNA564823	SAMN12724146	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	male	300	23778588300
-SRR10241508	PRJNA564823	SAMN12724179	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	female	300	26662261500
 SRR10241509	PRJNA564823	SAMN12724179	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	female	300	26928130500
-SRR10241510	PRJNA564823	SAMN12724182	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	missing	300	22379611800
 SRR10241511	PRJNA564823	SAMN12724182	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	missing	300	22494045300
-SRR10241513	PRJNA564823	SAMN12724195	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	female	300	22998336600
 SRR10241514	PRJNA564823	SAMN12724195	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	female	300	23252190900
-SRR10241515	PRJNA564823	SAMN12724205	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	missing	300	24483832200
 SRR10241516	PRJNA564823	SAMN12724205	Delphinapterus leucas	Cook Inlet\, Alaska\, USA	HiSeq X Ten	PAIRED	missing	300	24581097000
