@@ -97,7 +97,7 @@ We need to find sequence data for populations corresponding to the reference gen
 3. be comprised of paired=end reads with lengths of 150 base pairs or longer (paired end reads will  have R1 and R2 files)
 4. sequenced individuals were captured from wild populations (we will exclude laboratory-bred or other captive-bred populations; but please record this info, too, in "Notes")
 5. sequenced individuals should all belong to the same population; this can be tough to identify for some species, so we will go with the definition used by the authors that published the sequencing data
-6. a minimum of 8 individuals but ideally up to 25 individuals were sequenced independently (more than one individual cannot be contained in a single sequencing project); it is fine if there are  multiple files (SRAs) for one individual
+6. a minimum of 8 individuals but ideally up to 25 individuals were sequenced independently (more than one individual cannot be contained in a single sequencing project); if there are  multiple files (SRAs) for one individual, choose the best one based on "Bases". 
 
 There are two pathways to find these data, it is important to use both methods for all target species.
 
