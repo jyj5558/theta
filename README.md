@@ -18,6 +18,12 @@ Genus-species/
 
 All of the Genus-species directories will be created at /scratch/bell/dewoody/theta
 
+## Cloning Git repo to your cluster directory
+Locate to your directory that you want to clone git repo and run the code below
+```
+git clone https://github.com/AnnaBrunicheOlsen/theta
+```
+
 ## Step 1. Reference downloading and QC
 **Identifying reference assembly data**
 
