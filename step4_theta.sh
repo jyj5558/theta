@@ -91,9 +91,11 @@ realSFS -P 40 out.saf.idx > out.sfs
 realSFS -P 40 saf2theta out.saf.idx -sfs out.sfs -outname out
 
 # estimate Tajimas D
-thetaStat do_stat out.thetas.idx
+#This is temporary until added to biocontainer path, but should work for now:
+singularity exec /apps/biocontainers/images/angsd.0.937.sif /usr/local/src/angsd/misc/thetaStat do_stat out.thetas.idx
 
-thetaStat do_stat out.thetas.idx -win 50000 -step 10000  -outnames theta.thetasWindow.gz
+#This is temporary until added to biocontainer path, but should work for now:
+singularity exec /apps/biocontainers/images/angsd.0.937.sif /usr/local/src/angsd/misc/thetaStat do_stat out.thetas.idx -win 50000 -step 10000  -outnames theta.thetasWindow.gz
 
 # column 4 has Wattersons
 awk '{print $4}' theta.thetasWindow.gz.pestPG > Watterson
