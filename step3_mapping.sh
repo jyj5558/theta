@@ -47,19 +47,26 @@ genus_species=
 #Make a new directory to house processed alignment files
 mkdir /scratch/bell/dewoody/theta/${genus_species}/sra/final_bams/
 
+#Move to reference
+
+#Index/create dict files
+cd /scratch/bell/dewoody/theta/${genus_species}/*_ref/
+
+#Create dictionary for realignment
+PicardCommandLine CreateSequenceDictionary reference=../../*_ref/ref_100k.fa output=../../*_ref/ref_100k.dict
+
 #move to cleaned fastq files in preparation for alignment
 cd /scratch/bell/dewoody/theta/${genus_species}/sra/cleaned/
-
-#Capture all cleaned fastq files with variable
-for i in `ls -1 *.fq | sed "s/_[1-2]_val_[1-2].fq//g" | uniq`
-do
-
 
 # index reference 
 bwa index -a bwtsw ../../*_ref/ref_100k.fa
 
 #and  index reference sequence in preparation for step4
 samtools faidx ../../*_ref/ref_100k.fa
+
+#Capture all cleaned fastq files with variable
+for i in `ls -1 *.fq | sed "s/_[1-2]_val_[1-2].fq//g" | uniq`
+do
 
 #perform alignment using twenty CPUs and bwa mem algorithm
 rm ../aligned/*sam
@@ -82,9 +89,6 @@ PicardCommandLine SortSam INPUT=${i}.sam OUTPUT=${i}_sorted.bam SORT_ORDER=coord
 PicardCommandLine MarkDuplicates INPUT=${i}_sorted.bam OUTPUT=./${i}_marked.bam METRICS_FILE=${i}_metrics.txt
 PicardCommandLine BuildBamIndex INPUT=./${i}_marked.bam
 
-rm -rf ../../*_ref/ref_100k.dict
-PicardCommandLine CreateSequenceDictionary reference=../../*_ref/ref_100k.fa output=../../*_ref/ref_100k.dict
-
 # local realignment of reads
 rm -rf forIndelRealigner.intervals
 GenomeAnalysisTK -nt 20 -T RealignerTargetCreator -R ../../*_ref/ref_100k.fa -I ${i}_marked.bam -o ${i}_forIndelRealigner.intervals
@@ -95,10 +99,9 @@ GenomeAnalysisTK -T IndelRealigner -R ../../*ref/ref_100k.fa -I ${i}_marked.bam 
 cd /scratch/bell/dewoody/theta/${genus_species}/sra/aligned/final_bams/
 
 #Get some summar stats on bam files
-rm *.txt
 samtools flagstat ./${i}_marked.bam > ./${i}_mapping.txt
-samtools depth -a ./${i}_marked.bam | awk '{c++;s+=$3}END{print s/c}' > ./${i}_stats.txt
-samtools depth -a ./${i}_marked.bam | awk '{c++; if($3>0) total+=1}END{print (total/c)*100}' > ./${i}_depth.txt
+samtools depth -a ./${i}_marked.bam | awk '{c++;s+=$3}END{print s/c}' > ./${i}_depth.txt
+samtools depth -a ./${i}_marked.bam | awk '{c++; if($3>0) total+=1}END{print (total/c)*100}' > ./${i}_breadth.txt
 
 cd /scratch/bell/dewoody/theta/${genus_species}/sra/cleaned/
 done
