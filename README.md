@@ -89,6 +89,20 @@ Eventually, we will write a script to automate running these in batch but for no
 
 
 ## Step 2. Population data identification, download, and cleaning
+**Setting up for SRA download**
+Before the user can download SRA files for the first time, they need to make sure that "remote access is enabled". This should only need to be done once:
+Load modules:
+```
+ml bioinfo
+ml sra-toolkit
+```
+And now enable access
+```
+vdb-config -i graphical
+```
+A panel will pop up and enter X to enable and close out of screen. 
+The two tools we will be using (prefetch and fasterq-dump) will download to the current working directory and remove temporary files afterwards. If a bottleneck is encountered (space wise) we may need to add a new path to a directory which will house large temporary files.
+
 **Identifying population data**
 
 We need to find sequence data for a single population corresponding to the reference genome assemblies that are available. For each species with an existing reference assembly (see [our Google doc of data](https://docs.google.com/spreadsheets/d/1u9Zxzcms1DdeV0k8qyJpFboO81r1Uvl8udIt8PRjUSk/edit#gid=235995469) for more information), we are looking for short read sequencing data that has been generated for a single population. In particular, the data sets need to have these characteristics:
