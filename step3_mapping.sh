@@ -53,7 +53,7 @@ mkdir /scratch/bell/dewoody/theta/${genus_species}/sra/final_bams/
 cd /scratch/bell/dewoody/theta/${genus_species}/*_ref/
 
 #Create dictionary for realignment
-PicardCommandLine CreateSequenceDictionary reference=../../*_ref/ref_100k.fa output=../../*_ref/ref_100k.dict
+PicardCommandLine CreateSequenceDictionary reference=ref_100k.fa output=ref_100k.dict
 
 #move to cleaned fastq files in preparation for alignment
 cd /scratch/bell/dewoody/theta/${genus_species}/sra/cleaned/
@@ -90,7 +90,6 @@ PicardCommandLine MarkDuplicates INPUT=${i}_sorted.bam OUTPUT=./${i}_marked.bam 
 PicardCommandLine BuildBamIndex INPUT=./${i}_marked.bam
 
 # local realignment of reads
-rm -rf forIndelRealigner.intervals
 GenomeAnalysisTK -nt 20 -T RealignerTargetCreator -R ../../*_ref/ref_100k.fa -I ${i}_marked.bam -o ${i}_forIndelRealigner.intervals
 
 #Realign with established intervals
