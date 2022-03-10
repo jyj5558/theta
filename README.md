@@ -166,7 +166,7 @@ User will need to enter the following information:
 
 To run, simply submit the following command:
 ```
-sbatch /scratch/bell/$USER/theta/step1_download_QC.sh
+sbatch /scratch/bell/$USER/theta/step2_SRA_download_clean.s
 ```
 
 **Steps 3: Mapping cleaned SRA fastq files to the reference assembly - step3_mapping.sh** 
@@ -187,13 +187,13 @@ User will need to enter the following information:
 
 To run, simply submit the following command:
 ```
-sbatch /scratch/bell/$USER/theta/step1_download_QC.sh
+sbatch /scratch/bell/$USER/theta/step3_mapping.sh
 ```
 
 `NOTE`, please check for any bugs with the step3 script, it is still new!
 
 
-**Download and clean population data - step2_SRA_download_clean.sh**
+**Estimate theta from alignemnt files - step4_theta.sh**
 
 This script will estimate the Site Frequency Spectrum and Wattersons theta, in sliding windows. The output file will contain mean with SD.
 The output file:
