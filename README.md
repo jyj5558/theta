@@ -90,7 +90,9 @@ Eventually, we will write a script to automate running these in batch but for no
 
 ## Step 2. Population data identification, download, and cleaning
 **Setting up for SRA download**
+
 Before the user can download SRA files for the first time, they need to make sure that "remote access is enabled". This should only need to be done once:
+
 Load modules:
 ```
 ml bioinfo
