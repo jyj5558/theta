@@ -69,7 +69,6 @@ for i in `ls -1 *.fq | sed "s/_[1-2]_val_[1-2].fq//g" | uniq`
 do
 
 #perform alignment using twenty CPUs and bwa mem algorithm
-rm ../aligned/*sam
 bwa mem -t 20 -M -R "@RG\tID:group1\tSM:${i}\tPL:illumina\tLB:lib1\tPU:unit1" ../../*_ref/ref_100k.fa  ${i}_1_val_1.fq ${i}_2_val_2.fq > ../aligned/${i}.sam
 
 #Move to the directory containing the alignment files
