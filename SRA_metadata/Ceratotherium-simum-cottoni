@@ -1,0 +1,10 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR5852743	PRJNA394025	SAMN07347216	Ceratotherium simum cottoni	Equatoria	Illumina Genome Analyzer	PAIRED	female	282	37889792078
+SRR5852744	PRJNA394025	SAMN07347217	Ceratotherium simum cottoni	Sudan	Illumina Genome Analyzer	PAIRED	female	280	38816405754
+SRR5852741	PRJNA394025	SAMN07347218	Ceratotherium simum cottoni	Sudan	Illumina Genome Analyzer	PAIRED	female	281	37086374782
+SRR5852742	PRJNA394025	SAMN07347219	Ceratotherium simum cottoni	Sudan	Illumina Genome Analyzer	PAIRED	male	281	38722365407
+SRR5852747	PRJNA394025	SAMN07347220	Ceratotherium simum cottoni	Equatoria	Illumina Genome Analyzer	PAIRED	male	282	34882878346
+SRR5852748	PRJNA394025	SAMN07347221	Ceratotherium simum cottoni	Uganda	Illumina Genome Analyzer	PAIRED	female	296	42768017212
+SRR5852745	PRJNA394025	SAMN07347222	Ceratotherium simum cottoni	Sudan	Illumina Genome Analyzer	PAIRED	female	286	35096665786
+SRR5852746	PRJNA394025	SAMN07347223	Ceratotherium simum cottoni	Sudan	Illumina Genome Analyzer	PAIRED	male	283	32899340235
+SRR5852749	PRJNA394025	SAMN07347224	Ceratotherium simum cottoni	Sudan	Illumina Genome Analyzer	PAIRED	male	281	36974765860
