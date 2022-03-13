@@ -1,11 +1,4 @@
 Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
-SRR10596312	PRJNA593363	SAMN13476886	Canis lupus dingo	Australia	Illumina HiSeq 2000	PAIRED	not collected	250	50986363750
-SRR10596313	PRJNA593363	SAMN13476881	Canis lupus dingo	Australia	Illumina HiSeq 2000	PAIRED	not collected	250	41529286250
-SRR10596314	PRJNA593363	SAMN13476879	Canis lupus dingo	Australia	Illumina HiSeq 2000	PAIRED	not collected	250	47778832250
-SRR10596315	PRJNA593363	SAMN13476877	Canis lupus dingo	Australia	Illumina HiSeq 2000	PAIRED	not collected	250	49040742750
-SRR10596316	PRJNA593363	SAMN13476866	Canis lupus dingo	Australia	Illumina HiSeq 2000	PAIRED	not collected	250	48965745000
-SRR10596317	PRJNA593363	SAMN13476865	Canis lupus dingo	Australia	Illumina HiSeq 2000	PAIRED	not collected	250	44545730750
-SRR10596318	PRJNA593363	SAMN13476608	Canis lupus dingo	Australia	Illumina HiSeq 2000	PAIRED	not collected	250	49816206000
-SRR10596319	PRJNA593363	SAMN13476607	Canis lupus dingo	Australia	Illumina HiSeq 2000	PAIRED	not collected	250	48670576750
-SRR10596320	PRJNA593363	SAMN13476532	Canis lupus dingo	Australia	Illumina HiSeq 2000	PAIRED	not collected	250	46084440750
-SRR10596321	PRJNA593363	SAMN13476347	Canis lupus dingo	Australia	Illumina HiSeq 2000	PAIRED	not collected	250	63715973500
+SRR10596315	PRJNA593363	SAMN13476877	Canis lupus dingo	Australia (Southeast	Illumina HiSeq 2000	PAIRED	not collected	250	49040742750
+SRR10596317	PRJNA593363	SAMN13476865	Canis lupus dingo	Australia (Southeast	Illumina HiSeq 2000	PAIRED	not collected	250	44545730750
+SRR10596321	PRJNA593363	SAMN13476347	Canis lupus dingo	Australia (Southeast	Illumina HiSeq 2000	PAIRED	not collected	250	63715973500
