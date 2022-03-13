@@ -1,0 +1,7 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR12450552	PRJNA657053	SAMN15814137	Cervus canadensis	Wyoming	Illumina HiSeq 3000	PAIRED	female	300	1.09685E+11
+SRR12450515	PRJNA657053	SAMN15814139	Cervus canadensis	Wyoming	Illumina HiSeq 3000	PAIRED	female	300	97042242600
+SRR12450513	PRJNA657053	SAMN15814141	Cervus canadensis	Wyoming	Illumina HiSeq 3000	PAIRED	female	300	1.11332E+11
+SRR12450511	PRJNA657053	SAMN15814143	Cervus canadensis	Wyoming	Illumina HiSeq 3000	PAIRED	female	300	1.10831E+11
+SRR12450509	PRJNA657053	SAMN15814145	Cervus canadensis	Wyoming	Illumina HiSeq 3000	PAIRED	female	300	1.09617E+11
+SRR12450506	PRJNA657053	SAMN15814146	Cervus canadensis	Wyoming	Illumina HiSeq 3000	PAIRED	female	300	1.06522E+11
