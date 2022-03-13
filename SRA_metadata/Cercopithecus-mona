@@ -1,0 +1,6 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR11411775	PRJNA595456	SAMN13555786	Cercopithecus mona	Nigeria: Cross River\, Akampa	HiSeq X Ten	PAIRED	female	300	64031631600
+SRR11411771	PRJNA595456	SAMN13555789	Cercopithecus mona	Nigeria: Cross River\, Akampa	HiSeq X Ten	PAIRED	female	300	85014694200
+SRR11411770	PRJNA595456	SAMN13555790	Cercopithecus mona	Nigeria: Cross River\, Akampa	HiSeq X Ten	PAIRED	male	300	77985815700
+SRR11411769	PRJNA595456	SAMN13555791	Cercopithecus mona	Nigeria: Cross River\, Akampa	HiSeq X Ten	PAIRED	male	300	69623623800
+SRR11411764	PRJNA595456	SAMN13555793	Cercopithecus mona	Nigeria: Cross River\, Akampa	Illumina NovaSeq 6000	PAIRED	female	300	1.44677E+11
