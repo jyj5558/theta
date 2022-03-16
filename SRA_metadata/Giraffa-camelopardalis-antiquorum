@@ -1,0 +1,6 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR16477178	PRJNA772549	SAMN22376952	Giraffa camelopardalis antiquorum	Chad: Zakouma National Park	Illumina NovaSeq 6000	PAIRED	NA	300	46655901300
+SRR16477179	PRJNA772549	SAMN22376951	Giraffa camelopardalis antiquorum	Chad: Zakouma National Park	Illumina NovaSeq 6000	PAIRED	NA	300	47302144800
+SRR16477180	PRJNA772549	SAMN22376950	Giraffa camelopardalis antiquorum	Chad: Zakouma National Park	Illumina NovaSeq 6000	PAIRED	NA	300	46056319500
+SRR16477181	PRJNA772549	SAMN22376949	Giraffa camelopardalis antiquorum	Chad: Zakouma National Park	Illumina NovaSeq 6000	PAIRED	NA	300	42236723400
+SRR16477182	PRJNA772549	SAMN22376948	Giraffa camelopardalis antiquorum	Chad: Zakouma National Park	Illumina NovaSeq 6000	PAIRED	NA	300	46522680300
