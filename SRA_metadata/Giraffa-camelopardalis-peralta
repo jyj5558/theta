@@ -1,0 +1,6 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR16477183	PRJNA772549	SAMN22376947	Giraffa camelopardalis peralta	Niger: Kour plateau	Illumina NovaSeq 6000	PAIRED	NA	300	42881712300
+SRR16477184	PRJNA772549	SAMN22376946	Giraffa camelopardalis peralta	Niger: Kour plateau	Illumina NovaSeq 6000	PAIRED	NA	300	42855786300
+SRR16477185	PRJNA772549	SAMN22376945	Giraffa camelopardalis peralta	Niger: Kour plateau	Illumina NovaSeq 6000	PAIRED	NA	300	47034541800
+SRR16477186	PRJNA772549	SAMN22376944	Giraffa camelopardalis peralta	Niger: Kour plateau	Illumina NovaSeq 6000	PAIRED	NA	300	45626494800
+SRR16477187	PRJNA772549	SAMN22376943	Giraffa camelopardalis peralta	Niger: Kour plateau	Illumina NovaSeq 6000	PAIRED	NA	300	45575853600
