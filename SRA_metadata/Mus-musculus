@@ -1,0 +1,4 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+DRR271602	PRJDB11027	SAMD00271555	Mus musculus	Bangladesh:Dhaka	Illumina HiSeq 2000	PAIRED		200	1.01753E+11
+DRR271603	PRJDB11027	SAMD00271556	Mus musculus	Bangladesh:Dhaka	Illumina HiSeq 2000	PAIRED		200	1.01063E+11
+DRR271601	PRJDB11027	SAMD00271554	Mus musculus	Bangladesh:Mymensingh	Illumina HiSeq 2000	PAIRED		200	1.0202E+11
