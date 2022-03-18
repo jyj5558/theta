@@ -1,0 +1,3 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR13177425	PRJNA681015	SAMN16929443	Otocyon megalotis megalotis	South Africa: Petrusburg	HiSeq X Ten	PAIRED	missing	300	2.58351E+11
+SRR13177426	PRJNA681015	SAMN16929439	Otocyon megalotis megalotis	South Africa: Petrusburg	Illumina NovaSeq 6000	PAIRED	female	300	1.11437E+11
