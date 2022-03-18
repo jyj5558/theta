@@ -1,0 +1,3 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR13647612	PRJNA548814	SAMN17816864	Panthera tigris jacksoni	Kelantan. Malaysia	HiSeq X Ten	PAIRED	male	302	16500717374
+SRR13711653	PRJNA548814	SAMN17816862	Panthera tigris jacksoni	Kelantan. Malaysia	HiSeq X Ten	PAIRED	male	302	1.2538E+11
