@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=S1_Genus-species
-#SBATCH -A fnrdewoody
+#SBATCH -A fnrpupfish
 #SBATCH -t 6-00:00:00 
 #SBATCH -N 1 
 #SBATCH -n 20
@@ -98,23 +98,13 @@ rm ${accession}_ref/original.fa
 mv ${accession}_ref/original.tmp.fa ${accession}_ref/original.fa      
 
 ###prep reference genome for mapping####
-sortbyname.sh in=${accession}_ref/original.fa out=${accession}_ref/sorted.fa length descending # sort by length
-bioawk -c fastx '{ print ">scaffold-" ++i" "length($seq)"\n"$seq }' < ${accession}_ref/sorted.fa > ${accession}_ref/ref.fa # sort ref
-
-#replace gap and - with _ in scaffold names
-sed -i 's/ /_/g' ${accession}_ref/ref.fa
-sed -i 's/-/_/g' ${accession}_ref/ref.fa
+reformat.sh in=${accession}_ref/original.fa out=${accession}_ref/new.fa trd=t -Xmx20g overwrite=T #Reduce fasta header length
+sortbyname.sh in=${accession}_ref/new.fa out=${accession}_ref/ref.fa -Xmx20g length descending overwrite=T# sort by length
+rm ${accession}/new.fa
 
 #index ref
 samtools faidx ${accession}_ref/ref.fa
 
-#make table with old and new scaffold names
-paste <(grep ">" ${accession}_ref/sorted.fa) <(grep ">" ${accession}_ref/ref.fa) | sed 's/>//g' > ${accession}_ref/scaffold_names.txt
-
-#make file with ID and scaffold identifier, copy it to rm and gtf directories
-awk '{ print $1, $NF }' ${accession}_ref/scaffold_names.txt > ${accession}_ref/ID.txt
-cp ${accession}_ref/ID.txt ${accession}_rm/ID.txt
-cp ${accession}_ref/ID.txt ${accession}_gtf/ID.txt
 
 #prep repeatmasked file for later processing, create a rm.out if one is not available. 
 cd ${accession}_rm/ #move into rm directory
@@ -134,7 +124,7 @@ then
 	rm rm_edited.body
 	cat rm.out |tail -n +4|awk '{print $5,$6,$7,$11}'|sed 's/ /\t/g' > repeats.bed # make bed file
 else	
-	# if no rm.out file is available run RepeatMasker. Note, this takes a long time!
+	# if no rm.out file is available run RepeatMasker. Note, samtools conflict so had to purge first
 	module --force purge
 	module load biocontainers/default
 	module load repeatmasker
