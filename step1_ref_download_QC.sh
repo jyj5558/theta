@@ -135,8 +135,19 @@ then
 	cat rm.out |tail -n +4|awk '{print $5,$6,$7,$11}'|sed 's/ /\t/g' > repeats.bed # make bed file
 else	
 	# if no rm.out file is available run RepeatMasker. Note, this takes a long time!
-	RepeatMasker -qq -species mammal ../${accession}_ref/ref.fa -pa 10 
+	module --force purge
+	module load biocontainers/default
+	module load repeatmasker
+	export SINGULARITYENV_LIBDIR=/depot/itap/datasets/Maker/RepeatMasker/Libraries
+	RepeatMasker -qq -species mammals ../${accession}_ref/ref.fa 
 	cat repeatmasker.fa.out|tail -n +4|awk '{print $5,$6,$7,$11}'|sed 's/ /\t/g' > repeats.bed  #make bed file
+	module --force purge
+	module load bioinfo
+	module load seqtk
+	module load samtools
+	module load BEDTools
+	module load BBMap
+	module load r
 fi
 
 cd ../ #move back to species/accession directory
