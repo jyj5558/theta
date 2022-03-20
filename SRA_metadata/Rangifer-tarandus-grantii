@@ -1,0 +1,3 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR11843148	PRJNA634908	SAMN15011702	Rangifer tarandus grantii	Yukon Porcupine herd, Grant’s caribou	HiSeq X Ten	PAIRED		302	1.35433E+11
+SRR11843149	PRJNA634908	SAMN15011701	Rangifer tarandus grantii	Yukon Porcupine herd, Grant’s caribou	HiSeq X Ten	PAIRED		302	1.33465E+11
