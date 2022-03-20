@@ -172,7 +172,8 @@ To run, simply submit the following command:
 sbatch /scratch/bell/$USER/theta/step2_SRA_download_clean.sh
 ```
 
-**Steps 3: Mapping cleaned SRA fastq files to the reference assembly - step3_mapping.sh** 
+## Steps 3: Mapping cleaned SRA fastq files to the reference assembly
+**- step3_mapping.sh** 
 
 This script will align each paired fastq file to the reference, validate the output sam file, sort based upon read coordinate, mark pcr duplicates and perform indel realignment. Mapping and depth statistics will be output. 
 -Binary alignment mapping files: Curated files will be found within ./final_bams
@@ -196,7 +197,8 @@ sbatch /scratch/bell/$USER/theta/step3_mapping.sh
 `NOTE`, please check for any bugs with the step3 script, it is still new!
 
 
-**Estimate theta from alignemnt files - step4_theta.sh**
+## Step 4: Estimate theta from alignemnt files
+**- step4_theta.sh**
 
 This script will estimate the Site Frequency Spectrum and Wattersons theta, in sliding windows. The output file will contain mean with SD.
 The output file:
