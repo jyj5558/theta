@@ -169,7 +169,7 @@ User will need to enter the following information:
 
 To run, simply submit the following command:
 ```
-sbatch /scratch/bell/$USER/theta/step2_SRA_download_clean.s
+sbatch /scratch/bell/$USER/theta/step2_SRA_download_clean.sh
 ```
 
 **Steps 3: Mapping cleaned SRA fastq files to the reference assembly - step3_mapping.sh** 
