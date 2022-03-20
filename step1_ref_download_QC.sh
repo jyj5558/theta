@@ -74,19 +74,19 @@ mkdir ./$genus_species/${accession}_gtf
 cd $genus_species
 
 #Download reference genome
-wget -O ${accession}_ref/${accession}.fna.gz ${pathway}${accession}_${assembly}_genomic.fna.gz 
-gunzip ${accession}_ref/${accession}.fna.gz
-cp ${accession}_ref/${accession}.fna ${accession}_ref/original.fa # keep a copy of the original reference
+wget ${pathway}${accession}_${assembly}_genomic.fna.gz 
+gunzip ${accession}_ref/${accession}_genomic.fna.gz
+cp ${accession}_ref/${accession}_genomic.fna ${accession}_ref/original.fa # keep a copy of the original reference
 
 #Download repeatmasker file (if available)
-wget -O ${accession}_rm/${accession}.rm.out.gz ${pathway}${accession}_${assembly}_rm.out.gz 
+wget ${pathway}${accession}_${assembly}_rm.out.gz 
 gunzip ${accession}_rm/${accession}.rm.out.gz
 cp ${accession}_rm/${accession}.rm.out ${accession}_rm/rm.out # keep a copy of the original repeatmasker
 
 #Download annotation file (if available)
-wget -O ${accession}_gtf/${accession}.gtf.gz ${pathway}${accession}_${assembly}_genomic.gtf.gz 
-gunzip ${accession}_gtf/${accession}.gtf.gz
-cp ${accession}_gtf/${accession}.gtf ${accession}_gtf/gtf.gtf # keep a copy of the original annotation
+wget ${pathway}${accession}_${assembly}_genomic.gtf.gz 
+gunzip ${accession}_gtf/${accession}_genomic.gtf.gz
+cp ${accession}_gtf/${accession}_genomic.gtf ${accession}_gtf/gtf.gtf # keep a copy of the original annotation
 
 #print out file sizes for checking later
 ls -lh ${accession}* > download_log
