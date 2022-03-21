@@ -137,7 +137,7 @@ else
 	module load biocontainers/default
 	module load repeatmasker
 	export SINGULARITYENV_LIBDIR=/depot/itap/datasets/Maker/RepeatMasker/Libraries
-	RepeatMasker -qq -species mammals ../${accession}_ref/ref.fa 
+	RepeatMasker -pa 5 -qq -species mammals ../${accession}_ref/ref.fa 
 	cat repeatmasker.fa.out | tail -n +4 | awk '{print $5,$6,$7,$11}' | sed 's/ /\t/g' > repeats.bed  #make bed file
 	module --force purge
 	module load bioinfo
