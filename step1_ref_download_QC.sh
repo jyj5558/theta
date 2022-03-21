@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=S1_Genus-species
-#SBATCH -A fnrpupfish
+#SBATCH -A fnrquail
 #SBATCH -t 6-00:00:00 
 #SBATCH -N 1 
 #SBATCH -n 20
@@ -58,7 +58,7 @@ export PATH=$PATH:~/genmap-build/bin
 genus_species=
 accession=
 pathway=
-assembly=
+assembly==
 
 ########################
 #DO NOT EDIT BELOW CODE#
@@ -74,19 +74,25 @@ mkdir ./$genus_species/${accession}_gtf
 cd $genus_species
 
 #Download reference genome
+cd ${accession}_ref
 wget ${pathway}${accession}_${assembly}_genomic.fna.gz 
-gunzip ${accession}_ref/${accession}_genomic.fna.gz
-cp ${accession}_ref/${accession}_genomic.fna ${accession}_ref/original.fa # keep a copy of the original reference
+gunzip ${accession}_genomic.fna.gz
+cp ${accession}_genomic.fna original.fa # keep a copy of the original reference
+cd ../
 
 #Download repeatmasker file (if available)
+cd ${accession}_rm
 wget ${pathway}${accession}_${assembly}_rm.out.gz 
-gunzip ${accession}_rm/${accession}.rm.out.gz
-cp ${accession}_rm/${accession}.rm.out ${accession}_rm/rm.out # keep a copy of the original repeatmasker
+gunzip ${accession}.rm.out.gz
+cp ${accession}.rm.out rm.out # keep a copy of the original repeatmasker
+cd ../
 
 #Download annotation file (if available)
+cd ${accession}_gtf
 wget ${pathway}${accession}_${assembly}_genomic.gtf.gz 
-gunzip ${accession}_gtf/${accession}_genomic.gtf.gz
-cp ${accession}_gtf/${accession}_genomic.gtf ${accession}_gtf/gtf.gtf # keep a copy of the original annotation
+gunzip ${accession}_genomic.gtf.gz
+cp ${accession}_genomic.gtf gtf.gtf # keep a copy of the original annotation
+cd ../
 
 #print out file sizes for checking later
 ls -lh ${accession}* > download_log
@@ -100,7 +106,7 @@ mv ${accession}_ref/original.tmp.fa ${accession}_ref/original.fa
 ###prep reference genome for mapping####
 reformat.sh in=${accession}_ref/original.fa out=${accession}_ref/new.fa trd=t -Xmx20g overwrite=T #Reduce fasta header length
 sortbyname.sh in=${accession}_ref/new.fa out=${accession}_ref/ref.fa -Xmx20g length descending overwrite=T# sort by length
-rm ${accession}/new.fa
+rm ${accession}_ref/new.fa
 
 #index ref
 samtools faidx ${accession}_ref/ref.fa
@@ -130,7 +136,7 @@ else
 	module load repeatmasker
 	export SINGULARITYENV_LIBDIR=/depot/itap/datasets/Maker/RepeatMasker/Libraries
 	RepeatMasker -qq -species mammals ../${accession}_ref/ref.fa 
-	cat repeatmasker.fa.out|tail -n +4|awk '{print $5,$6,$7,$11}'|sed 's/ /\t/g' > repeats.bed  #make bed file
+	cat repeatmasker.fa.out | tail -n +4 | awk '{print $5,$6,$7,$11}' | sed 's/ /\t/g' > repeats.bed  #make bed file
 	module --force purge
 	module load bioinfo
 	module load seqtk
