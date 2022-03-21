@@ -94,7 +94,7 @@ GenomeAnalysisTK -nt 20 -T RealignerTargetCreator -R ../../*_ref/ref_100k.fa -I 
 #Realign with established intervals
 GenomeAnalysisTK -T IndelRealigner -R ../../*ref/ref_100k.fa -I ${i}_marked.bam -targetIntervals ${i}_forIndelRealigner.intervals -o ../final_bams/${i}.bam
 
-cd /scratch/bell/dewoody/theta/${genus_species}/sra/aligned/final_bams/
+cd /scratch/bell/dewoody/theta/${genus_species}/sra/final_bams/
 
 #Get some summar stats on bam files
 samtools flagstat ./${i}_marked.bam > ./${i}_mapping.txt
