@@ -53,23 +53,23 @@ mkdir /scratch/bell/dewoody/theta/${genus_species}/sra/final_bams/
 cd /scratch/bell/dewoody/theta/${genus_species}/*_ref/
 
 #Create dictionary for realignment
-PicardCommandLine CreateSequenceDictionary reference=ref_100k.fa output=ref_100k.dict
+PicardCommandLine CreateSequenceDictionary reference=ref.fa output=ref.dict
 
 #move to cleaned fastq files in preparation for alignment
 cd /scratch/bell/dewoody/theta/${genus_species}/sra/cleaned/
 
 # index reference 
-bwa index -a bwtsw ../../*_ref/ref_100k.fa
+bwa index -a bwtsw ../../*_ref/ref.fa
 
 #and  index reference sequence in preparation for step4
-samtools faidx ../../*_ref/ref_100k.fa
+samtools faidx ../../*_ref/ref.fa
 
 #Capture all cleaned fastq files with variable
 for i in `ls -1 *.fq | sed "s/_[1-2]_val_[1-2].fq//g" | uniq`
 do
 
 #perform alignment using twenty CPUs and bwa mem algorithm
-bwa mem -t 20 -M -R "@RG\tID:group1\tSM:${i}\tPL:illumina\tLB:lib1\tPU:unit1" ../../*_ref/ref_100k.fa  ${i}_1_val_1.fq ${i}_2_val_2.fq > ../aligned/${i}.sam
+bwa mem -t 20 -M -R "@RG\tID:group1\tSM:${i}\tPL:illumina\tLB:lib1\tPU:unit1" ../../*_ref/ref.fa  ${i}_1_val_1.fq ${i}_2_val_2.fq > ../aligned/${i}.sam
 
 #Move to the directory containing the alignment files
 cd /scratch/bell/dewoody/theta/${genus_species}/sra/aligned/
@@ -89,10 +89,10 @@ PicardCommandLine MarkDuplicates INPUT=${i}_sorted.bam OUTPUT=./${i}_marked.bam 
 PicardCommandLine BuildBamIndex INPUT=./${i}_marked.bam
 
 # local realignment of reads
-GenomeAnalysisTK -nt 20 -T RealignerTargetCreator -R ../../*_ref/ref_100k.fa -I ${i}_marked.bam -o ${i}_forIndelRealigner.intervals
+GenomeAnalysisTK -nt 20 -T RealignerTargetCreator -R ../../*_ref/ref.fa -I ${i}_marked.bam -o ${i}_forIndelRealigner.intervals
 
 #Realign with established intervals
-GenomeAnalysisTK -T IndelRealigner -R ../../*ref/ref_100k.fa -I ${i}_marked.bam -targetIntervals ${i}_forIndelRealigner.intervals -o ../final_bams/${i}.bam
+GenomeAnalysisTK -T IndelRealigner -R ../../*ref/ref.fa -I ${i}_marked.bam -targetIntervals ${i}_forIndelRealigner.intervals -o ../final_bams/${i}.bam
 
 cd /scratch/bell/dewoody/theta/${genus_species}/sra/final_bams/
 
