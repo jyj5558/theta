@@ -104,8 +104,10 @@ rm ${accession}_ref/original.fa
 mv ${accession}_ref/original.tmp.fa ${accession}_ref/original.fa      
 
 ###prep reference genome for mapping####
-reformat.sh in=${accession}_ref/original.fa out=${accession}_ref/new.fa trd=t -Xmx20g overwrite=T #Reduce fasta header length
-sortbyname.sh in=${accession}_ref/new.fa out=${accession}_ref/ref.fa -Xmx20g length descending overwrite=T# sort by length
+#Reduce fasta header length
+reformat.sh in=${accession}_ref/original.fa out=${accession}_ref/new.fa trd=t -Xmx20g overwrite=T 
+#sort by length
+sortbyname.sh in=${accession}_ref/new.fa out=${accession}_ref/ref.fa -Xmx20g length descending overwrite=T 
 rm ${accession}_ref/new.fa
 
 #index ref
