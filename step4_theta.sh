@@ -82,10 +82,10 @@ awk '{print $1"\t"$2+1"\t"$3}' $PD/ok.bed > ./angsd.file
 angsd sites index ./angsd.file
 
 # estimate GL
-angsd -P 40 -i ./bam.filelist -sites ./angsd.file -anc $PD/*_ref/ref_100k.fa -dosaf 1 -gl 1 -minMapQ 30 -minQ 20 -rf $PD/*_ref/chrs.txt -minInd $MIND -out ./out
+angsd -P 40 -i ./bam.filelist -sites ./angsd.file -anc $PD/*_ref/ref.fa -dosaf 1 -gl 1 -minMapQ 30 -minQ 20 -rf $PD/*_ref/chrs.txt -minInd $MIND -out ./out
 
-# obtain ML estimate of SFS using the realSFS
-realSFS -P 40 out.saf.idx > out.sfs
+# obtain ML estimate of SFS using the folded realSFS
+realSFS -P 40 out.saf.idx  -fold 1 > out.sfs
 
 # calculate theta for each site
 realSFS -P 40 saf2theta out.saf.idx -sfs out.sfs -outname out
