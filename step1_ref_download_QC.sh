@@ -76,22 +76,22 @@ cd $genus_species
 #Download reference genome
 cd ${accession}_ref
 wget ${pathway}${accession}_${assembly}_genomic.fna.gz 
-gunzip ${accession}_genomic.fna.gz
-cp ${accession}_genomic.fna original.fa # keep a copy of the original reference
+gunzip ${accession}_${assembly}_genomic.fna
+cp ${accession}_${assembly}_genomic.fna original.fa # keep a copy of the original reference
 cd ../
 
 #Download repeatmasker file (if available)
 cd ${accession}_rm
 wget ${pathway}${accession}_${assembly}_rm.out.gz 
-gunzip ${accession}.rm.out.gz
-cp ${accession}.rm.out rm.out # keep a copy of the original repeatmasker
+gunzip ${accession}_${assembly}.rm.out.gz
+cp ${accession}_${assembly}.rm.out rm.out # keep a copy of the original repeatmasker
 cd ../
 
 #Download annotation file (if available)
 cd ${accession}_gtf
 wget ${pathway}${accession}_${assembly}_genomic.gtf.gz 
-gunzip ${accession}_genomic.gtf.gz
-cp ${accession}_genomic.gtf gtf.gtf # keep a copy of the original annotation
+gunzip ${accession}_${assembly}_genomic.gtf.gz
+cp ${accession}_${assembly}_genomic.gtf gtf.gtf # keep a copy of the original annotation
 cd ../
 
 #print out file sizes for checking later
