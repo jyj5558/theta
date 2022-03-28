@@ -58,7 +58,7 @@ export PATH=$PATH:~/genmap-build/bin
 genus_species=
 accession=
 pathway=
-assembly==
+assembly=
 
 ########################
 #DO NOT EDIT BELOW CODE#
