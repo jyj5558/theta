@@ -8,17 +8,9 @@
 #SBATCH -o %x_%j.out
 
 
-
-module load bioinfo
-module load gsl
-module load zlib
-module load gcc
-module load samtools
-module load bioawk
+module --force purge
 module load biocontainers
-module load pcangsd
 module load angsd
-
 
 #########################################################################
 # this script identifies / filteres for usable sites and estimates theta#
@@ -31,7 +23,6 @@ module load angsd
 # add target species "genus-species"
 #Example:
 #genus_species=Marmota-marmota-marmota
-#theta git should be cloned at $CLUSTER_SCRATCH (e.g., /scratch/bell/blackan/)
 #usage:
 #/scratch/bell/$USER/theta/step4_theta.sh
 #
@@ -67,13 +58,6 @@ cd $THETA
 # make list of the bamfiles and index each file
 ls ${FINAL}/*.bam > ./bam.filelist
 
-cat bam.filelist | while read -r LINE
-
-do
-
-samtools index ${LINE}
-
-done
 
 # convert bed file to angsd format
 awk '{print $1"\t"$2+1"\t"$3}' $PD/ok.bed > ./angsd.file
@@ -82,7 +66,7 @@ awk '{print $1"\t"$2+1"\t"$3}' $PD/ok.bed > ./angsd.file
 angsd sites index ./angsd.file
 
 # estimate GL
-angsd -P 40 -i ./bam.filelist -sites ./angsd.file -anc $PD/*_ref/ref.fa -ref $PD/*_ref/ref.fa -dosaf 1 -gl 1 -remove_bads 1 -only_proper_pairs 1 -minMapQ 30 -minQ 20 -rf $PD/*_ref/chrs.txt -minInd $MIND -out ./out
+angsd -P 40 -bam ./bam.filelist -sites ./angsd.file -anc $PD/*_ref/ref.fa -ref $PD/*_ref/ref.fa -dosaf 1 -gl 1 -remove_bads 1 -only_proper_pairs 1 -minMapQ 30 -minQ 20 -rf $PD/*_ref/chrs.txt -minInd 2 -out ./out
 
 # obtain ML estimate of SFS using the folded realSFS
 realSFS -P 40 out.saf.idx  -fold 1 > out.sfs
