@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=S4_Genus-species
-#SBATCH -A fnrquail
+#SBATCH -A fnrdewoody
 #SBATCH -t 300:00:00 
 #SBATCH -N 1 
 #SBATCH -n 40 
@@ -82,7 +82,7 @@ awk '{print $1"\t"$2+1"\t"$3}' $PD/ok.bed > ./angsd.file
 angsd sites index ./angsd.file
 
 # estimate GL
-angsd -P 40 -i ./bam.filelist -sites ./angsd.file -anc $PD/*_ref/ref.fa -dosaf 1 -gl 1 -minMapQ 30 -minQ 20 -rf $PD/*_ref/chrs.txt -minInd $MIND -out ./out
+angsd -P 40 -i ./bam.filelist -sites ./angsd.file -anc $PD/*_ref/ref.fa -ref $PD/*_ref/ref.fa -dosaf 1 -gl 1 -remove_bads 1 -only_proper_pairs 1 -minMapQ 30 -minQ 20 -rf $PD/*_ref/chrs.txt -minInd $MIND -out ./out
 
 # obtain ML estimate of SFS using the folded realSFS
 realSFS -P 40 out.saf.idx  -fold 1 > out.sfs
@@ -90,7 +90,7 @@ realSFS -P 40 out.saf.idx  -fold 1 > out.sfs
 # calculate theta for each site
 realSFS -P 40 saf2theta out.saf.idx -sfs out.sfs -outname out
 
-# estimate Tajimas D
+# estimate 
 #This is temporary until added to biocontainer path, but should work for now:
 singularity exec /apps/biocontainers/images/angsd.0.937.sif /usr/local/src/angsd/misc/thetaStat do_stat out.thetas.idx
 
