@@ -1,0 +1,4 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR11908538	PRJNA634908	SAMN15011703	Rangifer tarandus pearyi	Nunavut Bathurst Island, Peary caribou	HiSeq X Ten	PAIRED		302	68524619628
+SRR11843146	PRJNA634908	SAMN15011704	Rangifer tarandus pearyi	Nunavut Bathurst Island, Peary caribou	HiSeq X Ten	PAIRED		302	1.38502E+11
+SRR11843147	PRJNA634908	SAMN15011703	Rangifer tarandus pearyi	Nunavut Bathurst Island, Peary caribou	HiSeq X Ten	PAIRED		302	68524619628

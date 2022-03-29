@@ -1,0 +1,3 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases	Sample Name
+SRR1564425	PRJNA233533	SAMN03009555	Equus przewalskii	Khustain Nuruu National Park, Mongolia 	Illumina HiSeq 2000	PAIRED	male	198	50900719320	TG1111D2630
+SRR1564427	PRJNA233533	SAMN03009556	Equus przewalskii	Khustain Nuruu National Park, Mongolia 	Illumina HiSeq 2000	PAIRED	female	198	68176600272	TG1111D2631

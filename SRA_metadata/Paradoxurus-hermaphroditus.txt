@@ -1,0 +1,2 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex
+SRR11431891	PRJNA399364	SAMN07678048	Paradoxurus hermaphroditus		Illumina HiSeq 2500	PAIRED	UK

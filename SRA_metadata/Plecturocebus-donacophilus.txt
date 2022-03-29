@@ -1,0 +1,2 @@
+Run	BioProject	BioSample	ScientificName	Pop	Instrument	LibraryLayout	sex
+SRR11428426	PRJNA399376	SAMN07678140	Plecturocebus donacophilus	UK	Illumina HiSeq 2500	PAIRED	female

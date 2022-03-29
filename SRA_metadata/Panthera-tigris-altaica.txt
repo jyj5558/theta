@@ -1,0 +1,7 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR7152399	PRJNA437782	SAMN09080478	Panthera tigris altaica	Russia F. E.	Illumina HiSeq 2500	PAIRED	female	250	31620106500
+SRR7152400	PRJNA437782	SAMN09080477	Panthera tigris altaica	Russia F. E.	Illumina HiSeq 2500	PAIRED	male	250	30474960250
+SRR7152403	PRJNA437782	SAMN09080473	Panthera tigris altaica	Russia F. E.	Illumina HiSeq 2500	PAIRED	male	250	37551239250
+SRR7152404	PRJNA437782	SAMN09080474	Panthera tigris altaica	Russia F. E.	Illumina HiSeq 2500	PAIRED	female	250	34022219750
+SRR7152409	PRJNA437782	SAMN09080475	Panthera tigris altaica	Russia F. E.	Illumina HiSeq 2500	PAIRED	female	250	36242285750
+SRR7152410	PRJNA437782	SAMN09080476	Panthera tigris altaica	Russia F. E.	Illumina HiSeq 2500	PAIRED	male	250	34046552500

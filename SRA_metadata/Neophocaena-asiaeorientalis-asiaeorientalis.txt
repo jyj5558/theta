@@ -1,0 +1,26 @@
+Run	BioProject	BioSample	Instrument	LibraryLayout	Organism	Sample Name	sex	AvgSpotLen	Bases
+SRR4292233		SAMN05818595	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792316		180	35676034380
+SRR4292234		SAMN05818596	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792319		180	35594832960
+SRR4292235		SAMN05818597	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792328		180	35784058500
+SRR4292236		SAMN05818598	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792343		180	34364656980
+SRR4292239		SAMN05818599	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792333		180	33696405900
+SRR4292240		SAMN05818600	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792303		180	34594126560
+SRR4292241		SAMN05818601	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792313		180	36144014940
+SRR4292242		SAMN05818602	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792305		180	35116804260
+SRR4292243		SAMN05818603	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792312		180	36372615300
+SRR4292244		SAMN05818604	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792350		180	34974369900
+SRR4292246		SAMN05818605	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792314		180	32908041180
+SRR4292263		SAMN05818606	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792330		180	33547687560
+SRR4292249		SAMN05818607	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792331		180	33801848820
+SRR4292250		SAMN05818608	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792326		180	30971079180
+SRR4292251		SAMN05818609	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792332		180	26780211900
+SRR4292252		SAMN05818610	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792349		180	31609967580
+SRR4292253		SAMN05818611	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792325		180	29335418100
+SRR4292254		SAMN05818612	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792324		180	28090217160
+SRR4292255		SAMN05818613	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792323		180	32911420500
+SRR4292256		SAMN05818614	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792327		180	34142473260
+SRR4292259		SAMN05818615	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792334		180	34749166680
+SRR4292260		SAMN05818616	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792337		180	34267463280
+SRR4292261		SAMN05818617	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792338		180	34898120100
+SRR4292262		SAMN05818618	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792329		180	34759353420
+SRR4292265		SAMN05818619	Illumina Genome Analyzer II	PAIRED	Neophocaena asiaeorientalis asiaeorientalis	BGI-SAMN05792315		180	33068853540

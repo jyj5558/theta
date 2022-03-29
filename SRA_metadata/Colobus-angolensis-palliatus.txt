@@ -1,0 +1,14 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex
+SRR1687489	PRJNA251421	SAMN03121814	Colobus angolensis palliatus	UK	Illumina HiSeq 2000	PAIRED	female
+SRR1687490	PRJNA251421	SAMN03121814	Colobus angolensis palliatus	UK	Illumina HiSeq 2000	PAIRED	female
+SRR1687491	PRJNA251421	SAMN03121814	Colobus angolensis palliatus	UK	Illumina HiSeq 2000	PAIRED	female
+SRR1687492	PRJNA251421	SAMN03121814	Colobus angolensis palliatus	UK	Illumina HiSeq 2000	PAIRED	female
+SRR1687493	PRJNA251421	SAMN03121814	Colobus angolensis palliatus	UK	Illumina HiSeq 2000	PAIRED	female
+SRR1687494	PRJNA251421	SAMN03121814	Colobus angolensis palliatus	UK	Illumina HiSeq 2000	PAIRED	female
+SRR1687495	PRJNA251421	SAMN03121814	Colobus angolensis palliatus	UK	Illumina HiSeq 2000	PAIRED	female
+SRR1687496	PRJNA251421	SAMN03121814	Colobus angolensis palliatus	UK	Illumina HiSeq 2000	PAIRED	female
+SRR1687497	PRJNA251421	SAMN03121814	Colobus angolensis palliatus	UK	Illumina HiSeq 2500	PAIRED	female
+SRR1687498	PRJNA251421	SAMN03121814	Colobus angolensis palliatus	UK	Illumina HiSeq 2000	PAIRED	female
+SRR1687499	PRJNA251421	SAMN03121814	Colobus angolensis palliatus	UK	Illumina HiSeq 2500	PAIRED	female
+SRR1687500	PRJNA251421	SAMN03121814	Colobus angolensis palliatus	UK	Illumina HiSeq 2000	PAIRED	female
+SRR1687501	PRJNA251421	SAMN03121814	Colobus angolensis palliatus	UK	Illumina HiSeq 2000	PAIRED	female

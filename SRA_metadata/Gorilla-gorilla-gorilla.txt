@@ -1,0 +1,18 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR747967	PRJNA189439	SAMN01920482	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	male	200	21465042400
+SRR747968	PRJNA189439	SAMN01920482	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	male	200	10757124000
+SRR747969	PRJNA189439	SAMN01920482	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	male	200	20094272800
+SRR747970	PRJNA189439	SAMN01920482	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	male	200	22027255400
+SRR747971	PRJNA189439	SAMN01920482	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	male	200	19502354400
+SRR747972	PRJNA189439	SAMN01920483	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	female	202	13335590752
+SRR747973	PRJNA189439	SAMN01920483	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	female	202	15334583762
+SRR747974	PRJNA189439	SAMN01920483	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	female	200	14720086600
+SRR747975	PRJNA189439	SAMN01920483	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	female	202	18733710684
+SRR747976	PRJNA189439	SAMN01920483	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	female	202	19160604758
+SRR747977	PRJNA189439	SAMN01920483	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	female	200	15011912000
+SRR748097	PRJNA189439	SAMN01920492	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	female	200	15282655200
+SRR748098	PRJNA189439	SAMN01920492	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	female	200	15368999600
+SRR748099	PRJNA189439	SAMN01920492	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	female	200	18743080400
+SRR748100	PRJNA189439	SAMN01920492	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	female	200	18894969400
+SRR748171	PRJNA189439	SAMN01920500	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	female	202	18401278072
+SRR748172	PRJNA189439	SAMN01920500	Gorilla gorilla gorilla	Cameroon	Illumina HiSeq 2000	PAIRED	female	202	28474033120

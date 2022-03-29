@@ -1,0 +1,6 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR17202470	PRJNA691462	SAMN23897211	Phacochoerus africanus	Raraiti, Kenya	Illumina HiSeq 2500	PAIRED	missing	300	68457557700
+SRR17202471	PRJNA691462	SAMN23897210	Phacochoerus africanus	Raraiti, Kenya	Illumina HiSeq 2500	PAIRED	missing	300	61092108000
+SRR17202473	PRJNA691462	SAMN23897208	Phacochoerus africanus	Raraiti, Kenya	Illumina HiSeq 2500	PAIRED	missing	300	74978302500
+SRR17202472	PRJNA691462	SAMN23897209	Phacochoerus africanus	Raraiti, Kenya	Illumina HiSeq 2500	PAIRED	missing	300	64599663000
+SRR17202481	PRJNA691462	SAMN23897212	Phacochoerus africanus	Raraiti, Kenya	Illumina HiSeq 2500	PAIRED	missing	300	63222607500

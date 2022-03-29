@@ -1,0 +1,3 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR8861582	PRJNA531206	SAMN11352762	Orcinus orca	Southern Ocean	Illumina HiSeq 4000	PAIRED	female	148	9027241528
+SRR8861585	PRJNA531206	SAMN11352763	Orcinus orca	Southern Ocean	Illumina HiSeq 4000	PAIRED	male	148	9522873412

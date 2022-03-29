@@ -1,0 +1,4 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR16036508	PRJNA764308	SAMN21500177	Ovis aries musimon	Finland	HiSeq X Ten	PAIRED	not determined	300	70526370900
+SRR16036509	PRJNA764308	SAMN21500176	Ovis aries musimon	Finland	HiSeq X Ten	PAIRED	not determined	300	76071596700
+SRR16036510	PRJNA764308	SAMN21500175	Ovis aries musimon	Finland	HiSeq X Ten	PAIRED	not determined	300	75265508700

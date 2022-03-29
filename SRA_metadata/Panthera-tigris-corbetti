@@ -1,0 +1,3 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR7152402	PRJNA437782	SAMN09080472	Panthera tigris corbetti	Huai Kha Khaeng, Thailand	Illumina HiSeq 2500	PAIRED	male	250	33741850250
+SRR7152408	PRJNA437782	SAMN09080470	Panthera tigris corbetti	Huai Kha Khaeng, Thailand	Illumina HiSeq 2500	PAIRED	female	250	35008676500

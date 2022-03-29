@@ -1,0 +1,3 @@
+Run	BioProject	BioSample	ScientificName	Pop	LibraryLayout	Instrument	Sex
+SRR11097180	PRJNA512907	SAMN14122080	Tapirus indicus	UK	PAIRED	Illumina NovaSeq 6000	male
+SRR14572919	PRJNA399421	SAMN07678113	Tapirus indicus	UK	PAIRED	Illumina HiSeq 2500	missing

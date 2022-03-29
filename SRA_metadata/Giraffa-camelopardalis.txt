@@ -1,0 +1,6 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR11905135	PRJNA635165	SAMN15077626	Giraffa camelopardalis	Koure, Niger 	Illumina NovaSeq 6000	PAIRED	NA	300	52623629100
+SRR11905146	PRJNA635165	SAMN15077625	Giraffa camelopardalis	Koure, Niger 	Illumina NovaSeq 6000	PAIRED	NA	300	60204387300
+SRR11905157	PRJNA635165	SAMN15077624	Giraffa camelopardalis	Koure, Niger 	Illumina HiSeq 4000	PAIRED	NA	300	42341366400
+SRR11905168	PRJNA635165	SAMN15077623	Giraffa camelopardalis	Koure, Niger 	Illumina NovaSeq 6000	PAIRED	NA	300	48127220700
+SRR11905169	PRJNA635165	SAMN15077622	Giraffa camelopardalis	Koure, Niger 	Illumina NovaSeq 6000	PAIRED	NA	300	63509538900

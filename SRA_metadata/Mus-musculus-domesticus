@@ -1,0 +1,11 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR7768904	PRJNA397406	SAMN07450246	Mus musculus domesticus	Florida	Illumina HiSeq 2000	PAIRED	male	200	13191009400
+SRR7768910	PRJNA397406	SAMN07450240	Mus musculus domesticus	Florida	Illumina HiSeq 2000	PAIRED	male	200	10503739000
+SRR7768907	PRJNA397406	SAMN07450243	Mus musculus domesticus	Florida	Illumina HiSeq 2000	PAIRED	female	200	9846928000
+SRR7768905	PRJNA397406	SAMN07450245	Mus musculus domesticus	Florida	Illumina HiSeq 2000	PAIRED	male	200	16463632800
+SRR7768906	PRJNA397406	SAMN07450244	Mus musculus domesticus	Florida	Illumina HiSeq 2000	PAIRED	female	200	13240337800
+SRR7768912	PRJNA397406	SAMN07450248	Mus musculus domesticus	Florida	Illumina HiSeq 2000	PAIRED	female	200	15683282400
+SRR7768911	PRJNA397406	SAMN07448047	Mus musculus domesticus	Florida	Illumina HiSeq 2000	PAIRED	female	200	18758666600
+SRR7768909	PRJNA397406	SAMN07450241	Mus musculus domesticus	Florida	Illumina HiSeq 2000	PAIRED	male	200	10011068800
+SRR7768913	PRJNA397406	SAMN07450247	Mus musculus domesticus	Florida	Illumina HiSeq 2000	PAIRED	male	200	13930481400
+SRR7768908	PRJNA397406	SAMN07450242	Mus musculus domesticus	Florida	Illumina HiSeq 2000	PAIRED	female	196	13006752276

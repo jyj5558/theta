@@ -1,0 +1,107 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex
+SRR6942131	PRJNA448482	SAMN08848261	Rhinopithecus roxellana	China:Minshan mountains\,Gansu	Illumina HiSeq 2000	PAIRED	male
+SRR6942132	PRJNA448482	SAMN08848260	Rhinopithecus roxellana	China:Qinlin mountains\,Shaanxi	Illumina HiSeq 2000	PAIRED	male
+SRR6942133	PRJNA448482	SAMN08848263	Rhinopithecus roxellana	China:Shengnongjia National Nature Reserve\,Hubei	Illumina HiSeq 2000	PAIRED	male
+SRR6942134	PRJNA448482	SAMN08848262	Rhinopithecus roxellana	China:Shengnongjia National Nature Reserve\,Hubei	Illumina HiSeq 2000	PAIRED	female
+SRR1742924	PRJNA271514	SAMN03274878	Rhinopithecus roxellana	Sichuan/Gansu	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742925	PRJNA271514	SAMN03274878	Rhinopithecus roxellana	Sichuan/Gansu	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742926	PRJNA271514	SAMN03274878	Rhinopithecus roxellana	Sichuan/Gansu	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742928	PRJNA271514	SAMN03274878	Rhinopithecus roxellana	Sichuan/Gansu	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742929	PRJNA271514	SAMN03274878	Rhinopithecus roxellana	Sichuan/Gansu	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742930	PRJNA271514	SAMN03274879	Rhinopithecus roxellana	Sichuan/Gansu	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742931	PRJNA271514	SAMN03274879	Rhinopithecus roxellana	Sichuan/Gansu	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742932	PRJNA271514	SAMN03274879	Rhinopithecus roxellana	Sichuan/Gansu	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742933	PRJNA271514	SAMN03274879	Rhinopithecus roxellana	Sichuan/Gansu	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742934	PRJNA271514	SAMN03274879	Rhinopithecus roxellana	Sichuan/Gansu	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742935	PRJNA271514	SAMN03274880	Rhinopithecus roxellana	Sichuan/Gansu	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742936	PRJNA271514	SAMN03274880	Rhinopithecus roxellana	Sichuan/Gansu	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742937	PRJNA271514	SAMN03274881	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742938	PRJNA271514	SAMN03274881	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742939	PRJNA271514	SAMN03274881	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742940	PRJNA271514	SAMN03274882	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742941	PRJNA271514	SAMN03274882	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742942	PRJNA271514	SAMN03274882	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742943	PRJNA271514	SAMN03274883	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742944	PRJNA271514	SAMN03274883	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742945	PRJNA271514	SAMN03274883	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742946	PRJNA271514	SAMN03274883	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742951	PRJNA271514	SAMN03274884	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742953	PRJNA271514	SAMN03274884	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742954	PRJNA271514	SAMN03274884	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742956	PRJNA271514	SAMN03274884	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742958	PRJNA271514	SAMN03274886	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742959	PRJNA271514	SAMN03274886	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742961	PRJNA271514	SAMN03274886	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742962	PRJNA271514	SAMN03274886	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742964	PRJNA271514	SAMN03274886	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742966	PRJNA271514	SAMN03274885	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742967	PRJNA271514	SAMN03274885	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742968	PRJNA271514	SAMN03274885	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742969	PRJNA271514	SAMN03274885	Rhinopithecus roxellana	Minshan	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742970	PRJNA271514	SAMN03274887	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742971	PRJNA271514	SAMN03274887	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742972	PRJNA271514	SAMN03274887	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742973	PRJNA271514	SAMN03274887	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1742974	PRJNA271514	SAMN03274887	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743018	PRJNA271514	SAMN03274888	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743019	PRJNA271514	SAMN03274888	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743020	PRJNA271514	SAMN03274888	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743021	PRJNA271514	SAMN03274889	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743022	PRJNA271514	SAMN03274889	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743023	PRJNA271514	SAMN03274889	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743024	PRJNA271514	SAMN03274889	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743025	PRJNA271514	SAMN03274890	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743026	PRJNA271514	SAMN03274890	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743027	PRJNA271514	SAMN03274890	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743028	PRJNA271514	SAMN03274890	Rhinopithecus roxellana	Qionglai mountain	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743029	PRJNA271514	SAMN03274891	Rhinopithecus roxellana	Qinling north (QLN)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743030	PRJNA271514	SAMN03274891	Rhinopithecus roxellana	Qinling north (QLN)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743031	PRJNA271514	SAMN03274891	Rhinopithecus roxellana	Qinling north (QLN)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743032	PRJNA271514	SAMN03274891	Rhinopithecus roxellana	Qinling north (QLN)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743033	PRJNA271514	SAMN03274892	Rhinopithecus roxellana	Qinling north (QLN)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743034	PRJNA271514	SAMN03274892	Rhinopithecus roxellana	Qinling north (QLN)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743035	PRJNA271514	SAMN03274892	Rhinopithecus roxellana	Qinling north (QLN)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743036	PRJNA271514	SAMN03274892	Rhinopithecus roxellana	Qinling north (QLN)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743037	PRJNA271514	SAMN03274893	Rhinopithecus roxellana	Qinling north (QLN)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743038	PRJNA271514	SAMN03274893	Rhinopithecus roxellana	Qinling north (QLN)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743039	PRJNA271514	SAMN03274893	Rhinopithecus roxellana	Qinling north (QLN)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743040	PRJNA271514	SAMN03274893	Rhinopithecus roxellana	Qinling north (QLN)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743041	PRJNA271514	SAMN03274894	Rhinopithecus roxellana	Qinling south (QLS)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743042	PRJNA271514	SAMN03274894	Rhinopithecus roxellana	Qinling south (QLS)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743043	PRJNA271514	SAMN03274894	Rhinopithecus roxellana	Qinling south (QLS)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743045	PRJNA271514	SAMN03274895	Rhinopithecus roxellana	Qinling south (QLS)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743046	PRJNA271514	SAMN03274895	Rhinopithecus roxellana	Qinling south (QLS)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743047	PRJNA271514	SAMN03274895	Rhinopithecus roxellana	Qinling south (QLS)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743048	PRJNA271514	SAMN03274895	Rhinopithecus roxellana	Qinling south (QLS)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743049	PRJNA271514	SAMN03274895	Rhinopithecus roxellana	Qinling south (QLS)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743050	PRJNA271514	SAMN03274896	Rhinopithecus roxellana	Qinling south (QLS)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743051	PRJNA271514	SAMN03274896	Rhinopithecus roxellana	Qinling south (QLS)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743052	PRJNA271514	SAMN03274896	Rhinopithecus roxellana	Qinling south (QLS)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743053	PRJNA271514	SAMN03274897	Rhinopithecus roxellana	Qinling south (QLS)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743054	PRJNA271514	SAMN03274897	Rhinopithecus roxellana	Qinling south (QLS)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743055	PRJNA271514	SAMN03274897	Rhinopithecus roxellana	Qinling south (QLS)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743056	PRJNA271514	SAMN03274897	Rhinopithecus roxellana	Qinling south (QLS)	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743057	PRJNA271514	SAMN03274898	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743058	PRJNA271514	SAMN03274898	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743059	PRJNA271514	SAMN03274898	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743060	PRJNA271514	SAMN03274899	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743061	PRJNA271514	SAMN03274899	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743062	PRJNA271514	SAMN03274899	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743063	PRJNA271514	SAMN03274899	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743064	PRJNA271514	SAMN03274899	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743065	PRJNA271514	SAMN03274900	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743066	PRJNA271514	SAMN03274900	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743067	PRJNA271514	SAMN03274900	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743068	PRJNA271514	SAMN03274900	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743069	PRJNA271514	SAMN03274900	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743070	PRJNA271514	SAMN03274901	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743071	PRJNA271514	SAMN03274901	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743072	PRJNA271514	SAMN03274901	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743073	PRJNA271514	SAMN03274901	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743074	PRJNA271514	SAMN03274902	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743076	PRJNA271514	SAMN03274902	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743077	PRJNA271514	SAMN03274902	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743078	PRJNA271514	SAMN03274902	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743079	PRJNA271514	SAMN03274903	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743080	PRJNA271514	SAMN03274903	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected
+SRR1743081	PRJNA271514	SAMN03274903	Rhinopithecus roxellana	Shennongjia	Illumina HiSeq 2000	PAIRED	not collected

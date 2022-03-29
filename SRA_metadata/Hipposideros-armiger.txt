@@ -1,0 +1,6 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR3714309	PRJNA309742	SAMN04440406	Hipposideros armiger	Diqing, Yunnan, China	Illumina HiSeq 4000	PAIRED	missing	300	35140576200
+SRR3714310	PRJNA309742	SAMN04440407	Hipposideros armiger	Diqing, Yunnan, China	Illumina HiSeq 4000	PAIRED	missing	300	36141546900
+SRR3714311	PRJNA309742	SAMN04440408	Hipposideros armiger	Diqing, Yunnan, China	Illumina HiSeq 4000	PAIRED	missing	300	37557585600
+SRR3714317	PRJNA309742	SAMN04440409	Hipposideros armiger	Diqing, Yunnan, China	Illumina HiSeq 4000	PAIRED	missing	300	36141546900
+SRR3714318	PRJNA309742	SAMN04440410	Hipposideros armiger	Diqing, Yunnan, China	Illumina HiSeq 4000	PAIRED	missing	300	33022324200

@@ -1,0 +1,6 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR15929225	PRJNA749163	SAMN20954426	Panthera tigris tigris	India:Ranthambore Tiger Reserve	HiSeq X Ten	PAIRED	male	299	993731
+SRR15929227	PRJNA749163	SAMN20954424	Panthera tigris tigris	India:Ranthambore Tiger Reserve	HiSeq X Ten	PAIRED	female	295	1534009
+SRR15929226	PRJNA749163	SAMN20954425	Panthera tigris tigris	India:Ranthambore Tiger Reserve	HiSeq X Ten	PAIRED	male	298	1331518
+SRR15929228	PRJNA749163	SAMN20954423	Panthera tigris tigris	India:Ranthambore Tiger Reserve	HiSeq X Ten	PAIRED	female	299	1172515
+SRR15929231	PRJNA749163	SAMN20954422	Panthera tigris tigris	India:Ranthambore Tiger Reserve	HiSeq X Ten	PAIRED	male	299	2718755

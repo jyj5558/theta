@@ -1,0 +1,3 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR12667154	PRJNA664282	SAMN16204885	Antechinus stuartii	Australia: Lane Cove National Park	Illumina NovaSeq 6000	PAIRED	female	310	2.80615E+11
+SRR12667155	PRJNA664282	SAMN16204884	Antechinus stuartii	Australia: Lane Cove National Park	Illumina NovaSeq 6000	PAIRED	male	310	2.7366E+11

@@ -1,0 +1,5 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex
+SRR17126532	PRJNA785018	SAMN23530499	Ateles geoffroyi	UK	Illumina HiSeq 4000	PAIRED	male
+SRR17126629	PRJNA785018	SAMN23530499	Ateles geoffroyi	UK	Illumina HiSeq 4000	PAIRED	male
+SRR17126630	PRJNA785018	SAMN23530499	Ateles geoffroyi	UK	Illumina HiSeq 4000	PAIRED	male
+SRR14519072	PRJNA399374	SAMN07678064	Ateles geoffroyi	UK	Illumina HiSeq 2500	PAIRED	missing

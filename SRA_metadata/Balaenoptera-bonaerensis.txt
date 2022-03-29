@@ -1,0 +1,4 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR4011113	PRJNA335553	SAMN05447715	Balaenoptera bonaerensis	missing	Illumina HiSeq 2000	PAIRED	missing	202	41661895212
+SRR4011114	PRJNA335553	SAMN05447715	Balaenoptera bonaerensis	missing	Illumina HiSeq 2000	PAIRED	missing	202	37017029038
+DRR014695	PRJDB1465	SAMD00016608	Balaenoptera bonaerensis		Illumina HiSeq 2000	PAIRED	missing	202	288311088634

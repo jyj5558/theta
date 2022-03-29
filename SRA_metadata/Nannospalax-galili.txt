@@ -1,0 +1,7 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR2043166	PRJNA285131	SAMN03738253	Nannospalax galili	Alma Plio-Pleistocene basalt plateau	Illumina HiSeq 2500	PAIRED	female	250	20019650500
+SRR2043974	PRJNA285131	SAMN03738243	Nannospalax galili	Alma Plio-Pleistocene basalt plateau	Illumina HiSeq 2500	PAIRED	female	250	20434535000
+SRR2043975	PRJNA285131	SAMN03738244	Nannospalax galili	Alma Plio-Pleistocene basalt plateau	Illumina HiSeq 2500	PAIRED	male	250	20540464250
+SRR2043976	PRJNA285131	SAMN03738245	Nannospalax galili	Alma Plio-Pleistocene basalt plateau	Illumina HiSeq 2500	PAIRED	female	250	20870186750
+SRR2043977	PRJNA285131	SAMN03738246	Nannospalax galili	Alma Plio-Pleistocene basalt plateau	Illumina HiSeq 2500	PAIRED	female	250	20321598250
+SRR2043978	PRJNA285131	SAMN03738247	Nannospalax galili	Alma Plio-Pleistocene basalt plateau	Illumina HiSeq 2500	PAIRED	male	250	20288990000

@@ -1,0 +1,5 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR9655168	PRJNA553235	SAMN10407156	Alouatta palliata	Veracruz, Mexico	Illumina HiSeq 4000	PAIRED	female	302	27110646304
+SRR9655169	PRJNA553235	SAMN10407140	Alouatta palliata	Veracruz, Mexico	Illumina HiSeq 4000	PAIRED	female	302	37169098772
+SRR9655170	PRJNA553235	SAMN10407285	Alouatta palliata	Veracruz, Mexico	Illumina HiSeq 4000	PAIRED	male	302	16419443738
+SRR9655171	PRJNA553235	SAMN10407294	Alouatta palliata	Veracruz, Mexico	Illumina HiSeq 4000	PAIRED	male	302	27408258546

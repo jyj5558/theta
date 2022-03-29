@@ -1,0 +1,2 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex
+SRR5665644	PRJNA389516	SAMN07201754	Balaenoptera musculus	UK	Illumina HiSeq 2000	PAIRED	UK

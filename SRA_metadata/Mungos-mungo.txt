@@ -1,0 +1,2 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex
+SRR7704821	PRJNA399406	SAMN07678097	Mungos mungo	UK	Illumina HiSeq 2500	PAIRED	UK
