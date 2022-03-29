@@ -17,12 +17,19 @@ module load cmake/3.9.4
 module load BEDTools
 module load BBMap
 module load r
+module load bedops
 export PATH=$PATH:~/genmap-build/bin
+
+# make sure the Sex Assignment Through Coverage (SATC) codes are downloaded:
+# https://github.com/popgenDK/SATC
+# link to the SATC.R script for example SATC="/DIR/SATC/satc.R"
+# NB: for SATC you need to provide BAM files
 
 ####notes####
 #
-#This script downloads reference, repeat, and annotation data and then identifyies repeats, 
-#estimates mappability and finds all of the short scaffolds. The output files include: 	
+# This script downloads reference, repeat, and annotation data and then identifyies repeats, 
+# estimates mappability, identify sex-linked scaffolds and finds all of the short scaffolds. 
+# The output files include: 	
 # ref.fa (reference file with scaffolds>100kb)							
 # ok.bed (regions to analyze in angsd etc)		
 # map_repeat_summary.txt (summary of ref quality)							
@@ -233,8 +240,73 @@ sed -i 's/ /\t/g' ${accession}_ref/chrs.bed
 # make chrs.txt
 cut -f 1 ${accession}_ref/chrs.bed > ${accession}_ref/chrs.txt
 
-# only include chr in merged.bed if they are in chrs.txt
-bedtools intersect -a ${accession}_ref/chrs.bed -b mappability/merged.bed > ok.bed
+# identify and remove sex-linked scaffolds with SATC
+# make bamfilelist
+ls *.bam > bamlist
+sed -i 's/.bam//g' bamlist
+
+# make a dir for the SATC output
+mkdir idxstats
+
+# for each bam file calculate idxstats which reports alignment summary statistics
+cat bamlist | while read -r LINE
+do
+# index bamfile
+samtools index ${LINE}.bam
+# idxstats
+samtools idxstats ${LINE}.bam > ${LINE}.idxstats
+cp ${LINE}.idxstats idxstats/${LINE}.idxstats
+done
+
+# move bamlist to idxstats DIR and make list of idxstats files
+cp bamlist idxstats/bamlist
+cd idxstats
+ls *.idxstats > idxstats.txt
+
+# run Sex Assignment Through Coverage (SATC) 
+# the path needs to be changed to fit the location for SATC on your home DIR
+SATC="/home/anna/software/SATC/satc.R"
+
+# provide output prefix
+OUT="satc"
+
+# list of idxstats files
+IN="idxstats.txt"
+
+# choose between default
+Rscript --vanilla $SATC -i $IN -o $OUT
+
+# or 'useMedian'
+#Rscript --vanilla $SATC -i $IN -o $OUT --useMedian TRUE
+# SATC will give a warning if 'useMedian' should be used
+
+# SATC produce a PCA with individual sex assignment and boxplot with sex-linked scaffolds "satc_PCA_and_boxplot.png"
+# we will use satc_XY_scaff.list for reference QC
+
+cd ..
+
+sort ${accession}_ref/chrs.txt > ${accession}_ref/sorted_chrs.txt
+
+sort idxstats/satc_XZ_scaff.list > idxstats/satc_sexlinked_scaff.list_sorted
+
+# remove sex chromosome scaffolds from scaffold list
+comm -1 -3 idxstats/satc_sexlinked_scaff.list_sorted ${accession}_ref/sorted_chrs.txt > autosomes.txt
+
+xargs samtools faidx ${accession}_ref/ref_100k.fa < autosomes.txt > ${accession}_ref/autosomes_100kb.fa
+
+samtools faidx ${accession}_ref/autosomes_100kb.fa
+
+# make bed file with the autosomes, 100k, no repeats, mappability =1 sites
+awk '{ print $1, $2, $2 }' ${accession}_ref/autosomes_100kb.fa.fai > ${accession}_ref/autosomes_100kb.info
+
+# replace column 2 with zeros
+awk '$2="0"' ${accession}_ref/autosomes_100kb.info > ${accession}_ref/autosomes_100kb.bed
+
+# make tab delimited
+sed -i 's/ /\t/g' ${accession}_ref/autosomes_100kb.bed
+
+# only include scaffolds in merged.bed if they are in autosomes_100kb.bed
+bedtools intersect -a ${accession}_ref/autosomes_100kb.bed -b mappability/merged.bed > ok.bed	
 	
 # remove excess files
 rm -rf ${accession}_ref/sorted.fa
