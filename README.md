@@ -86,7 +86,7 @@ $ ./bin/genmap
 
 Submit slurm job
 ```
-sbatch /scratch/bell/$USER/theta/step1_ref_download_QC.sh
+sbatch /scratch/bell/$USER/theta/step1_ref_download.sh
 ```
 
 Eventually, we will write a script to automate running these in batch but for now we will download one species at a time.
