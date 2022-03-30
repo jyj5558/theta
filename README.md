@@ -215,13 +215,22 @@ The output files include:
 1. ok.bed (regions to analyze in angsd etc)		
 2. map_repeat_summary.txt (summary of ref quality)		
 
-To run, simply submit the following command:
+
+User will need to enter the following information:
+`Genus-species`: 
+`accession`: 
+
+`NOTE`, add the name of the genus-species to the job name as well (for debugging/tracking purposes) as in:
+```
+#SBATCH --job-name=S4_Balaenoptera-musculus
+```
+Once entered, simply submit the following command:
 ```
 sbatch /scratch/bell/$USER/theta/step4_qc.sh
 
 
-## Step 5: Estimate theta from alignemnt files
-**- step5_theta.sh**
+**## Step 5: Estimate theta from alignment files
+**- step5_theta.sh****
 
 This script will estimate the Site Frequency Spectrum and Wattersons theta, in sliding windows. The output file will contain mean with SD.
 The output file:
@@ -231,15 +240,16 @@ The output file:
 Usage:
 
 User will need to enter the following information:
-`Genus-species`: This will need to be enterred in the the above script and follow the directory naming
+`Genus-species`:
 
-
-`NOTE`, it is strongly recommended to add the name of the genus-species to the job name as well (for debugging/tracking purposes) as in:
-#SBATCH --job-name=S4_Balaenoptera-musculus
+`NOTE`, add the name of the genus-species to the job name as well (for debugging/tracking purposes) as in:
+```
+#SBATCH --job-name=S5_Balaenoptera-musculus
+```
 
 To run, simply submit the following command:
 ```
-sbatch /scratch/bell/$USER/theta/step4_theta.sh
+sbatch /scratch/bell/$USER/theta/step5_theta.sh
 ```
 `NOTE`, this script has NOT been tested yet (3/9/22)!
 
