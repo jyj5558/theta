@@ -10,10 +10,14 @@ These scripts are developed for investigating genomic diversity and effective po
 
 To make things easier to automate later, we will use a standardized directory structure based on the target species scientific name (Genus-species), genome assembly accession number (accession), and other labels. The folder structure looks like this:
 
-Genus-species
+Genus-species/
+
 -accession_ref: reference genome assembly
+
 -accession_rm: repeat-masked reference genome assembly
+
 -accession_gtf: reference genome assembly annotation
+
 -mappability: reference genome assembly quality assessment
 
 All of the Genus-species directories will be created at /scratch/bell/dewoody/theta
