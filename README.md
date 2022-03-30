@@ -25,19 +25,16 @@ cd /scratch/bell/$USER/
 git clone https://github.com/AnnaBrunicheOlsen/theta
 ```
 
-## Step 1. Reference downloading and QC
+## Step 1. Reference downloading
 **Identifying reference assembly data**
 
 We need to find reference assembly accession information for as many species as possible. Whenever possible, we will target Chromosome level RefSeq assemblies on NCBI. Once the target assembly is located for a particular species, we will use the accession number, assembly name and url path (found under the FTP links on the right side of NCBI) and assembly name to download resources effeciently.
 
-**Download and perform QC on reference assembly - step1_ref_download_QC.sh**
-This script downloads reference, repeat, and annotation data and then identifyies repeats, estimates mappability and finds all of the short scaffolds. The output files include: 	
-1. ref_100k.fa (reference file with scaffolds>100kb)							
-2. ok.bed (regions to analyze in angsd etc)		
-3. map_repeat_summary.txt (summary of ref quality)							
-4. if a masked genome isn't available (i.e. rm.out), script will create one using the mammal repeat library --- we should update this if we move on from mammals!
+**Download reference assembly - step1_ref_download.sh**
+This script downloads reference, repeat, and annotation data.  					
+If a masked genome isn't available (i.e. rm.out), script will create one using the mammal repeat library --- we should update this if we move on from mammals!
 
-User will need to input (paste) information for the following variables within the _step1_ref_download_QC.sh file:_
+User will need to input (paste) information for the following variables within the _step1_ref_download.sh file:_
 
 `Genus_species`: this is used in the directory naming as Erangi suggested, to make browsing
 a bit more doable for us humans
@@ -197,8 +194,21 @@ sbatch /scratch/bell/$USER/theta/step3_mapping.sh
 `NOTE`, please check for any bugs with the step3 script, it is still new!
 
 
-## Step 4: Estimate theta from alignemnt files
-**- step4_theta.sh**
+## Step 4: Create ok.bed file, containing mappable sites, non-repeat sites, and autosomal sites
+**- step4_qc.sh**
+
+This script identifyies repeats, estimates mappability and finds all of the short scaffolds. The output files include: 	
+1. ref_100k.fa (reference file with scaffolds>100kb)							
+2. ok.bed (regions to analyze in angsd etc)		
+3. map_repeat_summary.txt (summary of ref quality)		
+
+To run, simply submit the following command:
+```
+sbatch /scratch/bell/$USER/theta/step4_qc.sh
+
+
+## Step 5: Estimate theta from alignemnt files
+**- step5_theta.sh**
 
 This script will estimate the Site Frequency Spectrum and Wattersons theta, in sliding windows. The output file will contain mean with SD.
 The output file:
