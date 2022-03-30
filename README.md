@@ -147,7 +147,6 @@ ERR3294906	PRJEB8272	SAMEA5577694	Marmota marmota marmota	Mauls	Illumina HiSeq 2
       f: Copy and paste this into the species file in [SRA_metadata](./SRA_metadata/).
 
       g: Download / pull git repository to $CLUSTER_SCRATCH or paste new metadata for your target species directly into existing Genus-species file in $USER theta folder
-
  
 2) To verify that all available data was found for a given species, use google scholar to look for literature directly. For each genus-species, use search terms  "Whole Genome" OR "resequencing" OR "genomic" and >2010. Manually curate search results. Most of the papers have a section named ‘data availability’ and this section has the BioProject accession number(PRJNAxx…) which you can follow to find the data we need. Otherwise, on NCBI, search the project number written in SRA metadata file (e.g. PRJNA54005) targetting "All Databases", and you can find "Literature" box showing the number of associated publications in PubMed, PubMed Central, etc. Here you can find the project description, too, which normally has a statement about sample sources.
 
