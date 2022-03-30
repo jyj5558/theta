@@ -4,36 +4,23 @@
 #SBATCH -t 12-00:00:00 
 #SBATCH -N 1 
 #SBATCH -n 20
-#SBATCH --mem=50G
+#SBATCH --mem=10G
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
 
 module load bioinfo
 module load bioawk
 module load seqtk
-module load RepeatMasker/4.0.7
 module load samtools
-module load cmake/3.9.4
 module load BEDTools
 module load BBMap
 module load r
 module load bedops
 export PATH=$PATH:~/genmap-build/bin
 
-# make sure the Sex Assignment Through Coverage (SATC) codes are downloaded:
-# https://github.com/popgenDK/SATC
-# link to the SATC.R script for example SATC="/DIR/SATC/satc.R"
-# NB: for SATC you need to provide BAM files
-
 ####notes####
 #
-# This script downloads reference, repeat, and annotation data and then identifyies repeats, 
-# estimates mappability, identify sex-linked scaffolds and finds all of the short scaffolds. 
-# The output files include: 	
-# ref.fa (reference file with scaffolds>100kb)							
-# ok.bed (regions to analyze in angsd etc)		
-# map_repeat_summary.txt (summary of ref quality)							
-#
+# This script downloads reference, repeat, and annotation data
 #if a masked genome isn't available (i.e. rm.out), script will create one using the mammal 
 #repeat library --- we should change this if we move on from mammals!
 #
@@ -54,7 +41,7 @@ export PATH=$PATH:~/genmap-build/bin
 #pathway=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/009/873/245/GCF_009873245.2_mBalMus1.pri.v3/
 #assembly=mBalMus1.pri.v3
 #Once these have been defined, save and close slurrm job and submit
-#sbatch /scratch/bell/$USER/theta/step1_download_QC.sh
+#sbatch /scratch/bell/$USER/theta/step1_download.sh
 
 
  ####end usage and notes####
