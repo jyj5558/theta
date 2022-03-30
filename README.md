@@ -10,7 +10,7 @@ These scripts are developed for investigating genomic diversity and effective po
 
 To make things easier to automate later, we will use a standardized directory structure based on the target species scientific name (Genus-species), genome assembly accession number (accession), and other labels. The folder structure looks like this:
 
-Genus-species/
+  Genus-species/
 
              -accession_ref: reference genome assembly
 
