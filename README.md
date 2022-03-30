@@ -135,7 +135,6 @@ There are two pathways to find these data, it is important to use both methods f
 
       e: Open this file with Excel, convert text to columns (comma seperated delimiter) and remove/edit the file until it has the same order and headers as below:
 (ReadLength should be included, and it can be found in SRA search page). It should be in tab seperated format
-
 ```
 Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex AvgSpotlength Bases
 ERR3299081	PRJEB8272	SAMEA5577702	Marmota marmota marmota	Gsies	NextSeq 500	PAIRED	female 300     5316224638
@@ -143,9 +142,11 @@ ERR3299082	PRJEB8272	SAMEA5577703	Marmota marmota marmota	Gsies	NextSeq 500	PAIR
 ERR3299083	PRJEB8272	SAMEA5577704	Marmota marmota marmota	Gsies	NextSeq 500	PAIRED	male 300  3312124192
 ERR3294906	PRJEB8272	SAMEA5577694	Marmota marmota marmota	Mauls	Illumina HiSeq 2500	PAIRED	female 300     4315224637
 ```
-     f: Copy and paste this into the species file in [SRA_metadata](./SRA_metadata/).
 
-     g: Download / pull git repository to $CLUSTER_SCRATCH or paste new metadata for your target species directly into existing Genus-species file in $USER theta folder
+
+      f: Copy and paste this into the species file in [SRA_metadata](./SRA_metadata/).
+
+      g: Download / pull git repository to $CLUSTER_SCRATCH or paste new metadata for your target species directly into existing Genus-species file in $USER theta folder
  
 2) To verify that all available data was found for a given species, use google scholar to look for literature directly. For each genus-species, use search terms  "Whole Genome" OR "resequencing" OR "genomic" and >2010. Manually curate search results. Most of the papers have a section named ‘data availability’ and this section has the BioProject accession number(PRJNAxx…) which you can follow to find the data we need. Otherwise, on NCBI, search the project number written in SRA metadata file (e.g. PRJNA54005) targetting "All Databases", and you can find "Literature" box showing the number of associated publications in PubMed, PubMed Central, etc. Here you can find the project description, too, which normally has a statement about sample sources.
 
