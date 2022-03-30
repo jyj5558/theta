@@ -169,10 +169,12 @@ User will need to enter the following information:
 
 `NOTE` make sure that the Genus-species-SRAs.txt is updated first: Make sure you have the species SRA metadata in the correct format and in the theta directory BEFORE running. It should be in theta/SRA_metadata/genus-species.txt
 
-`NOTE`, it is strongly recommended to add the name of the genus-species to the job name as well (for debugging/tracking purposes) as in:
+`NOTE`, add the name of the genus-species to the job name as well (for debugging/tracking purposes) as in:
+```
 #SBATCH --job-name=S2_Balaenoptera-musculus
+```
 
-To run, simply submit the following command:
+Now, when ready to run, simply submit the following command:
 ```
 sbatch /scratch/bell/$USER/theta/step2_SRA_download_clean.sh
 ```
@@ -191,10 +193,12 @@ User will need to enter the following information:
 
 `NOTE` make sure that the Genus-species-SRAs.txt is updated first: Make sure you have the species SRA metadata in the correct format and in the theta directory BEFORE running. It should be in theta/SRA_metadata/genus-species.txt
 
-`NOTE`, it is strongly recommended to add the name of the genus-species to the job name as well (for debugging/tracking purposes) as in:
-#SBATCH --job-name=SRA-Balaenoptera-musculus
+`NOTE`, add the name of the genus-species to the job name as well (for debugging/tracking purposes) as in:
+```
+#SBATCH --job-name=S3_Balaenoptera-musculus
+```
 
-To run, simply submit the following command:
+When ready to run, simply submit the following command:
 ```
 sbatch /scratch/bell/$USER/theta/step3_mapping.sh
 ```
@@ -202,13 +206,15 @@ sbatch /scratch/bell/$USER/theta/step3_mapping.sh
 `NOTE`, please check for any bugs with the step3 script, it is still new!
 
 
-## Step 4: Create ok.bed file, containing mappable sites, non-repeat sites, and autosomal sites
+## Step 4: QC the reference. Create ok.bed file, containing mappable sites, non-repeat sites, and autosomal sites
 **- step4_qc.sh**
 
-This script identifyies repeats, estimates mappability and finds all of the short scaffolds. The output files include: 	
-1. ref_100k.fa (reference file with scaffolds>100kb)							
-2. ok.bed (regions to analyze in angsd etc)		
-3. map_repeat_summary.txt (summary of ref quality)		
+This script identifyies repeats, estimates mappability and finds all of the short scaffolds. 
+
+The output files include: 			
+
+1. ok.bed (regions to analyze in angsd etc)		
+2. map_repeat_summary.txt (summary of ref quality)		
 
 To run, simply submit the following command:
 ```
