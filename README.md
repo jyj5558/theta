@@ -12,13 +12,13 @@ To make things easier to automate later, we will use a standardized directory st
 
 Genus-species/
 
--accession_ref: reference genome assembly
+             -accession_ref: reference genome assembly
 
--accession_rm: repeat-masked reference genome assembly
+             -accession_rm: repeat-masked reference genome assembly
 
--accession_gtf: reference genome assembly annotation
+             -accession_gtf: reference genome assembly annotation
 
--mappability: reference genome assembly quality assessment
+             -mappability: reference genome assembly quality assessment
 
 All of the Genus-species directories will be created at /scratch/bell/dewoody/theta
 
