@@ -109,21 +109,13 @@ samtools faidx ${accession}_ref/ref.fa
 
 
 #prep repeatmasked file for later processing, create a rm.out if one is not available. 
-cd ${accession}_rm/ #move into rm directory
+#move into rm directory
+cd ${accession}_rm/ 
 
 FILE1=$"rm.out"
 if [ -s $FILE1 ]
 then
-	# change scaffold names to fit ref.fa for rm.out 
-	tail -n +4 rm.out > rm.body
-	head -n 3 rm.out > rm.header
-	sed -i 's/\*//g' rm.body 
-	cd /scratch/bell/${USER}/theta/source/
-	Rscript repeatmasker_names.R --args /scratch/bell/dewoody/theta/${genus_species}/${accession}_rm ${genus_species} ${accession}
-	cd /scratch/bell/dewoody/theta/${genus_species}/${accession}_rm
-	sed -i 's/"//g' rm_edited.body 
-	cat rm.header rm_edited.body > rm.out
-	rm rm_edited.body
+	# parse rm.out out to create bed coordinates
 	cat rm.out |tail -n +4|awk '{print $5,$6,$7,$11}'|sed 's/ /\t/g' > repeats.bed # make bed file
 else	
 	# if no rm.out file is available run RepeatMasker. Note, samtools conflict so had to purge first
@@ -141,7 +133,8 @@ else
 	module load r
 fi
 
-cd ../ #move back to species/accession directory
+#move back to species/accession directory
+cd ../ 
 
 ####prep annotation file for later processing####
 cd ${accession}_gtf/ #move into gtf directory
@@ -150,17 +143,10 @@ FILE1=$"gtf.gtf"
 if [ -s $FILE1 ]
 then
 	# change  names to fit ref.fa and rm.out 
-	tail -n +5 gtf.gtf > gtf.body
-	head -n 4 gtf.gtf > gtf.header
-	cd /scratch/bell/${USER}/theta/source/
-	Rscript annotation_names.R --args /scratch/bell/dewoody/theta/${genus_species}/${accession}_gtf ${genus_species} ${accession}
-	cd /scratch/bell/dewoody/theta/${genus_species}/${accession}_gtf
-	sed -i 's/"//g' gtf_edited.body 
-	cat gtf.header gtf_edited.body > gtf.gtf
-	rm gtf_edited.body
+	echo "gtf file properlly formatted" > log_gtf
 else	
 	# if no rm.out file is available run RepeatMasker
-	printf "no annotation availalbe" > log_gtf
+	printf "no annotation available" > log_gtf
 fi
 #DONE
 
