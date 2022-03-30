@@ -122,8 +122,8 @@ else
 	module --force purge
 	module load biocontainers/default
 	module load repeatmasker
-	RepeatMasker -pa 5 -a -qq -species mammals ../${accession}_ref/ref.fa 
-	cat repeatmasker.fa.out | tail -n +4 | awk '{print $5,$6,$7,$11}' | sed 's/ /\t/g' > repeats.bed  #make bed file
+	RepeatMasker -pa 5 -a -qq -species mammals -dir . ../${accession}_ref/ref.fa 
+	cat ref.fa.out  | tail -n +4 | awk '{print $5,$6,$7,$11}' | sed 's/ /\t/g' > repeats.bed  #make bed file
 	module --force purge
 	module load bioinfo
 	module load seqtk
