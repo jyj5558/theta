@@ -99,7 +99,7 @@ echo -e "$PWD\t $meanW\t $sdW" \
 # heterozygosity for each individual
 ####################################
 
-
+mkdir ./HET
 OUTDIR='HET'
 
 sed -i 's/.bam//g' ./bam.filelist
