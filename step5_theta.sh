@@ -73,7 +73,7 @@ angsd -P 40 -bam ./bam.filelist -sites ./angsd.file -anc $PD/*_ref/ref.fa \
 realSFS -P 40 out.saf.idx  -fold 1 > out.sfs
 
 # calculate theta for each site
-realSFS -P 40 saf2theta out.saf.idx -sfs out.sfs -outname out
+realSFS saf2theta  -P 40 out.saf.idx -sfs out.sfs -outname out
 
 # estimate 
 thetaStat do_stat out.thetas.idx
