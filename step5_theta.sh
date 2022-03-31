@@ -82,7 +82,7 @@ thetaStat do_stat out.thetas.idx
 thetaStat do_stat out.thetas.idx -win 50000 -step 10000  -outnames theta.thetasWindow.gz
 
 # column 4 has Wattersons
-awk '{print $4}' theta.thetasWindow.gz > Watterson
+awk '{print $4}' theta.thetasWindow.gz.pestPG > Watterson
 
 # get mean
 meanW=$(awk 'BEGIN{s=0;}{s=s+$1;}END{print s/NR;}' Watterson)
