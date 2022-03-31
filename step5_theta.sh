@@ -58,7 +58,6 @@ cd $THETA
 # make list of the bamfiles and index each file
 ls ${FINAL}/*.bam > ./bam.filelist
 
-
 # convert bed file to angsd format
 awk '{print $1"\t"$2+1"\t"$3}' $PD/ok.bed > ./angsd.file
 
@@ -66,13 +65,44 @@ awk '{print $1"\t"$2+1"\t"$3}' $PD/ok.bed > ./angsd.file
 angsd sites index ./angsd.file
 
 # estimate GL
-angsd -P 40 -bam ./bam.filelist -sites ./angsd.file -anc $PD/*_ref/ref.fa -ref $PD/*_ref/ref.fa -dosaf 1 -gl 1 -remove_bads 1 -only_proper_pairs 1 -minMapQ 30 -minQ 20 -rf $PD/*_ref/chrs.txt -minInd 2 -out ./out
+angsd -P 40 -bam ./bam.filelist -sites ./angsd.file -anc $PD/*_ref/ref.fa \
+-ref $PD/*_ref/ref.fa -dosaf 1 -gl 1 -remove_bads 1 -only_proper_pairs 1 \
+-minMapQ 30 -minQ 30 -rf $PD/*_ref/chrs.txt -minInd 2 -out ./out
 
 # obtain ML estimate of SFS using the folded realSFS
 realSFS -P 40 out.saf.idx  -fold 1 > out.sfs
 
 # calculate theta for each site
 realSFS -P 40 saf2theta out.saf.idx -sfs out.sfs -outname out
+
+####################################
+# heterozygosity for each individual
+####################################
+
+REF='ref.fa'
+realSFS="/home/anna/software/angsd/misc/realSFS"
+OUTDIR='HET'
+ls *.bam > bams
+sed -i 's/.bam//g' bams
+
+cat bams | while read -r LINE
+
+do
+
+angsd -i ${LINE}.bam -ref ${REF} -anc ${REF} -dosaf 1 -rf $PD/*_ref/chrs.txt -sites ./angsd.file \
+-minMapQ 30 -minQ 30 -P 2 -out ${OUTDIR}/${LINE} -only_proper_pairs 1 -baq 2 \
+-GL 2 -doMajorMinor 1 -doCounts 1 -setMinDepthInd 5 -uniqueOnly 1 -remove_bads 1 
+
+$realSFS -fold 1 ${OUTDIR}/${LINE}.saf.idx > ${OUTDIR}/${LINE}_est.ml
+
+done
+
+#######
+# ROHs
+#######
+
+# https://github.com/grenaud/ROHan
+
 
 # estimate 
 #This is temporary until added to biocontainer path, but should work for now:
