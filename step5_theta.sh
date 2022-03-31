@@ -43,8 +43,8 @@ PD=/scratch/bell/dewoody/theta/${genus_species}/
 #First move to parent directory to be able to set variable MIND
 cd $PD
 
-##Designate min number of individuals, set to total numb of downloaded individuals
-MIND=`cat $PD/${genus_species}_SRA.txt | wc -l`
+##Designate min number of individuals, set to total numb of downloaded individuals divided by two
+MIND=$((`wc -l < $PD/${genus_species}_SRA.txt` / 2))
 
 #Just some absolute  paths to shorten commands
 FINAL=/scratch/bell/dewoody/theta/${genus_species}/sra/final_bams
@@ -67,7 +67,7 @@ angsd sites index ./angsd.file
 # estimate GL
 angsd -P 40 -bam ./bam.filelist -sites ./angsd.file -anc $PD/*_ref/ref.fa \
 -ref $PD/*_ref/ref.fa -dosaf 1 -gl 1 -remove_bads 1 -only_proper_pairs 1 \
--minMapQ 30 -minQ 30 -rf $PD/*_ref/chrs.txt -minInd 2 -out ./out
+-minMapQ 30 -minQ 30 -rf $PD/*_ref/chrs.txt -minInd $MIND -out ./out
 
 # obtain ML estimate of SFS using the folded realSFS
 realSFS -P 40 out.saf.idx  -fold 1 > out.sfs
@@ -79,18 +79,17 @@ realSFS -P 40 saf2theta out.saf.idx -sfs out.sfs -outname out
 # heterozygosity for each individual
 ####################################
 
-REF='ref.fa'
-realSFS="/home/anna/software/angsd/misc/realSFS"
-OUTDIR='HET'
-ls *.bam > bams
-sed -i 's/.bam//g' bams
 
-cat bams | while read -r LINE
+OUTDIR='HET'
+
+sed -i 's/.bam//g' ./bam.filelist
+
+cat bam.filelist | while read -r LINE
 
 do
 
-angsd -i ${LINE}.bam -ref ${REF} -anc ${REF} -dosaf 1 -rf $PD/*_ref/chrs.txt -sites ./angsd.file \
--minMapQ 30 -minQ 30 -P 2 -out ${OUTDIR}/${LINE} -only_proper_pairs 1 -baq 2 \
+angsd -i ${LINE}.bam -ref $PD/*_ref/ref.fa -anc $PD/*_ref/ref.fa -dosaf 1 -rf $PD/*_ref/chrs.txt -sites ./angsd.file \
+-minMapQ 30 -minQ 30 -P 40 -out ${OUTDIR}/${LINE} -only_proper_pairs 1 -baq 2 \
 -GL 2 -doMajorMinor 1 -doCounts 1 -setMinDepthInd 5 -uniqueOnly 1 -remove_bads 1 
 
 $realSFS -fold 1 ${OUTDIR}/${LINE}.saf.idx > ${OUTDIR}/${LINE}_est.ml
@@ -105,10 +104,9 @@ done
 
 
 # estimate 
-#This is temporary until added to biocontainer path, but should work for now:
 thetaStat do_stat out.thetas.idx
 
-#This is temporary until added to biocontainer path, but should work for now:
+#Sliding window estimate
 thetaStat do_stat out.thetas.idx -win 50000 -step 10000  -outnames theta.thetasWindow.gz
 
 # column 4 has Wattersons
