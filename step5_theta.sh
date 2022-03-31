@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=S4_Genus-species
+#SBATCH --job-name=S5_Genus-species
 #SBATCH -A fnrdewoody
 #SBATCH -t 300:00:00 
 #SBATCH -N 1 
@@ -24,7 +24,7 @@ module load angsd
 #Example:
 #genus_species=Marmota-marmota-marmota
 #usage:
-#/scratch/bell/$USER/theta/step4_theta.sh
+#/scratch/bell/$USER/theta/step5_theta.sh
 #
 #
 ####end usage and notes####
@@ -67,41 +67,13 @@ angsd sites index ./angsd.file
 # estimate GL
 angsd -P 40 -bam ./bam.filelist -sites ./angsd.file -anc $PD/*_ref/ref.fa \
 -ref $PD/*_ref/ref.fa -dosaf 1 -gl 1 -remove_bads 1 -only_proper_pairs 1 \
--minMapQ 30 -minQ 30 -rf $PD/*_ref/chrs.txt -minInd $MIND -out ./out
+-minMapQ 30 -minQ 30 -rf $PD/*_ref/chrs.txt -minInd $MIND -out out
 
 # obtain ML estimate of SFS using the folded realSFS
 realSFS -P 40 out.saf.idx  -fold 1 > out.sfs
 
 # calculate theta for each site
 realSFS -P 40 saf2theta out.saf.idx -sfs out.sfs -outname out
-
-####################################
-# heterozygosity for each individual
-####################################
-
-
-OUTDIR='HET'
-
-sed -i 's/.bam//g' ./bam.filelist
-
-cat bam.filelist | while read -r LINE
-
-do
-
-angsd -i ${LINE}.bam -ref $PD/*_ref/ref.fa -anc $PD/*_ref/ref.fa -dosaf 1 -rf $PD/*_ref/chrs.txt -sites ./angsd.file \
--minMapQ 30 -minQ 30 -P 40 -out ${OUTDIR}/${LINE} -only_proper_pairs 1 -baq 2 \
--GL 2 -doMajorMinor 1 -doCounts 1 -setMinDepthInd 5 -uniqueOnly 1 -remove_bads 1 
-
-$realSFS -fold 1 ${OUTDIR}/${LINE}.saf.idx > ${OUTDIR}/${LINE}_est.ml
-
-done
-
-#######
-# ROHs
-#######
-
-# https://github.com/grenaud/ROHan
-
 
 # estimate 
 thetaStat do_stat out.thetas.idx
@@ -121,6 +93,33 @@ mean2 += delta * ($1 - avg); } END { print sqrt(mean2 / NR); }' Watterson)
 
 # print to file
 echo -e "$PWD\t $meanW\t $sdW" \
->> ${THETA}/Wattersons_theta_${Genus-species}.txt
+>> Wattersons_theta_${genus_species}.txt
+
+####################################
+# heterozygosity for each individual
+####################################
+
+
+OUTDIR='HET'
+
+sed -i 's/.bam//g' ./bam.filelist
+
+cat bam.filelist | while read -r LINE
+
+do
+
+angsd -i ${LINE}.bam -ref $PD/*_ref/ref.fa -anc $PD/*_ref/ref.fa -dosaf 1 -rf $PD/*_ref/chrs.txt -sites ./angsd.file \
+-minMapQ 30 -minQ 30 -P 40 -out ${OUTDIR}/${LINE} -only_proper_pairs 1 -baq 2 \
+-GL 2 -doMajorMinor 1 -doCounts 1 -setMinDepthInd 5 -uniqueOnly 1 -remove_bads 1 
+
+realSFS -P 40 -fold 1 ${OUTDIR}/${LINE}.saf.idx > ${OUTDIR}/${LINE}_est.ml
+
+done
+
+#######
+# ROHs
+#######
+
+# https://github.com/grenaud/ROHan
 
 # END
