@@ -6,7 +6,7 @@
 #SBATCH -n 20
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
-#SBATCH --mem=50GB
+#SBATCH --mem=20GB
 
 
 module load bioinfo
