@@ -169,11 +169,13 @@ OUT="satc"
 # list of idxstats files
 IN="idxstats.txt"
 
+# setting minimum length to 100kb as we are not going to use scaffolds shorter than that
+
 # choose between default
-Rscript --vanilla $SATC -i $IN -o $OUT
+Rscript --vanilla $SATC -i $IN -o $OUT --minLength 100000
 
 # or 'useMedian'
-#Rscript --vanilla $SATC -i $IN -o $OUT --useMedian TRUE
+#Rscript --vanilla $SATC -i $IN -o $OUT --useMedian TRUE --minLength 100000
 # SATC will give a warning if 'useMedian' should be used
 
 # SATC produce a PCA with individual sex assignment and boxplot with sex-linked scaffolds "satc_PCA_and_boxplot.png"
