@@ -179,13 +179,14 @@ Rscript --vanilla $SATC -i $IN -o $OUT --minLength 100000
 # SATC will give a warning if 'useMedian' should be used
 
 # SATC produce a PCA with individual sex assignment and boxplot with sex-linked scaffolds "satc_PCA_and_boxplot.png"
-# we will use satc_XY_scaff.list for reference QC
+# 
+# we will use satc_sexlinked_scaff.list for reference QC
 
 cd ..
 
 sort ../${accession}_ref/chrs.txt > ../${accession}_ref/sorted_chrs.txt
 
-sort ./idxstats/satc_XZ_scaff.list > ./idxstats/satc_sexlinked_scaff.list_sorted
+sort ./idxstats/satc_sexlinked_scaff.list > ./idxstats/satc_sexlinked_scaff.list_sorted
 
 # remove sex chromosome scaffolds from scaffold list
 comm -1 -3 ./idxstats/satc_sexlinked_scaff.list_sorted ../${accession}_ref/sorted_chrs.txt > ./autosomes.txt
