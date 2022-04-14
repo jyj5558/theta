@@ -76,7 +76,8 @@ realSFS -P 40 out.saf.idx  -fold 1 > out.sfs
 realSFS saf2theta  -P 40 out.saf.idx -sfs out.sfs -outname out
 
 # estimate 
-thetaStat do_stat out.thetas.idx
+thetaStat print out.thetas.idx > out.thetas_persite.txt
+thetaStat do_stat out.thetas.idx -win 50000 -step 10000  -outnames theta.thetasWindow.gz
 
 #Sliding window estimate
 thetaStat do_stat out.thetas.idx -win 50000 -step 10000  -outnames theta.thetasWindow.gz
