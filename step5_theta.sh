@@ -76,7 +76,8 @@ realSFS -P 40 out.saf.idx  -fold 1 > out.sfs
 realSFS saf2theta  -P 40 out.saf.idx -sfs out.sfs -outname out
 
 # estimate 
-thetaStat do_stat out.thetas.idx
+thetaStat print out.thetas.idx > out.thetas_persite.txt
+thetaStat do_stat out.thetas.idx -win 50000 -step 10000  -outnames theta.thetasWindow.gz
 
 #Sliding window estimate
 thetaStat do_stat out.thetas.idx -win 50000 -step 10000  -outnames theta.thetasWindow.gz
@@ -102,19 +103,18 @@ echo -e "$PWD\t $meanW\t $sdW" \
 mkdir ./HET
 OUTDIR='HET'
 
-sed -i 's/.bam//g' ./bam.filelist
-
-cat bam.filelist | while read -r LINE
+ls -1 ../sra/final_bams/*bam | sed 's/\//\'$'\t/g' | cut -f 4| sed 's/.bam//g' | while read -r LINE
 
 do
 
-angsd -i ${LINE}.bam -ref $PD/*_ref/ref.fa -anc $PD/*_ref/ref.fa -dosaf 1 -rf $PD/*_ref/chrs.txt -sites ./angsd.file \
+angsd -i ../sra/final_bams/${LINE}.bam -ref $PD/*_ref/ref.fa -anc $PD/*_ref/ref.fa -dosaf 1 -rf $PD/*_ref/chrs.txt -sites ./angsd.file \
 -minMapQ 30 -minQ 30 -P 40 -out ${OUTDIR}/${LINE} -only_proper_pairs 1 -baq 2 \
 -GL 2 -doMajorMinor 1 -doCounts 1 -setMinDepthInd 5 -uniqueOnly 1 -remove_bads 1 
 
 realSFS -P 40 -fold 1 ${OUTDIR}/${LINE}.saf.idx > ${OUTDIR}/${LINE}_est.ml
 
 done
+
 
 #######
 # ROHs

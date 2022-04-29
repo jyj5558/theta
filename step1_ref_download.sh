@@ -123,14 +123,7 @@ else
 	module load biocontainers/default
 	module load repeatmasker
 	RepeatMasker -pa 5 -a -qq -species mammals -dir . ../${accession}_ref/ref.fa 
-	cat ref.fa.out  | tail -n +4 | awk '{print $5,$6,$7,$11}' | sed 's/ /\t/g' > repeats.bed  #make bed file
-	module --force purge
-	module load bioinfo
-	module load seqtk
-	module load samtools
-	module load BEDTools
-	module load BBMap
-	module load r
+	cat ref.fa.out  | tail -n +4 | awk '{print $5,$6,$7,$11}' | sed 's/ /\t/g' > repeats.bed 
 fi
 
 #move back to species/accession directory
@@ -142,10 +135,10 @@ cd ${accession}_gtf/ #move into gtf directory
 FILE1=$"gtf.gtf"
 if [ -s $FILE1 ]
 then
-	# change  names to fit ref.fa and rm.out 
+	# Print message
 	echo "gtf file properlly formatted" > log_gtf
 else	
-	# if no rm.out file is available run RepeatMasker
+	# Print message
 	printf "no annotation available" > log_gtf
 fi
 #DONE

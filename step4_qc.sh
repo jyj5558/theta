@@ -15,7 +15,7 @@ module load samtools
 module load cmake/3.9.4
 module load BEDTools
 module load BBMap
-module load r
+module load R
 module load bedops
 export PATH=$PATH:~/genmap-build/bin
 
@@ -35,26 +35,7 @@ export PATH=$PATH:~/genmap-build/bin
 # https://github.com/popgenDK/SATC
 # link to the SATC.R script for example SATC="/DIR/SATC/satc.R"
 # NB: for SATC you need to provide BAM files
-####usage####
-#
-#User will need to input (paste) information for the following variables below:
-#
-#Genus-species: this is used in the directory naming as Erangi suggested, to make browsing
-#a bit more doable for us humans
-#accession: this is also used in the directory, to keep multiple reference assemblies
-#separate as Black suggested
-#pathway: include full NCBI url to FTP site (containing directory)                                          
-#assembly:name of assembly
-#
-#Example of defined variables below 
-#genus_species=Balaenoptera-musculus
-#accession=GCF_009873245.2
-#pathway=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/009/873/245/GCF_009873245.2_mBalMus1.pri.v3/
-#assembly=mBalMus1.pri.v3
-#Once these have been defined, save and close slurrm job and submit
-#sbatch /scratch/bell/$USER/theta/step1_download_QC.sh
-
-
+#NB: Make sure R package mclust loads correctly for $USER
  ####end usage and notes####
 ###########################################
 #ENTER INFORMATION FOR FOLLOWING VARIABLES#
@@ -146,12 +127,13 @@ sed -i 's/.bam//g' bamlist
 mkdir idxstats
 
 # for each bam file calculate idxstats which reports alignment summary statistics
-cat bamlist | while read -r LINE
+ls -1 ../sra/final_bams/*bam | sed 's/\//\'$'\t/g' | cut -f 4| sed 's/_sorted.bam//g' > bamlist
+ls -1 ../sra/final_bams/*bam | sed 's/\//\'$'\t/g' | cut -f 4| sed 's/_sorted.bam//g' | while read -r LINE
 do
-# index bamfile
-samtools index ${LINE}.bam
+# Uncomment below if there are not any *bai files in directory
+#samtools index ../sra/final_bams/${LINE}.bam
 # idxstats
-samtools idxstats ${LINE}.bam > ${LINE}.idxstats
+samtools idxstats ../sra/final_bams/${LINE}.bam > ${LINE}.idxstats
 cp ${LINE}.idxstats idxstats/${LINE}.idxstats
 done
 
