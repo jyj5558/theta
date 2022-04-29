@@ -161,7 +161,7 @@ Rscript --vanilla $SATC -i $IN -o $OUT --minLength 100000
 # SATC will give a warning if 'useMedian' should be used
 
 # SATC produce a PCA with individual sex assignment and boxplot with sex-linked scaffolds "satc_PCA_and_boxplot.png"
-
+# combine all scaffolds both the ZX and the dodgy ones
 cat satc_sexlinked_scaff.list satc_XZ_scaff.list | sort -n | uniq > sex.scafs
 
 cd ..
