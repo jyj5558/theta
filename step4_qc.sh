@@ -162,7 +162,7 @@ Rscript --vanilla $SATC -i $IN -o $OUT --minLength 100000
 
 # SATC produce a PCA with individual sex assignment and boxplot with sex-linked scaffolds "satc_PCA_and_boxplot.png"
 # combine all scaffolds both the ZX and the dodgy ones
-cat satc_sexlinked_scaff.list satc_XZ_scaff.list | uniq | sort -t _ -k 2 -g  > sex.scafs
+cat satc_sexlinked_scaff.list satc_XZ_scaff.list | sort -t _ -k 2 -g | uniq -u > sex.scafs
 
 cd ..
 
