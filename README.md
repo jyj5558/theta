@@ -227,6 +227,7 @@ User will need to enter the following information:
 Once entered, simply submit the following command:
 ```
 sbatch /scratch/bell/$USER/theta/step4_qc.sh
+```
 
 ## Step 5: Estimate theta and individual heterozygosity from the alignment files
 **- step5_theta.sh**
@@ -250,10 +251,11 @@ To run, simply submit the following command:
 ```
 sbatch /scratch/bell/$USER/theta/step5_theta.sh
 ```
-`NOTE`, this script has NOT been tested yet (3/9/22)!
 
 #################################
 #################################
-QC of bam dataset #SHOULD WE ADD THIS? I do not know where the quantile_thresholds.R file is
+Further QC of bam dataset based upon coverage-SHOULD WE ADD THIS? I do not know where the quantile_thresholds.R file is
 - qc_bams.sh & quantile_thresholds.R
+Add KING statistics
+Add PCA
 
