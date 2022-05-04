@@ -228,11 +228,10 @@ Once entered, simply submit the following command:
 ```
 sbatch /scratch/bell/$USER/theta/step4_qc.sh
 
+## Step 5: Estimate theta and individual heterozygosity from the alignment files
+**- step5_theta.sh**
 
-**## Step 5: Estimate theta from alignment files
-**- step5_theta.sh****
-
-This script will estimate the Site Frequency Spectrum and Wattersons theta, in sliding windows. The output file will contain mean with SD.
+This script will estimate the Site Frequency Spectrum and calculate Wattersons theta, in sliding windows, as well as individual heterozygosity. The output file will contain mean with SD.
 The output file:
 1. Wattersons_theta_${Genus-species}.txt
 
