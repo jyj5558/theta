@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=S5_Genus-species
-#SBATCH -A fnrdewoody
-#SBATCH -t 300:00:00 
+#SBATCH -A fnrquail
+#SBATCH -t 10-00:00:00 
 #SBATCH -N 1 
 #SBATCH -n 40 
 #SBATCH -e %x_%j.err
