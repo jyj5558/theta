@@ -28,8 +28,6 @@ export PATH=$PATH:~/genmap-build/bin
 # ok.bed (regions to analyze in angsd etc)		
 # map_repeat_summary.txt (summary of ref quality)							
 #
-#if a masked genome isn't available (i.e. rm.out), script will create one using the mammal 
-#repeat library --- we should change this if we move on from mammals!
 #
 #  Sex Assignment Through Coverage (SATC) codes are downloaded to /scratch/bell/dewoody/theta/SATC:
 # https://github.com/popgenDK/SATC
