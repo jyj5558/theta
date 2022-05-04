@@ -254,8 +254,8 @@ sbatch /scratch/bell/$USER/theta/step5_theta.sh
 
 #################################
 #################################
-Further QC of bam dataset based upon coverage-SHOULD WE ADD THIS? I do not know where the quantile_thresholds.R file is
-- qc_bams.sh & quantile_thresholds.R
+Further QC of bam dataset based upon coverage-SHOULD WE ADD THIS? where is:qc_bams.sh & quantile_thresholds.R ?
+
 Add KING statistics
 Add PCA
 
