@@ -1,0 +1,23 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR6811859	PRJNA437057	SAMN08637985	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2500	PAIRED	not collected	202	212142420
+SRR6811860	PRJNA437057	SAMN08637984	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2500	PAIRED	not collected	202	194257542
+SRR6811861	PRJNA437057	SAMN08637994	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2500	PAIRED	not collected	202	426145462
+SRR6811863	PRJNA437057	SAMN08637982	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2500	PAIRED	not collected	202	243051248
+SRR6811865	PRJNA437057	SAMN08637983	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2500	PAIRED	not collected	202	230534116
+SRR6811866	PRJNA437057	SAMN08637989	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2500	PAIRED	not collected	202	324138694
+SRR6811867	PRJNA437057	SAMN08637988	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2500	PAIRED	not collected	202	218393916
+SRR6811868	PRJNA437057	SAMN08637978	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2500	PAIRED	not collected	202	227461898
+SRR6811869	PRJNA437057	SAMN08637979	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2500	PAIRED	not collected	202	397437222
+SRR6811870	PRJNA437057	SAMN08637980	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2500	PAIRED	not collected	202	330984474
+SRR6811871	PRJNA437057	SAMN08637981	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2500	PAIRED	not collected	202	121113544
+SRR6811872	PRJNA437057	SAMN08637974	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2500	PAIRED	not collected	202	306474804
+SRR6811873	PRJNA437057	SAMN08637975	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2501	PAIRED	not collected	202	229781868
+SRR6811885	PRJNA437057	SAMN08637990	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2502	PAIRED	not collected	202	258784624
+SRR6811888	PRJNA437057	SAMN08637977	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2503	PAIRED	not collected	202	151574740
+SRR6811889	PRJNA437057	SAMN08637991	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2504	PAIRED	not collected	202	200057568
+SRR6811890	PRJNA437057	SAMN08637976	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2505	PAIRED	not collected	202	316211810
+SRR6811895	PRJNA437057	SAMN08637987	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2506	PAIRED	not collected	202	328709348
+SRR6811903	PRJNA437057	SAMN08637993	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2507	PAIRED	not collected	202	364937038
+SRR6811904	PRJNA437057	SAMN08637992	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2508	PAIRED	not collected	202	216713074
+SRR6811905	PRJNA437057	SAMN08637973	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2509	PAIRED	not collected	202	309445618
+SRR6811923	PRJNA437057	SAMN08637986	Sapajus apella macrocephalus	Brazil	Illumina HiSeq 2510	PAIRED	not collected	202	282942612
