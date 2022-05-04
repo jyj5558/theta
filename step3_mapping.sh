@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=S3_Genus-species
 #SBATCH -A fnrquail
-#SBATCH -t 4-00:00:00 
+#SBATCH -t 10-00:00:00 
 #SBATCH -N 1 
 #SBATCH -n 20
 #SBATCH -e %x_%j.err
