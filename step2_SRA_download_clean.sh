@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=S2_Genus-species
 #SBATCH -A fnrdewoody
-#SBATCH -t 2-00:00:00
+#SBATCH -t 10-00:00:00
 #SBATCH -N 1
 #SBATCH -n 20
 #SBATCH --mem=50G
@@ -28,7 +28,7 @@ module load sra-toolkit
 #a bit more doable for us humans
 #
 #Note: SRAS.txt must be in /scratch/bell/dewoody/theta/${genus_species}/
-#SRAs.txt: comma separated list of SRAs to download (should be on a single row)
+#SRAs.txt: comma separated list of SRAs to download (each on a single row)
 #
 ####end usage and notes####
 
