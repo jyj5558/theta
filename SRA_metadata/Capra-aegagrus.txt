@@ -1,4 +1,4 @@
-Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotlength	Bases
 ERR340328	PRJEB3136	SAMEA2065421	Capra aegagrus	Iran	Illumina HiSeq 2000	PAIRED	female	196	19454660377
 ERR340329	PRJEB3136	SAMEA2065222	Capra aegagrus	Iran	Illumina HiSeq 2000	PAIRED	male	197	17013466232
 ERR340330	PRJEB3136	SAMEA1966535	Capra aegagrus	Iran	Illumina HiSeq 2000	PAIRED	male	196	37395689577
