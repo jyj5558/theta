@@ -1,4 +1,4 @@
-Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotlength	Bases
 SRR7537344	PRJNA437459	SAMN09396580	Puma concolor	USA	Illumina HiSeq 4000	PAIRED	female	300	52724096100
 SRR7537345	PRJNA437459	SAMN09396580	Puma concolor	USA	Illumina HiSeq 4000	PAIRED	female	233	34197042450
 SRR7543017	PRJNA437459	SAMN09396627	Puma concolor	USA	Illumina HiSeq 4000	PAIRED	male	300	53767241400
