@@ -1,4 +1,4 @@
-Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotlength	Bases
 SRR15902559	PRJNA761769	SAMN21438833	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	301	1.39E+11
 SRR15902560	PRJNA761769	SAMN21438832	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	301	1.37E+11
 SRR15902561	PRJNA761769	SAMN21438831	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	301	1.38E+11
