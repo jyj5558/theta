@@ -1,4 +1,4 @@
-Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotlength	Bases
 SRR18899220	PRJNA827797	SAMN27623861	Alces alces	Minnesota	Illumina NovaSeq 6000	PAIRED	female	300	92098177200
 SRR18899221	PRJNA827797	SAMN27623860	Alces alces	Minnesota	Illumina NovaSeq 6000	PAIRED	missing	302	77718429486
 SRR18899222	PRJNA827797	SAMN27623859	Alces alces	Minnesota	Illumina NovaSeq 6000	PAIRED	missing	302	95951378694
