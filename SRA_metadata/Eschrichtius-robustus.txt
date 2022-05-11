@@ -1,5 +1,3 @@
-Run	BioProject	BioSample	ScientificName	Instrument	LibraryLayout	sex	geo_loc_name_country	geo_loc_name_country_continent	geo_loc_name	AvgSpotLen	Bases
-SRR5495102	PRJNA384396	SAMN06837693	Eschrichtius robustus	Illumina HiSeq 2500	PAIRED	female	Russia	Europe	Russia: Sakhalin Island	202	18624877528
-SRR5495104	PRJNA384396	SAMN06837693	Eschrichtius robustus	Illumina HiSeq 2500	PAIRED	female	Russia	Europe	Russia: Sakhalin Island	202	94184696750
-SRR5495106	PRJNA384396	SAMN06837692	Eschrichtius robustus	Illumina HiSeq 2500	PAIRED	male	Russia	Europe	Russia: Sakhalin Island	202	21554255066
-SRR5495108	PRJNA384396	SAMN06837692	Eschrichtius robustus	Illumina HiSeq 2500	PAIRED	male	Russia	Europe	Russia: Sakhalin Island	202	97622848052
+Run	BioProject	BioSample	ScientificName  pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR5495104	PRJNA384396	SAMN06837693	Eschrichtius robustus	Russia: Sakhalin Island Illumina HiSeq 2500	PAIRED	female	202	94184696750
+SRR5495108	PRJNA384396	SAMN06837692	Eschrichtius robustus	Russia: Sakhalin Island Illumina HiSeq 2500	PAIRED	male	202	97622848052
