@@ -91,7 +91,7 @@ sbatch /scratch/bell/$USER/theta/step1_ref_download.sh
 
 Eventually, we will write a script to automate running these in batch but for now we will download one species at a time.
 
->**Quality check:**
+>**Quality check #1:**
 >Inside the target species directory, confirm that repeat masking (or extraction of rm.out file) worked before proceeding to step2!
 ```
 head *_rm/repeats.bed
@@ -182,6 +182,25 @@ Now, when ready to run, simply submit the following command:
 ```
 sbatch /scratch/bell/$USER/theta/step2_SRA_download_clean.sh
 ```
+>**Quality check #2:**
+>Inside the target species directory, confirm that you have the right number of downloaded raw / cleaned samples. There should be the same number of >samples as the number of rows (-1) in the Species_sra file. 
+Inside the target species directory, run the following code:
+```
+cat *SRA.txt | tail -n +2 | wc -l
+```
+The numerical output should match that obtained from the following:
+```
+ls -1 sra/cleaned/*1.fq | wc -l
+```
+If the numbers do not match, figure out which sample(s) did not download, why and download individually if necessary. If the number match, proceed to next quality check
+
+>**Quality check #3:**
+>Inside the target species directory, print out the statistics from trimgalore. If any samples have less than 80% of reads being discrarded, note this sample (to remove from downstream analysis)
+
+```
+grep -r "Reads written (passing filters):" sra/cleaned/*report.txt
+```
+After noted, proceed to step 3.
 
 ## Steps 3: Mapping cleaned SRA fastq files to the reference assembly
 **- step3_mapping.sh** 
@@ -207,8 +226,22 @@ When ready to run, simply submit the following command:
 sbatch /scratch/bell/$USER/theta/step3_mapping.sh
 ```
 
-`NOTE`, please check for any bugs with the step3 script, it is still new!
-
+>**Quality check #4:**
+>Inside the target species directory, evaluate the mapping rates. If any outliers are identified (e.g., low mapping rate, low depth, low breadth) not >these for potential removal during the last step. Also, confirm that there are the correct number of rows (below) as there are samples. A discrepency could identy a problem sample. 
+ 
+ Alignment rates:
+ ```
+ grep -r "+ 0 mapped (" sra/final_bams/*mapping.txt
+ ```
+Depth:
+```
+cat sra/final_bams/*depth*
+```
+Breadth:
+```
+cat sra/final_bams/*breadth*
+```
+Again, note any problem samples. Re-align if necessary before proceeding to step4:
 
 ## Step 4: QC the reference. Create ok.bed file, containing mappable sites, non-repeat sites, and autosomal sites
 **- step4_qc.sh**
@@ -232,6 +265,22 @@ User will need to enter the following information:
 Once entered, simply submit the following command:
 ```
 sbatch /scratch/bell/$USER/theta/step4_qc.sh
+```
+>**Quality check #5:**
+>Inside the target species directory, Confirm the final bed file is produced (and not empty) and that the sex scaffolds script worked correctly.
+
+Bed file should have three columns (scaffold, start and stop)
+```
+head ok.bed
+```
+
+Confirm that there are plots (download and view) and the presence of identified sex scaffolds:
+
+```
+ls *_satc/idxstats/*png
+```
+```
+head *_satc/idxstats/satc_sexlinked_scaff.list
 ```
 
 ## Step 5: Estimate theta and individual heterozygosity from the alignment files
