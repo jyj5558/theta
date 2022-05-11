@@ -1,4 +1,3 @@
 Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
-SRR12514569	PRJNA658430	SAMN15870420	Bison bison athabascae	Elk Island National Park, AB	HiSeq X Ten	PAIRED	male	302	1.49717E+11
-SRR12514568	PRJNA658430	SAMN15870421	Bison bison athabascae	Elk Island National Park, AB	HiSeq X Ten	PAIRED	female	302	1.48963E+11
-SRR12514570	PRJNA658430	SAMN15870419	Bison bison athabascae	Elk Island National Park, AB	HiSeq X Ten	PAIRED	male	302	1.47944E+11
+SRR12514563	PRJNA658430	SAMN15870425	Bison bison athabascae	Wood Buffalo National Park	HiSeq X Ten	PAIRED	missing	302	1.53242E+11
+SRR12514565	PRJNA658430	SAMN15870424	Bison bison athabascae	Wood Buffalo National Park	HiSeq X Ten	PAIRED	missing	302	1.51115E+11
