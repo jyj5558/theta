@@ -91,6 +91,11 @@ sbatch /scratch/bell/$USER/theta/step1_ref_download.sh
 
 Eventually, we will write a script to automate running these in batch but for now we will download one species at a time.
 
+>Quality check:
+>Inside the target species directory, confirm that repeat masking (or extraction of rm.out file) worked before proceeding to step2!
+```
+head *_rm/repeats.bed
+```
 
 ## Step 2. Population data identification, download, and cleaning
 **Setting up for SRA download**
