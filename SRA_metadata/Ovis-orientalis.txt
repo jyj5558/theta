@@ -1,0 +1,7 @@
+Run	BioProject	BioSample	Instrument	LibraryLayout	ScientificName	pop	sex	AvgSpotLen	Bases
+ERR157930	PRJEB3139	SAMEA2012638	Ovis orientalis	Kaboudan, Iran	Illumina HiSeq 2000	PAIRED	male	196	40496179427
+ERR157939	PRJEB3139	SAMEA2012639	Ovis orientalis	Kaboudan, Iran	Illumina HiSeq 2000	PAIRED	male	196	37903900675
+ERR157942	PRJEB3139	SAMEA2012640	Ovis orientalis	Kaboudan, Iran	Illumina HiSeq 2000	PAIRED	male	197	40145621003
+ERR157931	PRJEB3139	SAMEA2012641	Ovis orientalis	Kaboudan, Iran	Illumina HiSeq 2000	PAIRED	male	197	40081051684
+ERR332589	PRJEB3139	SAMEA2065600	Ovis orientalis	Kaboudan, Iran	Illumina HiSeq 2000	PAIRED	male	197	39816934456
+ERR332575	PRJEB3139	SAMEA2065601	Ovis orientalis	Kaboudan, Iran	Illumina HiSeq 2000	PAIRED	male	197	42244968246
