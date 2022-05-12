@@ -2,4 +2,3 @@ Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpot
 SRR14777843	PRJNA736617	SAMN19655089	Canis lupus pallipes	Maharashtra, India	Illumina HiSeq 2500	PAIRED	NA	300	24060316500
 SRR14777844	PRJNA736617	SAMN19655088	Canis lupus pallipes	Maharashtra, India	Illumina HiSeq 2500	PAIRED	NA	300	20406810300
 SRR14777845	PRJNA736617	SAMN19655087	Canis lupus pallipes	Maharashtra, India	Illumina HiSeq 2500	PAIRED	NA	300	16764517800
-SRR14777846	PRJNA736617	SAMN19655086	Canis lupus pallipes	 Rajasthan, India	Illumina HiSeq 2500	PAIRED	NA	300	19127988300
