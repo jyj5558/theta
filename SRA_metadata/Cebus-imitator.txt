@@ -1,0 +1,4 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR13516711	PRJNA610850	SAMN17524273	Cebus imitator	Parque Nacional Manuel Antonio, Costa Rica	HiSeq X Ten	PAIRED	male	302	72243281226
+SRR13516712	PRJNA610850	SAMN17524272	Cebus imitator	Parque Nacional Manuel Antonio, Costa Rica	HiSeq X Ten	PAIRED	not collected	302	62336722980
+SRR13516713	PRJNA610850	SAMN17524271	Cebus imitator	Parque Nacional Manuel Antonio, Costa Rica	HiSeq X Ten	PAIRED	female	302	80523235158
