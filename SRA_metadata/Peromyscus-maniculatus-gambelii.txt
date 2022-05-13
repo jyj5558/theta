@@ -1,0 +1,16 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR13318615	PRJNA688305	SAMN17172441	Peromyscus maniculatus gambelii	Eastern Oregon, USA	Illumina NovaSeq 6000	PAIRED	male	200	50542285600
+SRR13318604	PRJNA688305	SAMN17172442	Peromyscus maniculatus gambelii	Eastern Oregon, USA	Illumina NovaSeq 6000	PAIRED	female	200	36795481800
+SRR13318593	PRJNA688305	SAMN17172443	Peromyscus maniculatus gambelii	Eastern Oregon, USA	Illumina NovaSeq 6000	PAIRED	male	200	72688892400
+SRR13318725	PRJNA688305	SAMN17172444	Peromyscus maniculatus gambelii	Eastern Oregon, USA	Illumina NovaSeq 6000	PAIRED	male	200	45063658400
+SRR13318714	PRJNA688305	SAMN17172445	Peromyscus maniculatus gambelii	Eastern Oregon, USA	Illumina NovaSeq 6000	PAIRED	female	200	37436455000
+SRR13318653	PRJNA688305	SAMN17172446	Peromyscus maniculatus gambelii	Eastern Oregon, USA	Illumina NovaSeq 6000	PAIRED	female	200	53225564200
+SRR13318642	PRJNA688305	SAMN17172447	Peromyscus maniculatus gambelii	Eastern Oregon, USA	Illumina NovaSeq 6000	PAIRED	female	200	56266567200
+SRR13318631	PRJNA688305	SAMN17172448	Peromyscus maniculatus gambelii	Eastern Oregon, USA	Illumina NovaSeq 6000	PAIRED	male	200	44754860800
+SRR13318758	PRJNA688305	SAMN17172449	Peromyscus maniculatus gambelii	Eastern Oregon, USA	Illumina NovaSeq 6000	PAIRED	female	200	48770999400
+SRR13318747	PRJNA688305	SAMN17172450	Peromyscus maniculatus gambelii	Eastern Oregon, USA	Illumina NovaSeq 6000	PAIRED	male	200	56327678851
+SRR13318736	PRJNA688305	SAMN17172451	Peromyscus maniculatus gambelii	Eastern Oregon, USA	Illumina NovaSeq 6000	PAIRED	female	200	29400363934
+SRR13318700	PRJNA688305	SAMN17172452	Peromyscus maniculatus gambelii	Eastern Oregon, USA	Illumina NovaSeq 6000	PAIRED	male	200	47700897000
+SRR13318689	PRJNA688305	SAMN17172453	Peromyscus maniculatus gambelii	Eastern Oregon, USA	Illumina NovaSeq 6000	PAIRED	female	200	41246673200
+SRR13318678	PRJNA688305	SAMN17172454	Peromyscus maniculatus gambelii	Eastern Oregon, USA	Illumina NovaSeq 6000	PAIRED	male	200	55887757400
+SRR13318667	PRJNA688305	SAMN17172455	Peromyscus maniculatus gambelii	Eastern Oregon, USA	Illumina NovaSeq 6000	PAIRED	female	200	48714057200
