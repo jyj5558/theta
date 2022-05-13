@@ -1,0 +1,16 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR13318616	PRJNA688305	SAMN17172458	Peromyscus maniculatus rubidus	Western Oregon, USA	Illumina NovaSeq 6000	PAIRED	female	200	54431772200
+SRR13318614	PRJNA688305	SAMN17172459	Peromyscus maniculatus rubidus	Western Oregon, USA	Illumina NovaSeq 6000	PAIRED	female	200	65378331600
+SRR13318613	PRJNA688305	SAMN17172460	Peromyscus maniculatus rubidus	Western Oregon, USA	Illumina NovaSeq 6000	PAIRED	male	200	44371839800
+SRR13318612	PRJNA688305	SAMN17172461	Peromyscus maniculatus rubidus	Western Oregon, USA	Illumina NovaSeq 6000	PAIRED	female	200	60384079000
+SRR13318611	PRJNA688305	SAMN17172462	Peromyscus maniculatus rubidus	Western Oregon, USA	Illumina NovaSeq 6000	PAIRED	male	200	39686240800
+SRR13318610	PRJNA688305	SAMN17172463	Peromyscus maniculatus rubidus	Western Oregon, USA	Illumina NovaSeq 6000	PAIRED	male	200	54158978800
+SRR13318609	PRJNA688305	SAMN17172464	Peromyscus maniculatus rubidus	Western Oregon, USA	Illumina NovaSeq 6000	PAIRED	male	200	61491702600
+SRR13318608	PRJNA688305	SAMN17172465	Peromyscus maniculatus rubidus	Western Oregon, USA	Illumina NovaSeq 6000	PAIRED	male	200	57339072600
+SRR13318607	PRJNA688305	SAMN17172466	Peromyscus maniculatus rubidus	Western Oregon, USA	Illumina NovaSeq 6000	PAIRED	female	200	65485376400
+SRR13318606	PRJNA688305	SAMN17172467	Peromyscus maniculatus rubidus	Western Oregon, USA	Illumina NovaSeq 6000	PAIRED	female	200	46719315000
+SRR13318605	PRJNA688305	SAMN17172468	Peromyscus maniculatus rubidus	Western Oregon, USA	Illumina NovaSeq 6000	PAIRED	male	200	39357337800
+SRR13318603	PRJNA688305	SAMN17172469	Peromyscus maniculatus rubidus	Western Oregon, USA	Illumina NovaSeq 6000	PAIRED	female	271	51931315994
+SRR13318602	PRJNA688305	SAMN17172470	Peromyscus maniculatus rubidus	Western Oregon, USA	Illumina NovaSeq 6000	PAIRED	female	200	43408707000
+SRR13318601	PRJNA688305	SAMN17172471	Peromyscus maniculatus rubidus	Western Oregon, USA	Illumina NovaSeq 6000	PAIRED	male	200	64834215600
+SRR13318600	PRJNA688305	SAMN17172472	Peromyscus maniculatus rubidus	Western Oregon, USA	Illumina NovaSeq 6000	PAIRED	male	262	48161321640
