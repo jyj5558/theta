@@ -1,5 +1,0 @@
-Run	BioProject	BioSample	pop	Instrument	Library Name	LibraryLayout	Organism	Sample Name	sex	AvgSpotLen	Bases
-SRR7152383	PRJNA437782	SAMN09080454	Sumatra	Illumina HiSeq 2500	pti186	PAIRED	Panthera tigris sumatrae	pti186	female	250	30755431500
-SRR7152384	PRJNA437782	SAMN09080453	Sumatra	Illumina HiSeq 2500	pti185	PAIRED	Panthera tigris sumatrae	pti185	female	250	30886380750
-SRR7152385	PRJNA437782	SAMN09080452	Sumatra	Illumina HiSeq 2500	pti184	PAIRED	Panthera tigris sumatrae	pti184	male	250	31932444750
-SRR7152386	PRJNA437782	SAMN09080451	Sumatra	Illumina HiSeq 2500	pti183	PAIRED	Panthera tigris sumatrae	pti183	female	250	30095596250
