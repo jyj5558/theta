@@ -2,6 +2,4 @@ Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpot
 SRR10237431	PRJNA576136	SAMN12925401	Odocoileus virginianus	Anticosti	HiSeq X Ten	PAIRED	male	302	1.33293E+11
 SRR10237432	PRJNA576136	SAMN12925400	Odocoileus virginianus	Anticosti	HiSeq X Ten	PAIRED	male	302	1.29256E+11
 SRR10237433	PRJNA576136	SAMN12925399	Odocoileus virginianus	Anticosti	HiSeq X Ten	PAIRED	male	302	66481466412
-SRR10237434	PRJNA576136	SAMN12925399	Odocoileus virginianus	Anticosti	HiSeq X Ten	PAIRED	male	302	65889695902
-SRR10237435	PRJNA576136	SAMN12925398	Odocoileus virginianus	Anticosti	HiSeq X Ten	PAIRED	male	302	57350054586
 SRR10237436	PRJNA576136	SAMN12925398	Odocoileus virginianus	Anticosti	HiSeq X Ten	PAIRED	male	302	60002217982
