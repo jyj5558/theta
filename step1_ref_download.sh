@@ -77,7 +77,7 @@ cd ../
 #Download repeatmasker file (if available)
 cd ${accession}_rm
 wget ${pathway}${accession}_${assembly}_rm.out.gz 
-gunzip ${accession}_${assembly}.rm.out.gz
+gunzip ${accession}_${assembly}_rm.out.gz
 cp ${accession}_${assembly}.rm.out rm.out # keep a copy of the original repeatmasker
 cd ../
 
