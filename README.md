@@ -195,7 +195,7 @@ ls -1 sra/cleaned/*1.fq | wc -l
 If the numbers do not match, figure out which sample(s) did not download, why and download individually if necessary. If the number match, proceed to next quality check
 
 >**Quality check #3:**
->Inside the target species directory, print out the statistics from trimgalore. If any samples have less than 80% of reads being discrarded, note this sample (to remove from downstream analysis)
+>Inside the target species directory, print out the statistics from trimgalore. If any samples have less than 80% of reads being retained, note this sample (to remove from downstream analysis)
 
 ```
 grep -r "Reads written (passing filters):" sra/cleaned/*report.txt
@@ -227,7 +227,7 @@ sbatch /scratch/bell/$USER/theta/step3_mapping.sh
 ```
 
 >**Quality check #4:**
->Inside the target species directory, evaluate the mapping rates. If any outliers are identified (e.g., low mapping rate, low depth, low breadth) not >these for potential removal during the last step. Also, confirm that there are the correct number of rows (below) as there are samples. A discrepency could identy a problem sample. 
+>Inside the target species directory, evaluate the mapping rates. If any outliers are identified (e.g., low mapping rate, low depth, low breadth) note these for potential removal during the last step. Also, confirm that there are the correct number of rows (below) as there are samples. A discrepency could identify a problem sample. 
  
  Alignment rates:
  ```
@@ -242,6 +242,7 @@ Breadth:
 cat sra/final_bams/*breadth*
 ```
 Again, note any problem samples. Re-align if necessary before proceeding to step4:
+To realign, the easiest way is to modify the script and change out the 'for loop' for the sample ID, then resave script as a new name and run.
 
 ## Step 4: QC the reference. Create ok.bed file, containing mappable sites, non-repeat sites, and autosomal sites
 **- step4_qc.sh**
@@ -310,6 +311,10 @@ sbatch /scratch/bell/$USER/theta/step5_theta.sh
 #################################
 Further QC of bam dataset based upon coverage-SHOULD WE ADD THIS? where is:qc_bams.sh & quantile_thresholds.R ?
 
+ADD Tajima's D
+ADD Ne?
+ADD ROH
+ADD genetic load?
 Add KING statistics
 Add PCA
 
