@@ -80,8 +80,8 @@ cp ${accession}_ref/${accession}.fna ${accession}_ref/original.fa # keep a copy 
 
 #Download repeatmasker file (if available)
 wget -O ${accession}_rm/${accession}.rm.out.gz ${pathway}${accession}_${assembly}_rm.out.gz 
-gunzip ${accession}_rm/${accession}.rm.out.gz
-cp ${accession}_rm/${accession}.rm.out ${accession}_rm/rm.out # keep a copy of the original repeatmasker
+gunzip ${accession}_rm/${accession}_rm.out.gz
+cp ${accession}_rm/${accession}_rm.out ${accession}_rm/rm.out # keep a copy of the original repeatmasker
 
 #Download annotation file (if available)
 wget -O ${accession}_gtf/${accession}.gtf.gz ${pathway}${accession}_${assembly}_genomic.gtf.gz 
