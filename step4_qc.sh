@@ -7,6 +7,8 @@
 #SBATCH --mem=50G
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user="your email address (e.g.jeon96@purdue.edu)"
 
 module load bioinfo
 module load bioawk
@@ -39,8 +41,8 @@ export PATH=$PATH:~/genmap-build/bin
 #ENTER INFORMATION FOR FOLLOWING VARIABLES#
 ###########################################
 
-genus_species=Balaenoptera-musculus
-accession=GCF_009873245.2
+genus_species=
+accession=
 
 ########################
 #DO NOT EDIT BELOW CODE#
