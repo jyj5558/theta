@@ -129,9 +129,9 @@ ls -1 ../sra/final_bams/*bam | sed 's/\//\'$'\t/g' | cut -f 4| sed 's/_sorted.ba
 ls -1 ../sra/final_bams/*bam | sed 's/\//\'$'\t/g' | cut -f 4| sed 's/_sorted.bam//g' | while read -r LINE
 do
 # Uncomment below if there are not any *bai files in directory
-#samtools index ../sra/final_bams/${LINE}.bam
+#samtools index ../sra/final_bams/${LINE}
 # idxstats
-samtools idxstats ../sra/final_bams/${LINE}.bam > ${LINE}.idxstats
+samtools idxstats ../sra/final_bams/${LINE} > ${LINE}.idxstats
 cp ${LINE}.idxstats idxstats/${LINE}.idxstats
 done
 
