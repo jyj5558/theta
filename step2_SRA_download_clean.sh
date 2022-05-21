@@ -7,6 +7,8 @@
 #SBATCH --mem=50G
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user="your email address (e.g.jeon96@purdue.edu) without quotation marks"
 
 module load bioinfo
 module load TrimGalore
