@@ -6,6 +6,8 @@
 #SBATCH -n 40 
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user="your email address (e.g.jeon96@purdue.edu) without quotation marks"
 
 
 module --force purge
