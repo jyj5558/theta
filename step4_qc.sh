@@ -122,6 +122,7 @@ cd ${accession}_satc
 # make bamfilelist
 ls ../sra/final_bams/*bam > bamlist
 sed -i 's/.bam//g' bamlist
+sed -i 's/finals/final_bams/g' bamlist
 
 # make a dir for the SATC output
 mkdir idxstats
