@@ -13,6 +13,7 @@
 module --force purge
 module load biocontainers
 module load angsd
+module load r
 
 #########################################################################
 # this script identifies / filteres for usable sites and estimates theta#
@@ -66,41 +67,53 @@ awk '{print $1"\t"$2+1"\t"$3}' $PD/ok.bed > ./angsd.file
 # index file
 angsd sites index ./angsd.file
 
-# estimate GL
+# estimate GL. Increase -P if you can/should employ more CPUs.
 angsd -P 40 -bam ./bam.filelist -sites ./angsd.file -anc $PD/*_ref/ref.fa \
 -ref $PD/*_ref/ref.fa -dosaf 1 -gl 1 -remove_bads 1 -only_proper_pairs 1 \
 -minMapQ 30 -minQ 30 -rf $PD/*_ref/chrs.txt -minInd $MIND -out out
 
-# obtain ML estimate of SFS using the folded realSFS
-realSFS -P 40 out.saf.idx  -fold 1 > out.sfs
+# obtain ML estimate of SFS using the folded realSFS. Increase -P if you can/should employ more CPUs.
+realSFS -P 40 out.saf.idx  -fold 1 > out.sfs 
 
-# calculate theta for each site
+# calculate theta for each site. Increase -P if you can/should employ more CPUs.
 realSFS saf2theta  -P 40 out.saf.idx -sfs out.sfs -outname out
 
 # estimate 
 thetaStat print out.thetas.idx > out.thetas_persite.txt
-thetaStat do_stat out.thetas.idx -win 50000 -step 10000  -outnames theta.thetasWindow.gz
 
 #Sliding window estimate
 thetaStat do_stat out.thetas.idx -win 50000 -step 10000  -outnames theta.thetasWindow.gz
 
-# column 4 has Wattersons
+# column 4 has Wattersons, column 9 has Tajima's D, and column 10 has Fu & Li's Fs
 awk '{print $4}' theta.thetasWindow.gz.pestPG > Watterson
+awk '{print $9}' theta.thetasWindow.gz.pestPG > TajimaD
+awk '{print $10}' theta.thetasWindow.gz.pestPG > FuF
 
 # get mean
 meanW=$(awk 'BEGIN{s=0;}{s=s+$1;}END{print s/NR;}' Watterson)
+meanD=$(awk 'BEGIN{s=0;}{s=s+$1;}END{print s/NR;}' TajimaD)
+meanF=$(awk 'BEGIN{s=0;}{s=s+$1;}END{print s/NR;}' FuF)
 
 # get SD
 sdW=$(awk '{delta = $1 - avg; avg += delta / NR; \
-mean2 += delta * ($1 - avg); } END { print sqrt(mean2 / NR); }' Watterson)
+meanW2 += delta * ($1 - avg); } END { print sqrt(meanW2 / NR); }' Watterson)
+sdD=$(awk '{delta = $1 - avg; avg += delta / NR; \
+meanD2 += delta * ($1 - avg); } END { print sqrt(meanD2 / NR); }' TajimaD)
+sdF=$(awk '{delta = $1 - avg; avg += delta / NR; \
+meanF2 += delta * ($1 - avg); } END { print sqrt(meanF2 / NR); }' FuF)
 
 # print to file
 echo -e "$PWD\t $meanW\t $sdW" \
 >> Wattersons_theta_${genus_species}.txt
+echo -e "$PWD\t $meanD\t $sdD" \
+>> TajimaD_${genus_species}.txt
+echo -e "$PWD\t $meanF\t $sdF" \
+>> FuF_${genus_species}.txt
 
 ####################################
 # heterozygosity for each individual
 ####################################
+#Increase -P if you can/should employ more CPUs.
 
 mkdir ./HET
 OUTDIR='HET'
@@ -113,15 +126,36 @@ angsd -i ../sra/final_bams/${LINE}.bam -ref $PD/*_ref/ref.fa -anc $PD/*_ref/ref.
 -minMapQ 30 -minQ 30 -P 40 -out ${OUTDIR}/${LINE} -only_proper_pairs 1 -baq 2 \
 -GL 2 -doMajorMinor 1 -doCounts 1 -setMinDepthInd 5 -uniqueOnly 1 -remove_bads 1 
 
-realSFS -P 40 -fold 1 ${OUTDIR}/${LINE}.saf.idx > ${OUTDIR}/${LINE}_est.ml
+realSFS -P 40 -fold 1 ${OUTDIR}/${LINE}.saf.idx > ${OUTDIR}/est.ml
 
+cd $OUTDIR
+Rscript -e 'a<-scan("est.ml"); a[2]/sum(a)' >>  ../Het
+mv est.ml ${LINE}_est.ml
+
+cd ../
 done
 
+####################################
+# heterozygosity for population
+####################################
+
+# get mean
+meanH=$(awk 'BEGIN{s=0;}{s=s+$1;}END{print s/NR;}' Het)
+
+# get SD
+sdH=$(awk '{delta = $1 - avg; avg += delta / NR; \
+meanH2 += delta * ($1 - avg); } END { print sqrt(meanH2 / NR); }' Het)
+
+# print to file
+echo -e "$PWD\t $meanH\t $sdH" \
+>> Het_${genus_species}.txt
 
 #######
 # ROHs
 #######
 
-# https://github.com/grenaud/ROHan
+angsd -b ./bam.filelist -dovcf 1 -gl 1 -dopost 1 -domajorminor 1 -domaf 1 -snp_pval 1e-6
+bcftools query -f'%CHROM\t%POS\t%REF,%ALT\t%INFO/TAG\n' angsdput.vcf.gz | bgzip -c > ${genus_species}.freqs.tab.gz
+bcftools roh --AF-file ${genus_species}.freqs.tab.gz --output ROH_${genus_species}.txt
 
 # END
