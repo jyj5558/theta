@@ -15,6 +15,7 @@ module load biocontainers
 module load angsd
 module load r
 module load bcftools
+module load htslib
 
 #########################################################################
 # this script identifies / filteres for usable sites and estimates theta#
