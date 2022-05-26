@@ -157,7 +157,9 @@ echo -e "$PWD\t $meanH\t $sdH" \
 #######
 
 angsd -b ./bam.filelist -dobcf 1 -gl 1 -dopost 1 -domajorminor 1 -domaf 1 -snp_pval 1e-6 -P 40
-bcftools query -f'%CHROM\t%POS\t%REF,%ALT\t%INFO/TAG\n' angsdput.vcf.gz | bgzip -c > ${genus_species}.freqs.tab.gz
-bcftools roh --AF-file ${genus_species}.freqs.tab.gz --output ROH_${genus_species}.txt
+
+bcftools query -f'%CHROM\t%POS\t%REF,%ALT\t%INFO/AF\n' angsdput.bcf | bgzip -c > ${genus_species}.freqs.tab.gz
+tabix -s1 -b2 -e2 ${genus_species}.freqs.tab.gz
+bcftools roh --AF-file ${genus_species}.freqs.tab.gz --output ROH_${genus_species}.txt --threads 40 angsdput.bcf
 
 # END
