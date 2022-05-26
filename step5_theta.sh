@@ -14,6 +14,7 @@ module --force purge
 module load biocontainers
 module load angsd
 module load r
+module load bcftools
 
 #########################################################################
 # this script identifies / filteres for usable sites and estimates theta#
@@ -140,11 +141,11 @@ done
 ####################################
 
 # get mean
-meanH=$(awk 'BEGIN{s=0;}{s=s+$1;}END{print s/NR;}' Het)
+meanH=$(awk 'BEGIN{s=0;}{s=s+$2;}END{print s/NR;}' Het)
 
 # get SD
-sdH=$(awk '{delta = $1 - avg; avg += delta / NR; \
-meanH2 += delta * ($1 - avg); } END { print sqrt(meanH2 / NR); }' Het)
+sdH=$(awk '{delta = $2 - avg; avg += delta / NR; \
+meanH2 += delta * ($2 - avg); } END { print sqrt(meanH2 / NR); }' Het)
 
 # print to file
 echo -e "$PWD\t $meanH\t $sdH" \
@@ -154,7 +155,7 @@ echo -e "$PWD\t $meanH\t $sdH" \
 # ROHs
 #######
 
-angsd -b ./bam.filelist -dovcf 1 -gl 1 -dopost 1 -domajorminor 1 -domaf 1 -snp_pval 1e-6
+angsd -b ./bam.filelist -dobcf 1 -gl 1 -dopost 1 -domajorminor 1 -domaf 1 -snp_pval 1e-6 -P 40
 bcftools query -f'%CHROM\t%POS\t%REF,%ALT\t%INFO/TAG\n' angsdput.vcf.gz | bgzip -c > ${genus_species}.freqs.tab.gz
 bcftools roh --AF-file ${genus_species}.freqs.tab.gz --output ROH_${genus_species}.txt
 
