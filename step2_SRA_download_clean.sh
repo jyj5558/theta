@@ -74,7 +74,7 @@ cat ${g}_1_fastqc/summary.txt ${g}_2_fastqc/summary.txt > ${g}_fastqc_summary.tx
 FILE=$(grep "FAIL" ${g}_fastqc_summary.txt)
 echo "raw"
 echo "$FILE"
-rm  ${g}_?_fastqc* 
+rm -r ${g}_?_fastqc* 
 
 #trim adapters
 trim_galore --stringency 1 --length 30 --quality 20 --fastqc_args "--nogroup" -o ../cleaned --paired ${g}_1.fastq ${g}_2.fastq
