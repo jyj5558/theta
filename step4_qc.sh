@@ -56,19 +56,23 @@ cd /scratch/bell/dewoody/theta/${genus_species}/
 genmap index -F ${accession}_ref/ref.fa -I index -S 50 # build an index 
 
 # compute mappability, k = kmer of 100bp, E = # two mismatches
+rm -rf mappability
 mkdir mappability
 genmap map -K 100 -E 2 -T 10 -I index -O mappability -t -w -bg                
 
 # sort bed 
+rm ${accession}_rm/repeats_sorted.bed
 sortBed -i ${accession}_rm/repeats.bed > ${accession}_rm/repeats_sorted.bed 
 
 # make ref.genome
+
 awk 'BEGIN {FS="\t"}; {print $1 FS $2}' ${accession}_ref/ref.fa.fai > ${accession}_ref/ref.genome 
 
 # sort genome file
 awk '{print $1, $2, $2}' ${accession}_ref/ref.genome > ${accession}_ref/ref2.genome
 sed -i 's/ /\t/g' ${accession}_ref/ref2.genome
 sortBed -i ${accession}_ref/ref2.genome > ${accession}_ref/ref3.genome
+rm ${accession}_ref/ref_sorted.genome
 awk '{print $1, $2 }' ${accession}_ref/ref3.genome > ${accession}_ref/ref_sorted.genome
 sed -i 's/ /\t/g' ${accession}_ref/ref_sorted.genome
 rm ${accession}_ref/ref.genome
@@ -76,9 +80,10 @@ rm ${accession}_ref/ref2.genome
 rm ${accession}_ref/ref3.genome
 
 # find nonrepeat regions
+rm ${accession}_rm/nonrepeat.bed
 bedtools complement -i ${accession}_rm/repeats_sorted.bed -g ${accession}_ref/ref_sorted.genome > ${accession}_rm/nonrepeat.bed
 
-# clean mappability file, remove sites with <1 mappability                                                    
+# clean mappability file, remove sites with <1 mappability   
 awk '$4 == 1' mappability/ref.genmap.bedgraph > mappability/map.bed                                           
 awk 'BEGIN {FS="\t"}; {print $1 FS $2 FS $3}' mappability/map.bed > mappability/mappability.bed
 rm mappability/map.bed
@@ -116,6 +121,7 @@ cut -f 1 ${accession}_ref/chrs.bed > ${accession}_ref/chrs.txt
 
 # identify and remove sex-linked scaffolds with SATC
 #make directory to house SATC files
+rm -rf ${accession}_satc
 mkdir ${accession}_satc
 cd ${accession}_satc
 
@@ -128,14 +134,15 @@ sed -i 's/finals/final_bams/g' bamlist
 mkdir idxstats
 
 # for each bam file calculate idxstats which reports alignment summary statistics
-ls -1 ../sra/final_bams/*bam | sed 's/\//\'$'\t/g' | cut -f 4| sed 's/_sorted.bam//g' > bamlist
-ls -1 ../sra/final_bams/*bam | sed 's/\//\'$'\t/g' | cut -f 4| sed 's/_sorted.bam//g' | while read -r LINE
+#ls -1 ../sra/final_bams/*bam | sed 's/\//\'$'\t/g' | cut -f 4| sed 's/_sorted.bam//g' > bamlist
+#ls -1 ../sra/final_bams/*bam | sed 's/\//\'$'\t/g' | cut -f 4| sed 's/_sorted.bam//g' | while read -r LINE
+cat bamlist | while read -r LINE
 do
 # Uncomment below if there are not any *bai files in directory
-#samtools index ../sra/final_bams/${LINE}
+#samtools index ${LINE}.bam
 # idxstats
-samtools idxstats ../sra/final_bams/${LINE} > ${LINE}.idxstats
-cp ${LINE}.idxstats idxstats/${LINE}.idxstats
+samtools idxstats ${LINE}.bam > ${LINE}.idxstats
+mv ${LINE}.idxstats idxstats/${LINE}.idxstats
 done
 
 # move bamlist to idxstats DIR and make list of idxstats files
@@ -172,6 +179,7 @@ sort ../${accession}_ref/chrs.txt > ../${accession}_ref/sorted_chrs.txt
 # remove sex chromosome scaffolds from scaffold list
 comm -1 -3 ./idxstats/sex.scafs ../${accession}_ref/sorted_chrs.txt > ./autosomes.txt
 
+rm ../${accession}_ref/autosomes_100kb.fa
 xargs samtools faidx ../${accession}_ref/ref_100k.fa < ./autosomes.txt > ../${accession}_ref/autosomes_100kb.fa
 
 #move to species/accession directory
@@ -181,15 +189,19 @@ cd /scratch/bell/dewoody/theta/${genus_species}/
 samtools faidx ./${accession}_ref/autosomes_100kb.fa
 
 # make bed file with the autosomes, 100k, no repeats, mappability =1 sites
+rm ./${accession}_ref/autosomes_100kb.info
 awk '{ print $1, $2, $2 }' ./${accession}_ref/autosomes_100kb.fa.fai > ./${accession}_ref/autosomes_100kb.info
 
 # replace column 2 with zeros
+rm ./${accession}_ref/autosomes_100kb.bed
 awk '$2="0"' ./${accession}_ref/autosomes_100kb.info > ./${accession}_ref/autosomes_100kb.bed
 
 # make tab delimited
+rm ./${accession}_ref/autosomes_100kb.bed
 sed -i 's/ /\t/g' ./${accession}_ref/autosomes_100kb.bed
 
 # only include scaffolds in merged.bed if they are in autosomes_100kb.bed
+rm ok.bed
 bedtools intersect -a ./${accession}_ref/autosomes_100kb.bed -b ./mappability/merged.bed > ok.bed	
 	
 # remove excess files
