@@ -80,8 +80,8 @@ cd /scratch/bell/dewoody/theta/${genus_species}/sra/aligned/
 PicardCommandLine ValidateSamFile I=${i}.sam MODE=SUMMARY O=${i}.sam.txt
 
 # check for errors in sam file
-error=$(grep "No errors found" ${i}_samfile.txt)
-[[ ! -z "$error" ]] && echo "$i samfile not OK" || echo "$i samfile OK"
+noerror=$(grep "No errors found" ${i}.sam.txt)
+[[ ! "$noerror" ]] && echo "$i samfile not OK" || echo "$i samfile OK"
 
 #Sort sam file based upon read coordinate
 PicardCommandLine SortSam INPUT=${i}.sam OUTPUT=${i}_sorted.bam SORT_ORDER=coordinate
