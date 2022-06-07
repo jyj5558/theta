@@ -101,9 +101,12 @@ mv ${accession}_ref/original.tmp.fa ${accession}_ref/original.fa
 
 ###prep reference genome for mapping####
 #Reduce fasta header length
-reformat.sh in=${accession}_ref/original.fa out=${accession}_ref/new.fa trd=t -Xmx20g overwrite=T 
+reformat.sh in=${accession}_ref/original.fa out=${accession}_ref/new.fa trd=t -Xmx20g overwrite=T
 #sort by length
-sortbyname.sh in=${accession}_ref/new.fa out=${accession}_ref/ref.fa -Xmx20g length descending overwrite=T 
+sortbyname.sh in=${accession}_ref/new.fa out=${accession}_ref/ref_full.fa -Xmx20g length descending overwrite=T
+#remove sequences smaller that 100kb prior to any repeatmasking
+bioawk -c fastx '{ if(length($seq) > 100000) { print ">"$name; print $seq }}' ${accession}_ref/ref_full.fa > ${accession}_ref/ref.fa
+rm ${accession}_ref/ref_full.fa
 rm ${accession}_ref/new.fa
 
 #index ref
