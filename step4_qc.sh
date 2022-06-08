@@ -61,7 +61,6 @@ mkdir mappability
 genmap map -K 100 -E 2 -T 10 -I index -O mappability -t -w -bg                
 
 # sort bed 
-rm ${accession}_rm/repeats_sorted.bed
 sortBed -i ${accession}_rm/repeats.bed > ${accession}_rm/repeats_sorted.bed 
 
 # make ref.genome
@@ -134,15 +133,13 @@ sed -i 's/finals/final_bams/g' bamlist
 mkdir idxstats
 
 # for each bam file calculate idxstats which reports alignment summary statistics
-#ls -1 ../sra/final_bams/*bam | sed 's/\//\'$'\t/g' | cut -f 4| sed 's/_sorted.bam//g' > bamlist
-#ls -1 ../sra/final_bams/*bam | sed 's/\//\'$'\t/g' | cut -f 4| sed 's/_sorted.bam//g' | while read -r LINE
 cat bamlist | while read -r LINE
 do
 # Uncomment below if there are not any *bai files in directory
 #samtools index ${LINE}.bam
 # idxstats
 samtools idxstats ${LINE}.bam > ${LINE}.idxstats
-mv ${LINE}.idxstats idxstats/${LINE}.idxstats
+mv ../sra/final_bams/*idxstats idxstats/
 done
 
 # move bamlist to idxstats DIR and make list of idxstats files
@@ -197,7 +194,6 @@ rm ./${accession}_ref/autosomes_100kb.bed
 awk '$2="0"' ./${accession}_ref/autosomes_100kb.info > ./${accession}_ref/autosomes_100kb.bed
 
 # make tab delimited
-rm ./${accession}_ref/autosomes_100kb.bed
 sed -i 's/ /\t/g' ./${accession}_ref/autosomes_100kb.bed
 
 # only include scaffolds in merged.bed if they are in autosomes_100kb.bed
