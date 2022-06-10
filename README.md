@@ -313,10 +313,4 @@ sbatch /scratch/bell/$USER/theta/step5_theta.sh
 #################################
 Further QC of bam dataset based upon coverage-SHOULD WE ADD THIS? where is:qc_bams.sh & quantile_thresholds.R ?
 
-ADD Tajima's D
-ADD Ne?
-ADD ROH
-ADD genetic load?
-Add KING statistics
-Add PCA
 
