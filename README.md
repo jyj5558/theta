@@ -228,7 +228,7 @@ sbatch /scratch/bell/$USER/theta/step3_mapping.sh
 ```
 
 >**Quality check #4:**
->Inside the target species directory, evaluate the mapping rates. If any outliers are identified (e.g., low mapping rate, low depth, low breadth) note these for potential removal during the last step. Also, confirm that there are the correct number of rows (below) as there are samples. A discrepency could identify a problem sample. 
+>Inside the target species directory, evaluate the mapping rates. If any outliers are identified (e.g., low mapping rate (i.e. less than 80%), low depth, low breadth) note these for potential removal during the last step. Also, confirm that there are the correct number of rows (below) as there are samples. A discrepency could identify a problem sample. 
  
  Alignment rates:
  ```
