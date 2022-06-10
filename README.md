@@ -243,7 +243,7 @@ Breadth:
 cat sra/final_bams/*breadth*
 ```
 Again, note any problem samples. Re-align if necessary before proceeding to step4:
-To realign, the easiest way is to modify the script and change out the 'for loop' for the sample ID, then resave script as a new name and run.
+To realign, the easiest way is to modify the script and change out the 'for loop' for the sample ID (e.g. CHANGE "for i in `ls -1 *.fq | sed "s/_[1-2]_val_[1-2].fq//g" | uniq`" TO "for i in SRR10596315 SRR10596317"), then resave script as a new name and run.
 If the number of samples excluding the problematic samples is larger than 2, then just move on to the next step with notes on the samples.
 
 ## Step 4: QC the reference. Create ok.bed file, containing mappable sites, non-repeat sites, and autosomal sites
