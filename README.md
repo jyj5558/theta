@@ -289,9 +289,14 @@ head *_satc/idxstats/satc_sexlinked_scaff.list
 ## Step 5: Estimate theta and individual heterozygosity from the alignment files
 **- step5_theta.sh**
 
-This script will estimate the Site Frequency Spectrum and calculate Wattersons theta, in sliding windows, as well as individual heterozygosity. The output file will contain mean with SD.
+This script will estimate the Site Frequency Spectrum and calculate Wattersons theta, in sliding windows, as well as individual heterozygosity. As ANGSD will take a lot of memory, you might need to reserve the whole half node (64 CPUs; or even the whole node - 128 cores). The output file will contain mean with SD.
 The output file:
 1. Wattersons_theta_${Genus-species}.txt
+2. TajimaD_${Genus-species}.txt
+3. FuF_${Genus-species}.txt
+4. Het (containing individual heterozygosity values)
+5. Het_${Genus-species}.txt (containing the population-level heterozygosity value)
+6. ROH_${Genus-species}.txt
 
 
 Usage:
@@ -312,5 +317,6 @@ sbatch /scratch/bell/$USER/theta/step5_theta.sh
 #################################
 #################################
 Further QC of bam dataset based upon coverage-SHOULD WE ADD THIS? where is:qc_bams.sh & quantile_thresholds.R ?
-
+If some samples were dropped due to quality issues, $MIND in step5 should be changed as well?
+Add ROH file parsing script to calculate ROH value that reflects recent inbreeding. 
 
