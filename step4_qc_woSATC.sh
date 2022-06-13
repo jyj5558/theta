@@ -158,14 +158,14 @@ cut -f 1 ${accession}_ref/chrs.bed > ${accession}_ref/chrs.txt
 # combine all scaffolds both the ZX and the dodgy ones
 #cat satc_sexlinked_scaff.list satc_XZ_scaff.list | sort -t _ -k 2 -g | uniq -u > sex.scafs 
 
-#cd .. -> remove SATC step to here
+#cd .. 
 
-sort ../${accession}_ref/chrs.txt > ../${accession}_ref/sorted_chrs.txt
+#sort ../${accession}_ref/chrs.txt > ../${accession}_ref/sorted_chrs.txt
 
 # remove sex chromosome scaffolds from scaffold list
 #comm -1 -3 ./idxstats/sex.scafs ../${accession}_ref/sorted_chrs.txt > ./autosomes.txt
 
-#xargs samtools faidx ../${accession}_ref/ref_100k.fa < ./autosomes.txt > ../${accession}_ref/autosomes_100kb.fa
+#xargs samtools faidx ../${accession}_ref/ref_100k.fa < ./autosomes.txt > ../${accession}_ref/autosomes_100kb.fa -> remove SATC step to here
 
 #move to species/accession directory
 
