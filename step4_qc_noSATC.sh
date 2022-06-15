@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=S4_Delphinapterus-leucas
+#SBATCH --job-name=S4_genus-species
 #SBATCH -A fnrpupfish
 #SBATCH -t 12-00:00:00 
 #SBATCH -N 1 
@@ -7,7 +7,7 @@
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
 #SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=jeon96@purdue.edu
+#SBATCH --mail-user=
 
 module load bioinfo
 module load bioawk
