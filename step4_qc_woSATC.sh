@@ -35,8 +35,8 @@ export PATH=$PATH:~/genmap-build/bin
 #ENTER INFORMATION FOR FOLLOWING VARIABLES#
 ###########################################
 
-genus_species=Delphinapterus-leucas
-accession=GCF_002288925.2
+genus_species=
+accession=
 
 ########################
 #DO NOT EDIT BELOW CODE#
