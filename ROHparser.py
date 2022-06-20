@@ -7,7 +7,8 @@
     usage:
     #Set the species name in this python script
         genus-species = "Panthera-tigris-altaica"
-    #Note the quotation marks before and after the species name
+        accession = "GCF_000464555.1"
+    #Note the quotation marks before and after the arguments
 
     #Then in your cluster directory, type in:
     python ROHparser.py
@@ -15,25 +16,32 @@
     Jong Yoon Jeon     June 19 2022
 
 ================================================================================================="""
-#Set species name
+#Set the species name and accession number
 genus_species = ""
-
-#What is the species' reference genome length?
-#Change the value according to the exact value without comma or period (i.e. not 2.391 or 2391000000).
-len_ref = 2391065193
-#If we use autosomal genome length to calculate ROH later, len_ref should be changed to len_autosome
+accession = ""
 
 """-------------------------------------------------------------------------------------------------
 Do not edit below this line
 -------------------------------------------------------------------------------------------------"""
 #Set working directory and designate input file
-path_to_directory = "/scratch/bell/dewoody/theta/" + genus_species + "/theta/"
-roh_input = path_to_directory + "ROH_" + genus_species + "_input.txt"
-roh_output = path_to_directory + "ROH_" + genus_species + ".txt"
+path_to_directory = "/scratch/bell/dewoody/theta/" + genus_species
+roh_input = path_to_directory + "/theta/ROH_" + genus_species + "_input.txt"
+roh_output = path_to_directory + "/theta/ROH_" + genus_species + ".txt"
+ref_index_file = path_to_directory + "/" + accession + "_ref/ref.fa.fai"
+
+#Calculate the length of the reference genome
+#If we use autosomal genome length to calculate ROH later, len_ref should be changed to len_autosome
+len_ref = 0
+ref_fh = open(ref_index_file, 'r')
+for line in ref_fh:
+    line = line.rstrip("\n")
+    field = line.split("\t")
+    len_ref += float(field[1])
+print("The leng of this reference genome is " + str(len_ref))
 
 #Change to your directory path
 input = open(roh_input, 'r')
-output = open(, 'w')
+output = open(roh_output, 'w')
 
 #Set counters
 num_roh_100kb = 0
@@ -45,7 +53,7 @@ len_roh_1mb = 0
 print("ROH file parsing started")
 for line in input:
     if line.startswith("RG"):
-        line = line.rstrip('\n')
+        line = line.rstrip("\n")
         field = line.split("\t")
         if float(field[7]) >= 20:
             if float(field[5]) >= 100000 and float(field[5]) < 1000000: #ROH >= 100kb and < 1mb
