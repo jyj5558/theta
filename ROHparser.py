@@ -23,7 +23,7 @@ accession = ""
 """-------------------------------------------------------------------------------------------------
 Do not edit below this line
 -------------------------------------------------------------------------------------------------"""
-print("The species names is: " + genus_species)
+print("The species names is " + genus_species)
 
 #Set working directory and designate input file
 path_to_directory = "/scratch/bell/dewoody/theta/" + genus_species
