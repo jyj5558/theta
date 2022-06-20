@@ -172,7 +172,7 @@ angsd -b ./bam.filelist -dobcf 1 -gl 1 -dopost 1 -domajorminor 1 -domaf 1 -snp_p
 echo "ROH estimation started"
 bcftools query -f'%CHROM\t%POS\t%REF,%ALT\t%INFO/AF\n' angsdput.bcf | bgzip -c > ${genus_species}.freqs.tab.gz
 tabix -s1 -b2 -e2 ${genus_species}.freqs.tab.gz
-bcftools roh --AF-file ${genus_species}.freqs.tab.gz --output ROH_${genus_species}_input.txt --threads 64 angsdput.bcf
+bcftools roh --AF-file ${genus_species}.freqs.tab.gz --output ROH_${genus_species}_raw.txt --threads 64 angsdput.bcf
 echo "ROH input file created"
 
 # END
