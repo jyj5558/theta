@@ -69,7 +69,7 @@ for line in input:
                 num_roh_1mb += 1
                 len_roh_1mb += float(field[5])
 
-#Total number and length of ROH, F(ROH) in average
+#Total number and length of ROH, F(ROH) at the population-level (mean value)
 num_roh_tot = (num_roh_100kb + num_roh_1mb)/num_sam
 len_roh_tot = (len_roh_100kb + len_roh_1mb)/num_sam
 F_roh_1mb = (len_roh_1mb/len_ref)/num_sam
