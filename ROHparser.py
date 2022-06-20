@@ -60,12 +60,14 @@ F_roh_tot = len_roh_tot/len_ref
 #Print the result on screen
 print("num_roh_100kb: " + str(num_roh_100kb) + "\tlen_roh_100kb: " + str(len_roh_100kb) \
       + "\nnum_roh_1mb: " + str(num_roh_1mb) + "\tlen_roh_1mb: " + str(len_roh_1mb) \
-      + "\nnum_roh_total: " + str(num_roh_tot) + "\tlen_roh_total: " + str(len_roh_tot))
+      + "\nnum_roh_total: " + str(num_roh_tot) + "\tlen_roh_total: " + str(len_roh_tot) \
+      + "\nF_roh_1mb: " + str(F_roh_1mb) + "\tF_roh_tot: " + str(F_roh_tot))
 
 #Save the result in an output file
 output.write("Number of ROH >= 100kb and < 1mb: " + str(num_roh_100kb) + "\tLength of ROH >= 100kb and 1mb: " + str(len_roh_100kb) \
              + "\nNumber of ROH >= 1mb: " + str(num_roh_1mb) + "\tLength of ROH >= 1mb: " + str(len_roh_1mb) \
-             + "\nNumber of ROH in total: " + str(num_roh_tot) + "\tLength of ROH in total: " + str(len_roh_tot))
+             + "\nNumber of ROH in total: " + str(num_roh_tot) + "\tLength of ROH in total: " + str(len_roh_tot) \
+             + "\nF(ROH) >= 1mb: " + str(F_roh_1mb) + "\tF(ROH) >= 100kb: " + str(F_roh_tot))
 output.close()
 input.close()
 exit(0)
