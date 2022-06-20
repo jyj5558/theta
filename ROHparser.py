@@ -76,7 +76,7 @@ print("num_roh_100kb: " + str(num_roh_100kb) + "\tlen_roh_100kb: " + str(len_roh
       + "\nF_roh_1mb: " + str(F_roh_1mb) + "\tF_roh_tot: " + str(F_roh_tot))
 
 #Save the result in an output file
-output.write("Number of ROH >= 100kb and < 1mb: " + str(num_roh_100kb) + "\tLength of ROH >= 100kb and 1mb: " + str(len_roh_100kb) \
+output.write("Number of ROH >= 100kb and < 1mb: " + str(num_roh_100kb) + "\tLength of ROH >= 100kb and < 1mb: " + str(len_roh_100kb) \
              + "\nNumber of ROH >= 1mb: " + str(num_roh_1mb) + "\tLength of ROH >= 1mb: " + str(len_roh_1mb) \
              + "\nNumber of ROH in total: " + str(num_roh_tot) + "\tLength of ROH in total: " + str(len_roh_tot) \
              + "\nF(ROH) >= 1mb: " + str(F_roh_1mb) + "\tF(ROH) >= 100kb: " + str(F_roh_tot))
