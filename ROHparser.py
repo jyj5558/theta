@@ -37,7 +37,13 @@ for line in ref_fh:
     line = line.rstrip("\n")
     field = line.split("\t")
     len_ref += float(field[1])
-print("The leng of this reference genome is " + str(len_ref))
+print("The length of this reference genome is " + str(len_ref))
+
+#Check the number of samples in ROH calculation
+sam_file = path_to_directory + "/theta/bam.filelist"
+sam_fh = open(sam_file, 'r')
+num_sam = len(sam_fh.readlines())
+print("The number of samples is " + str(num_sam))
 
 #Change to your directory path
 input = open(roh_input, 'r')
@@ -63,11 +69,12 @@ for line in input:
                 num_roh_1mb += 1
                 len_roh_1mb += float(field[5])
 
-#Total number and length of ROH, F(ROH)
-num_roh_tot = num_roh_100kb + num_roh_1mb
-len_roh_tot = len_roh_100kb + len_roh_1mb
-F_roh_1mb = len_roh_1mb/len_ref
-F_roh_tot = len_roh_tot/len_ref
+#Total number and length of ROH, F(ROH) in average
+num_roh_tot = (num_roh_100kb + num_roh_1mb)/num_sam
+len_roh_tot = (len_roh_100kb + len_roh_1mb)/num_sam
+F_roh_1mb = (len_roh_1mb/len_ref)/num_sam
+F_roh_tot = (len_roh_tot/len_ref)/num_sam
+#divide by the number of samples
 
 #Print the result on screen
 print("num_roh_100kb: " + str(num_roh_100kb) + "\tlen_roh_100kb: " + str(len_roh_100kb) \
