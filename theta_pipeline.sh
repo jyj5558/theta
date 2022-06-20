@@ -255,7 +255,8 @@ cd /scratch/bell/dewoody/theta/${genus_species}/sra/cleaned/
 done
 echo "STEP3-MAPPING DONE"
 
-module --force purge
+
+module -force purge
 module load bioinfo
 module load bioawk
 module load seqtk
@@ -267,7 +268,6 @@ module load R
 module load bedops
 export PATH=$PATH:~/genmap-build/bin
 
-#move to species/accession directory
 
 cd /scratch/bell/dewoody/theta/${genus_species}/
 
@@ -275,7 +275,6 @@ cd /scratch/bell/dewoody/theta/${genus_species}/
 genmap index -F ${accession}_ref/ref.fa -I index -S 50 # build an index 
 
 # compute mappability, k = kmer of 100bp, E = # two mismatches
-rm -rf mappability
 mkdir mappability
 genmap map -K 100 -E 2 -T 10 -I index -O mappability -t -w -bg                
 
@@ -283,14 +282,12 @@ genmap map -K 100 -E 2 -T 10 -I index -O mappability -t -w -bg
 sortBed -i ${accession}_rm/repeats.bed > ${accession}_rm/repeats_sorted.bed 
 
 # make ref.genome
-
 awk 'BEGIN {FS="\t"}; {print $1 FS $2}' ${accession}_ref/ref.fa.fai > ${accession}_ref/ref.genome 
 
 # sort genome file
 awk '{print $1, $2, $2}' ${accession}_ref/ref.genome > ${accession}_ref/ref2.genome
 sed -i 's/ /\t/g' ${accession}_ref/ref2.genome
 sortBed -i ${accession}_ref/ref2.genome > ${accession}_ref/ref3.genome
-rm ${accession}_ref/ref_sorted.genome
 awk '{print $1, $2 }' ${accession}_ref/ref3.genome > ${accession}_ref/ref_sorted.genome
 sed -i 's/ /\t/g' ${accession}_ref/ref_sorted.genome
 rm ${accession}_ref/ref.genome
@@ -298,10 +295,9 @@ rm ${accession}_ref/ref2.genome
 rm ${accession}_ref/ref3.genome
 
 # find nonrepeat regions
-rm ${accession}_rm/nonrepeat.bed
 bedtools complement -i ${accession}_rm/repeats_sorted.bed -g ${accession}_ref/ref_sorted.genome > ${accession}_rm/nonrepeat.bed
 
-# clean mappability file, remove sites with <1 mappability   
+# clean mappability file, remove sites with <1 mappability                                                    
 awk '$4 == 1' mappability/ref.genmap.bedgraph > mappability/map.bed                                           
 awk 'BEGIN {FS="\t"}; {print $1 FS $2 FS $3}' mappability/map.bed > mappability/mappability.bed
 rm mappability/map.bed
@@ -337,48 +333,47 @@ sed -i 's/ /\t/g' ${accession}_ref/chrs.bed
 # make chrs.txt
 cut -f 1 ${accession}_ref/chrs.bed > ${accession}_ref/chrs.txt
 
-# identify and remove sex-linked scaffolds with SATC
+# identify and remove sex-linked scaffolds with SATC -> remove SATC step from here
 #make directory to house SATC files
-rm -rf ${accession}_satc
-mkdir ${accession}_satc
-cd ${accession}_satc
+#mkdir ${accession}_satc
+#cd ${accession}_satc
 
 # make bamfilelist
-ls ../sra/final_bams/*bam > bamlist
-sed -i 's/.bam//g' bamlist
-sed -i 's/finals/final_bams/g' bamlist
+#ls ../sra/final_bams/*bam > bamlist
+#sed -i 's/.bam//g' bamlist
 
 # make a dir for the SATC output
-mkdir idxstats
+#mkdir idxstats
 
 # for each bam file calculate idxstats which reports alignment summary statistics
-cat bamlist | while read -r LINE
-do
+#ls -1 ../sra/final_bams/*bam | sed 's/\//\'$'\t/g' | cut -f 4| sed 's/_sorted.bam//g' > bamlist
+#ls -1 ../sra/final_bams/*bam | sed 's/\//\'$'\t/g' | cut -f 4| sed 's/_sorted.bam//g' | while read -r LINE
+#do
 # Uncomment below if there are not any *bai files in directory
-#samtools index ${LINE}.bam
+#samtools index ../sra/final_bams/${LINE}.bam
 # idxstats
-samtools idxstats ${LINE}.bam > ${LINE}.idxstats
-mv ../sra/final_bams/*idxstats idxstats/
-done
+#samtools idxstats ../sra/final_bams/${LINE} > ${LINE}.idxstats
+#cp ${LINE}.idxstats idxstats/${LINE}.idxstats
+#done
 
 # move bamlist to idxstats DIR and make list of idxstats files
-cp bamlist idxstats/bamlist
-cd idxstats
-ls *.idxstats > idxstats.txt
+#cp bamlist idxstats/bamlist
+#cd idxstats
+#ls *.idxstats > idxstats.txt
 
-# run Sex Assignment Through Coverage (SATC) 
-SATC="/scratch/bell/dewoody/SATC/satc.R"
+# run Sex Assignment Through Coverage (SATC)
+#SATC="/scratch/bell/dewoody/SATC/satc.R"
 
 # provide output prefix
-OUT="satc"
+#OUT="satc"
 
 # list of idxstats files
-IN="idxstats.txt"
+#IN="idxstats.txt"
 
 # setting minimum length to 100kb as we are not going to use scaffolds shorter than that
 
 # choose between default
-Rscript --vanilla $SATC -i $IN -o $OUT --minLength 100000
+#Rscript --vanilla $SATC -i $IN -o $OUT --minLength 100000
 
 # or 'useMedian'
 #Rscript --vanilla $SATC -i $IN -o $OUT --useMedian TRUE --minLength 100000
@@ -386,38 +381,34 @@ Rscript --vanilla $SATC -i $IN -o $OUT --minLength 100000
 
 # SATC produce a PCA with individual sex assignment and boxplot with sex-linked scaffolds "satc_PCA_and_boxplot.png"
 # combine all scaffolds both the ZX and the dodgy ones
-cat satc_sexlinked_scaff.list satc_XZ_scaff.list | sort -t _ -k 2 -g | uniq -u > sex.scafs
+#cat satc_sexlinked_scaff.list satc_XZ_scaff.list | sort -t _ -k 2 -g | uniq -u > sex.scafs 
 
-cd ..
+#cd .. 
 
-sort ../${accession}_ref/chrs.txt > ../${accession}_ref/sorted_chrs.txt
+#sort ../${accession}_ref/chrs.txt > ../${accession}_ref/sorted_chrs.txt
 
 # remove sex chromosome scaffolds from scaffold list
-comm -1 -3 ./idxstats/sex.scafs ../${accession}_ref/sorted_chrs.txt > ./autosomes.txt
+#comm -1 -3 ./idxstats/sex.scafs ../${accession}_ref/sorted_chrs.txt > ./autosomes.txt
 
-rm ../${accession}_ref/autosomes_100kb.fa
-xargs samtools faidx ../${accession}_ref/ref_100k.fa < ./autosomes.txt > ../${accession}_ref/autosomes_100kb.fa
+#xargs samtools faidx ../${accession}_ref/ref_100k.fa < ./autosomes.txt > ../${accession}_ref/autosomes_100kb.fa -> remove SATC step to here
 
 #move to species/accession directory
 
 cd /scratch/bell/dewoody/theta/${genus_species}/
 
-samtools faidx ./${accession}_ref/autosomes_100kb.fa
+#samtools faidx ./${accession}_ref/autosomes_100kb.fa
 
-# make bed file with the autosomes, 100k, no repeats, mappability =1 sites
-rm ./${accession}_ref/autosomes_100kb.info
-awk '{ print $1, $2, $2 }' ./${accession}_ref/autosomes_100kb.fa.fai > ./${accession}_ref/autosomes_100kb.info
+# make bed file with the 100k and merged.bed (no repeats, mappability =1 sites) from below
+awk '{ print $1, $2, $2 }' ./${accession}_ref/ref_100k.fa.fai > ./${accession}_ref/ref_100kb.info
 
 # replace column 2 with zeros
-rm ./${accession}_ref/autosomes_100kb.bed
-awk '$2="0"' ./${accession}_ref/autosomes_100kb.info > ./${accession}_ref/autosomes_100kb.bed
+awk '$2="0"' ./${accession}_ref/ref_100kb.info > ./${accession}_ref/ref_100kb.bed
 
 # make tab delimited
-sed -i 's/ /\t/g' ./${accession}_ref/autosomes_100kb.bed
+sed -i 's/ /\t/g' ./${accession}_ref/ref_100kb.bed
 
-# only include scaffolds in merged.bed if they are in autosomes_100kb.bed
-rm ok.bed
-bedtools intersect -a ./${accession}_ref/autosomes_100kb.bed -b ./mappability/merged.bed > ok.bed	
+# only include scaffolds in merged.bed if they are in ref_100kb.bed
+bedtools intersect -a ./${accession}_ref/ref_100kb.bed -b ./mappability/merged.bed > ok.bed	
 	
 # remove excess files
 rm -rf ${accession}_ref/sorted.fa
@@ -435,142 +426,7 @@ Rscript qc_reference_stats.R --args /scratch/bell/dewoody/theta/${genus_species}
 cd /scratch/bell/dewoody/theta/${genus_species}/
 
 map=$(sed -n '1p' okmap.txt)
-repeats=$(sed -n '1p' norepeat.txt)
+norepeats=$(sed -n '1p' norepeat.txt)
 okbed=$(sed -n '1p' okbed.txt)
 
-echo -e "${genus_species}\t $accession\t $map\t $repeats\t $okbed" >> map_repeat_summary.txt
-
-echo "STEP4-QC DONE"
-
-module --force purge
-module load biocontainers
-module load angsd
-module load r
-module load bcftools
-module load htslib
-
-
-#Path to parent directory of genus-species
-PD=/scratch/bell/dewoody/theta/${genus_species}/
-
-#First move to parent directory to be able to set variable MIND
-cd $PD
-
-##Designate min number of individuals, set to total numb of downloaded individuals divided by two
-MIND=$((`wc -l < $PD/${genus_species}_SRA.txt` / 2))
-
-#Just some absolute  paths to shorten commands
-FINAL=/scratch/bell/dewoody/theta/${genus_species}/sra/final_bams
-THETA=/scratch/bell/dewoody/theta/${genus_species}/theta
-
-#Move to directory which will house angsd/theta files
-
-mkdir $THETA
-cd $THETA
- 
-# make list of the bamfiles and index each file
-ls ${FINAL}/*.bam > ./bam.filelist
-
-# convert bed file to angsd format
-awk '{print $1"\t"$2+1"\t"$3}' $PD/ok.bed > ./angsd.file
-
-# index file
-angsd sites index ./angsd.file
-
-# estimate GL. Increase -P if you can/should employ more CPUs.
-angsd -P 40 -bam ./bam.filelist -sites ./angsd.file -anc $PD/*_ref/ref.fa \
--ref $PD/*_ref/ref.fa -dosaf 1 -gl 1 -remove_bads 1 -only_proper_pairs 1 \
--minMapQ 30 -minQ 30 -rf $PD/*_ref/chrs.txt -minInd $MIND -out out
-
-# obtain ML estimate of SFS using the folded realSFS. Increase -P if you can/should employ more CPUs.
-realSFS -P 40 out.saf.idx  -fold 1 > out.sfs 
-
-# calculate theta for each site. Increase -P if you can/should employ more CPUs.
-realSFS saf2theta  -P 40 out.saf.idx -sfs out.sfs -outname out
-
-# estimate 
-thetaStat print out.thetas.idx > out.thetas_persite.txt
-
-#Sliding window estimate
-thetaStat do_stat out.thetas.idx -win 50000 -step 10000  -outnames theta.thetasWindow.gz
-
-# column 4 has Wattersons, column 9 has Tajima's D, and column 10 has Fu & Li's Fs
-awk '{print $4}' theta.thetasWindow.gz.pestPG > Watterson
-awk '{print $9}' theta.thetasWindow.gz.pestPG > TajimaD
-awk '{print $10}' theta.thetasWindow.gz.pestPG > FuF
-
-# get mean
-meanW=$(awk 'BEGIN{s=0;}{s=s+$1;}END{print s/NR;}' Watterson)
-meanD=$(awk 'BEGIN{s=0;}{s=s+$1;}END{print s/NR;}' TajimaD)
-meanF=$(awk 'BEGIN{s=0;}{s=s+$1;}END{print s/NR;}' FuF)
-
-# get SD
-sdW=$(awk '{delta = $1 - avg; avg += delta / NR; \
-meanW2 += delta * ($1 - avg); } END { print sqrt(meanW2 / NR); }' Watterson)
-sdD=$(awk '{delta = $1 - avg; avg += delta / NR; \
-meanD2 += delta * ($1 - avg); } END { print sqrt(meanD2 / NR); }' TajimaD)
-sdF=$(awk '{delta = $1 - avg; avg += delta / NR; \
-meanF2 += delta * ($1 - avg); } END { print sqrt(meanF2 / NR); }' FuF)
-
-# print to file
-echo -e "$PWD\t $meanW\t $sdW" \
->> Wattersons_theta_${genus_species}.txt
-echo -e "$PWD\t $meanD\t $sdD" \
->> TajimaD_${genus_species}.txt
-echo -e "$PWD\t $meanF\t $sdF" \
->> FuF_${genus_species}.txt
-
-####################################
-# heterozygosity for each individual
-####################################
-#Increase -P if you can/should employ more CPUs.
-
-mkdir ./HET
-OUTDIR='HET'
-
-ls -1 ../sra/final_bams/*bam | sed 's/\//\'$'\t/g' | cut -f 4| sed 's/.bam//g' | while read -r LINE
-
-do
-
-angsd -i ../sra/final_bams/${LINE}.bam -ref $PD/*_ref/ref.fa -anc $PD/*_ref/ref.fa -dosaf 1 -rf $PD/*_ref/chrs.txt -sites ./angsd.file \
--minMapQ 30 -minQ 30 -P 40 -out ${OUTDIR}/${LINE} -only_proper_pairs 1 -baq 2 \
--GL 2 -doMajorMinor 1 -doCounts 1 -setMinDepthInd 5 -uniqueOnly 1 -remove_bads 1 
-
-realSFS -P 40 -fold 1 ${OUTDIR}/${LINE}.saf.idx > ${OUTDIR}/est.ml
-
-cd $OUTDIR
-Rscript -e 'a<-scan("est.ml"); a[2]/sum(a)' >>  ../Het
-mv est.ml ${LINE}_est.ml
-
-cd ../
-done
-
-####################################
-# heterozygosity for population
-####################################
-
-# get mean
-meanH=$(awk 'BEGIN{s=0;}{s=s+$2;}END{print s/NR;}' Het)
-
-# get SD
-sdH=$(awk '{delta = $2 - avg; avg += delta / NR; \
-meanH2 += delta * ($2 - avg); } END { print sqrt(meanH2 / NR); }' Het)
-
-# print to file
-echo -e "$PWD\t $meanH\t $sdH" \
->> Het_${genus_species}.txt
-
-#######
-# ROHs
-#######
-
-angsd -b ./bam.filelist -dobcf 1 -gl 1 -dopost 1 -domajorminor 1 -domaf 1 -snp_pval 1e-6 -P 40
-
-bcftools query -f'%CHROM\t%POS\t%REF,%ALT\t%INFO/AF\n' angsdput.bcf | bgzip -c > ${genus_species}.freqs.tab.gz
-tabix -s1 -b2 -e2 ${genus_species}.freqs.tab.gz
-bcftools roh --AF-file ${genus_species}.freqs.tab.gz --output ROH_${genus_species}.txt --threads 40 angsdput.bcf
-
-# END
-
-echo "STEP5-THETA DONE"
-echo "THETA SCRIPT COMPLETE"
+echo -e "${genus_species}\t $accession\t $map\t $norepeats\t $okbed" >> map_repeat_summary.txt
