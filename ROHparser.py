@@ -5,7 +5,7 @@
     and calculate ROH and F(ROH) of length >= 100kb and >= 1mb
 
     usage:
-    #Set the species name in this python script
+    #Set the species name and the accession number in this python script
         genus-species = "Panthera-tigris-altaica"
         accession = "GCF_000464555.1"
     #Note the quotation marks before and after the arguments
@@ -19,11 +19,12 @@
 #Set the species name and accession number
 genus_species = ""
 accession = ""
-print("The species names is: " + genus_species)
 
 """-------------------------------------------------------------------------------------------------
 Do not edit below this line
 -------------------------------------------------------------------------------------------------"""
+print("The species names is: " + genus_species)
+
 #Set working directory and designate input file
 path_to_directory = "/scratch/bell/dewoody/theta/" + genus_species
 roh_input = path_to_directory + "/theta/ROH_" + genus_species + "_input.txt"
