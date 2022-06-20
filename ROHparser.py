@@ -24,11 +24,12 @@ Do not edit below this line
 -------------------------------------------------------------------------------------------------"""
 #Set working directory and designate input file
 path_to_directory = "/scratch/bell/dewoody/theta/" + genus_species + "/theta/"
-roh_input = path_to_directory + "ROH_" + genus_species + ".txt"
+roh_input = path_to_directory + "ROH_" + genus_species + "_input.txt"
+roh_output = path_to_directory + "ROH_" + genus_species + ".txt"
 
 #Change to your directory path
 input = open(roh_input, 'r')
-output = open("ROH_result.txt", 'w')
+output = open(, 'w')
 
 #Set counters
 num_roh_100kb = 0
