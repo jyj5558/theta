@@ -72,7 +72,7 @@ cd $genus_species
 #Download reference genome
 cd ${accession}_ref
 wget ${pathway}${accession}_${assembly}_genomic.fna.gz 
-gunzip ${accession}_${assembly}_genomic.fna
+gunzip ${accession}_${assembly}_genomic.fna.gz
 cp ${accession}_${assembly}_genomic.fna original.fa # keep a copy of the original reference
 cd ../
 
