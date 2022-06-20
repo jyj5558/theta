@@ -46,7 +46,7 @@ sam_fh = open(sam_file, 'r')
 num_sam = len(sam_fh.readlines())
 print("The number of samples is " + str(num_sam))
 
-#Change to your directory path
+#Open input and output files
 input = open(roh_input, 'r')
 output = open(roh_output, 'w')
 
@@ -69,13 +69,16 @@ for line in input:
             elif float(field[5]) >= 1000000: #ROH >= 1mb
                 num_roh_1mb += 1
                 len_roh_1mb += float(field[5])
+num_roh_100kb = num_roh_100kb/num_sam
+num_roh_1mb = num_roh_1mb/num_sam
+len_roh_100kb = len_roh_100kb/num_sam
+len_roh_1mb = len_roh_1mb/num_sam
 
-#Total number and length of ROH, F(ROH) at the population-level (mean value)
-num_roh_tot = (num_roh_100kb + num_roh_1mb)/num_sam
-len_roh_tot = (len_roh_100kb + len_roh_1mb)/num_sam
-F_roh_1mb = (len_roh_1mb/len_ref)/num_sam
-F_roh_tot = (len_roh_tot/len_ref)/num_sam
-#divide by the number of samples
+#Total number and length of ROH, F(ROH) at the population-level (mean value among samples)
+num_roh_tot = num_roh_100kb + num_roh_1mb
+len_roh_tot = len_roh_100kb + len_roh_1mb
+F_roh_1mb = len_roh_1mb/len_ref
+F_roh_tot = len_roh_tot/len_ref
 
 #Print the result on screen
 print("num_roh_100kb: " + str(num_roh_100kb) + "\tlen_roh_100kb: " + str(len_roh_100kb) \
