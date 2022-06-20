@@ -12,7 +12,7 @@
 
 ================================================================================================="""
 #Set species name
-genus-species = ""
+genus_species = ""
 
 #What is the species' reference genome length?
 #Change the value according to the exact value without comma or period (i.e. not 2.391 or 2391000000).
@@ -23,8 +23,8 @@ len_ref = 2391065193
 Do not edit below this line
 -------------------------------------------------------------------------------------------------"""
 #Set working directory and designate input file
-path_to_directory = "/scratch/bell/dewoody/theta/" + genus-species + "/theta/"
-roh_input = path_to_directory + "ROH_" + genus-species + ".txt"
+path_to_directory = "/scratch/bell/dewoody/theta/" + genus_species + "/theta/"
+roh_input = path_to_directory + "ROH_" + genus_species + ".txt"
 
 #Change to your directory path
 input = open(roh_input, 'r')
@@ -37,6 +37,7 @@ len_roh_100kb = 0
 len_roh_1mb = 0
 
 #Count the number of roh and sum up the length of roh line by line
+print("ROH file parsing started")
 for line in input:
     if line.startswith("RG"):
         line = line.rstrip('\n')
