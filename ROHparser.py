@@ -19,6 +19,7 @@
 #Set the species name and accession number
 genus_species = ""
 accession = ""
+print("The species names is: " + genus_species)
 
 """-------------------------------------------------------------------------------------------------
 Do not edit below this line
@@ -89,4 +90,6 @@ output.write("Number of ROH >= 100kb and < 1mb: " + str(num_roh_100kb) + "\tLeng
              + "\nF(ROH) >= 1mb: " + str(F_roh_1mb) + "\tF(ROH) >= 100kb: " + str(F_roh_tot))
 output.close()
 input.close()
+sam_fh.close()
+ref_fh.close()
 exit(0)
