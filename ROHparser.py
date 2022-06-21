@@ -5,10 +5,11 @@
     and calculate ROH and F(ROH) of length >= 100kb and >= 1mb
 
     usage:
-    #Set the species name and the accession number in this python script
-        genus-species = "Panthera-tigris-altaica"
-        accession = "GCF_000464555.1"
-    #Note the quotation marks before and after the arguments
+    #This python script will be automatically run in step5 script.
+    #If you want to run this script independently,
+    #manually set the species name and accession number:
+    genus_species = "Panthera-tigris-altaica"
+    accession = "GCA_000464555.1"
 
     #Then in your cluster directory, type in:
     python ROHparser.py
@@ -16,9 +17,11 @@
     Jong Yoon Jeon     June 19 2022
 
 ================================================================================================="""
+import sys
+
 #Set the species name and accession number
-genus_species = ""
-accession = ""
+genus_species = sys.argv[1]
+accession = sys.argv[2]
 
 """-------------------------------------------------------------------------------------------------
 Do not edit below this line
