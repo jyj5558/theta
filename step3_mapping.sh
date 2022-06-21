@@ -99,11 +99,11 @@ GenomeAnalysisTK -T IndelRealigner -R ../../*ref/ref.fa -I ${i}_marked.bam -targ
 cd /scratch/bell/dewoody/theta/${genus_species}/sra/final_bams/
 
 #Get some summar stats on bam files
-echo "{i} mapping rate is" > ./${i}_mapping.txt
+echo "$i mapping rate is" > ./${i}_mapping.txt
 samtools flagstat ./${i}.bam >> ./${i}_mapping.txt
-echo "{i} depth is" > ./${i}_depth.txt
+echo "$i depth is" > ./${i}_depth.txt
 samtools depth -a ./${i}.bam | awk '{c++;s+=$3}END{print s/c}' >> ./${i}_depth.txt
-echo "{i} breadth is" > ./${i}_breadth.txt
+echo "$i breadth is" > ./${i}_breadth.txt
 samtools depth -a ./${i}.bam | awk '{c++; if($3>0) total+=1}END{print (total/c)*100}' >> ./${i}_breadth.txt
 
 cd /scratch/bell/dewoody/theta/${genus_species}/sra/cleaned/
