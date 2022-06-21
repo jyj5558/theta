@@ -119,7 +119,7 @@ echo -e "$PWD\t $meanD\t $sdD" \
 >> TajimaD_${genus_species}.txt
 echo -e "$PWD\t $meanF\t $sdF" \
 >> FuF_${genus_species}.txt
-echo "Theta, D, F txt created"
+echo "Theta, D, F .txt created"
 
 ####################################
 # heterozygosity for each individual
@@ -163,7 +163,7 @@ meanH2 += delta * ($2 - avg); } END { print sqrt(meanH2 / NR); }' Het)
 # print to file
 echo -e "$PWD\t $meanH\t $sdH" \
 >> Het_${genus_species}.txt
-echo "Population heterozygosity txt created"
+echo "Population heterozygosity .txt created"
 
 #######
 # ROHs
@@ -178,4 +178,5 @@ bcftools roh --AF-file ${genus_species}.freqs.tab.gz --output ROH_${genus_specie
 echo "ROH input file created"
 
 python ROHparser.py ${genus_species} ${accession}
+echo "ROH .txt created"
 # END
