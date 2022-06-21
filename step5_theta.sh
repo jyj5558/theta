@@ -28,6 +28,7 @@ module load htslib
 # add target species "genus-species"
 #Example:
 #genus_species=Marmota-marmota-marmota
+#accession=GCF_001458135.1
 #usage:
 #/scratch/bell/$USER/theta/step5_theta.sh
 #
@@ -39,6 +40,7 @@ module load htslib
 ##########################
 
 genus_species=
+accession=
 
 ########Do not edit beneath this row########
 
@@ -175,4 +177,5 @@ tabix -s1 -b2 -e2 ${genus_species}.freqs.tab.gz
 bcftools roh --AF-file ${genus_species}.freqs.tab.gz --output ROH_${genus_species}_raw.txt --threads 64 angsdput.bcf
 echo "ROH input file created"
 
+python ROHparser.py ${genus_species} ${accession}
 # END
