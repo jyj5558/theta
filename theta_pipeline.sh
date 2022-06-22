@@ -568,6 +568,7 @@ echo "Population heterozygosity .txt created"
 # ROHs
 #######
 
+echo "File conversion to bcf started"
 angsd -b ./bam.filelist -dobcf 1 -gl 1 -dopost 1 -domajorminor 1 -domaf 1 -snp_pval 1e-6 -P 64
 
 echo "ROH estimation started"
