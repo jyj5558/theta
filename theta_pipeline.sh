@@ -577,7 +577,8 @@ tabix -s1 -b2 -e2 ${genus_species}.freqs.tab.gz
 bcftools roh --AF-file ${genus_species}.freqs.tab.gz --output ROH_${genus_species}_raw.txt --threads 64 angsdput.bcf
 echo "ROH input file created"
 
-python ROHparser.py ${genus_species} ${accession}
+echo "ROH raw file parsing started"
+python $CLUSTER_SCRATCH/theta/ROHparser.py ${genus_species} ${accession}
 echo "ROH .txt created"
 # END
 
