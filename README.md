@@ -242,7 +242,7 @@ Breadth:
 ```
 cat sra/final_bams/*breadth*
 ```
-Record individuals' depth and breadth in Google doc spreadsheet.
+Record individuals' depth and breadth in ascending order of SRR numbers in Google doc spreadsheet.
 Again, note any problem samples. Re-align if necessary before proceeding to step4:
 To realign, the easiest way is to modify the script and change out the 'for loop' for the sample ID (e.g. CHANGE "for i in `ls -1 *.fq | sed "s/_[1-2]_val_[1-2].fq//g" | uniq`" TO "for i in SRR10596315 SRR10596317"), then resave script as a new name and run.
 If the number of samples excluding the problematic samples is larger than 2, then just move on to the next step with notes on the samples.
@@ -317,9 +317,11 @@ To run, simply submit the following command:
 sbatch /scratch/bell/$USER/theta/step5_theta.sh
 ```
 
+Record population-level Watterson's theta, Tajima's D, Fu and Li's F, Heterozygosity, F(ROH) >= 100kb, and F(ROH) >= 1mb in Google doc spreadsheet.
+Also record individual-level Heterozygosity in ascending order of SRR numbers (as the same order of individual depth and breadth for statistical correlation test later).
+
 #################################
 #################################
 Further QC of bam dataset based upon coverage-SHOULD WE ADD THIS? where is:qc_bams.sh & quantile_thresholds.R ?
-If some samples were dropped due to quality issues, $MIND in step5 should be changed as well?
-Add ROH file parsing script to calculate ROH value that reflects recent inbreeding. 
+If some samples were dropped due to quality issues, $MIND in step5 should be changed as well? 
 
