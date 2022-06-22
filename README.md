@@ -242,6 +242,7 @@ Breadth:
 ```
 cat sra/final_bams/*breadth*
 ```
+Record individuals' depth and breadth in Google doc spreadsheet.
 Again, note any problem samples. Re-align if necessary before proceeding to step4:
 To realign, the easiest way is to modify the script and change out the 'for loop' for the sample ID (e.g. CHANGE "for i in `ls -1 *.fq | sed "s/_[1-2]_val_[1-2].fq//g" | uniq`" TO "for i in SRR10596315 SRR10596317"), then resave script as a new name and run.
 If the number of samples excluding the problematic samples is larger than 2, then just move on to the next step with notes on the samples.
@@ -267,7 +268,7 @@ User will need to enter the following information:
 ```
 Once entered, simply submit the following command:
 ```
-sbatch /scratch/bell/$USER/theta/step4_qc.sh
+sbatch /scratch/bell/$USER/theta/step4_qc_noSATC.sh
 ```
 >**Quality check #5:**
 >Inside the target species directory, Confirm the final bed file is produced (and not empty) and that the sex scaffolds script worked correctly.
@@ -277,6 +278,7 @@ Bed file should have three columns (scaffold, start and stop)
 head ok.bed
 ```
 
+(sex scaffolds check below is deprecated)
 Confirm that there are plots (download and view) and the presence of identified sex scaffolds:
 
 ```
@@ -289,7 +291,7 @@ head *_satc/idxstats/satc_sexlinked_scaff.list
 ## Step 5: Estimate theta and individual heterozygosity from the alignment files
 **- step5_theta.sh**
 
-This script will estimate the Site Frequency Spectrum and calculate Wattersons theta, in sliding windows, as well as individual heterozygosity. As ANGSD will take a lot of memory, you might need to reserve the whole half node (64 CPUs; or even the whole node - 128 cores). The output file will contain mean with SD.
+This script will estimate the Site Frequency Spectrum and calculate Wattersons theta, in sliding windows, as well as individual heterozygosity. As ANGSD will take a lot of memory, you might need to reserve the whole half node (64 CPUs; or even the whole node - 128 cores). The output file will contain mean with SD (except ROH).
 The output file:
 1. Wattersons_theta_${Genus-species}.txt
 2. TajimaD_${Genus-species}.txt
@@ -303,6 +305,7 @@ Usage:
 
 User will need to enter the following information:
 `Genus-species`:
+`accession`:
 
 `NOTE`, add the name of the genus-species to the job name as well (for debugging/tracking purposes) as in:
 ```
