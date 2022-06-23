@@ -38,13 +38,14 @@ git clone https://github.com/AnnaBrunicheOlsen/theta
 ## Queue usage guideline
 
 
-      For step1: Account queues (e.g., fnrdewoody) with >24 CPUs. In case the species has RepeatMasker file, it will finish quickly. 
-      Otherwise, it will take a few days requiring high memory uage)
+      For step1: Account queues (e.g., fnrdewoody) with >24 CPUs. 
+      In case the species has RepeatMasker file, it will finish quickly. Otherwise, it will take a few days requiring high memory uage)
       
       For step2: Account queues with 20 CPUs will be sufficient. FastQC and TrimGalore will not use multiple cores.
       This will take several days depending on the number of SRAs to be downloaded.
       
-      For step3: Account queues with >32 CPUs with 14-day wall-time. This will take the longest time depending on the number of SRAs to be mapped.
+      For step3: Account queues with >32 CPUs with 14-day wall-time. 
+      This will take the longest time depending on the number of SRAs to be mapped.
       
       For step4: Standby queue (i.e. #SBATCH -A standby) with 64 CPUs and 4-hour wall-time (the wall-time limit of standby queue).
       Standby queue will start very soon with 64 CPUs and step4 will not take that long (around some hours).
