@@ -141,7 +141,6 @@ angsd -i ../sra/final_bams/${LINE}.bam -ref $PD/*_ref/ref.fa -anc $PD/*_ref/ref.
 
 realSFS -P 64 -fold 1 ${OUTDIR}/${LINE}.saf.idx > ${OUTDIR}/est.ml
 
-echo "${LINE} heterozygosity is" >> ./Het
 cd $OUTDIR
 Rscript -e 'a<-scan("est.ml"); a[2]/sum(a)' >>  ../Het
 mv est.ml ${LINE}_est.ml
