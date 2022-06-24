@@ -513,7 +513,7 @@ meanF2 += delta * ($1 - avg); } END { print sqrt(meanF2 / NR); }' FuF)
 
 # print to file
 echo -e "$PWD\t $meanW\t $sdW" \
->> Wattersons_theta_${genus_species}.txt
+>> WattersonsTheta_${genus_species}.txt
 echo -e "$PWD\t $meanD\t $sdD" \
 >> TajimaD_${genus_species}.txt
 echo -e "$PWD\t $meanF\t $sdF" \
