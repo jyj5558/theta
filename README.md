@@ -313,9 +313,9 @@ head *_satc/idxstats/satc_sexlinked_scaff.list
 ## Step 5: Estimate theta and individual heterozygosity from the alignment files
 **- step5_theta.sh**
 
-This script will estimate the Site Frequency Spectrum and calculate Wattersons theta, in sliding windows, as well as individual heterozygosity. As ANGSD will take a lot of memory, you might need to reserve the whole half node (64 CPUs; or even the whole node - 128 cores). The output file will contain mean with SD (except ROH).
+This script will estimate the Site Frequency Spectrum and calculate Watterson's Theta (in sliding windows), Tajima's D, Fu & Li's Fs, individual heterozygosities, population heterozygosity, and runs of homozygosity. As ANGSD will take a lot of memory, you might need to reserve the whole half node (64 CPUs; or even the whole node - 128 cores). The output file will contain mean with SD (except ROH).
 The output file:
-1. Wattersons_theta_${Genus-species}.txt
+1. WattersonsTheta_${Genus-species}.txt
 2. TajimaD_${Genus-species}.txt
 3. FuF_${Genus-species}.txt
 4. Het (containing individual heterozygosity values)
