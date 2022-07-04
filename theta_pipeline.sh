@@ -493,19 +493,23 @@ echo "per-site Theta file created"
 thetaStat do_stat out.thetas.idx -win 50000 -step 10000  -outnames theta.thetasWindow.gz
 echo "window-based Theta file created"
 
-# column 4 has Wattersons, column 9 has Tajima's D, and column 10 has Fu & Li's Fs
+# column 4 has Wattersons, colum 5 has Nucleotide diversity, column 9 has Tajima's D, and column 10 has Fu & Li's Fs
 awk '{print $4}' theta.thetasWindow.gz.pestPG > Watterson
+awk '{print $5}' theta.thetasWindow.gz.pestPG > NucDiv
 awk '{print $9}' theta.thetasWindow.gz.pestPG > TajimaD
 awk '{print $10}' theta.thetasWindow.gz.pestPG > FuF
 
 # get mean
 meanW=$(awk 'BEGIN{s=0;}{s=s+$1;}END{print s/NR;}' Watterson)
+meanN=$(awk 'BEGIN{s=0;}{s=s+$1;}END{print s/NR;}' NucDiv)
 meanD=$(awk 'BEGIN{s=0;}{s=s+$1;}END{print s/NR;}' TajimaD)
 meanF=$(awk 'BEGIN{s=0;}{s=s+$1;}END{print s/NR;}' FuF)
 
 # get SD
 sdW=$(awk '{delta = $1 - avg; avg += delta / NR; \
 meanW2 += delta * ($1 - avg); } END { print sqrt(meanW2 / NR); }' Watterson)
+sdN=$(awk '{delta = $1 - avg; avg += delta / NR; \
+meanN2 += delta * ($1 - avg); } END { print sqrt(meanN2 / NR); }' NucDiv)
 sdD=$(awk '{delta = $1 - avg; avg += delta / NR; \
 meanD2 += delta * ($1 - avg); } END { print sqrt(meanD2 / NR); }' TajimaD)
 sdF=$(awk '{delta = $1 - avg; avg += delta / NR; \
@@ -514,6 +518,8 @@ meanF2 += delta * ($1 - avg); } END { print sqrt(meanF2 / NR); }' FuF)
 # print to file
 echo -e "$PWD\t $meanW\t $sdW" \
 >> WattersonsTheta_${genus_species}.txt
+echo -e "$PWD\t $meanN\t $sdN" \
+>> NucleotideDiversity_${genus_species}.txt
 echo -e "$PWD\t $meanD\t $sdD" \
 >> TajimaD_${genus_species}.txt
 echo -e "$PWD\t $meanF\t $sdF" \
