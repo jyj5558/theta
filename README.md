@@ -313,14 +313,15 @@ head *_satc/idxstats/satc_sexlinked_scaff.list
 ## Step 5: Estimate theta and individual heterozygosity from the alignment files
 **- step5_theta.sh**
 
-This script will estimate the Site Frequency Spectrum and calculate Watterson's Theta (in sliding windows), Tajima's D, Fu & Li's Fs, individual heterozygosities, population heterozygosity, and runs of homozygosity. As ANGSD will take a lot of memory, you might need to reserve the whole half node (64 CPUs; or even the whole node - 128 cores). The output file will contain mean with SD (except ROH).
+This script will estimate the Site Frequency Spectrum and calculate Watterson's Theta (in sliding windows), Nucleotide diveristy, Tajima's D, Fu & Li's Fs, individual heterozygosities, population heterozygosity, and runs of homozygosity. As ANGSD will take a lot of memory, you might need to reserve the whole half node (64 CPUs; or even the whole node - 128 cores). The output file will contain mean with SD (except ROH).
 The output file:
 1. WattersonsTheta_${Genus-species}.txt
-2. TajimaD_${Genus-species}.txt
-3. FuF_${Genus-species}.txt
-4. Het (containing individual heterozygosity values)
-5. Het_${Genus-species}.txt (containing the population-level heterozygosity value)
-6. ROH_${Genus-species}.txt
+2. NucleotideDiversity_${Genus-species}.txt
+3. TajimaD_${Genus-species}.txt
+4. FuF_${Genus-species}.txt
+5. Het (containing individual heterozygosity values)
+6. Het_${Genus-species}.txt (containing the population-level heterozygosity value)
+7. ROH_${Genus-species}.txt
 
 
 Usage:
@@ -339,7 +340,7 @@ To run, simply submit the following command:
 sbatch /scratch/bell/$USER/theta/step5_theta.sh
 ```
 
-Record population-level Watterson's theta, Tajima's D, Fu and Li's F, Heterozygosity, F(ROH) >= 100kb, and F(ROH) >= 1mb in Google doc spreadsheet.
+Record population-level Watterson's theta, Nucleotide diversity, Tajima's D, Fu and Li's F, Heterozygosity, F(ROH) >= 100kb, and F(ROH) >= 1mb in Google doc spreadsheet.
 Also record individual-level Heterozygosity in ascending order of SRR numbers (as the same order of individual depth and breadth for statistical correlation test later; the samples should have been automatiaclly sorted and processed in the ascending order in step3 and so in downstream steps, so nothing needs to be done to sort them, but just double-check.).
 
 #################################
