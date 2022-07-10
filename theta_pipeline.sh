@@ -525,7 +525,7 @@ echo -e "$PWD\t $meanD\t $sdD" \
 >> TajimaD_${genus_species}.txt
 echo -e "$PWD\t $meanF\t $sdF" \
 >> FuF_${genus_species}.txt
-echo "Theta, D, F .txt created"
+echo "Pi, Theta, D, F .txt created"
 
 ####################################
 # heterozygosity for each individual
