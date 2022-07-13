@@ -134,7 +134,7 @@ And now enable access
 ```
 vdb-config -i graphical
 ```
-A panel will pop up and enter X to enable and close out of screen. 
+A panel will pop up and enter "E" to enable, "O" to click okay, and "S" to save and close out of screen. 
 The two tools we will be using (prefetch and fasterq-dump) will download to the current working directory and remove temporary files afterwards. If a bottleneck is encountered (space wise) we may need to add a new path to a directory which will house large temporary files.
 
 **Identifying population data**
