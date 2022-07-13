@@ -1,8 +1,6 @@
 Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
-SRR13500745	PRJNA693788	SAMN17487595	Panthera tigris tigris	Kanha Tiger Reserve	HiSeq X Ten	PAIRED	not collected	300	21716683200
 SRR13500746	PRJNA693788	SAMN17487594	Panthera tigris tigris	Kanha Tiger Reserve	HiSeq X Ten	PAIRED	male	202	21014020610
 SRR13500747	PRJNA693788	SAMN17487593	Panthera tigris tigris	Kanha Tiger Reserve	HiSeq X Ten	PAIRED	not collected	300	64542661200
 SRR13500748	PRJNA693788	SAMN17487592	Panthera tigris tigris	Kanha Tiger Reserve	HiSeq X Ten	PAIRED	not collected	300	51546401700
 SRR13500750	PRJNA693788	SAMN17487591	Panthera tigris tigris	Kanha Tiger Reserve	HiSeq X Ten	PAIRED	male	300	49390820700
 SRR13500761	PRJNA693788	SAMN17487590	Panthera tigris tigris	Kanha Tiger Reserve	HiSeq X Ten	PAIRED	female	300	81537417900
-SRR13500762	PRJNA693788	SAMN17487589	Panthera tigris tigris	Kanha Tiger Reserve	HiSeq X Ten	PAIRED	not collected	300	24872165100
