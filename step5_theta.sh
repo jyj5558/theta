@@ -85,7 +85,7 @@ realSFS -P 64 out.saf.idx  -fold 1 > out.sfs
 echo "SFS estimation done"
 
 # calculate theta for each site. Increase -P if you can/should employ more CPUs.
-echo "Theta estimation strated"
+echo "Theta estimation started"
 realSFS saf2theta  -P 64 out.saf.idx -sfs out.sfs -outname out
 
 # estimate 
