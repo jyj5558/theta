@@ -39,7 +39,7 @@ genus_species=
 # Tarball
 cd /scratch/bell/dewoody/theta/${genus_species}/
 echo "tarball started"
-tar -cvf ${genus_species}.tar sra/raw/ sra/final_bams/ ok.bed theta/ 
+tar -cvf ${genus_species}.tar sra/final_bams/ ok.bed theta/ 
 pigz ${genus_species}.tar -p 128
 echo "tarball finished"
 
