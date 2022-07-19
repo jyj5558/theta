@@ -3,8 +3,7 @@
 #SBATCH -A fnrquail
 #SBATCH -t 12-00:00:00 
 #SBATCH -N 1 
-#SBATCH -n 20
-#SBATCH --mem=20G
+#SBATCH -n 32
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
 #SBATCH --mail-type=END,FAIL
