@@ -36,7 +36,7 @@ git clone https://github.com/AnnaBrunicheOlsen/theta
 ```
 
 ## Queue usage guideline
-
+For all steps below using account queues, if a memory deficiency issu occurs, increase the number of CPUs to use, change the script accordingly (i.e. "#SBATCH -n" and other program specific arguments, normally denoted as "-p", "-pa", "-P", "--parallele", "-e" (not "-E" of genmap), "-t", "-threads", "-nt", "--core")
 
       For step1: Account queues (e.g., fnrdewoody) with >24 CPUs. 
       In case the species has RepeatMasker file, it will finish quickly. Otherwise, it will take a few days requiring high memory uage)
@@ -52,6 +52,9 @@ git clone https://github.com/AnnaBrunicheOlsen/theta
       
       For step5: Highmem queue (i.e. #SBATCH -A highmem) with 128 CPUs and 1-day wall-time (the wall-time limit of highmem queue).
       ANGSD needs high memory usage and a high number of CPUs to speed up. But it will not last longer than 1 day if you have >128 CPUs.
+      If terminated at the middle of any steps, you can modify the script for the specific species and resume from the terminated step/sample. 
+      (e.g. if you see the job is terminated during calculating the individual heterozygosity of the 4th sample, modify the script to calculate ind Het from the 4th sample and run the job again. If not sure, check with JY.)
+      Or shift to the full cores of account queues (e.g., use 64 cores of fnrdewoody)
 
 ## Step 1. Reference downloading
 **Identifying reference assembly data**
