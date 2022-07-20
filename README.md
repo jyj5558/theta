@@ -36,7 +36,7 @@ git clone https://github.com/AnnaBrunicheOlsen/theta
 ```
 
 ## Queue usage guideline
-For all steps below using account queues, if a memory deficiency issu occurs, increase the number of CPUs to use, change the script accordingly (i.e. "#SBATCH -n" and other program specific arguments, normally denoted as "-p", "-pa", "-P", "--parallele", "-e" (not "-E" of genmap), "-t", "-threads", "-nt", "--core")
+For all steps below using account queues, if a memory deficiency issue occurs, increase the number of CPUs to use, change the script accordingly (i.e. "#SBATCH -n" and other program specific arguments, normally denoted as "-p", "-pa", "-P", "--parallele", "-e" (not "-E" of genmap), "-t", "-threads", "-nt", "--core")
 
       For step1: Account queues (e.g., fnrdewoody) with >24 CPUs. 
       In case the species has RepeatMasker file, it will finish quickly. Otherwise, it will take a few days requiring high memory uage)
