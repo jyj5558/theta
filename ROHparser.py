@@ -30,7 +30,7 @@ print("The species names is " + genus_species)
 
 #Set working directory and designate input file
 path_to_directory = "/scratch/bell/dewoody/theta/" + genus_species
-roh_input = path_to_directory + "/theta/ROH_" + genus_species + "_input.txt"
+roh_input = path_to_directory + "/theta/ROH_" + genus_species + "_raw.txt"
 roh_output = path_to_directory + "/theta/ROH_" + genus_species + ".txt"
 ref_index_file = path_to_directory + "/" + accession + "_ref/ref.fa.fai"
 
