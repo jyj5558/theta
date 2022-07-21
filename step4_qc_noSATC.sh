@@ -192,7 +192,6 @@ rm -rf mappability/filter.bed
 rm -rf mappability/map.bed
 rm -rf ${accession}_ref/ref_sorted.genome
 rm -rf ${accession}_ref/ref.genome
-rm -rf ${accession}_rm/repeats.bed
 rm -rf ${accession}_ref/sorted.fa
 
 #output some QC stats
