@@ -67,7 +67,8 @@ bwa index -a bwtsw ../../*_ref/ref.fa
 samtools faidx ../../*_ref/ref.fa
 
 #Capture all cleaned fastq files with variable
-for i in `ls -1 *.fq | sed "s/_[1-2]_val_[1-2].fq//g" | uniq`
+ls -1 *.fq | sed "s/_[1-2]_val_[1-2].fq//g" | uniq > cleaned_sralist
+for i in `cat cleaned_sralist`
 do
 
 #perform alignment using twenty CPUs and bwa mem algorithm
