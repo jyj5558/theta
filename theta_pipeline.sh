@@ -215,7 +215,8 @@ bwa index -a bwtsw ../../*_ref/ref.fa
 samtools faidx ../../*_ref/ref.fa
 
 #Capture all cleaned fastq files with variable
-for i in `ls -1 *.fq | sed "s/_[1-2]_val_[1-2].fq//g" | uniq`
+ls -1 *.fq | sed "s/_[1-2]_val_[1-2].fq//g" | uniq > cleaned_sralist
+for i in `cat cleaned_sralist`
 do
 
 #perform alignment using twenty CPUs and bwa mem algorithm
@@ -449,7 +450,7 @@ PD=/scratch/bell/dewoody/theta/${genus_species}/
 cd $PD
 
 ##Designate min number of individuals, set to total numb of downloaded individuals divided by two
-MIND=$((`wc -l < $PD/${genus_species}_SRA.txt` / 2))
+MIND=$((`wc -l < cleaned_sralist` / 2))
 
 #Just some absolute  paths to shorten commands
 FINAL=/scratch/bell/dewoody/theta/${genus_species}/sra/final_bams
