@@ -52,7 +52,7 @@ PD=/scratch/bell/dewoody/theta/${genus_species}/
 cd $PD
 
 ##Designate min number of individuals, set to total numb of downloaded individuals divided by two
-MIND=$((`wc -l < $PD/${genus_species}_SRA.txt` / 2))
+MIND=$((`wc -l < cleaned_sralist` / 2))
 
 #Just some absolute  paths to shorten commands
 FINAL=/scratch/bell/dewoody/theta/${genus_species}/sra/final_bams
