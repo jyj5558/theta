@@ -24,8 +24,7 @@ export PATH=$PATH:~/genmap-build/bin
 #
 # This script downloads reference, repeat, and annotation data and then identifyies repeats, 
 # estimates mappability and finds all of the short scaffolds. 
-# The output files include: 	
-# ref_100kb.fa (reference file with scaffolds>100kb)							
+# The output files include: 								
 # ok.bed (regions to analyze in angsd etc)		
 # map_repeat_summary.txt (summary of ref quality)							
 #
