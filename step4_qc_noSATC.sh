@@ -57,7 +57,7 @@ genmap map -K 100 -E 2 -T 64 -I index -O mappability -t -w -bg
 sortBed -i ${accession}_rm/repeats.bed > ${accession}_rm/repeats_sorted.bed 
 
 # make ref.genome
-awk 'BEGIN {FS="\t"}; {print $1 FS $2}' ${accession}_ref/ref.fa.fai > ${accession}_ref/ref.genome 
+awk 'BEGIN {FS="\t"}; {print $1 FS $2}' ${accession}_ref/ref_100kb.fa.fai > ${accession}_ref/ref.genome 
 
 # sort genome file
 awk '{print $1, $2, $2}' ${accession}_ref/ref.genome > ${accession}_ref/ref2.genome
@@ -75,7 +75,6 @@ bedtools complement -i ${accession}_rm/repeats_sorted.bed -g ${accession}_ref/re
 # clean mappability file, remove sites with <1 mappability                                                    
 awk '$4 == 1' mappability/ref.genmap.bedgraph > mappability/map.bed                                           
 awk 'BEGIN {FS="\t"}; {print $1 FS $2 FS $3}' mappability/map.bed > mappability/mappability.bed
-rm mappability/map.bed
 
 # sort mappability 
 sortBed -i mappability/mappability.bed > mappability/mappability2.bed
@@ -90,11 +89,6 @@ bedtools sort -i mappability/map_nonreapeat.bed > mappability/filter_sorted.bed
 # merge overlapping regions
 bedtools merge -i mappability/filter_sorted.bed > mappability/merged.bed
 
-# remove scaffolds shorter than 100kb
-bioawk -c fastx '{ if(length($seq) > 100000) { print ">"$name; print $seq }}' ${accession}_ref/ref.fa > ${accession}_ref/ref_100k.fa
-
-# index
-samtools faidx ${accession}_ref/ref_100k.fa
 
 # make list with the >100kb scaffolds
 awk '{ print $1, $2, $2 }' ${accession}_ref/ref_100k.fa.fai > ${accession}_ref/chrs.info
@@ -165,13 +159,12 @@ cut -f 1 ${accession}_ref/chrs.bed > ${accession}_ref/chrs.txt
 # remove sex chromosome scaffolds from scaffold list
 #comm -1 -3 ./idxstats/sex.scafs ../${accession}_ref/sorted_chrs.txt > ./autosomes.txt
 
-#xargs samtools faidx ../${accession}_ref/ref_100k.fa < ./autosomes.txt > ../${accession}_ref/autosomes_100kb.fa -> remove SATC step to here
+#xargs samtools faidx ../${accession}_ref/ref_100k.fa < ./autosomes.txt > ../${accession}_ref/autosomes_100kb.fa 
 
-#move to species/accession directory
+#samtools faidx ../${accession}_ref/autosomes_100kb.fa -> remove SATC step to here
 
+#move to species directory
 cd /scratch/bell/dewoody/theta/${genus_species}/
-
-#samtools faidx ./${accession}_ref/autosomes_100kb.fa
 
 # make bed file with the 100k and merged.bed (no repeats, mappability =1 sites) from below
 awk '{ print $1, $2, $2 }' ./${accession}_ref/ref_100k.fa.fai > ./${accession}_ref/ref_100kb.info
@@ -186,13 +179,12 @@ sed -i 's/ /\t/g' ./${accession}_ref/ref_100kb.bed
 bedtools intersect -a ./${accession}_ref/ref_100kb.bed -b ./mappability/merged.bed > ok.bed	
 	
 # remove excess files
-rm -rf ${accession}_ref/sorted.fa
-rm -rf mappability/merged.bed
-rm -rf mappability/filter.bed
-rm -rf mappability/map.bed
-rm -rf ${accession}_ref/ref_sorted.genome
-rm -rf ${accession}_ref/ref.genome
-rm -rf ${accession}_ref/sorted.fa
+rm mappability/map.bed
+rm mappability/filter_sorted.bed
+rm mappability/mappability2.bed
+rm ${accession}_ref/ref_sorted.genome
+rm ${accession}_ref/chrs.info
+rm ${accession}_ref/chrs.bed
 
 #output some QC stats
 cd /scratch/bell/${USER}/theta/source/
