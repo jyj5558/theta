@@ -24,6 +24,7 @@ export PATH=$PATH:~/genmap-build/bin
 # This script downloads reference, repeat, and annotation data
 #if a masked genome isn't available (i.e. rm.out), script will create one using the mammal 
 #repeat library --- we should change this if we move on from mammals!
+#change repeatmasker's "-pa" argument according to the "#SBATCH -n" argument (i.e., if you use 64 cpus with #SBATCH -n 64, then change RepeatMasker -pa 64)
 #
 ####usage####
 #
@@ -126,7 +127,7 @@ else
 	module --force purge
 	module load biocontainers/default
 	module load repeatmasker
-	RepeatMasker -pa 5 -a -qq -species mammals -dir . ../${accession}_ref/ref.fa 
+	RepeatMasker -pa 32 -a -qq -species mammals -dir . ../${accession}_ref/ref.fa 
 	cat ref.fa.out  | tail -n +4 | awk '{print $5,$6,$7,$11}' | sed 's/ /\t/g' > repeats.bed 
 fi
 
