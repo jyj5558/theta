@@ -47,7 +47,7 @@ accession=
 cd /scratch/bell/dewoody/theta/${genus_species}/
 
 ####assess mappability of reference####
-genmap index -F ${accession}_ref/ref.fa -I index -S 50 # build an index 
+genmap index -F ${accession}_ref/ref_100kb.fa -I index -S 50 # build an index 
 
 # compute mappability, k = kmer of 100bp, E = # two mismatches
 mkdir mappability
