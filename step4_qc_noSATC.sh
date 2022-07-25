@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH --job-name=S4_genus-species
-#SBATCH -A fnrpupfish
+#SBATCH -A standby
 #SBATCH -t 12-00:00:00 
 #SBATCH -N 1 
-#SBATCH -n 20
+#SBATCH -n 64
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
 #SBATCH --mail-type=END,FAIL
@@ -51,7 +51,7 @@ genmap index -F ${accession}_ref/ref.fa -I index -S 50 # build an index
 
 # compute mappability, k = kmer of 100bp, E = # two mismatches
 mkdir mappability
-genmap map -K 100 -E 2 -T 10 -I index -O mappability -t -w -bg                
+genmap map -K 100 -E 2 -T 64 -I index -O mappability -t -w -bg                
 
 # sort bed 
 sortBed -i ${accession}_rm/repeats.bed > ${accession}_rm/repeats_sorted.bed 
