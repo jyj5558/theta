@@ -105,12 +105,12 @@ reformat.sh in=${accession}_ref/original.fa out=${accession}_ref/new.fa trd=t -X
 #sort by length
 sortbyname.sh in=${accession}_ref/new.fa out=${accession}_ref/ref_full.fa -Xmx20g length descending overwrite=T
 #remove sequences smaller that 100kb prior to any repeatmasking
-bioawk -c fastx '{ if(length($seq) > 100000) { print ">"$name; print $seq }}' ${accession}_ref/ref_full.fa > ${accession}_ref/ref.fa
+bioawk -c fastx '{ if(length($seq) > 100000) { print ">"$name; print $seq }}' ${accession}_ref/ref_full.fa > ${accession}_ref/ref_100kb.fa
 rm ${accession}_ref/ref_full.fa
 rm ${accession}_ref/new.fa
 
 #index ref
-samtools faidx ${accession}_ref/ref.fa
+samtools faidx ${accession}_ref/ref_100kb.fa
 
 
 #prep repeatmasked file for later processing, create a rm.out if one is not available. 
@@ -127,8 +127,8 @@ else
 	module --force purge
 	module load biocontainers/default
 	module load repeatmasker
-	RepeatMasker -pa 32 -a -qq -species mammals -dir . ../${accession}_ref/ref.fa 
-	cat ref.fa.out  | tail -n +4 | awk '{print $5,$6,$7,$11}' | sed 's/ /\t/g' > repeats.bed 
+	RepeatMasker -pa 32 -a -qq -species mammals -dir . ../${accession}_ref/ref_100kb.fa 
+	cat ref_100kb.fa.out  | tail -n +4 | awk '{print $5,$6,$7,$11}' | sed 's/ /\t/g' > repeats.bed 
 fi
 
 #move back to species/accession directory
