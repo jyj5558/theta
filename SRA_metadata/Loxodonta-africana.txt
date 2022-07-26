@@ -1,21 +1,19 @@
-Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotlength	Bases
-SRR15902559	PRJNA761769	SAMN21438833	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	301	1.39E+11
-SRR15902560	PRJNA761769	SAMN21438832	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	301	1.37E+11
-SRR15902561	PRJNA761769	SAMN21438831	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	301	1.38E+11
-SRR15902562	PRJNA761769	SAMN21438830	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	301	1.36E+11
-SRR15902563	PRJNA761769	SAMN21438829	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	301	1.35E+11
-SRR15902564	PRJNA761769	SAMN21438828	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	301	1.33E+11
-SRR15902565	PRJNA761769	SAMN21438827	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	301	60353950543
-SRR15902566	PRJNA761769	SAMN21438826	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	301	1.47E+11
-SRR15902567	PRJNA761769	SAMN21438841	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	300	56636461864
-SRR15902568	PRJNA761769	SAMN21438840	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	301	58221944651
-SRR15902569	PRJNA761769	SAMN21438839	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	300	59393178096
-SRR15902570	PRJNA761769	SAMN21438838	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	301	59145969104
-SRR15902571	PRJNA761769	SAMN21438837	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	301	1.33E+11
-SRR15902572	PRJNA761769	SAMN21438836	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	300	1.38E+11
-SRR15902573	PRJNA761769	SAMN21438835	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	301	1.23E+11
-SRR15902574	PRJNA761769	SAMN21438834	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	300	1.49E+11
-SRR15902575	PRJNA761769	SAMN21438825	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	300	1.21E+11
-SRR15902576	PRJNA761769	SAMN21438824	Loxodonta africana	African	Illumina NovaSeq 6000	PAIRED	female	301	1.27E+11
-SRR12799663	PRJNA622303	SAMN16401426	Loxodonta africana	African	Illumina HiSeq 2500	PAIRED	female	250	64118118250
-SRR12799664	PRJNA622303	SAMN16401426	Loxodonta africana	African	Illumina HiSeq 2500	PAIRED	female	250	66365787500
+Run	BioProject	BioSample	pop	ScientificName	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR15902576	PRJNA761769	SAMN21438824	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	301	1.27426E+11
+SRR15902575	PRJNA761769	SAMN21438825	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	300	1.21056E+11
+SRR15902566	PRJNA761769	SAMN21438826	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	301	1.4669E+11
+SRR15902565	PRJNA761769	SAMN21438827	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	301	60353950543
+SRR15902564	PRJNA761769	SAMN21438828	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	301	1.32841E+11
+SRR15902563	PRJNA761769	SAMN21438829	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	301	1.35369E+11
+SRR15902562	PRJNA761769	SAMN21438830	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	301	1.36022E+11
+SRR15902561	PRJNA761769	SAMN21438831	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	301	1.37638E+11
+SRR15902560	PRJNA761769	SAMN21438832	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	301	1.3678E+11
+SRR15902559	PRJNA761769	SAMN21438833	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	301	1.38785E+11
+SRR15902574	PRJNA761769	SAMN21438834	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	300	1.48814E+11
+SRR15902573	PRJNA761769	SAMN21438835	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	301	1.22602E+11
+SRR15902572	PRJNA761769	SAMN21438836	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	300	1.37856E+11
+SRR15902571	PRJNA761769	SAMN21438837	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	301	1.32911E+11
+SRR15902570	PRJNA761769	SAMN21438838	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	301	59145969104
+SRR15902569	PRJNA761769	SAMN21438839	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	300	59393178096
+SRR15902568	PRJNA761769	SAMN21438840	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	301	58221944651
+SRR15902567	PRJNA761769	SAMN21438841	Gorongosa National Park	Loxodonta africana	Illumina NovaSeq 6000	PAIRED	female	300	56636461864
