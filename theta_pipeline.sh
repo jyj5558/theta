@@ -544,11 +544,10 @@ angsd -i ../sra/final_bams/${LINE}.bam -ref $PD/*_ref/ref.fa -anc $PD/*_ref/ref.
 -minMapQ 30 -minQ 30 -P 64 -out ${OUTDIR}/${LINE} -only_proper_pairs 1 -baq 2 \
 -GL 2 -doMajorMinor 1 -doCounts 1 -setMinDepthInd 5 -uniqueOnly 1 -remove_bads 1 
 
-realSFS -P 64 -fold 1 ${OUTDIR}/${LINE}.saf.idx > ${OUTDIR}/est.ml
+realSFS -P 64 -fold 1 ${OUTDIR}/${LINE}.saf.idx > ${OUTDIR}/${LINE}_est.ml
 
-cd $OUTDIR
-Rscript -e 'a<-scan("est.ml"); a[2]/sum(a)' >>  ../Het
-mv est.ml ${LINE}_est.ml
+cd ${OUTDIR}
+Rscript -e 'args<-commandArgs(TRUE); LINE<-args[1]; a<-scan(paste(LINE,"est.ml", sep="_")); a[2]/sum(a)' ${LINE} >>  ../Het
 echo "${LINE} heterozygosity estimation done"
 
 cd ../
