@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=Genus-species
 #SBATCH -A fnrquail
-#SBATCH -t 12-00:00:00 
+#SBATCH -t 14-00:00:00 
 #SBATCH -N 1 
 #SBATCH -n 64
 #SBATCH --mem=80G
@@ -462,7 +462,11 @@ mkdir $THETA
 cd $THETA
  
 # make list of the bamfiles and index each file
-ls ${FINAL}/*.bam > ./bam.filelist
+# if you remove some individuals depending on their mapping rate, depth, or breadth, edit this file accordingly
+ls $FINAL/*.bam > ./bam.filelist
+
+# designate min number of individuals, set to total numb of bam-filed individuals divided by two
+MIND=$((`wc -l < ./bam.filelist` / 2))
 
 # convert bed file to angsd format
 awk '{print $1"\t"$2+1"\t"$3}' $PD/ok.bed > ./angsd.file
