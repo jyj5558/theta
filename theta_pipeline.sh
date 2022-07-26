@@ -449,9 +449,6 @@ PD=/scratch/bell/dewoody/theta/${genus_species}/
 #First move to parent directory to be able to set variable MIND
 cd $PD
 
-##Designate min number of individuals, set to total numb of downloaded individuals divided by two
-MIND=$((`wc -l < cleaned_sralist` / 2))
-
 #Just some absolute  paths to shorten commands
 FINAL=/scratch/bell/dewoody/theta/${genus_species}/sra/final_bams
 THETA=/scratch/bell/dewoody/theta/${genus_species}/theta
