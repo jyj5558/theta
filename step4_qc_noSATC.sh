@@ -68,11 +68,11 @@ rm ${accession}_ref/ref.genome
 rm ${accession}_ref/ref2.genome
 rm ${accession}_ref/ref3.genome
 
-# find nonrepeat regions
-bedtools complement -i ${accession}_rm/repeats_sorted.bed -g ${accession}_ref/ref_sorted.genome > ${accession}_rm/nonrepeat.bed
+# find nonrepeat regions -> "nonrepeat.bed" file is not used further
+#bedtools complement -i ${accession}_rm/repeats_sorted.bed -g ${accession}_ref/ref_sorted.genome > ${accession}_rm/nonrepeat.bed
 
 # clean mappability file, remove sites with <1 mappability                                                    
-awk '$4 == 1' mappability/ref.genmap.bedgraph > mappability/map.bed                                           
+awk '$4 == 1' mappability/ref_100kb.genmap.bedgraph > mappability/map.bed                                           
 awk 'BEGIN {FS="\t"}; {print $1 FS $2 FS $3}' mappability/map.bed > mappability/mappability.bed
 
 # sort mappability 
@@ -89,17 +89,17 @@ bedtools sort -i mappability/map_nonreapeat.bed > mappability/filter_sorted.bed
 bedtools merge -i mappability/filter_sorted.bed > mappability/merged.bed
 
 
-# make list with the >100kb scaffolds
-awk '{ print $1, $2, $2 }' ${accession}_ref/ref_100k.fa.fai > ${accession}_ref/chrs.info
+# make list with the >100kb scaffolds -> duplicate with the step below making "ref_100kb.info"
+#awk '{ print $1, $2, $2 }' ${accession}_ref/ref_100kb.fa.fai > ${accession}_ref/chrs.info
 
-# replace column 2 with zeros
-awk '$2="0"' ${accession}_ref/chrs.info > ${accession}_ref/chrs.bed
+# replace column 2 with zeros -> duplicate with the step below making "ref_100kb.bed"
+#awk '$2="0"' ${accession}_ref/chrs.info > ${accession}_ref/chrs.bed
 
-# make tab delimited
-sed -i 's/ /\t/g' ${accession}_ref/chrs.bed
+# make tab delimited -> duplicate with the step below making "ref_100kb.bed"
+#sed -i 's/ /\t/g' ${accession}_ref/chrs.bed
 
-# make chrs.txt
-cut -f 1 ${accession}_ref/chrs.bed > ${accession}_ref/chrs.txt
+# make chrs.txt -> moved to below
+#cut -f 1 ${accession}_ref/chrs.bed > ${accession}_ref/chrs.txt
 
 # identify and remove sex-linked scaffolds with SATC -> remove SATC step from here
 #make directory to house SATC files
@@ -158,15 +158,15 @@ cut -f 1 ${accession}_ref/chrs.bed > ${accession}_ref/chrs.txt
 # remove sex chromosome scaffolds from scaffold list
 #comm -1 -3 ./idxstats/sex.scafs ../${accession}_ref/sorted_chrs.txt > ./autosomes.txt
 
-#xargs samtools faidx ../${accession}_ref/ref_100k.fa < ./autosomes.txt > ../${accession}_ref/autosomes_100kb.fa 
+#xargs samtools faidx ../${accession}_ref/ref_100kb.fa < ./autosomes.txt > ../${accession}_ref/autosomes_100kb.fa 
 
-#samtools faidx ../${accession}_ref/autosomes_100kb.fa -> remove SATC step to here
+#samtools faidx ../${accession}_ref/autosomes_100kb.fa 
 
 #move to species directory
-cd /scratch/bell/dewoody/theta/${genus_species}/
+#cd /scratch/bell/dewoody/theta/${genus_species}/ -> remove SATC step to here
 
 # make bed file with the 100k and merged.bed (no repeats, mappability =1 sites) from below
-awk '{ print $1, $2, $2 }' ./${accession}_ref/ref_100k.fa.fai > ./${accession}_ref/ref_100kb.info
+awk '{ print $1, $2, $2 }' ./${accession}_ref/ref_100kb.fa.fai > ./${accession}_ref/ref_100kb.info
 
 # replace column 2 with zeros
 awk '$2="0"' ./${accession}_ref/ref_100kb.info > ./${accession}_ref/ref_100kb.bed
@@ -176,14 +176,17 @@ sed -i 's/ /\t/g' ./${accession}_ref/ref_100kb.bed
 
 # only include scaffolds in merged.bed if they are in ref_100kb.bed
 bedtools intersect -a ./${accession}_ref/ref_100kb.bed -b ./mappability/merged.bed > ok.bed	
+
+# make chrs.txt
+cut -f 1 ${accession}_ref/ref_100kb.bed > ${accession}_ref/chrs.txt
 	
 # remove excess files
 rm mappability/map.bed
 rm mappability/filter_sorted.bed
 rm mappability/mappability2.bed
 rm ${accession}_ref/ref_sorted.genome
-rm ${accession}_ref/chrs.info
-rm ${accession}_ref/chrs.bed
+#rm ${accession}_ref/chrs.info
+#rm ${accession}_ref/chrs.bed
 
 #output some QC stats
 cd /scratch/bell/${USER}/theta/source/
