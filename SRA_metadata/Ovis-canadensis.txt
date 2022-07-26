@@ -1,7 +1,7 @@
-Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotlength	Bases
-SRR1831819	PRJNA277231	SAMN03387928	Ovis canadensis	USA	Illumina HiSeq 2000	PAIRED	not collected	199	23104581600
-SRR1831859	PRJNA277231	SAMN03387929	Ovis canadensis	USA	Illumina HiSeq 2000	PAIRED	not collected	199	39988141000
-SRR1831860	PRJNA277231	SAMN03387930	Ovis canadensis	USA	Illumina HiSeq 2000	PAIRED	not collected	199	69855319000
-SRR1831861	PRJNA277231	SAMN03387931	Ovis canadensis	USA	Illumina HiSeq 2000	PAIRED	not collected	199	46919685200
-SRR1831862	PRJNA277231	SAMN03387932	Ovis canadensis	USA	Illumina HiSeq 2000	PAIRED	not collected	199	29481931543
-SRR1831863	PRJNA277231	SAMN03387933	Ovis canadensis	USA	Illumina HiSeq 2000	PAIRED	not collected	199	39022366400
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR16036485	PRJNA764308	SAMN21500168	Ovis canadensis	Montana, USA	HiSeq X Ten	PAIRED	not determined	300	73682305200
+SRR16036486	PRJNA764308	SAMN21500167	Ovis canadensis	Montana, USA	HiSeq X Ten	PAIRED	not determined	300	70439973600
+SRR16036487	PRJNA764308	SAMN21500166	Ovis canadensis	Montana, USA	HiSeq X Ten	PAIRED	not determined	300	66499336500
+SRR16036488	PRJNA764308	SAMN21500165	Ovis canadensis	Montana, USA	HiSeq X Ten	PAIRED	not determined	300	69565245000
+SRR16036489	PRJNA764308	SAMN21500164	Ovis canadensis	Montana, USA	HiSeq X Ten	PAIRED	not determined	300	68586495900
+SRR16036516	PRJNA764308	SAMN21500169	Ovis canadensis	Montana, USA	HiSeq X Ten	PAIRED	not determined	300	70259946000
