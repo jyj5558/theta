@@ -1,6 +1,16 @@
-Run	BioProject	BioSample	Organism	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
-SRR12191797	PRJNA645266	SAMN15501061	Syncerus caffer	South Africa	HiSeq X Ten	PAIRED	female	300	28269902700
-SRR12191808	PRJNA645266	SAMN15501060	Syncerus caffer	South Africa	HiSeq X Ten	PAIRED	male	300	28437504000
-SRR12191819	PRJNA645266	SAMN15501059	Syncerus caffer	South Africa	HiSeq X Ten	PAIRED	male	300	30997855500
-SRR12191830	PRJNA645266	SAMN15501058	Syncerus caffer	South Africa	HiSeq X Ten	PAIRED	female	300	27397731300
-SRR12191831	PRJNA645266	SAMN15501057	Syncerus caffer	South Africa	HiSeq X Ten	PAIRED	female	300	29259951900
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR12191788	PRJNA645266	SAMN15501091	Syncerus caffer	South Africa: KwaZulu-Natal\, Hluhluwe-iMfolozi Park	HiSeq X Ten	PAIRED	missing	300	21807747300
+SRR12191789	PRJNA645266	SAMN15501090	Syncerus caffer	South Africa: KwaZulu-Natal\, Hluhluwe-iMfolozi Park	HiSeq X Ten	PAIRED	missing	300	31227759300
+SRR12191791	PRJNA645266	SAMN15501089	Syncerus caffer	South Africa: KwaZulu-Natal\, Hluhluwe-iMfolozi Park	HiSeq X Ten	PAIRED	missing	300	24141101100
+SRR12191792	PRJNA645266	SAMN15501088	Syncerus caffer	South Africa: KwaZulu-Natal\, Hluhluwe-iMfolozi Park	HiSeq X Ten	PAIRED	missing	300	36495300900
+SRR12191794	PRJNA645266	SAMN15501087	Syncerus caffer	South Africa: KwaZulu-Natal\, Hluhluwe-iMfolozi Park	HiSeq X Ten	PAIRED	missing	300	22026550200
+SRR12191795	PRJNA645266	SAMN15501086	Syncerus caffer	South Africa: KwaZulu-Natal\, Hluhluwe-iMfolozi Park	HiSeq X Ten	PAIRED	missing	300	28562695500
+SRR12191796	PRJNA645266	SAMN15501085	Syncerus caffer	South Africa: KwaZulu-Natal\, Hluhluwe-iMfolozi Park	HiSeq X Ten	PAIRED	missing	300	30988216800
+SRR12191798	PRJNA645266	SAMN15501084	Syncerus caffer	South Africa: KwaZulu-Natal\, Hluhluwe-iMfolozi Park	HiSeq X Ten	PAIRED	missing	300	30599090100
+SRR12191799	PRJNA645266	SAMN15501083	Syncerus caffer	South Africa: KwaZulu-Natal\, Hluhluwe-iMfolozi Park	HiSeq X Ten	PAIRED	missing	300	29522904900
+SRR12191801	PRJNA645266	SAMN15501081	Syncerus caffer	South Africa: KwaZulu-Natal\, Hluhluwe-iMfolozi Park	HiSeq X Ten	PAIRED	missing	300	29324384400
+SRR12191803	PRJNA645266	SAMN15501079	Syncerus caffer	South Africa: KwaZulu-Natal\, Hluhluwe-iMfolozi Park	HiSeq X Ten	PAIRED	missing	300	29331477600
+SRR12191804	PRJNA645266	SAMN15501078	Syncerus caffer	South Africa: KwaZulu-Natal\, Hluhluwe-iMfolozi Park	HiSeq X Ten	PAIRED	missing	300	30910169100
+SRR12191805	PRJNA645266	SAMN15501077	Syncerus caffer	South Africa: KwaZulu-Natal\, Hluhluwe-iMfolozi Park	HiSeq X Ten	PAIRED	missing	300	31097586000
+SRR12191800	PRJNA645266	SAMN15501082	Syncerus caffer	South Africa: KwaZulu-Natal\, Hluhluwe-iMfolozi Park	HiSeq X Ten	PAIRED	missing	300	28150219800
+SRR12191802	PRJNA645266	SAMN15501080	Syncerus caffer	South Africa: KwaZulu-Natal\, Hluhluwe-iMfolozi Park	HiSeq X Ten	PAIRED	missing	300	31879431900
