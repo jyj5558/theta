@@ -1,3 +1,3 @@
 Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
-SRR12518651	PRJNA607895	SAMN14484914	Neovison vison	Denmark	Illumina HiSeq 4000	PAIRED	not applicable	302	1649921734
-SRR12518670	PRJNA607895	SAMN14484931	Neovison vison	Denmark	Illumina HiSeq 4000	PAIRED	not applicable	302	3810043778
+SRR12518651	PRJNA607895	SAMN14484914	Neovison vison	Samsø Municipality, Denmark	Illumina HiSeq 4000	PAIRED	not applicable	302	1649921734
+SRR12518670	PRJNA607895	SAMN14484931	Neovison vison	Samsø Municipality, Denmark	Illumina HiSeq 4000	PAIRED	not applicable	302	3810043778
