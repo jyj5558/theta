@@ -51,9 +51,6 @@ PD=/scratch/bell/dewoody/theta/${genus_species}/
 #First move to parent directory to be able to set variable MIND
 cd $PD
 
-##Designate min number of individuals, set to total numb of downloaded individuals divided by two
-MIND=$((`wc -l < cleaned_sralist` / 2))
-
 #Just some absolute  paths to shorten commands
 FINAL=/scratch/bell/dewoody/theta/${genus_species}/sra/final_bams
 THETA=/scratch/bell/dewoody/theta/${genus_species}/theta
@@ -64,7 +61,11 @@ mkdir $THETA
 cd $THETA
  
 # make list of the bamfiles and index each file
-ls ${FINAL}/*.bam > ./bam.filelist
+# if you remove some individuals depending on their mapping rate, depth, or breadth, edit this file accordingly
+ls $FINAL/*.bam > ./bam.filelist
+
+# designate min number of individuals, set to total numb of bam-filed individuals divided by two
+MIND=$((`wc -l < ./bam.filelist` / 2))
 
 # convert bed file to angsd format
 awk '{print $1"\t"$2+1"\t"$3}' $PD/ok.bed > ./angsd.file
