@@ -68,8 +68,8 @@ rm ${accession}_ref/ref.genome
 rm ${accession}_ref/ref2.genome
 rm ${accession}_ref/ref3.genome
 
-# find nonrepeat regions -> "nonrepeat.bed" file is not used further
-#bedtools complement -i ${accession}_rm/repeats_sorted.bed -g ${accession}_ref/ref_sorted.genome > ${accession}_rm/nonrepeat.bed
+# find nonrepeat regions
+bedtools complement -i ${accession}_rm/repeats_sorted.bed -g ${accession}_ref/ref_sorted.genome > ${accession}_rm/nonrepeat.bed
 
 # clean mappability file, remove sites with <1 mappability                                                    
 awk '$4 == 1' mappability/ref_100kb.genmap.bedgraph > mappability/map.bed                                           
