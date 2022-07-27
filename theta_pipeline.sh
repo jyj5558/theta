@@ -77,14 +77,13 @@ mv ${accession}_ref/original.tmp.fa ${accession}_ref/original.fa
 #Reduce fasta header length
 reformat.sh in=${accession}_ref/original.fa out=${accession}_ref/new.fa trd=t -Xmx20g overwrite=T
 #sort by length
-sortbyname.sh in=${accession}_ref/new.fa out=${accession}_ref/ref_full.fa -Xmx20g length descending overwrite=T
+sortbyname.sh in=${accession}_ref/new.fa out=${accession}_ref/ref.fa -Xmx20g length descending overwrite=T
 #remove sequences smaller that 100kb prior to any repeatmasking
-bioawk -c fastx '{ if(length($seq) > 100000) { print ">"$name; print $seq }}' ${accession}_ref/ref_full.fa > ${accession}_ref/ref.fa
-rm ${accession}_ref/ref_full.fa
+bioawk -c fastx '{ if(length($seq) > 100000) { print ">"$name; print $seq }}' ${accession}_ref/ref_full.fa > ${accession}_ref/ref_100kb.fa
 rm ${accession}_ref/new.fa
 
 #index ref
-samtools faidx ${accession}_ref/ref.fa
+samtools faidx ${accession}_ref/ref_100kb.fa
 
 
 #prep repeatmasked file for later processing, create a rm.out if one is not available. 
@@ -101,8 +100,8 @@ else
 	module --force purge
 	module load biocontainers/default
 	module load repeatmasker
-	RepeatMasker -pa 5 -a -qq -species mammals -dir . ../${accession}_ref/ref.fa 
-	cat ref.fa.out  | tail -n +4 | awk '{print $5,$6,$7,$11}' | sed 's/ /\t/g' > repeats.bed 
+	RepeatMasker -pa 32 -a -qq -species mammals -dir . ../${accession}_ref/ref_100kb.fa 
+	cat ref_100kb.fa.out  | tail -n +4 | awk '{print $5,$6,$7,$11}' | sed 's/ /\t/g' > repeats.bed 
 fi
 
 #move back to species/accession directory
@@ -273,7 +272,7 @@ export PATH=$PATH:~/genmap-build/bin
 cd /scratch/bell/dewoody/theta/${genus_species}/
 
 ####assess mappability of reference####
-genmap index -F ${accession}_ref/ref.fa -I index -S 50 # build an index 
+genmap index -F ${accession}_ref/ref_100kb.fa -I index -S 50 # build an index 
 
 # compute mappability, k = kmer of 100bp, E = # two mismatches
 mkdir mappability
@@ -283,7 +282,7 @@ genmap map -K 100 -E 2 -T 10 -I index -O mappability -t -w -bg
 sortBed -i ${accession}_rm/repeats.bed > ${accession}_rm/repeats_sorted.bed 
 
 # make ref.genome
-awk 'BEGIN {FS="\t"}; {print $1 FS $2}' ${accession}_ref/ref.fa.fai > ${accession}_ref/ref.genome 
+awk 'BEGIN {FS="\t"}; {print $1 FS $2}' ${accession}_ref/ref_100kb.fa.fai > ${accession}_ref/ref.genome 
 
 # sort genome file
 awk '{print $1, $2, $2}' ${accession}_ref/ref.genome > ${accession}_ref/ref2.genome
@@ -301,7 +300,6 @@ bedtools complement -i ${accession}_rm/repeats_sorted.bed -g ${accession}_ref/re
 # clean mappability file, remove sites with <1 mappability                                                    
 awk '$4 == 1' mappability/ref.genmap.bedgraph > mappability/map.bed                                           
 awk 'BEGIN {FS="\t"}; {print $1 FS $2 FS $3}' mappability/map.bed > mappability/mappability.bed
-rm mappability/map.bed
 
 # sort mappability 
 sortBed -i mappability/mappability.bed > mappability/mappability2.bed
@@ -316,23 +314,18 @@ bedtools sort -i mappability/map_nonreapeat.bed > mappability/filter_sorted.bed
 # merge overlapping regions
 bedtools merge -i mappability/filter_sorted.bed > mappability/merged.bed
 
-# remove scaffolds shorter than 100kb
-bioawk -c fastx '{ if(length($seq) > 100000) { print ">"$name; print $seq }}' ${accession}_ref/ref.fa > ${accession}_ref/ref_100k.fa
 
-# index
-samtools faidx ${accession}_ref/ref_100k.fa
+# make list with the >100kb scaffolds -> duplicate with the step below making "ref_100kb.info"
+#awk '{ print $1, $2, $2 }' ${accession}_ref/ref_100k.fa.fai > ${accession}_ref/chrs.info
 
-# make list with the >100kb scaffolds
-awk '{ print $1, $2, $2 }' ${accession}_ref/ref_100k.fa.fai > ${accession}_ref/chrs.info
+# replace column 2 with zeros -> duplicate with the step below making "ref_100kb.bed"
+#awk '$2="0"' ${accession}_ref/chrs.info > ${accession}_ref/chrs.bed
 
-# replace column 2 with zeros
-awk '$2="0"' ${accession}_ref/chrs.info > ${accession}_ref/chrs.bed
+# make tab delimited -> duplicate with the step below making "ref_100kb.bed"
+#sed -i 's/ /\t/g' ${accession}_ref/chrs.bed
 
-# make tab delimited
-sed -i 's/ /\t/g' ${accession}_ref/chrs.bed
-
-# make chrs.txt
-cut -f 1 ${accession}_ref/chrs.bed > ${accession}_ref/chrs.txt
+# make chrs.txt -> moved to below
+#cut -f 1 ${accession}_ref/chrs.bed > ${accession}_ref/chrs.txt
 
 # identify and remove sex-linked scaffolds with SATC -> remove SATC step from here
 #make directory to house SATC files
@@ -394,8 +387,7 @@ cut -f 1 ${accession}_ref/chrs.bed > ${accession}_ref/chrs.txt
 #xargs samtools faidx ../${accession}_ref/ref_100k.fa < ./autosomes.txt > ../${accession}_ref/autosomes_100kb.fa -> remove SATC step to here
 
 #move to species/accession directory
-
-cd /scratch/bell/dewoody/theta/${genus_species}/
+#cd /scratch/bell/dewoody/theta/${genus_species}/
 
 #samtools faidx ./${accession}_ref/autosomes_100kb.fa
 
@@ -412,13 +404,12 @@ sed -i 's/ /\t/g' ./${accession}_ref/ref_100kb.bed
 bedtools intersect -a ./${accession}_ref/ref_100kb.bed -b ./mappability/merged.bed > ok.bed	
 	
 # remove excess files
-rm -rf ${accession}_ref/sorted.fa
-rm -rf mappability/merged.bed
-rm -rf mappability/filter.bed
-rm -rf mappability/map.bed
-rm -rf ${accession}_ref/ref_sorted.genome
-rm -rf ${accession}_ref/ref.genome
-rm -rf ${accession}_ref/sorted.fa
+rm mappability/map.bed
+rm mappability/filter_sorted.bed
+rm mappability/mappability2.bed
+rm ${accession}_ref/ref_sorted.genome
+#rm ${accession}_ref/chrs.info
+#rm ${accession}_ref/chrs.bed
 
 #output some QC stats
 cd /scratch/bell/${USER}/theta/source/
