@@ -4,6 +4,7 @@
 #SBATCH -t 12-00:00:00 
 #SBATCH -N 1 
 #SBATCH -n 64
+#SBATCH --mem=100G
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
 #SBATCH --mail-type=END,FAIL
