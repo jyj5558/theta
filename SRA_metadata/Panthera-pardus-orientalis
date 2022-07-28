@@ -1,0 +1,3 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR3042211	PRJNA306701	SAMN04361360	Panthera pardus orientalis	Ningguo, Anhui province in China	Illumina HiSeq 2500	PAIRED	missing	200	92782802200
+SRR3042212	PRJNA306701	SAMN04361361	Panthera pardus orientalis	Ningguo, Anhui province in China	Illumina HiSeq 2500	PAIRED	missing	200	91490020000
