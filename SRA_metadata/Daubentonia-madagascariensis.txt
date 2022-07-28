@@ -1,6 +1,6 @@
-BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
-PRJNA189299	SAMN01919298	Daubentonia madagascariensis	East (Mananara-nord & Nosy Mangabe)	Illumina HiSeq 2000	PAIRED		202	25970408154
-PRJNA189299	SAMN01919299	Daubentonia madagascariensis	East (Mananara-nord & Nosy Mangabe)	Illumina HiSeq 2000	PAIRED		202	22355128102
-PRJNA189299	SAMN01919300	Daubentonia madagascariensis	East (Mananara-nord & Nosy Mangabe)	Illumina HiSeq 2000	PAIRED		202	24884880556
-PRJNA189299	SAMN01919301	Daubentonia madagascariensis	East (Mananara-nord & Nosy Mangabe)	Illumina HiSeq 2000	PAIRED		202	25783093352
-PRJNA189299	SAMN01919302	Daubentonia madagascariensis	East (Mananara-nord & Nosy Mangabe)	Illumina HiSeq 2000	PAIRED		202	21938886700
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR709438	PRJNA189299	SAMN01919298	Daubentonia madagascariensis	East (Mananara-nord & Nosy Mangabe)	Illumina HiSeq 2000	PAIRED		202	25970408154
+SRR709439	PRJNA189299	SAMN01919299	Daubentonia madagascariensis	East (Mananara-nord & Nosy Mangabe)	Illumina HiSeq 2000	PAIRED		202	22355128102
+SRR709440	PRJNA189299	SAMN01919300	Daubentonia madagascariensis	East (Mananara-nord & Nosy Mangabe)	Illumina HiSeq 2000	PAIRED		202	24884880556
+SRR709441	PRJNA189299	SAMN01919301	Daubentonia madagascariensis	East (Mananara-nord & Nosy Mangabe)	Illumina HiSeq 2000	PAIRED		202	25783093352
+SRR709442	PRJNA189299	SAMN01919302	Daubentonia madagascariensis	East (Mananara-nord & Nosy Mangabe)	Illumina HiSeq 2000	PAIRED		202	21938886700
