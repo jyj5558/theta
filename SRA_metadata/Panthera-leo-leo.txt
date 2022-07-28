@@ -1,0 +1,3 @@
+Run	BioProject	BioSample	Organism	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR11286181	PRJNA611920	SAMN14352192	Panthera leo leo	Okavango delta reserve, Botswana	Illumina HiSeq 2500	PAIRED	male	199	17744501000
+SRR11286182	PRJNA611920	SAMN14352191	Panthera leo leo	Okavango delta reserve, Botswana	Illumina HiSeq 2500	PAIRED	female	199	17528142900
