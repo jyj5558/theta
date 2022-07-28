@@ -326,6 +326,7 @@ The output file:
 6. Het_${Genus-species}.txt (containing the population-level heterozygosity value)
 7. ROH_${Genus-species}.txt
 
+If some samples were dropped due to quality issues from upstream analyses, $MIND in step5 script should be changed accordingly (by editing the bam.filelist is the easiest).
 
 Usage:
 
@@ -346,8 +347,17 @@ sbatch /scratch/bell/$USER/theta/step5_theta.sh
 Record population-level Watterson's theta, Nucleotide diversity, Tajima's D, Fu and Li's F, Heterozygosity, F(ROH) >= 100kb, and F(ROH) >= 1mb in Google doc spreadsheet.
 Also record individual-level Heterozygosity in ascending order of SRR numbers (as the same order of individual depth and breadth for statistical correlation test later; the samples should have been automatiaclly sorted and processed in the ascending order in step3 and so in downstream steps, so nothing needs to be done to sort them, but just double-check.).
 
+
+
+After completing step5, run Theta_tarball.sh to archive and save the results in Fortress storage.
+User will need to enter the following information:
+`Genus-species`:
+```
+sbatch /scratch/bell/$USER/theta/Theta_tarball.sh
+```
+
 #################################
 #################################
 Further QC of bam dataset based upon coverage-SHOULD WE ADD THIS? where is:qc_bams.sh & quantile_thresholds.R ?
-If some samples were dropped due to quality issues, $MIND in step5 should be changed as well? 
+
 
