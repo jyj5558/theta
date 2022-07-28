@@ -46,7 +46,7 @@ echo "tarball finished"
 # Transfer to Fortress
 echo "Transferring to Fortress started"
 hsi -v put ${genus_species}.tar.gz /group/fnrdewoody/theta/${genus_species}.tar.gz
-echo "Transferring to Fortress finished.
+echo "Transferring to Fortress finished"
 
 # Manually check if the file exists in the target Fortress directory "with the same (or larger) memory" as in the local cluster directory by uncommenting below on your terminal screen (not by job submission):
 #hsi -q ls -l "/group/fnrdewoody/theta/${genus_species}.tar.gz"
