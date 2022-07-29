@@ -1,8 +1,8 @@
-Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotlength	Bases
-ERR1255497	PRJEB12609	SAMEA3862495	Lynx pardinus	spain	Illumina HiSeq 2000	PAIRED		136	8652349051
-ERR1255555	PRJEB12609	SAMEA3862496	Lynx pardinus	spain	Illumina HiSeq 2000	PAIRED		200	18025925000
-ERR1255563	PRJEB12609	SAMEA3862498	Lynx pardinus	spain	Illumina HiSeq 2000	PAIRED		200	18421827800
-ERR1255567	PRJEB12609	SAMEA3862499	Lynx pardinus	spain	Illumina HiSeq 2000	PAIRED		200	20657366200
-ERR1255575	PRJEB12609	SAMEA3862501	Lynx pardinus	spain	Illumina HiSeq 2000	PAIRED		200	18491331800
-ERR1255587	PRJEB12609	SAMEA3862504	Lynx pardinus	spain	Illumina HiSeq 2000	PAIRED		200	19797911800
-ERR1255591	PRJEB12609	SAMEA3862505	Lynx pardinus	spain	Illumina HiSeq 2000	PAIRED		200	19716506600
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+ERR1255498	PRJEB12609	SAMEA3862495	Lynx pardinus	Sierra de Andujar Natural Park\, Sierra Morena\, Spain	Illumina HiSeq 2000	PAIRED		136	12711116072
+ERR1255556	PRJEB12609	SAMEA3862496	Lynx pardinus	Sierra de Andujar Natural Park\, Sierra Morena\, Spain	Illumina HiSeq 2000	PAIRED		200	18752625600
+ERR1255565	PRJEB12609	SAMEA3862498	Lynx pardinus	Sierra de Andujar Natural Park\, Sierra Morena\, Spain	Illumina HiSeq 2000	PAIRED		200	19590918200
+ERR1255587	PRJEB12609	SAMEA3862504	Lynx pardinus	Sierra de Andujar Natural Park\, Sierra Morena\, Spain	Illumina HiSeq 2000	PAIRED		200	19797911800
+ERR1255567	PRJEB12609	SAMEA3862499	Lynx pardinus	Sierra de Andujar Natural Park\, Sierra Morena\, Spain	Illumina HiSeq 2000	PAIRED		200	20657366200
+ERR1255594	PRJEB12609	SAMEA3862505	Lynx pardinus	Sierra de Andujar Natural Park\, Sierra Morena\, Spain	Illumina HiSeq 2000	PAIRED		200	21579440200
+ERR1255576	PRJEB12609	SAMEA3862501	Lynx pardinus	Sierra de Andujar Natural Park\, Sierra Morena\, Spain	Illumina HiSeq 2000	PAIRED		200	23171834000
