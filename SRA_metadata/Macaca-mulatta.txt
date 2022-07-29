@@ -1,0 +1,4 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR1950974	PRJNA251548	SAMN03264758	Macaca mulatta	Yellow Mountains region of Anhui Province, China	Illumina HiSeq 2500	PAIRED	not applicable	250	1.05E+11
+SRR1950993	PRJNA251548	SAMN03264759	Macaca mulatta	Yellow Mountains region of Anhui Province, China	Illumina HiSeq 2500	PAIRED	male	250	75172852500
+SRR1951000	PRJNA251548	SAMN03264760	Macaca mulatta	Yellow Mountains region of Anhui Province, China	Illumina HiSeq 2500	PAIRED	female	250	89087840750
