@@ -1,0 +1,11 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR748124	PRJNA189439	SAMN01920517	Pan troglodytes ellioti	Western Cameroon; conf (Akwaya, Adamoua Province)	Illumina HiSeq 2000	PAIRED	male	200	34486988600
+SRR748128	PRJNA189439	SAMN01920518	Pan troglodytes ellioti	Western Cameroon; conf (Bankim, Adamoua Province)	Illumina HiSeq 2000	PAIRED	female	102	10210873914
+SRR748132	PRJNA189439	SAMN01920519	Pan troglodytes ellioti	Western Cameroon; conf (Takamanda, SW Province)	Illumina HiSeq 2000	PAIRED	male	102	15552780072
+SRR748137	PRJNA189439	SAMN01920520	Pan troglodytes ellioti	Western Cameroon; conf (Tinto, NW Province)	Illumina HiSeq 2000	PAIRED	male	200	37488034200
+SRR748142	PRJNA189439	SAMN01920521	Pan troglodytes ellioti	Western Cameroon; conf (Douala, Littoral Province probably smuggled from NW)	Illumina HiSeq 2000	PAIRED	female	200	36842491400
+SRR748146	PRJNA189439	SAMN01920522	Pan troglodytes ellioti	Western Cameroon; conf (Mt. Cameroon, SW Province)	Illumina HiSeq 2000	PAIRED	female	102	11505150282
+SRR748151	PRJNA189439	SAMN01920523	Pan troglodytes ellioti	Western Cameroon; conf (Edea, Littoral Province probably smuggled from Mt. Cameroon)	Illumina HiSeq 2000	PAIRED	male	200	40893860800
+SRR748155	PRJNA189439	SAMN01920524	Pan troglodytes ellioti	Western Cameroon; conf (Bertoua, Eastern Province)	Illumina HiSeq 2000	PAIRED	female	102	14327325552
+SRR748160	PRJNA189439	SAMN01920525	Pan troglodytes ellioti	Western Cameroon; conf (Numba Nfe near Mamfe, SW Province)	Illumina HiSeq 2000	PAIRED	male	200	37748659600
+SRR748162	PRJNA189439	SAMN01920526	Pan troglodytes ellioti	Western Cameroon; conf (Yaounde--long term resdent of Yaounde Zoo)	Illumina HiSeq 2000	PAIRED	female	102	12261083196
