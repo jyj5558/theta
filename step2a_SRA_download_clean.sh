@@ -3,7 +3,7 @@
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
 #SBATCH --mail-type=FAIL
-#SBATCH --mail-user=jeon96@purdue.edu
+#SBATCH --mail-user=
 
 ####notes and usage####
 #
@@ -33,12 +33,12 @@
 ################################
 
 genus_species=Ovis-canadensis
-A=fnrchook
-t=14-00:00:00
-n=64
-array=1-6%3
-cpus_per_task=21
-mail_user=eheenken@purdue.edu,jeon96@purdue.edu
+A=
+t=
+n=
+array=
+cpus_per_task=
+mail_user=
 
 ########################
 #DO NOT EDIT BELOW CODE#
