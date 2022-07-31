@@ -1,0 +1,28 @@
+#!/bin/bash
+#SBATCH -e %x_%j.err
+#SBATCH -o %x_%j.out
+
+#####################################
+# this script will create:
+# sralist for the downstream analysis
+# directories to store sra files
+#####################################
+
+########################
+#DO NOT EDIT BELOW CODE#
+########################
+
+# define variables
+genus_species=$1
+
+# create directories and download SRAs
+mkdir -p ./sra/raw
+mkdir -p ./sra/cleaned
+mkdir -p ./sra/aligned
+
+# extract releveant info from metadata file in theta directory for target species and save in species folder:
+cd /scratch/bell/dewoody/theta/${genus_species}/
+cat $CLUSTER_SCRATCH/theta/SRA_metadata/${genus_species}.txt | sed 's/ /_/g'  > ${genus_species}_SRA.txt
+cat ${genus_species}_SRA.txt | cut -f 1 | tail -n +2 > ./sra/raw/sralist
+
+# END
