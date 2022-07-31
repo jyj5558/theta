@@ -1,0 +1,9 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+ERR1710094	PRJEB15086	SAMEA4374771	Pan troglodytes troglodytes	Equatorial Guinea	Illumina HiSeq 2500	PAIRED	female	202	39923982152
+ERR1709961	PRJEB15086	SAMEA4374772	Pan troglodytes troglodytes	Equatorial Guinea	Illumina HiSeq 2500	PAIRED	female	202	40602650844
+ERR1709872	PRJEB15086	SAMEA4374773	Pan troglodytes troglodytes	Equatorial Guinea	Illumina HiSeq 2500	PAIRED	female	202	42248193950
+ERR1710103	PRJEB15086	SAMEA4374774	Pan troglodytes troglodytes	Equatorial Guinea	Illumina HiSeq 2500	PAIRED	male	202	40539382222
+ERR1709910	PRJEB15086	SAMEA4374775	Pan troglodytes troglodytes	Equatorial Guinea	Illumina HiSeq 2500	PAIRED	female	202	32947948108
+ERR1709893	PRJEB15086	SAMEA4374778	Pan troglodytes troglodytes	Equatorial Guinea	Illumina HiSeq 2500	PAIRED	female	200	3549429200
+ERR1710139	PRJEB15086	SAMEA4374779	Pan troglodytes troglodytes	Equatorial Guinea	Illumina HiSeq 2500	PAIRED	female	200	4611279000
+ERR1709934	PRJEB15086	SAMEA4374780	Pan troglodytes troglodytes	Equatorial Guinea	Illumina HiSeq 2500	PAIRED	male	200	3359680200
