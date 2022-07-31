@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=S2a_Daubentonia-madagascariensis	
+#SBATCH --job-name=S2a_genus-species	
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
 #SBATCH --mail-type=FAIL
