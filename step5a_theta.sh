@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH --job-name=S5a_Syncerus-caffer
+#SBATCH --job-name=S5a_genus-species
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
 #SBATCH --mail-type=FAIL
-#SBATCH --mail-user=jeon96@purdue.edu
+#SBATCH --mail-user=
 
 ####notes and usage####
 #
@@ -32,14 +32,14 @@
 #Enter undefined variable below#
 ################################
 
-genus_species=Syncerus-caffer
-accession=GCA_006408785.2
-A=fnrquail
-t=14-00:00:00
-n=64
-array=1-15%2
-cpus_per_task=32
-mail_user=jeon96@purdue.edu
+genus_species=r
+accession=
+A=
+t=
+n=
+array=
+cpus_per_task=
+mail_user=
 
 ########################
 #DO NOT EDIT BELOW CODE#
