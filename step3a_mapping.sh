@@ -3,7 +3,7 @@
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
 #SBATCH --mail-type=FAIL
-#SBATCH --mail-user=jeon96@purdue.edu
+#SBATCH --mail-user=
 
 ####notes and usage####
 #
@@ -31,13 +31,13 @@
 #Enter undefined variable below#
 ################################
 
-genus_species=Syncerus-caffer
-A=fnrquail
-t=14-00:00:00
-n=64
-array=1-15%3
-cpus_per_task=21
-mail_user=jeon96@purdue.edu
+genus_species=
+A=
+t=
+n=
+array=
+cpus_per_task=
+mail_user=
 
 ########################
 #DO NOT EDIT BELOW CODE#
