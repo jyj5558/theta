@@ -1,0 +1,8 @@
+Run	BioProject	BioSample	ScientificName	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+ERR1709884	PRJEB15086	SAMEA4374797	Pan troglodytes schweinfurthii	Democratic Republic of the Congo	Illumina HiSeq 2500	PAIRED	male	202	39805036472
+ERR1710029	PRJEB15086	SAMEA4374791	Pan troglodytes schweinfurthii	Democratic Republic of the Congo	Illumina HiSeq 2500	PAIRED	female	200	41810900400
+ERR1710097	PRJEB15086	SAMEA4374790	Pan troglodytes schweinfurthii	Democratic Republic of the Congo	Illumina HiSeq 2500	PAIRED	male	200	38768945600
+ERR1710110	PRJEB15086	SAMEA4374795	Pan troglodytes schweinfurthii	Democratic Republic of the Congo	Illumina HiSeq 2500	PAIRED	female	200	39274410000
+ERR1710113	PRJEB15086	SAMEA4374798	Pan troglodytes schweinfurthii	Democratic Republic of the Congo	Illumina HiSeq 2500	PAIRED	male	202	44069769956
+ERR1710117	PRJEB15086	SAMEA4374793	Pan troglodytes schweinfurthii	Democratic Republic of the Congo	Illumina HiSeq 2500	PAIRED	female	200	39236573600
+ERR1710152	PRJEB15086	SAMEA4374789	Pan troglodytes schweinfurthii	Democratic Republic of the Congo	Illumina HiSeq 2500	PAIRED	female	202	39833243752
