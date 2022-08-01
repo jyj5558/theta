@@ -1,0 +1,4 @@
+Run	BioProject	BioSample	Organism	pop	Instrument	LibraryLayout	sex	AvgSpotLen	Bases
+SRR5802907	PRJNA368679	SAMN07264978	Solenodon paradoxus woodi	El Manguito, Dominican Republic	Illumina HiSeq 2000	PAIRED	female	202	14672605926
+SRR5802909	PRJNA368679	SAMN07264976	Solenodon paradoxus woodi	El Manguito, Dominican Republic	Illumina HiSeq 2000	PAIRED	male	202	15350869204
+SRR5802910	PRJNA368679	SAMN07264977	Solenodon paradoxus woodi	El Manguito, Dominican Republic	Illumina HiSeq 2000	PAIRED	female	202	15539349950
