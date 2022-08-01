@@ -89,7 +89,7 @@ print("num_roh_100kb: " + str(num_roh_100kb) + "\tlen_roh_100kb: " + str(len_roh
       + "\nnum_roh_1mb: " + str(num_roh_1mb) + "\tlen_roh_1mb: " + str(len_roh_1mb) \
       + "\nnum_roh_total: " + str(num_roh_tot) + "\tlen_roh_total: " + str(len_roh_tot) \
       + "\nF_roh_1mb: " + str(F_roh_1mb) + "\tF_roh_tot: " + str(F_roh_tot) \
-      + "\nNotes: total means >= 100kb")
+      + "\nNotes: 'tot' here means the total of '100kb' and '1mb', so in other words, '>= 100kb'")
 
 #Save the result in an output file
 output.write("Number of ROH >= 100kb and < 1mb: " + str(num_roh_100kb) + "\tLength of ROH >= 100kb and < 1mb: " + str(len_roh_100kb) \
