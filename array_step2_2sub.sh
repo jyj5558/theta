@@ -44,9 +44,9 @@ rm ${sra}_2_fastqc.zip
 
 # merge output from fastqc and check for FAILs
 cat ${sra}_1_fastqc/summary.txt ${sra}_2_fastqc/summary.txt > ${sra}_fastqc_summary.txt
-FILE=$(grep "FAIL" ${sra}_fastqc_summary.txt)
+FAIL=$(grep "FAIL" ${sra}_fastqc_summary.txt)
 echo "raw"
-echo "$FILE"
+echo "$FAIL"
 rm -r ${sra}_?_fastqc* 
 
 # trim adapters
@@ -57,9 +57,9 @@ cd ../cleaned
 cat ${sra}_1.fastq_trimming_report.txt ${sra}_2.fastq_trimming_report.txt > ${sra}_fastqc_summary.txt
 rm ${sra}_1_val_1_fastqc.zip
 rm ${sra}_2_val_2_fastqc.zip
-FILE=$(grep "FAIL" ${sra}_fastqc_summary.txt)
+FAIL=$(grep "FAIL" ${sra}_fastqc_summary.txt)
 echo "cleaned"
-echo "$FILE"
+echo "$FAIL"
 rm ${sra}_fastqc_summary.txt
 rm ${sra}_1_val_1_fastqc.html
 rm ${sra}_2_val_2_fastqc.html
