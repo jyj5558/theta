@@ -46,7 +46,7 @@ accession=
 ########Do not edit beneath this row########
 
 #Path to parent directory of genus-species
-PD=/scratch/bell/dewoody/theta/${genus_species}/
+PD=/scratch/bell/dewoody/theta/${genus_species}
 
 #First move to parent directory to be able to set variable MIND
 cd $PD
