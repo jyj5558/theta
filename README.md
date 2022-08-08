@@ -326,7 +326,7 @@ The output file:
 6. Het_${Genus-species}.txt (containing the population-level heterozygosity value)
 7. ROH_${Genus-species}.txt
 
-If some samples were dropped due to quality issues from upstream analyses, $MIND in step5 script should be changed accordingly (by editing the bam.filelist is the easiest).
+If some samples were dropped due to quality issues from upstream analyses, $MIND in step5 script should be changed accordingly (by editing the bam.filelist after making it manually or renaming the problematic sample.bam in advance to something not to be included in bam.filelist (e.g., sample.nobam) are the easiest).
 
 Usage:
 
