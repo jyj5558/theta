@@ -46,7 +46,7 @@ export PATH=$PATH:~/genmap-build/bin
 #sbatch /scratch/bell/$USER/theta/step1_download.sh
 
 
- ####end usage and notes####
+####end usage and notes####
 ###########################################
 #ENTER INFORMATION FOR FOLLOWING VARIABLES#
 ###########################################
@@ -108,9 +108,9 @@ sortbyname.sh in=${accession}_ref/new.fa out=${accession}_ref/ref.fa -Xmx20g len
 bioawk -c fastx '{ if(length($seq) > 100000) { print ">"$name; print $seq }}' ${accession}_ref/ref.fa > ${accession}_ref/ref_100kb.fa
 rm ${accession}_ref/new.fa
 
-#index ref
+#index ref.fa and ref_100kb.fa for step3, step4, and step5 
 samtools faidx ${accession}_ref/ref_100kb.fa
-
+samtools faidx ${accession}_ref/ref.fa
 
 #prep repeatmasked file for later processing, create a rm.out if one is not available. 
 #move into rm directory
