@@ -4,7 +4,7 @@
 #SBATCH -t 14-00:00:00 
 #SBATCH -N 1 
 #SBATCH -n 64
-#SBATCH --mem=80G
+#SBATCH --mem=127G
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
 #SBATCH --mail-type=END,FAIL
@@ -82,9 +82,9 @@ sortbyname.sh in=${accession}_ref/new.fa out=${accession}_ref/ref.fa -Xmx20g len
 bioawk -c fastx '{ if(length($seq) > 100000) { print ">"$name; print $seq }}' ${accession}_ref/ref_full.fa > ${accession}_ref/ref_100kb.fa
 rm ${accession}_ref/new.fa
 
-#index ref
+#index ref.fa and ref_100kb.fa for step3, step4, and step5 
 samtools faidx ${accession}_ref/ref_100kb.fa
-
+samtools faidx ${accession}_ref/ref.fa
 
 #prep repeatmasked file for later processing, create a rm.out if one is not available. 
 #move into rm directory
@@ -209,9 +209,6 @@ cd /scratch/bell/dewoody/theta/${genus_species}/sra/cleaned/
 
 # index reference 
 bwa index -a bwtsw ../../*_ref/ref.fa
-
-#and  index reference sequence in preparation for step4
-samtools faidx ../../*_ref/ref.fa
 
 #Capture all cleaned fastq files with variable
 ls -1 *.fq | sed "s/_[1-2]_val_[1-2].fq//g" | uniq > cleaned_sralist
