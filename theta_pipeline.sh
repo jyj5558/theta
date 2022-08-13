@@ -422,9 +422,14 @@ okbed=$(sed -n '1p' okbed.txt)
 
 echo -e "${genus_species}\t $accession\t $map\t $norepeats\t $okbed" >> map_repeat_summary.txt
 
-
+# make list of the bamfiles and index each file in theta directory for step5 in advance
+# if you remove some individuals depending on their mapping rate, depth, or breadth, edit this file accordingly before step5
+mkdir /scratch/bell/dewoody/theta/${genus_species}/theta/
+cd /scratch/bell/dewoody/theta/${genus_species}/theta/
+ls /scratch/bell/dewoody/theta/${genus_species}/sra/final_bams/*.bam > ./bam.filelist
 
 echo "STEP4-QC DONE"
+
 
 module --force purge
 module load biocontainers
@@ -434,24 +439,13 @@ module load bcftools
 module load htslib
 
 
-#Path to parent directory of genus-species
+# absolute paths of parent and theta directory of genus-species shorten commands
 PD=/scratch/bell/dewoody/theta/${genus_species}/
-
-#First move to parent directory to be able to set variable MIND
-cd $PD
-
-#Just some absolute  paths to shorten commands
-FINAL=/scratch/bell/dewoody/theta/${genus_species}/sra/final_bams
 THETA=/scratch/bell/dewoody/theta/${genus_species}/theta
 
-#Move to directory which will house angsd/theta files
-
-mkdir $THETA
+# move to directory which will house angsd/theta files
+mkdir -p $THETA
 cd $THETA
- 
-# make list of the bamfiles and index each file
-# if you remove some individuals depending on their mapping rate, depth, or breadth, edit this file accordingly
-ls $FINAL/*.bam > ./bam.filelist
 
 # designate min number of individuals, set to total numb of bam-filed individuals divided by two
 MIND=$((`wc -l < ./bam.filelist` / 2))
