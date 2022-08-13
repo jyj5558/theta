@@ -45,24 +45,13 @@ accession=
 
 ########Do not edit beneath this row########
 
-#Path to parent directory of genus-species
-PD=/scratch/bell/dewoody/theta/${genus_species}
-
-#First move to parent directory to be able to set variable MIND
-cd $PD
-
-#Just some absolute  paths to shorten commands
-FINAL=/scratch/bell/dewoody/theta/${genus_species}/sra/final_bams
+# absolute paths of parent and theta directory of genus-species to shorten commands
+PD=/scratch/bell/dewoody/theta/${genus_species}/
 THETA=/scratch/bell/dewoody/theta/${genus_species}/theta
 
-#Move to directory which will house angsd/theta files
-
-mkdir $THETA
+# move to directory which will house angsd/theta files
+mkdir -p $THETA
 cd $THETA
- 
-# make list of the bamfiles and index each file
-# if you remove some individuals depending on their mapping rate, depth, or breadth, edit this file accordingly
-ls $FINAL/*.bam > ./bam.filelist
 
 # designate min number of individuals, set to total numb of bam-filed individuals divided by two
 MIND=$((`wc -l < ./bam.filelist` / 2))
