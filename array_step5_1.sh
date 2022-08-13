@@ -29,14 +29,8 @@ genus_species=$1
 n=$2
 accession=$3
 
-# path to parent directory of genus-species
+#Absolute paths of parent and theta directory of genus-species shorten commands
 PD=/scratch/bell/dewoody/theta/${genus_species}/
-
-# first move to parent directory to be able to set variable MIND
-cd $PD
-
-# just some absolute  paths to shorten commands
-FINAL=/scratch/bell/dewoody/theta/${genus_species}/sra/final_bams
 THETA=/scratch/bell/dewoody/theta/${genus_species}/theta
 
 # move to directory which will house angsd/theta files
