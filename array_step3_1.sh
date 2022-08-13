@@ -39,9 +39,6 @@ cd /scratch/bell/dewoody/theta/${genus_species}/sra/cleaned/
 # index reference 
 bwa index -a bwtsw ../../*_ref/ref.fa
 
-# and index reference sequence in preparation for step4
-samtools faidx ../../*_ref/ref.fa
-
 # capture all cleaned fastq files with variable
 ls -1 *.fq | sed "s/_[1-2]_val_[1-2].fq//g" | uniq > cleaned_sralist
 
