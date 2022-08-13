@@ -527,7 +527,7 @@ echo "Pi, Theta, D, F .txt created"
 mkdir ./HET
 OUTDIR='HET'
 
-ls -1 ../sra/final_bams/*bam | sed 's/\//\'$'\t/g' | cut -f 4| sed 's/.bam//g' | while read -r LINE
+cat ./bam.filelist | sed 's/\//\'$'\t/g' | cut -f 9 | sed 's/.bam//g' | while read -r LINE
 
 do
 echo "${LINE} heterozygosity estimation started"
