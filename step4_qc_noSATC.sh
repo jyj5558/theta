@@ -199,3 +199,11 @@ norepeats=$(sed -n '1p' norepeat.txt)
 okbed=$(sed -n '1p' okbed.txt)
 
 echo -e "${genus_species}\t $accession\t $map\t $norepeats\t $okbed" >> map_repeat_summary.txt
+
+# make list of the bamfiles and index each file in theta directory for step5 in advance
+# if you remove some individuals depending on their mapping rate, depth, or breadth, edit this file accordingly before step5
+mkdir /scratch/bell/dewoody/theta/${genus_species}/theta/
+cd /scratch/bell/dewoody/theta/${genus_species}/theta/
+ls /scratch/bell/dewoody/theta/${genus_species}/sra/final_bams/*.bam > ./bam.filelist
+
+# END
