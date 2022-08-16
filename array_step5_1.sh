@@ -112,7 +112,7 @@ echo "Pi, Theta, D, F .txt created"
 #######
 
 echo "File conversion to bcf started"
-angsd -b ./bam.filelist -dobcf 1 -gl 1 -dopost 1 -domajorminor 1 -domaf 1 -snp_pval 1e-6 -P ${n}
+angsd -b ./bam.filelist -rf $PD/*_ref/chrs.txt -sites ./angsd.file -dobcf 1 -gl 1 -dopost 1 -domajorminor 1 -domaf 1 -snp_pval 1e-6 -P ${n}
 echo "bcf file created"
 
 echo "ROH estimation started"
