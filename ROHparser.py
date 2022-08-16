@@ -70,7 +70,7 @@ for line in input:
             if float(field[5]) > 100000 and float(field[5]) <= 1000000: #ROH > 100kb and <= 1mb
                 num_roh_100kb += 1
                 len_roh_100kb += float(field[5])
-            elif float(field[5]) >= 1000000: #ROH > 1mb
+            elif float(field[5]) > 1000000: #ROH > 1mb
                 num_roh_1mb += 1
                 len_roh_1mb += float(field[5])
 num_roh_100kb = num_roh_100kb/num_sam
