@@ -67,10 +67,10 @@ for line in input:
         line = line.rstrip("\n")
         field = line.split("\t")
         if float(field[7]) >= 20:
-            if float(field[5]) >= 100000 and float(field[5]) < 1000000: #ROH >= 100kb and < 1mb
+            if float(field[5]) > 100000 and float(field[5]) <= 1000000: #ROH > 100kb and <= 1mb
                 num_roh_100kb += 1
                 len_roh_100kb += float(field[5])
-            elif float(field[5]) >= 1000000: #ROH >= 1mb
+            elif float(field[5]) >= 1000000: #ROH > 1mb
                 num_roh_1mb += 1
                 len_roh_1mb += float(field[5])
 num_roh_100kb = num_roh_100kb/num_sam
@@ -89,13 +89,13 @@ print("num_roh_100kb: " + str(num_roh_100kb) + "\tlen_roh_100kb: " + str(len_roh
       + "\nnum_roh_1mb: " + str(num_roh_1mb) + "\tlen_roh_1mb: " + str(len_roh_1mb) \
       + "\nnum_roh_total: " + str(num_roh_tot) + "\tlen_roh_total: " + str(len_roh_tot) \
       + "\nF_roh_1mb: " + str(F_roh_1mb) + "\tF_roh_tot: " + str(F_roh_tot) \
-      + "\nNotes: 'tot' here means the total of '100kb' and '1mb', so in other words, '>= 100kb'")
+      + "\nNotes: 'tot' here means the total of '100kb' and '1mb', so in other words, '> 100kb'")
 
 #Save the result in an output file
-output.write("Number of ROH >= 100kb and < 1mb: " + str(num_roh_100kb) + "\tLength of ROH >= 100kb and < 1mb: " + str(len_roh_100kb) \
-             + "\nNumber of ROH >= 1mb: " + str(num_roh_1mb) + "\tLength of ROH >= 1mb: " + str(len_roh_1mb) \
+output.write("Number of ROH > 100kb and <= 1mb: " + str(num_roh_100kb) + "\tLength of ROH > 100kb and <= 1mb: " + str(len_roh_100kb) \
+             + "\nNumber of ROH > 1mb: " + str(num_roh_1mb) + "\tLength of ROH > 1mb: " + str(len_roh_1mb) \
              + "\nNumber of ROH in total: " + str(num_roh_tot) + "\tLength of ROH in total: " + str(len_roh_tot) \
-             + "\nF(ROH) >= 1mb: " + str(F_roh_1mb) + "\tF(ROH) >= 100kb: " + str(F_roh_tot))
+             + "\nF(ROH) > 1mb: " + str(F_roh_1mb) + "\tF(ROH) > 100kb: " + str(F_roh_tot))
 output.close()
 input.close()
 sam_fh.close()
