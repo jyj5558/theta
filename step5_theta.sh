@@ -140,6 +140,9 @@ realSFS -P 64 -fold 1 ${OUTDIR}/${LINE}.saf.idx > ${OUTDIR}/${LINE}_est.ml
 
 cd ${OUTDIR}
 Rscript -e 'args<-commandArgs(TRUE); LINE<-args[1]; a<-scan(paste(LINE,"est.ml", sep="_")); a[2]/sum(a)' ${LINE} >>  ../Het
+cat ../Het | cut -d " " -f 2 | tr '\n' ',' > ../Het2
+rm ../Het
+mv ../Het2 ../Het
 echo "${LINE} heterozygosity estimation done"
 
 cd ../
