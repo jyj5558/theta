@@ -5,11 +5,10 @@
     and calculate ROH and F(ROH) of length >= 100kb and >= 1mb
 
     usage:
-    #This python script will be automatically run in step5 script.
-    #If you want to run this script independently,
-    #manually set the species name and accession number:
-    genus_species = "Panthera-tigris-altaica"
-    accession = "GCA_000464555.1"
+    #Set the species name in this python script
+        genus-species = "Panthera-tigris-altaica"
+        accession = "GCF_000464555.1"
+    #Note the quotation marks before and after the arguments
 
     #Then in your cluster directory, type in:
     python ROHparser.py
@@ -22,16 +21,17 @@ import sys
 #Set the species name and accession number
 genus_species = sys.argv[1]
 accession = sys.argv[2]
+print("The species names is " + genus_species)
 
 """-------------------------------------------------------------------------------------------------
 Do not edit below this line
 -------------------------------------------------------------------------------------------------"""
-print("The species names is " + genus_species)
-
 #Set working directory and designate input file
 path_to_directory = "/scratch/bell/dewoody/theta/" + genus_species
-roh_input = path_to_directory + "/theta/ROH_" + genus_species + "_raw.txt"
-roh_output = path_to_directory + "/theta/ROH_" + genus_species + ".txt"
+
+#Estimate ROH based on "PL"
+roh_input = path_to_directory + "/theta/ROH_" + genus_species + "_PLraw.txt"
+roh_output = path_to_directory + "/theta/ROH_" + genus_species + "_PL.txt"
 ref_index_file = path_to_directory + "/" + accession + "_ref/ref.fa.fai"
 
 #Calculate the length of the reference genome
@@ -66,7 +66,7 @@ for line in input:
     if line.startswith("RG"):
         line = line.rstrip("\n")
         field = line.split("\t")
-        if float(field[7]) >= 20:
+        if float(field[7]) >= 30: #Pick only regions of the mean phred score >= 30
             if float(field[5]) > 100000 and float(field[5]) <= 1000000: #ROH > 100kb and <= 1mb
                 num_roh_100kb += 1
                 len_roh_100kb += float(field[5])
@@ -78,26 +78,25 @@ num_roh_1mb = num_roh_1mb/num_sam
 len_roh_100kb = len_roh_100kb/num_sam
 len_roh_1mb = len_roh_1mb/num_sam
 
-#Total number and length of ROH, F(ROH) at the population-level (mean value among samples)
+#Total number and length of ROH, F(ROH)
 num_roh_tot = num_roh_100kb + num_roh_1mb
 len_roh_tot = len_roh_100kb + len_roh_1mb
 F_roh_1mb = len_roh_1mb/len_ref
 F_roh_tot = len_roh_tot/len_ref
 
 #Print the result on screen
-print("num_roh_100kb: " + str(num_roh_100kb) + "\tlen_roh_100kb: " + str(len_roh_100kb) \
-      + "\nnum_roh_1mb: " + str(num_roh_1mb) + "\tlen_roh_1mb: " + str(len_roh_1mb) \
-      + "\nnum_roh_total: " + str(num_roh_tot) + "\tlen_roh_total: " + str(len_roh_tot) \
-      + "\nF_roh_1mb: " + str(F_roh_1mb) + "\tF_roh_tot: " + str(F_roh_tot) \
-      + "\nNotes: 'tot' here means the total of '100kb' and '1mb', so in other words, '> 100kb'")
+print("Based on Likelihoods:" \
+      + "Number of ROH > 100kb and <= 1mb: " + str(num_roh_100kb) + "\tLength of ROH > 100kb and <= 1mb: " + str(len_roh_100kb) \
+      + "\nNumber of ROH > 1mb: " + str(num_roh_1mb) + "\tLength of ROH > 1mb: " + str(len_roh_1mb) \
+      + "\nNumber of ROH in total: " + str(num_roh_tot) + "\tLength of ROH in total: " + str(len_roh_tot) \
+      + "\nF(ROH) > 100kb: " + str(F_roh_tot) + "\tF(ROH) > 1mb: " + str(F_roh_1mb))
 
 #Save the result in an output file
 output.write("Number of ROH > 100kb and <= 1mb: " + str(num_roh_100kb) + "\tLength of ROH > 100kb and <= 1mb: " + str(len_roh_100kb) \
              + "\nNumber of ROH > 1mb: " + str(num_roh_1mb) + "\tLength of ROH > 1mb: " + str(len_roh_1mb) \
              + "\nNumber of ROH in total: " + str(num_roh_tot) + "\tLength of ROH in total: " + str(len_roh_tot) \
-             + "\nF(ROH) > 1mb: " + str(F_roh_1mb) + "\tF(ROH) > 100kb: " + str(F_roh_tot))
+             + "\nF(ROH) > 100kb: " + str(F_roh_tot) + "\tF(ROH) > 1mb: " + str(F_roh_1mb))
 output.close()
 input.close()
-sam_fh.close()
-ref_fh.close()
+
 exit(0)
