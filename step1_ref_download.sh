@@ -11,13 +11,8 @@
 
 module load bioinfo
 module load bioawk
-module load seqtk
 module load samtools
-module load BEDTools
 module load BBMap
-module load r
-module load bedops
-export PATH=$PATH:~/genmap-build/bin
 
 ####notes####
 #
