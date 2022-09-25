@@ -98,5 +98,4 @@ output.write("Number of ROH > 100kb and <= 1mb: " + str(num_roh_100kb) + "\tLeng
              + "\nF(ROH) > 100kb: " + str(F_roh_tot) + "\tF(ROH) > 1mb: " + str(F_roh_1mb))
 output.close()
 input.close()
-
 exit(0)
