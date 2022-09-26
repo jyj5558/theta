@@ -50,8 +50,8 @@ For all steps below using account queues, if a memory deficiency issue occurs, i
       For step4: Standby queue (i.e. #SBATCH -A standby) with 64 CPUs and 4-hour wall-time (the wall-time limit of standby queue).
       Standby queue will start very soon with 64 CPUs and step4 will not take that long (around some hours).
       
-      For step5: Highmem queue (i.e. #SBATCH -A highmem) with 128 CPUs and 1-day wall-time (the wall-time limit of highmem queue).
-      ANGSD needs high memory usage and a high number of CPUs to speed up. But it will not last longer than 1 day if you have >128 CPUs.
+      For step5: Account queues with 64 CPUs with 14-day waill-time OR Highmem queue (i.e. #SBATCH -A highmem) with 128 CPUs and 1-day wall-time (the wall-time limit of highmem queue).
+      ANGSD needs high memory usage and a high number of CPUs to speed up. But it will unlikely last longer than 1 day if you have >128 CPUs.
       If terminated at the middle of any steps, you can modify the script for the specific species and resume from the terminated step/sample. 
       (e.g. if you see the job is terminated during calculating the individual heterozygosity of the 4th sample, modify the script to calculate ind Het from the 4th sample and run the job again. If not sure, check with JY.)
       Or shift to the full cores of account queues (e.g., use 64 cores of fnrdewoody)
