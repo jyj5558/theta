@@ -4,8 +4,7 @@
 #SBATCH -t 1-00:00:00 
 #SBATCH -N 1 
 #SBATCH -n 128
-#SBATCH -e %x_%j.err
-#SBATCH -o %x_%j.out
+#SBATCH -o %x_%j.log
 #SBATCH --mail-type=BEGIN,END,FAIL
 #SBATCH --mail-user=
 
@@ -48,8 +47,11 @@ echo "Transferring to Fortress started"
 hsi -v put ${genus_species}.tar.gz /group/fnrdewoody/theta/${genus_species}.tar.gz
 echo "Transferring to Fortress finished"
 
-# Manually check if the file exists in the target Fortress directory "with the same (or larger) memory" as in the local cluster directory by uncommenting below on your terminal screen (not by job submission):
-#hsi -q ls -l "/group/fnrdewoody/theta/${genus_species}.tar.gz"
+# Check if the file exists in the target Fortress directory "with the same memory" as in the local cluster directory 
+echo "File size in Fortress is: "
+echo `hsi -q ls -l /group/fnrdewoody/theta/${genus_species}.tar.gz`
+echo "File size in Scratch is: "
+echo `ls -l ./${genus_species}.tar.gz`
 
 # And then remove original files by uncommenting below
 #cd /scratch/bell/dewoody/theta/${genus_species}/
