@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH --job-name=TAR_genus-species
-#SBATCH -A highmem
-#SBATCH -t 1-00:00:00 
+#SBATCH -A standby
+#SBATCH -t 4:00:00 
 #SBATCH -N 1 
-#SBATCH -n 128
+#SBATCH -n 64
 #SBATCH -o %x_%j.log
 #SBATCH --mail-type=BEGIN,END,FAIL
 #SBATCH --mail-user=
@@ -37,6 +37,7 @@ genus_species=
 
 # Tarball
 cd /scratch/bell/dewoody/theta/${genus_species}/
+rm ${genus_species}.tar.gz
 echo "tarball started"
 tar -cvf ${genus_species}.tar sra/final_bams/ ok.bed theta/ *ref/ref.fa *ref/ref.fa.fai *ref/chrs.txt *rm/repeats.bed
 pigz ${genus_species}.tar -p 128
