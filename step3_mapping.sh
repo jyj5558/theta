@@ -3,7 +3,7 @@
 #SBATCH -A fnrquail
 #SBATCH -t 10-00:00:00 
 #SBATCH -N 1 
-#SBATCH -n 20
+#SBATCH -n 32
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
 #SBATCH --mail-type=END,FAIL
@@ -68,7 +68,7 @@ for i in `cat cleaned_sralist`
 do
 
 #perform alignment using twenty CPUs and bwa mem algorithm
-bwa mem -t 20 -M -R "@RG\tID:group1\tSM:${i}\tPL:illumina\tLB:lib1\tPU:unit1" ../../*_ref/ref.fa  ${i}_1_val_1.fq ${i}_2_val_2.fq > ../aligned/${i}.sam
+bwa mem -t 32 -M -R "@RG\tID:group1\tSM:${i}\tPL:illumina\tLB:lib1\tPU:unit1" ../../*_ref/ref.fa  ${i}_1_val_1.fq ${i}_2_val_2.fq > ../aligned/${i}.sam
 
 #Move to the directory containing the alignment files
 cd /scratch/bell/dewoody/theta/${genus_species}/sra/aligned/
@@ -81,14 +81,15 @@ noerror=$(grep "No errors found" ${i}.sam.txt)
 [[ ! "$noerror" ]] && echo "$i samfile not OK" || echo "$i samfile OK"
 
 #Sort sam file based upon read coordinate
-PicardCommandLine SortSam INPUT=${i}.sam OUTPUT=${i}_sorted.bam SORT_ORDER=coordinate
+mkdir -p ./tmp/
+PicardCommandLine SortSam TMP_DIR=/scratch/bell/dewoody/theta/${genus_species}/sra/aligned/tmp INPUT=${i}.sam OUTPUT=${i}_sorted.bam SORT_ORDER=coordinate
 
 #Mark PCR duplicates without removing them
 PicardCommandLine MarkDuplicates INPUT=${i}_sorted.bam OUTPUT=./${i}_marked.bam METRICS_FILE=${i}_metrics.txt
 PicardCommandLine BuildBamIndex INPUT=./${i}_marked.bam
 
 # local realignment of reads
-GenomeAnalysisTK -nt 20 -T RealignerTargetCreator -R ../../*_ref/ref.fa -I ${i}_marked.bam -o ${i}_forIndelRealigner.intervals
+GenomeAnalysisTK -nt 32 -T RealignerTargetCreator -R ../../*_ref/ref.fa -I ${i}_marked.bam -o ${i}_forIndelRealigner.intervals
 
 #Realign with established intervals
 GenomeAnalysisTK -T IndelRealigner -R ../../*ref/ref.fa -I ${i}_marked.bam -targetIntervals ${i}_forIndelRealigner.intervals -o ../final_bams/${i}.bam
