@@ -12,8 +12,6 @@
 
 module load bioinfo
 module load bioawk
-module load seqtk
-module load samtools
 module load cmake/3.9.4
 module load BEDTools
 module load BBMap
@@ -186,8 +184,6 @@ rm mappability/map.bed
 rm mappability/filter_sorted.bed
 rm mappability/mappability2.bed
 rm ${accession}_ref/ref_sorted.genome
-#rm ${accession}_ref/chrs.info
-#rm ${accession}_ref/chrs.bed
 
 #output some QC stats
 cd /scratch/bell/${USER}/theta/source/
