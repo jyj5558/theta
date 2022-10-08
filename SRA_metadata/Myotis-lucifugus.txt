@@ -1,7 +1,3 @@
-Run	BioProject	BioSample	ScientificName	pop	Model	LibraryLayout	Sex	avgLength
-SRR11515217	PRJNA624023	SAMN14564669	Myotis lucifugus	NorthAmericaWGS	Illumina HiSeq 4000	PAIRED	female
-SRR11515218	PRJNA624023	SAMN14564668	Myotis lucifugus	NorthAmericaWGS	Illumina HiSeq 4000	PAIRED	male
-SRR11515219	PRJNA624023	SAMN14564667	Myotis lucifugus	NorthAmericaWGS	Illumina HiSeq 4000	PAIRED	male
-SRR11515220	PRJNA624023	SAMN14564666	Myotis lucifugus	NorthAmericaWGS	Illumina HiSeq 4000	PAIRED	female
-SRR11515221	PRJNA624023	SAMN14564665	Myotis lucifugus	NorthAmericaWGS	Illumina HiSeq 4000	PAIRED	female
-SRR11515222	PRJNA624023	SAMN14564664	Myotis lucifugus	NorthAmericaWGS	Illumina HiSeq 4000	PAIRED	male
+Run	BioProject	BioSample	ScientificName	pop	Model	LibraryLayout	Sex	AvgSpotLen  Bases
+SRR11515221	PRJNA624023	SAMN14564665	Myotis lucifugus	NorthAmericaWGS	Illumina HiSeq 4000	PAIRED	female  277 14.14 G
+SRR11515222	PRJNA624023	SAMN14564664	Myotis lucifugus	NorthAmericaWGS	Illumina HiSeq 4000	PAIRED	male  279 13.04 G
