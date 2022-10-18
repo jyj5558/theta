@@ -232,7 +232,7 @@ After noted, proceed to step 3.
 **- step3_mapping.sh** 
 
 This script will align each paired fastq file to the reference, validate the output sam file, sort based upon read coordinate, mark pcr duplicates and perform indel realignment. Mapping and depth statistics will be output. 
--Binary alignment mapping files: Curated files will be found within ./final_bams
+-Binary alignment mapping (.bam) files: Curated files will be found within ./final_bams
 -Summary statistic files will be found within: ./alignment
 
 Usage:
@@ -253,7 +253,7 @@ sbatch /scratch/bell/$USER/theta/step3_mapping.sh
 ```
 
 >**Quality check #4:**
->Inside the target species directory, evaluate the mapping rates. If any outliers are identified (e.g., low mapping rate (i.e. less than 80%), low depth, low breadth) note these for potential removal during the last step. Also, confirm that there are the correct number of rows (below) as there are samples. A discrepency could identify a problem sample. 
+>Inside the target species directory, evaluate the mapping rates. If any outliers are identified (e.g., low mapping rate (i.e. less than 80%), low depth (i.e. less than 1x), low breadth (i.e., less than 80%)) note these for potential removal during the last step. Also, confirm that there are the correct number of rows (below) as there are samples. A discrepency could identify a problem sample. 
  
  Alignment rates:
  ```
@@ -269,7 +269,7 @@ cat sra/final_bams/*breadth*
 ```
 Record individuals' depth and breadth in ascending order of SRR numbers in Google doc spreadsheet.
 Again, note any problem samples. Re-align if necessary before proceeding to step4:
-To realign, the easiest way is to modify the script and change out the 'for loop' for the sample ID (e.g. CHANGE "for i in `ls -1 *.fq | sed "s/_[1-2]_val_[1-2].fq//g" | uniq`" TO "for i in SRR10596315 SRR10596317"), then resave script as a new name and run.
+To realign, the easiest way is to modify the script and change out the 'for loop' for the sample ID (e.g. CHANGE "for i in `ls -1 *.fq | sed "s/_[1-2]_val_[1-2].fq//g" | uniq`" TO "for i in SRR10596315 SRR10596317" if you want to realign just SRR10596315 and SRR10596317), then resave script as a new name and run.
 If the number of samples excluding the problematic samples is larger than 2, then just move on to the next step with notes on the samples.
 
 ## Step 4: QC the reference. Create ok.bed file, containing mappable sites, non-repeat sites, and autosomal sites
@@ -280,7 +280,8 @@ This script identifyies repeats, estimates mappability and finds all of the shor
 The output files include: 			
 
 1. ok.bed (regions to analyze in angsd etc)		
-2. map_repeat_summary.txt (summary of ref quality)		
+2. map_repeat_summary.txt (summary of ref quality)
+3. chr.txt (chromosome names to limit regions and facilitate the analysis in angsd etc)		
 
 
 User will need to enter the following information:
@@ -318,13 +319,10 @@ head *_satc/idxstats/satc_sexlinked_scaff.list
 
 This script will estimate the Site Frequency Spectrum and calculate Watterson's Theta (in sliding windows), Nucleotide diveristy, Tajima's D, Fu & Li's Fs, individual heterozygosities, population heterozygosity, and runs of homozygosity. As ANGSD will take a lot of memory, you might need to reserve the whole half node (64 CPUs; or even the whole node - 128 cores). The output file will contain mean with SD (except ROH).
 The output file:
-1. WattersonsTheta_${Genus-species}.txt
-2. NucleotideDiversity_${Genus-species}.txt
-3. TajimaD_${Genus-species}.txt
-4. FuF_${Genus-species}.txt
-5. Het (containing individual heterozygosity values)
-6. Het_${Genus-species}.txt (containing the population-level heterozygosity value)
-7. ROH_${Genus-species}.txt
+1. Thetas_${Genus-species}.txt
+2. Het (containing individual heterozygosity values)
+3. Het_${Genus-species}.txt (containing the population-level heterozygosity value)
+4. ROH_${Genus-species}_PL.txt (ROH values based on phred-score scaled genotype likelihood)
 
 If some samples were dropped due to quality issues from upstream analyses, $MIND in step5 script should be changed accordingly (by editing the bam.filelist after making it manually or renaming the problematic sample.bam in advance to something not to be included in bam.filelist (e.g., sample.nobam) are the easiest).
 
