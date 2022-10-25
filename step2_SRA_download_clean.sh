@@ -3,7 +3,7 @@
 #SBATCH -A fnrdewoody
 #SBATCH -t 10-00:00:00
 #SBATCH -N 1
-#SBATCH -n 20
+#SBATCH -n 32
 #SBATCH --mem=50G
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
@@ -19,9 +19,10 @@ module load sra-toolkit
 ####notes and usage####
 #
 ##Notes##
-#Edit the step2_SRA_download_clean.sh script, to add target species "genus-species"
+#Edit the step2_SRA_download_clean.sh script, to add target species "genus-species" and the number of cpus "n" you allocated in the SBATCH command above
 #Example:
 #genus_species=Marmota-marmota-marmota
+#n=32
 #theta git should be cloned at $CLUSTER_SCRATCH (e.g., /scratch/bell/blackan/)
 #usage:
 #sbatch /scratch/bell/$USER/theta/step2_SRA_download_clean.sh
@@ -36,6 +37,7 @@ module load sra-toolkit
 ################################
 
 genus_species=
+n=
 
 #########################
 #DO NOT EDIT BELOW CODE #
@@ -59,7 +61,7 @@ do
 mkdir ${g}
 cd ${g}
 echo ${g} | xargs prefetch --max-size 500GB -O ./
-echo ${g}.sra | xargs fasterq-dump -e 20 --progress
+echo ${g}.sra | xargs fasterq-dump -e $n --progress
 find . -name '*.fastq' -exec mv {} ../ \;
 cd ../
 rm -r ${g}
