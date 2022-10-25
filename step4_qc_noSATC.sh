@@ -28,13 +28,14 @@ export PATH=$PATH:~/genmap-build/bin
 # map_repeat_summary.txt (summary of ref quality)							
 #
 #
- ####end usage and notes####
+####end usage and notes####
 ###########################################
 #ENTER INFORMATION FOR FOLLOWING VARIABLES#
 ###########################################
 
 genus_species=
 accession=
+n=
 
 ########################
 #DO NOT EDIT BELOW CODE#
@@ -49,7 +50,7 @@ genmap index -F ${accession}_ref/ref_100kb.fa -I index -S 50 # build an index
 
 # compute mappability, k = kmer of 100bp, E = # two mismatches
 mkdir mappability
-genmap map -K 100 -E 2 -T 64 -I index -O mappability -t -w -bg                
+genmap map -K 100 -E 2 -T $n -I index -O mappability -t -w -bg                
 
 # sort bed 
 sortBed -i ${accession}_rm/repeats.bed > ${accession}_rm/repeats_sorted.bed 
