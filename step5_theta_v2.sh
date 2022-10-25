@@ -26,10 +26,11 @@ module load htslib
 ####notes and usage####
 #
 ##Notes##
-# add target species "genus-species"
+#add target species "genus-species" and the number of cpus "n" you allocated in SBATCH command above
 #Example:
 #genus_species=Marmota-marmota-marmota
 #accession=GCF_001458135.1
+#n=64
 #
 #usage:
 #/scratch/bell/$USER/theta/step5_theta_v2.sh
@@ -43,6 +44,7 @@ module load htslib
 
 genus_species=
 accession=
+n=
 
 ########Do not edit beneath this row########
 
@@ -68,18 +70,18 @@ echo "Genotype likelihood estimation started"
 angsd -bam ./bam.filelist -ref $PD/*_ref/ref.fa -anc $PD/*_ref/ref.fa -rf $PD/*_ref/chrs.txt -sites ./angsd.file \
 -dosaf 1 -GL 2 -doMajorMinor 1 \
 -minInd $MIND -minMapQ 30 -minQ 30 -only_proper_pairs 1 -remove_bads 1 -uniqueOnly 1  -baq 2 \
--out out -P 64 
+-out out -P $n 
 echo "Genotype likelihood estimation done"
 
 
 # obtain ML estimate of SFS using the folded realSFS
 echo "SFS estimation started"
-realSFS -P 64 out.saf.idx  -fold 1 > out.sfs
+realSFS -P $n out.saf.idx  -fold 1 > out.sfs
 echo "SFS estimation done"
 
 # calculate theta for each site
 echo "Theta estimation started"
-realSFS saf2theta out.saf.idx -sfs out.sfs -outname out -P 64 
+realSFS saf2theta out.saf.idx -sfs out.sfs -outname out -P $n 
 
 # estimate 
 thetaStat print out.thetas.idx > out.thetas_persite.txt
@@ -119,9 +121,9 @@ echo "${LINE} heterozygosity estimation started"
 angsd -i ../sra/final_bams/${LINE}.bam -ref $PD/*_ref/ref.fa -anc $PD/*_ref/ref.fa -rf $PD/*_ref/chrs.txt -sites ./angsd.file \
 -dosaf 1 -GL 2 -doMajorMinor 1 \
 -minMapQ 30 -minQ 30 -only_proper_pairs 1 -remove_bads 1 -uniqueOnly 1 -baq 2 -doCounts 1 -setMinDepthInd 5 \
--out ${OUTDIR}/${LINE} -P 64
+-out ${OUTDIR}/${LINE} -P $n
  
-realSFS -P 64 -fold 1 ${OUTDIR}/${LINE}.saf.idx > ${OUTDIR}/${LINE}_est.ml
+realSFS -P $n -fold 1 ${OUTDIR}/${LINE}.saf.idx > ${OUTDIR}/${LINE}_est.ml
 
 cd ${OUTDIR}
 Rscript -e 'args<-commandArgs(TRUE); LINE<-args[1]; a<-scan(paste(LINE,"est.ml", sep="_")); a[2]/sum(a)' ${LINE} >>  ../Het
@@ -154,13 +156,13 @@ echo "Population heterozygosity .txt created"
 echo "File conversion to bcf started"
 angsd -b ./bam.filelist -ref $PD/*_ref/ref.fa -rf $PD/*_ref/chrs.txt -sites ./angsd.file \
 -dobcf 1 -gl 2 -dopost 1 -domajorminor 1 -domaf 1 \
--minMapQ 30 -minQ 30 -only_proper_pairs 1 -remove_bads 1 -uniqueOnly 1  -baq 2 -snp_pval 1e-6 -P 64
+-minMapQ 30 -minQ 30 -only_proper_pairs 1 -remove_bads 1 -uniqueOnly 1  -baq 2 -snp_pval 1e-6 -P $n
 echo "bcf file created"
 
 echo "ROH estimation started"
 bcftools query -f'%CHROM\t%POS\t%REF,%ALT\t%INFO/AF\n' angsdput.bcf | bgzip -c > ${genus_species}.freqs.tab.gz
 tabix -s1 -b2 -e2 ${genus_species}.freqs.tab.gz
-bcftools roh --AF-file ${genus_species}.freqs.tab.gz --output ROH_${genus_species}_PLraw.txt --threads 64 angsdput.bcf
+bcftools roh --AF-file ${genus_species}.freqs.tab.gz --output ROH_${genus_species}_PLraw.txt --threads $n angsdput.bcf
 echo "ROH raw files created"
 
 echo "ROH raw file parsing started"
