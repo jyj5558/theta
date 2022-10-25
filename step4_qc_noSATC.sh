@@ -27,8 +27,25 @@ export PATH=$PATH:~/genmap-build/bin
 # ok.bed (regions to analyze in angsd etc)		
 # map_repeat_summary.txt (summary of ref quality)							
 #
+####usage####
+#User will need to input (paste) information for the following variables below:
+#
+#Genus-species: this is used in the directory naming as Erangi suggested, to make browsing
+#a bit more doable for us humans
+#accession: this is also used in the directory, to keep multiple reference assemblies separate as Black suggested
+#n: the number of cpus you allocated in the SBATCH command above
+#
+#Example of defined variables below 
+#
+#genus_species=Balaenoptera-musculus
+#accession=GCF_009873245.2
+#n=32
+#Once these have been defined, save and close slurrm job and submit
+#sbatch /scratch/bell/$USER/theta/step1_download.sh
 #
 ####end usage and notes####
+
+
 ###########################################
 #ENTER INFORMATION FOR FOLLOWING VARIABLES#
 ###########################################
