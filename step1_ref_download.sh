@@ -30,13 +30,15 @@ module load BBMap
 #accession: this is also used in the directory, to keep multiple reference assemblies
 #separate as Black suggested
 #pathway: include full NCBI url to FTP site (containing directory)                                          
-#assembly:name of assembly
+#assembly: name of assembly
+#n: the number of cpus you allocated in the SBATCH command above
 #
 #Example of defined variables below 
 #genus_species=Balaenoptera-musculus
 #accession=GCF_009873245.2
 #pathway=https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/009/873/245/GCF_009873245.2_mBalMus1.pri.v3/
 #assembly=mBalMus1.pri.v3
+#n=32
 #Once these have been defined, save and close slurrm job and submit
 #sbatch /scratch/bell/$USER/theta/step1_download.sh
 
@@ -50,6 +52,7 @@ genus_species=
 accession=
 pathway=
 assembly=
+n=
 
 ########################
 #DO NOT EDIT BELOW CODE#
@@ -121,7 +124,7 @@ else
 	module --force purge
 	module load biocontainers/default
 	module load repeatmasker
-	RepeatMasker -pa 32 -a -qq -species mammals -dir . ../${accession}_ref/ref_100kb.fa 
+	RepeatMasker -pa $n -a -qq -species mammals -dir . ../${accession}_ref/ref_100kb.fa 
 	cat ref_100kb.fa.out  | tail -n +4 | awk '{print $5,$6,$7,$11}' | sed 's/ /\t/g' > repeats.bed 
 fi
 
