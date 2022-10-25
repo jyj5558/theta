@@ -19,7 +19,6 @@ module load BBMap
 # This script downloads reference, repeat, and annotation data
 #if a masked genome isn't available (i.e. rm.out), script will create one using the mammal 
 #repeat library --- we should change this if we move on from mammals!
-#change repeatmasker's "-pa" argument according to the "#SBATCH -n" argument (i.e., if you use 64 cpus with #SBATCH -n 64, then change RepeatMasker -pa 64)
 #
 ####usage####
 #
@@ -41,9 +40,8 @@ module load BBMap
 #n=32
 #Once these have been defined, save and close slurrm job and submit
 #sbatch /scratch/bell/$USER/theta/step1_download.sh
-
-
 ####end usage and notes####
+
 ###########################################
 #ENTER INFORMATION FOR FOLLOWING VARIABLES#
 ###########################################
