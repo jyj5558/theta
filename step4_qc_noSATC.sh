@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=S4_genus-species
 #SBATCH -A standby
-#SBATCH -t 12-00:00:00 
+#SBATCH -t 4:00:00 
 #SBATCH -N 1 
 #SBATCH -n 64
 #SBATCH --mem=100G
