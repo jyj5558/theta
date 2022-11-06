@@ -273,7 +273,7 @@ To realign, the easiest way is to modify the script and change out the 'for loop
 If the number of samples excluding the problematic samples is larger than 2, then just move on to the next step with notes on the samples.
 
 ## Step 4: QC the reference. Create ok.bed file, containing mappable sites, non-repeat sites, and autosomal sites
-**- step4_qc.sh**
+**- step4_qc_noSATC.sh**
 
 This script identifyies repeats, estimates mappability and finds all of the short scaffolds. 
 
@@ -315,7 +315,7 @@ head *_satc/idxstats/satc_sexlinked_scaff.list
 ```
 
 ## Step 5: Estimate theta and individual heterozygosity from the alignment files
-**- step5_theta.sh**
+**- step5_theta_v2.sh**
 
 This script will estimate the Site Frequency Spectrum and calculate Watterson's Theta (in sliding windows), Nucleotide diveristy, Tajima's D, Fu & Li's Fs, individual heterozygosities, population heterozygosity, and runs of homozygosity. As ANGSD will take a lot of memory, you might need to reserve the whole half node (64 CPUs; or even the whole node - 128 cores). The output file will contain mean with SD (except ROH).
 The output file:
@@ -339,10 +339,10 @@ User will need to enter the following information:
 
 To run, simply submit the following command:
 ```
-sbatch /scratch/bell/$USER/theta/step5_theta.sh
+sbatch /scratch/bell/$USER/theta/step5_theta_v2.sh
 ```
 
-Record population-level Watterson's theta, Nucleotide diversity, Tajima's D, Fu and Li's F, Heterozygosity, F(ROH) >= 100kb, and F(ROH) >= 1mb in Google doc spreadsheet.
+Record population-level Nucleotide diversity, Watterson's theta, Tajima's D, Fu and Li's F, Heterozygosity, F(ROH) >= 100kb, and F(ROH) >= 1mb in Google doc spreadsheet.
 Also record individual-level Heterozygosity in ascending order of SRR numbers (as the same order of individual depth and breadth for statistical correlation test later; the samples should have been automatiaclly sorted and processed in the ascending order in step3 and so in downstream steps, so nothing needs to be done to sort them, but just double-check.).
 
 
@@ -356,6 +356,5 @@ sbatch /scratch/bell/$USER/theta/Theta_tarball.sh
 
 #################################
 #################################
-Further QC of bam dataset based upon coverage-SHOULD WE ADD THIS? where is:qc_bams.sh & quantile_thresholds.R ?
 
 
