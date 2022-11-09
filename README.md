@@ -320,8 +320,8 @@ head *_satc/idxstats/satc_sexlinked_scaff.list
 This script will estimate the Site Frequency Spectrum and calculate Watterson's Theta (in sliding windows), Nucleotide diveristy, Tajima's D, Fu & Li's Fs, individual heterozygosities, population heterozygosity, and runs of homozygosity. As ANGSD will take a lot of memory, you might need to reserve the whole half node (64 CPUs; or even the whole node - 128 cores). The output file will contain mean with SD (except ROH).
 The output file:
 1. Thetas_${Genus-species}.txt
-2. Het (containing individual heterozygosity values)
-3. Het_${Genus-species}.txt (containing the population-level heterozygosity value)
+2. Ind_Het_${Genus-species}.txt (containing individual heterozygosity values; 'comma'-separated)
+3. Pop_Het_${Genus-species}.txt (containing the population-level heterozygosity value)
 4. ROH_${Genus-species}_PL.txt (ROH values based on phred-score scaled genotype likelihood)
 
 If some samples were dropped due to quality issues from upstream analyses, $MIND in step5 script should be changed accordingly (by editing the bam.filelist after making it manually or renaming the problematic sample.bam in advance to something not to be included in bam.filelist (e.g., sample.nobam) are the easiest).
