@@ -3,24 +3,24 @@
 #which will output $Ne (effective population size calculated from 'theta'), $HetT (het after 100 years), $ConStat (Conservation Status from the genetic criterion)
 
 # original - using genome-wide Theta
-gen_stat <- function(het,theta,mu,interval){
-    Ne = theta/(4*mu)
-    g = 100/interval
-    HetT = het*(1-(1/(2*Ne)))^g
-    if (HetT/het <= 0.9){
-        ConStat = "CR"
-    } else if (HetT/het <= 0.95){
-        ConStat = "EN"
-    } else if (HetT/het <= 0.975 || Ne < 1000 ){
-        ConStat = "VU"
-    } else if (HetT/het > 0.975 && 1000 <= Ne && Ne < 5000 ){
-        ConStat = "NT"
-    } else if (HetT/het > 0.975 && 5000 <= Ne){
-        ConStat = "LC"
-    }
-    result <- list("Ne" = Ne, "HetT" = HetT, "ConStat" = ConStat)
-    return(result)
-} 
+#gen_stat <- function(het,theta,mu,interval){
+#    Ne = theta/(4*mu)
+#    g = 100/interval
+#    HetT = het*(1-(1/(2*Ne)))^g
+#    if (HetT/het <= 0.9){
+#        ConStat = "CR"
+#    } else if (HetT/het <= 0.95){
+#        ConStat = "EN"
+#    } else if (HetT/het <= 0.975 || Ne < 1000 ){
+#        ConStat = "VU"
+#    } else if (HetT/het > 0.975 && 1000 <= Ne && Ne < 5000 ){
+#        ConStat = "NT"
+#    } else if (HetT/het > 0.975 && 5000 <= Ne){
+#        ConStat = "LC"
+#    }
+#    result <- list("Ne" = Ne, "HetT" = HetT, "ConStat" = ConStat)
+#    return(result)
+#} 
 
 # version 2
 gen_stat <- function(het,Ne,Nc,interval){
