@@ -1,0 +1,1205 @@
+---
+title: "Theta_pre"
+author: "Jong Yoon Jeon"
+date: "2022-10-27"
+output: html_document
+---
+
+#load packages
+```{r}
+library(readxl)
+library(tidyverse)
+library(tibble)
+library(emmeans)
+library(ggplot2)
+library(ggpubr)
+library(ggfortify)
+library(ggrepel)
+library(lme4)
+library(afex)
+library(multcomp)
+library(ggbeeswarm)
+library(summarytools)
+library(interactions)
+library(jtools)
+library(MuMIn)
+library(psych)
+library(car)
+library(sjstats)
+library(FactoMineR)
+library(factoextra)
+library(colorspace)
+library(psych)
+```
+
+#load and check the data
+```{r}
+rm(list = ls())
+setwd("C:/Users/jyj55/OneDrive - purdue.edu/DeWoody_Lab/Dissertation/Theta project/Manuscript")
+data <- read_excel("Supplementary Data 1.xlsx")
+View(data)
+str(data)
+summary(data)
+
+#data$het_mean = rep(NA, nrow(data))
+#data$depth_mean = rep(NA, nrow(data))
+#calcuale het and depth
+#for(r in 1:nrow(data)){
+#  t = data[r,]
+#  data$het_mean[r] = mean(as.numeric(strsplit(t$Ind_Heterozygosity, ",")[[1]]), na.rm=T)
+#  data$depth_mean[r] = mean(as.numeric(strsplit(t$Ind_depth, ",")[[1]]), na.rm=T)
+#}
+```
+
+#preliminary check of GDs by IUCN
+```{r}
+#calculate means and standard errors
+iucn = c("DD", "LC", "NT", "VU", "EN", "CR") #unique(data$IUCN)
+OUT = NULL
+for(i in 1:length(iucn)){
+  t = data[data$IUCN_category==as.character(iucn[i]),,drop=F]
+  t = t[rowSums(is.na(t))!=ncol(t),]
+  OUT = rbind(OUT, c(iucn[i], nrow(t), 
+                     mean(t$Nucleotide_diversity_mean, na.rm=T), (mean(t$Nucleotide_diversity_mean, na.rm=T) - (sd(t$Nucleotide_diversity_mean, na.rm=T)/sqrt(nrow(t)))), (mean(t$Nucleotide_diversity_mean, na.rm=T) + (sd(t$Nucleotide_diversity_mean, na.rm=T)/sqrt(nrow(t)))), 
+                     mean(t$Watterson_theta_mean, na.rm=T),     (mean(t$Watterson_theta_mean, na.rm=T)     - (sd(t$Watterson_theta_mean, na.rm=T)/sqrt(nrow(t)))),     (mean(t$Watterson_theta_mean, na.rm=T)     + (sd(t$Watterson_theta_mean, na.rm=T)/sqrt(nrow(t)))), 
+                     mean(t$Tajima_D_mean, na.rm=T),            (mean(t$Tajima_D_mean, na.rm=T)            - (sd(t$Tajima_D_mean, na.rm=T)/sqrt(nrow(t)))),            (mean(t$Tajima_D_mean, na.rm=T)            + (sd(t$Tajima_D_mean, na.rm=T)/sqrt(nrow(t)))), 
+                     mean(t$Pop_Heterozygosity_mean, na.rm=T),   (mean(t$Pop_Heterozygosity_mean, na.rm=T)   - (sd(t$Pop_Heterozygosity_mean, na.rm=T)/sqrt(nrow(t)))),   (mean(t$Pop_Heterozygosity_mean, na.rm=T)   + (sd(t$Pop_Heterozygosity_mean, na.rm=T)/sqrt(nrow(t)))), 
+                     mean(t$Froh_100kb, na.rm=T),               (mean(t$Froh_100kb, na.rm=T)               - (sd(t$Froh_100kb, na.rm=T)/sqrt(nrow(t)))),               (mean(t$Froh_100kb, na.rm=T)               + (sd(t$Froh_100kb, na.rm=T)/sqrt(nrow(t)))), 
+                     mean(t$Froh_1mb, na.rm=T),                 (mean(t$Froh_1mb, na.rm=T)                 - (sd(t$Froh_1mb, na.rm=T)/sqrt(nrow(t)))),                 (mean(t$Froh_1mb, na.rm=T)                 + (sd(t$Froh_1mb, na.rm=T)/sqrt(nrow(t))))
+))}
+#make it nicer/easier to read
+summary = as.data.frame(OUT)
+summary[,3:ncol(summary)] = sapply(summary[,3:ncol(summary)],as.numeric)
+#summary[,3:ncol(summary)] = as.numeric(summary[,3:ncol(summary)])
+summary[,3:ncol(summary)] = round(summary[,3:ncol(summary)], 5)
+colnames(summary) = c("IUCN", "Records", "Pi_M", "Pi_L", "Pi_U", "Theta_M", "Theta_L", "Theta_U", "D_M", "D_L", "D_U", "Het_M", "Het_L", "Het_U", "Roh100_M", "Roh100_L", "Roh100_U", "Roh1000_M", "Roh1000_L", "Roh1000_U")
+write.table(summary, "IUCNvsGD.csv", sep=",", col.names=T, row.names=F)
+```
+
+#preliminary check of GDs by binary IUCN
+```{r}
+#calculate means and standard errors in binary categorization
+data$IUCN.b = rep(NA, nrow(data))
+data$IUCN.b[data$IUCN_category=="DD"] = "Data-Deficient"
+data$IUCN.b[data$IUCN_category=="LC" | data$IUCN_category=="NT"] = "Non-Threatened"
+data$IUCN.b[data$IUCN_category=="VU" | data$IUCN_category=="EN" | data$IUCN_category=="CR"] = "Threatened"
+iucn.b = c("Data-Deficient", "Non-Threatened", "Threatened") #binary status
+OUT = NULL
+for(i in 1:length(iucn.b)){
+  t = data[data$IUCN.b==as.character(iucn.b[i]),,drop=F]
+  t = t[rowSums(is.na(t))!=ncol(t),]
+  OUT = rbind(OUT, c(iucn.b[i], nrow(t), 
+                     mean(t$Nucleotide_diversity_mean, na.rm=T), (mean(t$Nucleotide_diversity_mean, na.rm=T) - (sd(t$Nucleotide_diversity_mean, na.rm=T)/sqrt(nrow(t)))), (mean(t$Nucleotide_diversity_mean, na.rm=T) + (sd(t$Nucleotide_diversity_mean, na.rm=T)/sqrt(nrow(t)))), 
+                     mean(t$Watterson_theta_mean, na.rm=T),     (mean(t$Watterson_theta_mean, na.rm=T)     - (sd(t$Watterson_theta_mean, na.rm=T)/sqrt(nrow(t)))),     (mean(t$Watterson_theta_mean, na.rm=T)     + (sd(t$Watterson_theta_mean, na.rm=T)/sqrt(nrow(t)))), 
+                     mean(t$Tajima_D_mean, na.rm=T),            (mean(t$Tajima_D_mean, na.rm=T)            - (sd(t$Tajima_D_mean, na.rm=T)/sqrt(nrow(t)))),            (mean(t$Tajima_D_mean, na.rm=T)            + (sd(t$Tajima_D_mean, na.rm=T)/sqrt(nrow(t)))), 
+                     mean(t$Pop_Heterozygosity_mean, na.rm=T),   (mean(t$Pop_Heterozygosity_mean, na.rm=T)   - (sd(t$Pop_Heterozygosity_mean, na.rm=T)/sqrt(nrow(t)))),   (mean(t$Pop_Heterozygosity_mean, na.rm=T)   + (sd(t$Pop_Heterozygosity_mean, na.rm=T)/sqrt(nrow(t)))), 
+                     mean(t$Froh_100kb, na.rm=T),               (mean(t$Froh_100kb, na.rm=T)               - (sd(t$Froh_100kb, na.rm=T)/sqrt(nrow(t)))),               (mean(t$Froh_100kb, na.rm=T)               + (sd(t$Froh_100kb, na.rm=T)/sqrt(nrow(t)))), 
+                     mean(t$Froh_1mb, na.rm=T),                 (mean(t$Froh_1mb, na.rm=T)                 - (sd(t$Froh_1mb, na.rm=T)/sqrt(nrow(t)))),                 (mean(t$Froh_1mb, na.rm=T)                 + (sd(t$Froh_1mb, na.rm=T)/sqrt(nrow(t))))
+))}
+#make it nicer/easier to read
+summary.b = as.data.frame(OUT)
+summary.b[,3:ncol(summary.b)] = sapply(summary.b[,3:ncol(summary.b)],as.numeric)
+#summary.b[,3:ncol(summary.b)] = as.numeric(summary.b[,3:ncol(summary.b)])
+summary.b[,3:ncol(summary.b)] = round(summary.b[,3:ncol(summary.b)], 5)
+colnames(summary.b) = c("IUCN_binary", "sample size", "Pi_M", "Pi_L", "Pi_U", "Theta_M", "Theta_L", "Theta_U", "D_M", "D_L", "D_U", "Het_M", "Het_L", "Het_U", "Roh100_M", "Roh100_L", "Roh100_U", "Roh1000_M", "Roh1000_L", "Roh1000_U")
+write.table(summary.b, "IUCN_bvsGD.csv", sep=",", col.names=T, row.names=F)
+```
+
+#prepare the data for downstream analysis
+```{r}
+data$IUCN_category <- factor(data$IUCN_category, levels = iucn)
+data$IUCN.b <- factor(data$IUCN.b, levels = iucn.b)
+
+#sort data by IUCN
+sort_data <- data %>% arrange(factor(IUCN_category, levels = iucn))
+
+#sort data by population trend
+pop_trend <- c("Unknown", "Decreasing", "Stable", "Increasing")
+data$population_trend <- factor(data$population_trend, levels = pop_trend)
+trend_data <- data %>% arrange(factor(population_trend, levels = pop_trend))
+
+#sort data by trophic level
+trophic <- c("herbivore", "omnivore","carnivore")
+data$trophic_level <- factor(data$trophic_level, levels = trophic)
+troph_data <- data %>% arrange(factor(trophic_level, levels = trophic))
+
+#sort data by habitat type
+habitat <- c("marine", "terrestrial_non-volant", "terrestrial_volant")
+data$habitat_type <- factor(data$habitat_type, levels = habitat)
+habitat_data <- data %>% arrange(factor(habitat_type, levels = habitat))
+
+str(data)
+summary(data)
+
+sort_species <- sort_data$NCBI_name
+trend_species <- trend_data$NCBI_name
+troph_species <- troph_data$NCBI_name
+habitat_species <- habitat_data$NCBI_name
+```
+
+
+#Nucleotide_diversity
+```{r}
+#raw distribution by IUCN
+ggplot(data=sort_data, aes(x=factor(NCBI_name, level=sort_species), y=Nucleotide_diversity_mean, label=NCBI_name, color=IUCN_category)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  labs(title = "Pi by IUCN", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  geom_label_repel(data=subset(sort_data, Nucleotide_diversity_mean>0.005), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50') 
+
+#raw distribution by IUCN binary
+ggplot(data=sort_data, aes(x=factor(NCBI_name, level=sort_species), y=Nucleotide_diversity_mean, label=NCBI_name, color=IUCN.b)) +   geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Pi by binary IUCN", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn.b) + 
+  geom_label_repel(data=subset(sort_data, Nucleotide_diversity_mean>0.005), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#raw distribution by IUCN without outliers
+ggplot(data=sort_data[sort_data$Nucleotide_diversity_mean<0.005,], aes(x=factor(NCBI_name, level=sort_species), y=Nucleotide_diversity_mean, label=NCBI_name, color=IUCN_category)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  labs(title = "Pi by IUCN", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn)
+
+#plot Pi vs. IUCN
+PivsIUCN <-  lm(Nucleotide_diversity_mean ~ IUCN_category, data = data) 
+PivsIUCN_means <- emmeans(PivsIUCN, ~IUCN_category)
+PivsIUCN_means_df <- data.frame(PivsIUCN_means)
+ggplot(data = subset(data, !is.na(IUCN_category)), aes(x = IUCN_category, y = Nucleotide_diversity_mean)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = PivsIUCN_means_df, aes(x = IUCN_category, y = emmean, colour = IUCN_category), size = 4) +
+  geom_errorbar(data = PivsIUCN_means_df, aes(x = IUCN_category, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = IUCN_category), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("IUCN_category") + ylab ("Nucleotide_diversity_mean")
+
+#plot Pi vs. IUCN binary categorization
+PivsIUCN_b <-  lm(Nucleotide_diversity_mean ~ IUCN.b, data = data) 
+PivsIUCN_b_means <- emmeans(PivsIUCN_b, ~IUCN.b)
+PivsIUCN_b_means_df <- data.frame(PivsIUCN_b_means)
+ggplot(data = subset(data, !is.na(IUCN.b)), aes(x = IUCN.b, y = Nucleotide_diversity_mean)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = PivsIUCN_b_means_df, aes(x = IUCN.b, y = emmean, colour = IUCN.b), size = 4) +
+  geom_errorbar(data = PivsIUCN_b_means_df, aes(x = IUCN.b, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = IUCN.b), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("IUCN_binary_category") + ylab ("Nucleotide_diversity_mean")
+
+#raw distribution by population trend
+ggplot(data=trend_data, aes(x=factor(NCBI_name, level=trend_species), y=Nucleotide_diversity_mean, label=NCBI_name, color=population_trend)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Pi by Population trend", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=pop_trend) + 
+  geom_label_repel(data=subset(trend_data, population_trend == 'Increasing'), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#raw distribution by population trend without outliers
+ggplot(data=trend_data[trend_data$Nucleotide_diversity_mean<0.005,], aes(x=factor(NCBI_name, level=trend_species), y=Nucleotide_diversity_mean, label=NCBI_name, color=population_trend)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Pi by Population trend", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=pop_trend) + 
+  geom_label_repel(data=subset(trend_data, population_trend == 'Increasing'), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50', xlim = c(0,80))
+
+#plot Pi vs. Population trend
+PivsTrend <-  lm(Nucleotide_diversity_mean ~ population_trend, data = data) 
+PivsTrend_means <- emmeans(PivsTrend, ~population_trend)
+PivsTrend_means_df <- data.frame(PivsTrend_means)
+ggplot(data = subset(data, !is.na(population_trend)), aes(x = population_trend, y = Nucleotide_diversity_mean)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = PivsTrend_means_df, aes(x = population_trend, y = emmean, colour = population_trend), size = 4) +
+  geom_errorbar(data = PivsTrend_means_df, aes(x = population_trend, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = population_trend), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("Population_trend") + ylab ("Nucleotide_diversity_mean")
+
+#raw distribution and correlation by geographic range
+ggplot(data = sort_data, aes(x = geographic_range_km2, y = Nucleotide_diversity_mean)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "Pi by Geographic range", x="Geographic_range (km2)", y="Pi")
+
+#raw distribution and correlation by geographic range without Outliers
+ggplot(data = sort_data[sort_data$Nucleotide_diversity_mean<0.005 & sort_data$geographic_range_km2<5e+07,], aes(x = geographic_range_km2, y = Nucleotide_diversity_mean)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "Pi by Geographic range", x="Geographic_range (km2)", y="Pi")
+
+#raw distribution by trophic level
+ggplot(data=troph_data, aes(x=factor(NCBI_name, level=troph_species), y=Nucleotide_diversity_mean, label=NCBI_name, color=trophic_level)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Pi by Trophic level", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=trophic_level) + 
+  geom_label_repel(data=subset(troph_data, Nucleotide_diversity_mean>0.005), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#raw distribution by trophic level without outliers
+ggplot(data=troph_data[troph_data$Nucleotide_diversity_mean<0.005,], aes(x=factor(NCBI_name, level=troph_species), y=Nucleotide_diversity_mean, label=NCBI_name, color=trophic_level)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Pi by Trophic level", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=trophic_level)
+
+#plot Pi vs. trophic level
+PivsTrophic <-  lm(Nucleotide_diversity_mean ~ trophic_level, data = data) 
+PivsTrophic_means <- emmeans(PivsTrophic, ~trophic_level)
+PivsTrophic_means_df <- data.frame(PivsTrophic_means)
+ggplot(data = subset(data, !is.na(trophic_level)), aes(x = trophic_level, y = Nucleotide_diversity_mean)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = PivsTrophic_means_df, aes(x = trophic_level, y = emmean, colour = trophic_level), size = 4) +
+  geom_errorbar(data = PivsTrophic_means_df, aes(x = trophic_level, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = trophic_level), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("Trophic_level") + ylab ("Nucleotide_diversity_mean")
+
+#raw distribution by habitat type
+ggplot(data=habitat_data, aes(x=factor(NCBI_name, level=habitat_species), y=Nucleotide_diversity_mean, label=NCBI_name, color=habitat_type)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Pi by Habitat type", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=habitat) + 
+  geom_label_repel(data=subset(habitat_data, habitat_type == "terrestrial_volant" | habitat_type == "marine"), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#raw distribution by habitat type without outliers
+ggplot(data=habitat_data[habitat_data$Nucleotide_diversity_mean<0.005,], aes(x=factor(NCBI_name, level=habitat_species), y=Nucleotide_diversity_mean, label=NCBI_name, color=habitat_type)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Pi by Habitat type", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=habitat) + 
+  geom_label_repel(data=subset(habitat_data[habitat_data$Nucleotide_diversity_mean<0.005,], habitat_type == "terrestrial_volant" | habitat_type == "marine"), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50', xlim=c(0,80))
+
+#plot Pi vs. habitat type
+PivsHabitat <-  lm(Nucleotide_diversity_mean ~ habitat_type, data = data) 
+PivsHabitat_means <- emmeans(PivsHabitat, ~habitat_type)
+PivsHabitat_means_df <- data.frame(PivsHabitat_means)
+ggplot(data = subset(data, !is.na(habitat_type)), aes(x = habitat_type, y = Nucleotide_diversity_mean)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = PivsHabitat_means_df, aes(x = habitat_type, y = emmean, colour = habitat_type), size = 4) +
+  geom_errorbar(data = PivsHabitat_means_df, aes(x = habitat_type, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = habitat_type), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("Habitat_type") + ylab ("Nucleotide_diversity_mean")
+
+#raw distribution and correlation by body mass
+ggplot(data = sort_data, aes(x = body_mass_g, y = Nucleotide_diversity_mean)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "Pi by Body mass", x="Body_mass (g)", y="Pi")
+
+#raw distribution and correlation by body mass without Outliers
+ggplot(data = sort_data[sort_data$Nucleotide_diversity_mean<0.005 & sort_data$body_mass_g<5e+05,], aes(x = body_mass_g, y = Nucleotide_diversity_mean)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "Pi by Body mass", x="Body_mass (g)", y="Pi")
+```
+
+#Watterson_theta
+```{r}
+#raw distribution by IUCN
+ggplot(data=sort_data, aes(x=factor(NCBI_name, level=sort_species), y=Watterson_theta_mean, label=NCBI_name, color=IUCN_category)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  labs(title = "Theta by IUCN", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  geom_label_repel(data=subset(sort_data, Watterson_theta_mean>0.005), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50') 
+
+#raw distribution by IUCN binary
+ggplot(data=sort_data, aes(x=factor(NCBI_name, level=sort_species), y=Watterson_theta_mean, label=NCBI_name, color=IUCN.b)) +   geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Theta by binary IUCN", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn.b) + 
+  geom_label_repel(data=subset(sort_data, Watterson_theta_mean>0.005), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#raw distribution by IUCN without outliers
+ggplot(data=sort_data[sort_data$Watterson_theta_mean<0.005,], aes(x=factor(NCBI_name, level=sort_species), y=Watterson_theta_mean, label=NCBI_name, color=IUCN_category)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  labs(title = "Theta by IUCN", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn)
+
+#plot Theta vs. IUCN
+ThetavsIUCN <-  lm(Watterson_theta_mean ~ IUCN_category, data = data) 
+ThetavsIUCN_means <- emmeans(ThetavsIUCN, ~IUCN_category)
+ThetavsIUCN_means_df <- data.frame(ThetavsIUCN_means)
+ggplot(data = subset(data, !is.na(IUCN_category)), aes(x = IUCN_category, y = Watterson_theta_mean, color=IUCN_category)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = ThetavsIUCN_means_df, aes(x = IUCN_category, y = emmean), size = 4) +
+  geom_errorbar(data = ThetavsIUCN_means_df, aes(x = IUCN_category, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = IUCN_category), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("IUCN_category") + ylab ("Watterson_theta_mean")
+
+#plot Theta vs. IUCN binary categorization
+ThetavsIUCN_b <-  lm(Watterson_theta_mean ~ IUCN.b, data = data) 
+ThetavsIUCN_b_means <- emmeans(ThetavsIUCN_b, ~IUCN.b)
+ThetavsIUCN_b_means_df <- data.frame(ThetavsIUCN_b_means)
+ggplot(data = subset(data, !is.na(IUCN.b)), aes(x = IUCN.b, y = Watterson_theta_mean, color=IUCN.b)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = ThetavsIUCN_b_means_df, aes(x = IUCN.b, y = emmean), size = 4) +
+  geom_errorbar(data = ThetavsIUCN_b_means_df, aes(x = IUCN.b, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = IUCN.b), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("IUCN_binary_category") + ylab ("Watterson_theta_mean")
+
+#raw distribution by population trend
+ggplot(data=trend_data, aes(x=factor(NCBI_name, level=trend_species), y=Watterson_theta_mean, label=NCBI_name, color=population_trend)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Theta by Population trend", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=pop_trend) + 
+  geom_label_repel(data=subset(trend_data, population_trend == 'Increasing'), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#raw distribution by population trend without outliers
+ggplot(data=trend_data[trend_data$Watterson_theta_mean<0.005,], aes(x=factor(NCBI_name, level=trend_species), y=Watterson_theta_mean, label=NCBI_name, color=population_trend)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Theta by Population trend", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=pop_trend) + 
+  geom_label_repel(data=subset(trend_data, population_trend == 'Increasing'), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50', xlim = c(0,80))
+
+#plot Theta vs. population trend
+ThetavsTrend <-  lm(Watterson_theta_mean ~ population_trend, data = data) 
+ThetavsTrend_means <- emmeans(ThetavsTrend, ~population_trend)
+ThetavsTrend_means_df <- data.frame(ThetavsTrend_means)
+ggplot(data = subset(data, !is.na(population_trend)), aes(x = population_trend, y = Watterson_theta_mean, color=population_trend)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = ThetavsTrend_means_df, aes(x = population_trend, y = emmean), size = 4) +
+  geom_errorbar(data = ThetavsTrend_means_df, aes(x = population_trend, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = population_trend), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("Population_trend") + ylab ("Watterson_theta_mean")
+
+#raw distribution and correlation by geographic range
+ggplot(data = sort_data, aes(x = geographic_range_km2, y = Watterson_theta_mean)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "Theta by Geographic range", x="Geographic_range (km2)", y="Theta")
+
+#raw distribution and correlation by geographic range without Outliers
+ggplot(data = sort_data[sort_data$Watterson_theta_mean<0.005 & sort_data$geographic_range_km2<5e+07,], aes(x = geographic_range_km2, y = Watterson_theta_mean)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "Theta by Geographic range", x="Geographic_range (km2)", y="Theta")
+
+#raw distribution by trophic level
+ggplot(data=troph_data, aes(x=factor(NCBI_name, level=troph_species), y=Watterson_theta_mean, label=NCBI_name, color=trophic_level)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Theta by Trophic level", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=trophic_level) + 
+  geom_label_repel(data=subset(troph_data, Watterson_theta_mean>0.005), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#raw distribution by trophic level without outliers
+ggplot(data=troph_data[troph_data$Watterson_theta_mean<0.005,], aes(x=factor(NCBI_name, level=troph_species), y=Watterson_theta_mean, label=NCBI_name, color=trophic_level)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Theta by Trophic level", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=trophic_level)
+
+#plot Theta vs. trophic level
+ThetavsTrophic <-  lm(Watterson_theta_mean ~ trophic_level, data = data) 
+ThetavsTrophic_means <- emmeans(ThetavsTrophic, ~trophic_level)
+ThetavsTrophic_means_df <- data.frame(ThetavsTrophic_means)
+ggplot(data = subset(data, !is.na(trophic_level)), aes(x = trophic_level, y = Watterson_theta_mean, color=trophic_level)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = ThetavsTrophic_means_df, aes(x = trophic_level, y = emmean), size = 4) +
+  geom_errorbar(data = ThetavsTrophic_means_df, aes(x = trophic_level, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = trophic_level), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("Trophic_level") + ylab ("Watterson_theta_mean")
+
+#raw distribution by habitat type
+ggplot(data=habitat_data, aes(x=factor(NCBI_name, level=habitat_species), y=Watterson_theta_mean, label=NCBI_name, color=habitat_type)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Theta by Habitat type", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=habitat) + 
+  geom_label_repel(data=subset(habitat_data, habitat_type == "terrestrial_volant" | habitat_type == "marine"), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#raw distribution by habitat type without outliers
+ggplot(data=habitat_data[habitat_data$Watterson_theta_mean<0.005,], aes(x=factor(NCBI_name, level=habitat_species), y=Watterson_theta_mean, label=NCBI_name, color=habitat_type)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Theta by Habitat type", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=habitat) + 
+  geom_label_repel(data=subset(habitat_data[habitat_data$Watterson_theta_mean<0.005,], habitat_type == "terrestrial_volant" | habitat_type == "marine"), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50', xlim=c(0,80))
+
+#plot Theta vs. habitat type
+ThetavsHabitat <-  lm(Watterson_theta_mean ~ habitat_type, data = data) 
+ThetavsHabitat_means <- emmeans(ThetavsHabitat, ~habitat_type)
+ThetavsHabitat_means_df <- data.frame(ThetavsHabitat_means)
+ggplot(data = subset(data, !is.na(habitat_type)), aes(x = habitat_type, y = Watterson_theta_mean, color=habitat_type)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = ThetavsHabitat_means_df, aes(x = habitat_type, y = emmean), size = 4) +
+  geom_errorbar(data = ThetavsHabitat_means_df, aes(x = habitat_type, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = habitat_type), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("Habitat_type") + ylab ("Watterson_theta_mean")
+
+#raw distribution and correlation by body mass
+ggplot(data = sort_data, aes(x = body_mass_g, y = Watterson_theta_mean)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "Theta by Body mass", x="Body_mass (g)", y="Theta")
+
+#raw distribution and correlation by body mass without Outliers
+ggplot(data = sort_data[sort_data$Watterson_theta_mean<0.005 & sort_data$body_mass_g<5e+05,], aes(x = body_mass_g, y = Watterson_theta_mean)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "Theta by Body mass", x="Body_mass (g)", y="Theta")
+```
+
+#Tajima_D
+```{r}
+#raw distribution by IUCN
+ggplot(data=sort_data, aes(x=factor(NCBI_name, level=sort_species), y=Tajima_D_mean, label=NCBI_name, color=IUCN_category)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  labs(title = "Tajima's D by IUCN", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  geom_label_repel(data=subset(sort_data, abs(Tajima_D_mean)>1), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50') 
+
+#raw distribution by IUCN binary
+ggplot(data=sort_data, aes(x=factor(NCBI_name, level=sort_species), y=Tajima_D_mean, label=NCBI_name, color=IUCN.b)) +   geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Tajima's D by binary IUCN", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn.b) + 
+  geom_label_repel(data=subset(sort_data, abs(Tajima_D_mean)>1), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#raw distribution by IUCN without outliers
+ggplot(data=sort_data[sort_data$Tajima_D_mean<=1 & sort_data$Tajima_D_mean>=-1,], aes(x=factor(NCBI_name, level=sort_species), y=Tajima_D_mean, label=NCBI_name, color=IUCN_category)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  labs(title = "Tajima's D by IUCN", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn)
+
+#plot D vs. IUCN
+DvsIUCN <-  lm(Tajima_D_mean ~ IUCN_category, data = data) 
+DvsIUCN_means <- emmeans(DvsIUCN, ~IUCN_category)
+DvsIUCN_means_df <- data.frame(DvsIUCN_means)
+ggplot(data = subset(data, !is.na(IUCN_category)), aes(x = IUCN_category, y = Tajima_D_mean, color=IUCN_category)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = DvsIUCN_means_df, aes(x = IUCN_category, y = emmean), size = 4) +
+  geom_errorbar(data = DvsIUCN_means_df, aes(x = IUCN_category, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = IUCN_category), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("IUCN_category") + ylab ("Tajima_D_mean")
+
+#plot D vs. IUCN binary categorization
+DvsIUCN_b <-  lm(Tajima_D_mean ~ IUCN.b, data = data) 
+DvsIUCN_b_means <- emmeans(DvsIUCN_b, ~IUCN.b)
+DvsIUCN_b_means_df <- data.frame(DvsIUCN_b_means)
+ggplot(data = subset(data, !is.na(IUCN.b)), aes(x = IUCN.b, y = Tajima_D_mean, color=IUCN.b)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = DvsIUCN_b_means_df, aes(x = IUCN.b, y = emmean), size = 4) +
+  geom_errorbar(data = DvsIUCN_b_means_df, aes(x = IUCN.b, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = IUCN.b), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("IUCN_binary_category") + ylab ("Tajima_D_mean")
+
+#raw distribution by population trend
+ggplot(data=trend_data, aes(x=factor(NCBI_name, level=trend_species), y=Tajima_D_mean, label=NCBI_name, color=population_trend)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Tajima's D by Population trend", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=pop_trend) + 
+  geom_label_repel(data=subset(trend_data, population_trend == 'Increasing'), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#raw distribution by population trend without outliers
+ggplot(data=trend_data[trend_data$Tajima_D_mean<=1 & trend_data$Tajima_D_mean>=-1,], aes(x=factor(NCBI_name, level=trend_species), y=Tajima_D_mean, label=NCBI_name, color=population_trend)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Tajima's D by Population trend", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=pop_trend) + 
+  geom_label_repel(data=subset(trend_data[trend_data$Tajima_D_mean<=1 & trend_data$Tajima_D_mean>=-1,], population_trend == 'Increasing'), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50', xlim = c(0,60))
+
+#plot D vs. population trend
+DvsTrend <-  lm(Tajima_D_mean ~ population_trend, data = data) 
+DvsTrend_means <- emmeans(DvsTrend, ~population_trend)
+DvsTrend_means_df <- data.frame(DvsTrend_means)
+ggplot(data = subset(data, !is.na(population_trend)), aes(x = population_trend, y = Tajima_D_mean, color=population_trend)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = DvsTrend_means_df, aes(x = population_trend, y = emmean), size = 4) +
+  geom_errorbar(data = DvsTrend_means_df, aes(x = population_trend, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = population_trend), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("Population_trend") + ylab ("Tajima_D_mean")
+
+#raw distribution and correlation by geographic range
+ggplot(data = sort_data, aes(x = geographic_range_km2, y = Tajima_D_mean)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "Tajima's D by Geographic range", x="Geographic_range (km2)", y="Tajima's D")
+
+#raw distribution and correlation by geographic range without Outliers
+ggplot(data = sort_data[sort_data$Tajima_D_mean<=1 & sort_data$Tajima_D_mean>=-1 & sort_data$geographic_range_km2<5e+07,], aes(x = geographic_range_km2, y = Tajima_D_mean)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "Tajima's D by Geographic range", x="Geographic_range (km2)", y="Tajima's D")
+
+#raw distribution by trophic level
+ggplot(data=troph_data, aes(x=factor(NCBI_name, level=troph_species), y=Tajima_D_mean, label=NCBI_name, color=trophic_level)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Tajima's D by Trophic level", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=trophic_level) + 
+  geom_label_repel(data=subset(troph_data, Tajima_D_mean>1 | -Tajima_D_mean>1), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#raw distribution by trophic level without outliers
+ggplot(data=troph_data[troph_data$Tajima_D_mean<=1 & troph_data$Tajima_D_mean>=-1,], aes(x=factor(NCBI_name, level=troph_species), y=Tajima_D_mean, label=NCBI_name, color=trophic_level)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Tajima's D by Trophic level", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=trophic_level)
+
+#plot D vs. trophic level
+DvsTrophic <-  lm(Tajima_D_mean ~ trophic_level, data = data) 
+DvsTrophic_means <- emmeans(DvsTrophic, ~trophic_level)
+DvsTrophic_means_df <- data.frame(DvsTrophic_means)
+ggplot(data = subset(data, !is.na(trophic_level)), aes(x = trophic_level, y = Tajima_D_mean, color=trophic_level)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = DvsTrophic_means_df, aes(x = trophic_level, y = emmean), size = 4) +
+  geom_errorbar(data = DvsTrophic_means_df, aes(x = trophic_level, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = trophic_level), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("Trophic_level") + ylab ("Tajima_D_mean")
+
+#raw distribution by habitat type
+ggplot(data=habitat_data, aes(x=factor(NCBI_name, level=habitat_species), y=Tajima_D_mean, label=NCBI_name, color=habitat_type)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Tajima's D by Habitat type", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=habitat) + 
+  geom_label_repel(data=subset(habitat_data, habitat_type == "terrestrial_volant" | habitat_type == "marine"), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#raw distribution by habitat type without outliers
+ggplot(data=habitat_data[habitat_data$Tajima_D_mean<=1 & habitat_data$Tajima_D_mean>=-1,], aes(x=factor(NCBI_name, level=habitat_species), y=Tajima_D_mean, label=NCBI_name, color=habitat_type)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Tajima's D by Habitat type", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=habitat) + 
+  geom_label_repel(data=subset(habitat_data[habitat_data$Tajima_D_mean<=1 & habitat_data$Tajima_D_mean>=-1,], habitat_type == "terrestrial_volant" | habitat_type == "marine"), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50', xlim=c(0,60))
+
+#plot D vs. habitat type
+DvsHabitat <-  lm(Tajima_D_mean ~ habitat_type, data = data) 
+DvsHabitat_means <- emmeans(DvsHabitat, ~habitat_type)
+DvsHabitat_means_df <- data.frame(DvsHabitat_means)
+ggplot(data = subset(data, !is.na(habitat_type)), aes(x = habitat_type, y = Tajima_D_mean, color=habitat_type)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = DvsHabitat_means_df, aes(x = habitat_type, y = emmean), size = 4) +
+  geom_errorbar(data = DvsHabitat_means_df, aes(x = habitat_type, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = habitat_type), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("Habitat_type") + ylab ("Tajima_D_mean")
+
+#raw distribution and correlation by body mass
+ggplot(data = sort_data, aes(x = body_mass_g, y = Tajima_D_mean)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "Tajima's D by Body mass", x="Body_mass (g)", y="Tajima's D")
+
+#raw distribution and correlation by body mass without Outliers
+ggplot(data = sort_data[sort_data$Tajima_D_mean<=1 & sort_data$Tajima_D_mean>=-1 & sort_data$body_mass_g<5e+05,], aes(x = body_mass_g, y = Tajima_D_mean)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "Tajima's D by Body mass", x="Body_mass (g)", y="Tajima's D")
+```
+
+#Pop_Heterozygosity_mean
+```{r}
+#raw distribution by IUCN
+ggplot(data=sort_data, aes(x=factor(NCBI_name, level=sort_species), y=Pop_heterozygosity_mean, label=NCBI_name, color=IUCN_category)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  labs(title = "Heterozygosity by IUCN", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  geom_label_repel(data=subset(sort_data, Pop_heterozygosity_mean>0.005), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50') 
+
+#raw distribution by IUCN binary
+ggplot(data=sort_data, aes(x=factor(NCBI_name, level=sort_species), y=Pop_heterozygosity_mean, label=NCBI_name, color=IUCN.b)) +   geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Heterozygosity by binary IUCN", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn.b) + 
+  geom_label_repel(data=subset(sort_data, Pop_heterozygosity_mean>0.005), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#raw distribution by IUCN without outliers
+ggplot(data=sort_data[sort_data$Pop_heterozygosity_mean<0.005,], aes(x=factor(NCBI_name, level=sort_species), y=Pop_heterozygosity_mean, label=NCBI_name, color=IUCN_category)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  labs(title = "Heterozygosity by IUCN", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn)
+
+#plot Het vs. IUCN
+HetvsIUCN <-  lm(Pop_heterozygosity_mean ~ IUCN_category, data = data) 
+HetvsIUCN_means <- emmeans(HetvsIUCN, ~IUCN_category)
+HetvsIUCN_means_df <- data.frame(HetvsIUCN_means)
+ggplot(data = subset(data, !is.na(IUCN_category)), aes(x = IUCN_category, y = Pop_heterozygosity_mean, color=IUCN_category)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = HetvsIUCN_means_df, aes(x = IUCN_category, y = emmean), size = 4) +
+  geom_errorbar(data = HetvsIUCN_means_df, aes(x = IUCN_category, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = IUCN_category), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("IUCN_category") + ylab ("Pop_heterozygosity_mean")
+
+#plot Het vs. IUCN binary categorization
+HetvsIUCN_b <-  lm(Pop_heterozygosity_mean ~ IUCN.b, data = data) 
+HetvsIUCN_b_means <- emmeans(HetvsIUCN_b, ~IUCN.b)
+HetvsIUCN_b_means_df <- data.frame(HetvsIUCN_b_means)
+ggplot(data = subset(data, !is.na(IUCN.b)), aes(x = IUCN.b, y = Pop_heterozygosity_mean, color=IUCN.b)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = HetvsIUCN_b_means_df, aes(x = IUCN.b, y = emmean), size = 4) +
+  geom_errorbar(data = HetvsIUCN_b_means_df, aes(x = IUCN.b, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = IUCN.b), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("IUCN_binary_category") + ylab ("Pop_heterozygosity_mean")
+
+#raw distribution by population trend
+ggplot(data=trend_data, aes(x=factor(NCBI_name, level=trend_species), y=Pop_heterozygosity_mean, label=NCBI_name, color=population_trend)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Heterozygosity by Population trend", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=pop_trend) + 
+  geom_label_repel(data=subset(trend_data, population_trend == 'Increasing'), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#raw distribution by population trend without outliers
+ggplot(data=trend_data[trend_data$Pop_heterozygosity_mean<0.005,], aes(x=factor(NCBI_name, level=trend_species), y=Pop_heterozygosity_mean, label=NCBI_name, color=population_trend)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Heterozygosity by Population trend", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=pop_trend) + 
+  geom_label_repel(data=subset(trend_data[trend_data$Pop_heterozygosity_mean<0.005,], population_trend == 'Increasing'), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50', xlim = c(0,80))
+
+#plot Het vs. population trend
+HetvsTrend <-  lm(Pop_heterozygosity_mean ~ population_trend, data = data) 
+HetvsTrend_means <- emmeans(HetvsTrend, ~population_trend)
+HetvsTrend_means_df <- data.frame(HetvsTrend_means)
+ggplot(data = subset(data, !is.na(population_trend)), aes(x = population_trend, y = Pop_heterozygosity_mean, color=population_trend)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = HetvsTrend_means_df, aes(x = population_trend, y = emmean), size = 4) +
+  geom_errorbar(data = HetvsTrend_means_df, aes(x = population_trend, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = population_trend), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("Population_trend") + ylab ("Pop_heterozygosity_mean")
+
+#raw distribution and correlation by geographic range
+ggplot(data = sort_data, aes(x = geographic_range_km2, y = Pop_heterozygosity_mean)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "Heterozygosity by Geographic range", x="Geographic_range (km2)", y="Heterozygosity")
+
+#raw distribution and correlation by geographic range without Outliers
+ggplot(data = sort_data[sort_data$Pop_heterozygosity_mean<0.005 & sort_data$geographic_range_km2<5e+07,], aes(x = geographic_range_km2, y = Pop_heterozygosity_mean)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "Heterozygosity by Geographic range", x="Geographic_range (km2)", y="Heterozygosity")
+
+#raw distribution by trophic level
+ggplot(data=troph_data, aes(x=factor(NCBI_name, level=troph_species), y=Pop_heterozygosity_mean, label=NCBI_name, color=trophic_level)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Heterozygosity by Trophic level", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=trophic_level) + 
+  geom_label_repel(data=subset(troph_data, Pop_heterozygosity_mean>0.005), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#raw distribution by trophic level without outliers
+ggplot(data=troph_data[troph_data$Pop_heterozygosity_mean<0.005,], aes(x=factor(NCBI_name, level=troph_species), y=Pop_heterozygosity_mean, label=NCBI_name, color=trophic_level)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Heterozygosity by Trophic level", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=trophic_level)
+
+#plot Het vs. trophic level
+HetvsTrophic <-  lm(Pop_heterozygosity_mean ~ trophic_level, data = data) 
+HetvsTrophic_means <- emmeans(HetvsTrophic, ~trophic_level)
+HetvsTrophic_means_df <- data.frame(HetvsTrophic_means)
+ggplot(data = subset(data, !is.na(trophic_level)), aes(x = trophic_level, y = Pop_heterozygosity_mean, color=trophic_level)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = HetvsTrophic_means_df, aes(x = trophic_level, y = emmean), size = 4) +
+  geom_errorbar(data = HetvsTrophic_means_df, aes(x = trophic_level, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = trophic_level), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("trophic_level") + ylab ("Pop_heterozygosity_mean")
+
+#raw distribution by habitat type
+ggplot(data=habitat_data, aes(x=factor(NCBI_name, level=habitat_species), y=Pop_heterozygosity_mean, label=NCBI_name, color=habitat_type)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Heterozygosity by Habitat type", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=habitat) + 
+  geom_label_repel(data=subset(habitat_data, habitat_type == "terrestrial_volant" | habitat_type == "marine"), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#raw distribution by habitat type without outliers
+ggplot(data=habitat_data[habitat_data$Pop_heterozygosity_mean<0.005,], aes(x=factor(NCBI_name, level=habitat_species), y=Pop_heterozygosity_mean, label=NCBI_name, color=habitat_type)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "Heterozygosity by Habitat type", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=habitat) + 
+  geom_label_repel(data=subset(habitat_data[habitat_data$Pop_heterozygosity_mean<0.005,], habitat_type == "terrestrial_volant" | habitat_type == "marine"), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50', xlim=c(0,80))
+
+#plot Het vs. habitat type
+HetvsHabitat <-  lm(Pop_heterozygosity_mean ~ habitat_type, data = data) 
+HetvsHabitat_means <- emmeans(HetvsHabitat, ~habitat_type)
+HetvsHabitat_means_df <- data.frame(HetvsHabitat_means)
+ggplot(data = subset(data, !is.na(habitat_type)), aes(x = habitat_type, y = Pop_heterozygosity_mean, color=habitat_type)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = HetvsHabitat_means_df, aes(x = habitat_type, y = emmean), size = 4) +
+  geom_errorbar(data = HetvsHabitat_means_df, aes(x = habitat_type, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = habitat_type), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("Habitat_type") + ylab ("Pop_heterozygosity_mean")
+
+#raw distribution and correlation by body mass
+ggplot(data = sort_data, aes(x = body_mass_g, y = Pop_heterozygosity_mean)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "Heterozygosity by Body mass", x="Body_mass (g)", y="Pop_heterozygosity_mean")
+
+#raw distribution and correlation by body mass without Outliers
+ggplot(data = sort_data[sort_data$Pop_heterozygosity_mean<0.005 & sort_data$body_mass_g<5e+05,], aes(x = body_mass_g, y = Pop_heterozygosity_mean)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "Heterozygosity by Body mass", x="Body_mass (g)", y="Pop_heterozygosity_mean")
+```
+
+#Froh_100kb
+```{r}
+#raw distribution by IUCN
+ggplot(data=sort_data, aes(x=factor(NCBI_name, level=sort_species), y=Froh_100kb, label=NCBI_name, color=IUCN_category)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  labs(title = "F(ROH>100kb) by IUCN", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) 
+
+#raw distribution by IUCN binary
+ggplot(data=sort_data, aes(x=factor(NCBI_name, level=sort_species), y=Froh_100kb, label=NCBI_name, color=IUCN.b)) +   geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "F(ROH>100kb) by binary IUCN", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn.b)
+
+#plot F1ookb vs. IUCN
+F100vsIUCN <-  lm(Froh_100kb ~ IUCN_category, data = data) 
+F100vsIUCN_means <- emmeans(F100vsIUCN, ~IUCN_category)
+F100vsIUCN_means_df <- data.frame(F100vsIUCN_means)
+ggplot(data = subset(data, !is.na(IUCN_category)), aes(x = IUCN_category, y = Froh_100kb, color=IUCN_category)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = F100vsIUCN_means_df, aes(x = IUCN_category, y = emmean), size = 4) +
+  geom_errorbar(data = F100vsIUCN_means_df, aes(x = IUCN_category, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = IUCN_category), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("IUCN_category") + ylab ("Froh_100kb")
+
+#plot F1ookb vs. IUCN binary categorization
+F100vsIUCN_b <-  lm(Froh_100kb ~ IUCN.b, data = data) 
+F100vsIUCN_b_means <- emmeans(F100vsIUCN_b, ~IUCN.b)
+F100vsIUCN_b_means_df <- data.frame(F100vsIUCN_b_means)
+ggplot(data = subset(data, !is.na(IUCN.b)), aes(x = IUCN.b, y = Froh_100kb, color=IUCN.b)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = F100vsIUCN_b_means_df, aes(x = IUCN.b, y = emmean), size = 4) +
+  geom_errorbar(data = F100vsIUCN_b_means_df, aes(x = IUCN.b, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = IUCN.b), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("IUCN_binary_category") + ylab ("Froh_100kb")
+
+#raw distribution by population trend
+ggplot(data=trend_data, aes(x=factor(NCBI_name, level=trend_species), y=Froh_100kb, label=NCBI_name, color=population_trend)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "F(ROH>100kb) by Population trend", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=pop_trend) + 
+  geom_label_repel(data=subset(trend_data, population_trend == 'Increasing'), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#plot F1ookb vs. population trend
+F100vsTrend <-  lm(Froh_100kb ~ population_trend, data = data) 
+F100vsTrend_means <- emmeans(F100vsTrend, ~population_trend)
+F100vsTrend_means_df <- data.frame(F100vsTrend_means)
+ggplot(data = subset(data, !is.na(population_trend)), aes(x = population_trend, y = Froh_100kb, color=population_trend)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = F100vsTrend_means_df, aes(x = population_trend, y = emmean), size = 4) +
+  geom_errorbar(data = F100vsTrend_means_df, aes(x = population_trend, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = population_trend), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("Population_trend") + ylab ("Froh_100kb")
+
+#raw distribution and correlation by geographic range
+ggplot(data = sort_data, aes(x = geographic_range_km2, y = Froh_100kb)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "F(ROH>100kb) by Geographic range", x="Geographic_range (km2)", y="F(ROH>100kb)")
+
+#raw distribution and correlation by geographic range without Outliers
+ggplot(data = sort_data[sort_data$geographic_range_km2<5e+07,], aes(x = distribution_area_km2, y = Froh_100kb)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "F(ROH>100kb) by Geographic range", x="Geographic_range (km2)", y="F(ROH>100kb)")
+
+#raw distribution by trophic level
+ggplot(data=troph_data, aes(x=factor(NCBI_name, level=troph_species), y=Froh_100kb, label=NCBI_name, color=trophic_level)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "F(ROH>100kb) by Trophic level", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=trophic_level)
+
+#plot F1ookb vs. trophic level
+F100vsTrophic <-  lm(Froh_100kb ~ trophic_level, data = data) 
+F100vsTrophic_means <- emmeans(F100vsTrophic, ~trophic_level)
+F100vsTrophic_means_df <- data.frame(F100vsTrophic_means)
+ggplot(data = subset(data, !is.na(trophic_level)), aes(x = trophic_level, y = Froh_100kb, color=trophic_level)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = F100vsTrophic_means_df, aes(x = trophic_level, y = emmean), size = 4) +
+  geom_errorbar(data = F100vsTrophic_means_df, aes(x = trophic_level, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = trophic_level), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("trophic_level") + ylab ("Froh_100kb")
+
+#raw distribution by habitat type
+ggplot(data=habitat_data, aes(x=factor(NCBI_name, level=habitat_species), y=Froh_100kb, label=NCBI_name, color=habitat_type)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "F(ROH>100kb) by Habitat type", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=habitat) + 
+  geom_label_repel(data=subset(habitat_data, habitat_type == "terrestrial_volant" | habitat_type == "marine"), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#plot F1ookb vs. habitat type
+F100vsHabitat <-  lm(Froh_100kb ~ habitat_type, data = data) 
+F100vsHabitat_means <- emmeans(F100vsHabitat, ~habitat_type)
+F100vsHabitat_means_df <- data.frame(F100vsHabitat_means)
+ggplot(data = subset(data, !is.na(habitat_type)), aes(x = habitat_type, y = Froh_100kb, color=habitat_type)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = F100vsHabitat_means_df, aes(x = habitat_type, y = emmean), size = 4) +
+  geom_errorbar(data = F100vsHabitat_means_df, aes(x = habitat_type, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = habitat_type), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("Habitat_type") + ylab ("Froh_100kb")
+
+#raw distribution and correlation by body mass
+ggplot(data = sort_data, aes(x = body_mass_g, y = Froh_100kb)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "F(ROH>100kb) by Body mass", x="Body_mass (g)", y="Froh_100kb")
+
+#raw distribution and correlation by body mass without Outliers
+ggplot(data = sort_data[sort_data$body_mass_g<5e+05,], aes(x = body_mass_g, y = Froh_100kb)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "F(ROH>100kb) by Body mass", x="Body_mass (g)", y="Froh_100kb")
+```
+
+#Froh_1mb
+```{r}
+#raw distribution by IUCN
+ggplot(data=sort_data, aes(x=factor(NCBI_name, level=sort_species), y=Froh_1mb, label=NCBI_name, color=IUCN_category)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  labs(title = "F(ROH>1mb) by IUCN", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  geom_label_repel(data=subset(sort_data, Froh_1mb>0.10), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50') 
+
+#raw distribution by IUCN binary
+ggplot(data=sort_data, aes(x=factor(NCBI_name, level=sort_species), y=Froh_1mb, label=NCBI_name, color=IUCN.b)) +   geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "F(ROH>1mb) by binary IUCN", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn.b) + 
+  geom_label_repel(data=subset(sort_data, Froh_1mb>0.10), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#plot F1mb vs. IUCN
+F1000vsIUCN <-  lm(Froh_1mb ~ IUCN_category, data = data) 
+F1000vsIUCN_means <- emmeans(F1000vsIUCN, ~IUCN_category)
+F1000vsIUCN_means_df <- data.frame(F1000vsIUCN_means)
+ggplot(data = subset(data, !is.na(IUCN_category)), aes(x = IUCN_category, y = Froh_1mb, color=IUCN_category)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = F1000vsIUCN_means_df, aes(x = IUCN_category, y = emmean), size = 4) +
+  geom_errorbar(data = F1000vsIUCN_means_df, aes(x = IUCN_category, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = IUCN_category), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("IUCN_category") + ylab ("Froh_1mb")
+
+#plot F1mb vs. IUCN binary categorization
+F1000vsIUCN_b <-  lm(Froh_1mb ~ IUCN.b, data = data) 
+F1000vsIUCN_b_means <- emmeans(F1000vsIUCN_b, ~IUCN.b)
+F1000vsIUCN_b_means_df <- data.frame(F1000vsIUCN_b_means)
+ggplot(data = subset(data, !is.na(IUCN.b)), aes(x = IUCN.b, y = Froh_1mb, color=IUCN.b)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = F1000vsIUCN_b_means_df, aes(x = IUCN.b, y = emmean), size = 4) +
+  geom_errorbar(data = F1000vsIUCN_b_means_df, aes(x = IUCN.b, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = IUCN.b), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("IUCN_binary_category") + ylab ("Froh_1mb")
+
+#raw distribution by population trend
+ggplot(data=trend_data, aes(x=factor(NCBI_name, level=trend_species), y=Froh_1mb, label=NCBI_name, color=population_trend)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "F(ROH>1mb) by Population trend", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=pop_trend) + 
+  geom_label_repel(data=subset(trend_data, population_trend == 'Increasing'), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#plot F1mb vs. population trend
+F1000vsTrend <-  lm(Froh_1mb ~ population_trend, data = data) 
+F1000vsTrend_means <- emmeans(F1000vsTrend, ~population_trend)
+F1000vsTrend_means_df <- data.frame(F1000vsTrend_means)
+ggplot(data = subset(data, !is.na(population_trend)), aes(x = population_trend, y = Froh_1mb, color=population_trend)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = F1000vsTrend_means_df, aes(x = population_trend, y = emmean), size = 4) +
+  geom_errorbar(data = F1000vsTrend_means_df, aes(x = population_trend, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = population_trend), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("Population_trend") + ylab ("Froh_1mb")
+
+#raw distribution and correlation by geographic range
+ggplot(data = sort_data, aes(x = geographic_range_km2, y = Froh_1mb)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "F(ROH>1mb) by Geographic range", x="Geographic_range (km2)", y="F(ROH>1mb)")
+
+#raw distribution and correlation by geographic range without Outliers
+ggplot(data = sort_data[sort_data$Froh_1mb<0.10 & sort_data$geographic_range_km2<5e+07,], aes(x = geographic_range_km2, y = Froh_1mb)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "F(ROH>1mb) by Geographic range", x="Geographic_range (km2)", y="F(ROH>1mb)")
+
+#raw distribution by trophic level
+ggplot(data=troph_data, aes(x=factor(NCBI_name, level=troph_species), y=Froh_1mb, label=NCBI_name, color=trophic_level)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "F(ROH>1mb) by Trophic level", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=trophic_level) + 
+  geom_label_repel(data=subset(sort_data, Froh_1mb>0.10), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#plot Froh_100kb vs. trophic level
+F1000vsTrophic <-  lm(Froh_1mb ~ trophic_level, data = data) 
+F1000vsTrophic_means <- emmeans(F1000vsTrophic, ~trophic_level)
+F1000vsTrophic_means_df <- data.frame(F1000vsTrophic_means)
+ggplot(data = subset(data, !is.na(trophic_level)), aes(x = trophic_level, y = Froh_1mb, color=trophic_level)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = F1000vsTrophic_means_df, aes(x = trophic_level, y = emmean), size = 4) +
+  geom_errorbar(data = F1000vsTrophic_means_df, aes(x = trophic_level, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = trophic_level), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("trophic_level") + ylab ("Froh_1mb")
+
+#raw distribution by habitat type
+ggplot(data=habitat_data, aes(x=factor(NCBI_name, level=habitat_species), y=Froh_1mb, label=NCBI_name, color=habitat_type)) + 
+  geom_point() + 
+  theme_classic(base_size=16) + 
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) + 
+  labs(title = "F(ROH>1mb) by Habitat type", x="Genus_Species") + 
+  scale_color_brewer(palette = "Dark2", breaks=habitat) + 
+  geom_label_repel(data=subset(habitat_data, habitat_type == "terrestrial_volant" | habitat_type == "marine"), box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50')
+
+#plot Froh_1mb vs. habitat type
+F1000vsHabitat <-  lm(Froh_1mb ~ habitat_type, data = data) 
+F1000vsHabitat_means <- emmeans(F1000vsHabitat, ~habitat_type)
+F1000vsHabitat_means_df <- data.frame(F1000vsHabitat_means)
+ggplot(data = subset(data, !is.na(habitat_type)), aes(x = habitat_type, y = Froh_1mb, color=habitat_type)) +
+  geom_point(color="gray", size = 1, alpha = 1, position = position_jitter(w=0.05))+
+  geom_point(data = F1000vsHabitat_means_df, aes(x = habitat_type, y = emmean), size = 4) +
+  geom_errorbar(data = F1000vsHabitat_means_df, aes(x = habitat_type, y = emmean, ymin = lower.CL, ymax = upper.CL, colour = habitat_type), width = 0.2) +
+  scale_color_brewer(palette = "Dark2") + guides(colour=FALSE) +
+  theme_classic(base_size = 16) +
+  xlab ("Habitat_type") + ylab ("Froh_1mb")
+
+#raw distribution and correlation by body mass
+ggplot(data = sort_data, aes(x = body_mass_g, y = Froh_1mb)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "F(ROH>1mb) by Body mass", x="Body_mass (g)", y="Froh_1mb")
+
+#raw distribution and correlation by body mass without Outliers
+ggplot(data = sort_data[sort_data$Froh_1mb<0.10 & sort_data$body_mass_g<5e+05,], aes(x = body_mass_g, y = Froh_1mb)) + 
+  geom_point(aes(color=IUCN_category)) + 
+  geom_smooth(method = "lm", se=TRUE) + 
+  scale_color_brewer(palette = "Dark2", breaks=iucn) + 
+  theme_classic() + 
+  theme(plot.title=element_text(hjust=0.5)) +
+  labs(title = "F(ROH>1mb) by Body mass", x="Body_mass (g)", y="Froh_mb")
+```
+
+#check collinearity among GDs
+```{r}
+GDs <- data[c("Nucleotide_diversity_mean", "Watterson_theta_mean", "Tajima_D_mean", "Pop_heterozygosity_mean", "Froh_100kb", "Froh_1mb")]
+corr.test(GDs, use = "pairwise", method = "pearson", adjust = "none")
+#"Pi", "Theta", and "Het" are highly correlated -> We will just use "Het" for downstream analyses as well as Tajima's D, F(ROH>100kb), and F(ROH>1mb) 
+```
+
+#visualize the data using Multi Factor Analysis
+```{r}
+sub_data <- sort_data[!is.na(sort_data$IUCN_category),]
+str(sub_data)
+summary(sub_data)
+sub_data <- sub_data[,c("NCBI_name","IUCN_category","IUCN.b","population_trend","geographic_range_km2","trophic_level","habitat_breadth_n","body_mass_g","Nucleotide_diversity_mean","Watterson_theta_mean","Pop_heterozygosity_mean","Tajima_D_mean","Froh_100kb","Froh_1mb","Order")] #Include every GD, eco-evolutionary and conservation variables
+sub_data <- column_to_rownames(sub_data, var="NCBI_name")
+group <- c(2,1,1,1,1,1,1,1,1,1,1,1,1) #define the number of consecutive variables for each group 
+#type <- c("n","n","s","n","s","s","c","c","c","c","c","c","n")
+type <- c("n","n","s","n","s","s","s","s","s","s","s","s","n") #"n" for categorical variables, "s" for continuous variables to be standardized, "c" for continuous variables not to be standardized
+name.group <- c("IUCN_category","trend","range","trophic","habitat","mass","pi","Theta","het","D","F100kb","F1mb","Order") #define group names
+num.group.sup <- c(1) #define supplementary groups (not included in constructing MFA space)
+
+raw.mfa <- MFA(sub_data, 
+               group = group,
+               type = type,
+               name.group = name.group,
+               num.group.sup = num.group.sup,
+               ncp = 10) #keep 10 dimensions for results
+eig.val <- get_eigenvalue(raw.mfa) #check the proportion of variances by eigenvalues
+head(eig.val)
+fviz_screeplot(raw.mfa) #draw a scree plot
+group <- get_mfa_var(raw.mfa, "group")
+group
+head(group$contrib) #contributions to the dimensions
+fviz_mfa_var(raw.mfa, "group") #plot the groups of variables - note that primarily discriminated by categorical or continuous on dimension 2
+
+# Contributions to dimension 1
+fviz_contrib(raw.mfa, choice = "group", axes = 1, top = 10,
+             palette = "jco")
+# Contributions to dimension 2
+fviz_contrib(raw.mfa, choice = "group", axes = 2, top = 10,
+             palette = "jco")
+
+ind <- get_mfa_ind(raw.mfa) #get results for individual-level
+ind
+
+#original plot for reference
+mfa_plot <- fviz_mfa_ind(raw.mfa, 
+                         axes = c(1,2),
+                         addEllipses = FALSE, 
+                         invisible = "quali.var",
+                         geom = "point",
+                         )
+mfa_plot
+
+sub_data <- rownames_to_column(sub_data)
+ind_mfa <- as.data.frame(ind$coord) 
+ind_mfa <- rownames_to_column(ind_mfa)
+sub_data <- sub_data %>% left_join(ind_mfa) 
+
+sub_data$IUCN_category <- factor(sub_data$IUCN_category, levels = iucn)
+sub_data$IUCN.b <- factor(sub_data$IUCN.b, levels = iucn.b)
+
+#make a flexible plot
+tiff("Supplementary Figure 14.tif", units="px", width=2100, height=1500, res=300)
+ggplot(data = sub_data, aes(x = Dim.1, y = Dim.2, colour = Pop_heterozygosity_mean, shape = IUCN_category)) + 
+  geom_point(size = 2.5, alpha = 0.8, position = position_jitter(w=0.05)) + 
+  theme_classic() +
+  theme_classic(base_size = 16) +
+  scale_color_continuous_divergingx(palette = "RdBu", l2=75, name = "Heterozygosity", mid = mean(sub_data$Pop_heterozygosity_mean)) +
+  guides(shape = guide_legend(title = "IUCN category")) +
+  xlab ("Dim.1 (17.4%)") + ylab ("Dim.2 (10.9%)") +
+  geom_hline(yintercept=0,linetype=2) +
+  geom_vline(xintercept=0,linetype=2)
+dev.off()
+```

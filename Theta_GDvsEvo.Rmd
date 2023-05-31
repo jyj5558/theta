@@ -1,0 +1,646 @@
+---
+title: "Theta_GDvsEvo"
+author: "Jong Yoon Jeon"
+date: "2023-01-04"
+output: html_document
+---
+
+#load packages
+```{r}
+library(readxl)
+library(dplyr)
+library(tibble)
+library(ggplot2)
+library(ggpubr)
+library(ggfortify)
+library(ggrepel)
+library(scales)
+library(see)
+library(ape)
+library(phytools)
+library(caper)
+library(geiger)
+library(FactoMineR)
+library(factoextra)
+library(summarytools)
+library(car)
+library(sjstats)
+library(forcats)
+library(colorspace)
+library(nlme)
+```
+
+#load, check, and prepare the data
+```{r}
+rm(list = ls())
+setwd("C:/Users/jyj55/OneDrive - purdue.edu/DeWoody_Lab/Dissertation/Theta project/Statistics")
+data2 <- read_excel("Supplementary Data 3.xlsx")
+data2 <- data2[!is.na(data2$VertLife_name),] #exclude species without data
+data2$IUCN.b = rep(NA, nrow(data2))
+data2$IUCN.b[data2$IUCN_category=="DD"] = "Data-Deficient"
+data2$IUCN.b[data2$IUCN_category=="LC" | data2$IUCN_category=="NT"] = "Non-Threatened"
+data2$IUCN.b[data2$IUCN_category=="VU" | data2$IUCN_category=="EN" | data2$IUCN_category=="CR"] = "Threatened"
+View(data2)
+str(data2)
+summary(data2)
+
+#sort data by IUCN
+iucn2 = c("DD", "LC", "NT", "VU", "EN", "CR") #unique(data$IUCN)
+iucn.b2 = c("Data-Deficient", "Non-Threatened", "Threatened") #binary status
+sort_data2 <- data2 %>% arrange(factor(IUCN_category, levels = iucn2))
+
+#factorize data by population trend, trophic level, habitat type
+trophic <- c("herbivore", "omnivore","carnivore")
+#habitat <- c("marine", "terrestrial_non-volant", "terrestrial_volant")
+sort_data2$IUCN_category <- factor(sort_data2$IUCN_category, levels = iucn2)
+sort_data2$IUCN_category <- ordered(sort_data2$IUCN_category, levels = iucn2)
+sort_data2$IUCN.b <- factor(sort_data2$IUCN.b, levels = iucn.b2)
+sort_data2$IUCN.b <- ordered(sort_data2$IUCN.b, levels = iucn.b2)
+sort_data2$trophic_level <- factor(sort_data2$trophic_level, levels = trophic)
+sort_data2$trophic_level <- ordered(sort_data2$trophic_level, levels = trophic)
+#sort_data2$habitat_type <- factor(sort_data2$habitat_type, levels = habitat)
+#sort_data2$habitat_type <- ordered(sort_data2$habitat_type, levels = habitat)
+
+#factorize data by assembly level, sequencing_chem
+ass_level <- c("Contig", "Scaffold", "Chromosome")
+seq_chem <- c("4-channel","2-channel")
+sort_data2$Level <- factor(sort_data2$Level, levels = ass_level)
+sort_data2$Level <- ordered(sort_data2$Level, levels = ass_level)
+sort_data2$sequencing_chem <- factor(sort_data2$sequencing_chem, levels = seq_chem)
+sort_data2$sequencing_chem <- ordered(sort_data2$sequencing_chem, levels = seq_chem)
+
+#load phylogenetic tree
+#tree.raw <- read.nexus("tree-pruner-67ccf206-944e-41c5-ad95-6845f20c2c18/output.nex")
+#av.tree <- averageTree(tree.raw[sample(1:1000,100)])
+#str(av.tree)
+#plot(av.tree)
+#is.binary.tree(av.tree) # we want this to be TRUE
+#tree.reroot <- root(av.tree, outgroup = "Sarcophilus_harrisii", resolve.root = TRUE)
+#plot(tree.reroot)
+setdiff(tree.reroot$tip.label, sort_data2$VertLife_name) #check if name in tree does not exist in dataset, need tree.reroot from "Theta_GDvsIUCN.Rmd"
+tree.reroot3 <- drop.tip(tree.reroot, setdiff(tree.reroot$tip.label,
+sort_data2$VertLife_name))
+setdiff(tree.reroot3$tip.label, sort_data2$VertLife_name) #check again
+setdiff(sort_data2$VertLife_name, tree.reroot$tip.label) #check if name in dataset does not exist in tree -> NA
+tree.final2 <- tree.reroot3
+```
+
+#try MFA on techincal factors to reduce variables
+```{r}
+tech_data2 <- sort_data2[!is.na(sort_data2$IUCN_category),]
+tech_data2 <- tech_data2[,c("NCBI_name","Level","Contig_N50","Scaffold_N50","sequencing_chem","sample_size","avg_depth_sra","sd_depth_sra")]
+tech_data2 <- column_to_rownames(tech_data2, var="NCBI_name")
+group_t <- c(1,2,1,1,2) #define the number of consecutive variables for each group 
+type_t <- c("n","s","n","s","s") #"n" for categorical variables, "s" for continuous variables to be standardized, "c" for continuous variables not to be standardized
+name.group_t <- c("assembly_ level","assembly_N50s","sra_chem","sra_sample","sra_depth") #define group names
+tech.mfa2 <- MFA(tech_data2, 
+               group = group_t,
+               type = type_t,
+               name.group = name.group_t,
+               num.group.sup = NULL,
+               ncp = 5) #keep 5 dimensions for results
+eig.val_t2 <- get_eigenvalue(tech.mfa2) #check the proportion of variances by eigenvalues
+head(eig.val_t2)
+fviz_screeplot(tech.mfa2) #draw a scree plot
+group_t2 <- get_mfa_var(tech.mfa2, "group")
+group_t2
+head(group_t2$contrib) #contributions to the dimensions
+fviz_mfa_var(tech.mfa2, "group") #plot the groups of variables - note that primarily discriminated by assembly or sra on dimension 1
+
+# Contributions to dimension 1
+fviz_contrib(tech.mfa2, choice = "group", axes = 1, top = 10,
+             palette = "jco")
+# Contributions to dimension 2
+fviz_contrib(tech.mfa2, choice = "group", axes = 2, top = 10,
+             palette = "jco")
+
+ind_t2 <- get_mfa_ind(tech.mfa2) #get results for individual-level
+ind_t2
+tech_data2 <- rownames_to_column(tech_data2)
+ind_mfa_t2 <- as.data.frame(ind_t2$coord) 
+ind_mfa_t2 <- rownames_to_column(ind_mfa_t2)
+colnames(ind_mfa_t2)[1] <- "NCBI_name"
+sort_data2 <- sort_data2[!is.na(sort_data2$IUCN_category),] %>% left_join(ind_mfa_t2) 
+```
+
+#main pgls models - GD vs EcoEvo
+```{r}
+sort_data2$Order = as.factor(sort_data2$Order)
+sort_data2$Family = as.factor(sort_data2$Family)
+
+#check distribution of variables of interest
+#Heterozygosity
+qqnorm(sort_data2$Pop_heterozygosity_mean) 
+qqline(sort_data2$Pop_heterozygosity_mean)
+descr(sort_data2$Pop_heterozygosity_mean, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = 3.48, kurtosis = 12.97 -> try transformation
+sort_data2 <- mutate(sort_data2, log_het = log(Pop_heterozygosity_mean))
+descr(sort_data2$log_het, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = 0.31, kurtosis = 0.33
+qqnorm(sort_data2$log_het) 
+qqline(sort_data2$log_het) #improved
+
+#Tajima's D
+qqnorm(sort_data2$Tajima_D_mean) 
+qqline(sort_data2$Tajima_D_mean) #a little violated
+descr(sort_data2$Tajima_D_mean, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = -0.64, kurtosis = 0.79
+sort_data2 <- mutate(sort_data2, log_td = log(Tajima_D_mean + 2))
+descr(sort_data2$log_td, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = -2.31, kurtosis = 6.57 -> forgo log_td
+qqnorm(sort_data2$log_td) 
+qqline(sort_data2$log_td)
+
+#F(roh) > 100kb
+qqnorm(sort_data2$Froh_100kb) 
+qqline(sort_data2$Froh_100kb) #a little violated
+descr(sort_data2$Froh_100kb, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = 0.86, kurtosis = 0.11
+sort_data2 <- mutate(sort_data2, asin_f100 = asin(sqrt(Froh_100kb)))
+descr(sort_data2$asin_f100, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = 0.10, kurtosis = -0.73
+qqnorm(sort_data2$asin_f100) 
+qqline(sort_data2$asin_f100) #improved
+
+#Froh_1mb
+qqnorm(sort_data2$Froh_1mb) 
+qqline(sort_data2$Froh_1mb) #violated
+descr(sort_data2$Froh_1mb, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = 1.94, kurtosis = 3.27
+sort_data2 <- mutate(sort_data2, asin_f1000 = asin(sqrt(Froh_1mb)))
+descr(sort_data2$asin_f1000, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = 0.98, kurtosis = 0.15
+qqnorm(sort_data2$asin_f1000) 
+qqline(sort_data2$asin_f1000) #improved
+
+#body_mass
+qqnorm(sort_data2$body_mass_g) 
+qqline(sort_data2$body_mass_g)
+descr(sort_data2$body_mass_g, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = 4.02, kurtosis = 16.34
+sort_data2 <- mutate(sort_data2, log_mass = log(body_mass_g))
+descr(sort_data2$log_mass, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = -0.59, kurtosis = -0.50
+qqnorm(sort_data2$log_mass) 
+qqline(sort_data2$log_mass) #improved
+
+count(sort_data2, trophic_level)
+#count(sort_data2, habitat_type)
+
+#habitat_breadth
+count(sort_data2, habitat_breadth_n)
+qqnorm(as.numeric(sort_data2$habitat_breadth_n)) 
+qqline(as.numeric(sort_data2$habitat_breadth_n))
+descr(as.numeric(sort_data2$habitat_breadth_n), stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = 1.04, kurtosis = 0.60
+sort_data2 <- mutate(sort_data2, log_breadth = log(as.numeric(habitat_breadth_n)))
+descr(sort_data2$log_breadth, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = -0.05, kurtosis = -0.84
+qqnorm(as.numeric(sort_data2$log_breadth)) 
+qqline(as.numeric(sort_data2$log_breadth)) #improved
+sort_data2 <- mutate(sort_data2, sqrt_breadth = sqrt(as.numeric(habitat_breadth_n)))
+descr(sort_data2$sqrt_breadth, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = 0.49, kurtosis = -0.48
+qqnorm(as.numeric(sort_data2$sqrt_breadth)) 
+qqline(as.numeric(sort_data2$sqrt_breadth)) #better, sqrt transformation would be recommended for count data
+
+
+#PGLS model 
+sort_data2.df <- as.data.frame(sort_data2)
+row.names(sort_data2.df) <- sort_data2.df[,3]
+comp_data2 <- comparative.data(phy = tree.final2, data = sort_data2.df, names.col = 'VertLife_name', vcv = TRUE, na.omit = FALSE, warn.dropped = TRUE)
+
+#Trophic level PGLS model - log_het -> include "order" mixed model, random forest
+trophic.pgls <- pgls(log_het ~ trophic_level + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+data = comp_data2, lambda = "ML")
+summary(trophic.pgls)
+anova(trophic.pgls)
+anova_stats(trophic.pgls)
+
+#Trophic level PGLS model - Tajima's D
+trophicTd.pgls <- pgls(Tajima_D_mean ~ trophic_level + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+data = comp_data2, lambda = "ML")
+summary(trophicTd.pgls)
+anova(trophicTd.pgls)
+anova_stats(trophicTd.pgls)
+
+#Trophic level PGLS model - asin_f100
+trophicF100.pgls <- pgls(asin_f100 ~ trophic_level + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+data = comp_data2, lambda = "ML")
+summary(trophicF100.pgls)
+anova(trophicF100.pgls)
+anova_stats(trophicF100.pgls)
+
+par(mfrow=c(2,2))
+plot(trophicF100.pgls) #after-model check
+
+trophic_comp <- list(c("herbivore", "omnivore"), c("omnivore","carnivore"), c("herbivore", "carnivore"))
+
+tiff("Supplementary Figure 20.tif", units="px", width=2100, height=1500, res=300)
+ggplot(aes(y=asin_f100, x=trophic_level, label=trophic_level, color=trophic_level), data = comp_data2$data) + 
+  geom_boxplot() +
+  geom_jitter(width = 0.05, alpha = 0.25) + 
+  theme_classic(base_size=16) + 
+  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  theme(legend.position = "none") +
+  labs(y = "F(ROH > 100kb)", x="Trophic level") + 
+  scale_color_brewer(palette = "Dark2", breaks=trophic, name = "Trophic level") +
+  geom_hline(yintercept = mean(comp_data2$data[!is.na(comp_data2$data$asin_f100),]$asin_f100), linetype = 2) +
+  #stat_compare_means(method = "anova", label.x = "herbivore", label.y = -2) + 
+  stat_compare_means(comparisons = trophic_comp, label = "p.signif", label.y = c(0.65, 0.6, 0.70), vjust = 0.25)
+dev.off()
+
+#Trophic level PGLS model - asin_f1000
+trophicF1000.pgls <- pgls(asin_f1000 ~ trophic_level + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+data = comp_data2, lambda = "ML")
+summary(trophicF1000.pgls)
+anova(trophicF1000.pgls)
+anova_stats(trophicF1000.pgls)
+
+#Body mass PGLS model - log_het
+mass.pgls <- pgls(log_het ~ log_mass + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+data = comp_data2, lambda = "ML")
+summary(mass.pgls)
+anova(mass.pgls)
+anova_stats(mass.pgls)
+
+#Body mass PGLS model - Tajima's D
+massTd.pgls <- pgls(Tajima_D_mean ~ log_mass + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+data = comp_data2, lambda = "ML")
+summary(massTd.pgls)
+anova(massTd.pgls)
+anova_stats(massTd.pgls)
+
+#Body mass PGLS model - asin_f100
+massF100.pgls <- pgls(asin_f100 ~ log_mass + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+data = comp_data2, lambda = "ML")
+summary(massF100.pgls)
+anova(massF100.pgls)
+anova_stats(massF100.pgls)
+
+#Body mass PGLS model - asin_f1000
+massF1000.pgls <- pgls(asin_f1000 ~ log_mass + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+data = comp_data2, lambda = "ML")
+summary(massF1000.pgls)
+anova(massF1000.pgls)
+anova_stats(massF1000.pgls)
+
+#remove NA row
+sort_data2.1.df <- subset(sort_data2.df, select = -c(Note))
+comp_data2.1 <- comparative.data(phy = tree.final2, data = sort_data2.1.df, names.col = 'VertLife_name', vcv = TRUE, na.omit = TRUE, warn.dropped = TRUE)
+
+#Habitat breadth PGLS model - log_het
+breadth.pgls <- pgls(log_het ~ sqrt_breadth + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+data = comp_data2.1, lambda = "ML")
+summary(breadth.pgls)
+anova(breadth.pgls)
+anova_stats(breadth.pgls)
+
+#Habitat breadth PGLS model - Tajima_D_mean
+breadthTd.pgls <- pgls(Tajima_D_mean ~ sqrt_breadth + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+data = comp_data2.1, lambda = "ML")
+summary(breadthTd.pgls)
+anova(breadthTd.pgls)
+anova_stats(breadthTd.pgls)
+
+#Habitat breadth PGLS model - asin_f100
+breadthF100.pgls <- pgls(asin_f100 ~ sqrt_breadth + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+data = comp_data2.1, lambda = "ML")
+summary(breadthF100.pgls)
+anova(breadthF100.pgls)
+anova_stats(breadthF100.pgls)
+
+#Habitat breadth PGLS model - asin_f1000
+breadthF1000.pgls <- pgls(asin_f1000 ~ sqrt_breadth + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+data = comp_data2.1, lambda = "ML")
+summary(breadthF1000.pgls)
+anova(breadthF1000.pgls)
+anova_stats(breadthF1000.pgls)
+```
+
+#Preprocess full data
+```{r}
+#load the full data
+data <- read_excel("Supplementary Data 1.xlsx")
+data <- data[!is.na(data$Pop_heterozygosity_mean),]
+data <- data[!is.na(data$IUCN_category),]
+data$IUCN.b = rep(NA, nrow(data))
+#data$IUCN.b[is.na(data$IUCN.b)] = "NA"
+data$IUCN.b[data$IUCN_category=="DD"] = "Data-Deficient"
+data$IUCN.b[data$IUCN_category=="LC" | data$IUCN_category=="NT"] = "Non-Threatened"
+data$IUCN.b[data$IUCN_category=="VU" | data$IUCN_category=="EN" | data$IUCN_category=="CR"] = "Threatened"
+#data$IUCN_category[is.na(data$IUCN_category)] = "NA"
+View(data)
+str(data)
+summary(data)
+
+#sort data by IUCN
+#iucn.na = c("NA", "DD", "LC", "NT", "VU", "EN", "CR")
+#iucn.b.na = c("NA", "Data-Deficient", "Non-Threatened", "Threatened")
+
+sort_data <- data %>% arrange(factor(IUCN_category, levels = iucn))
+sort_data$IUCN_category <- factor(sort_data$IUCN_category, levels = iucn)
+sort_data$IUCN_category <- ordered(sort_data$IUCN_category, levels = iucn)
+sort_data$IUCN.b <- factor(sort_data$IUCN.b, levels = iucn.b)
+sort_data$IUCN.b <- ordered(sort_data$IUCN.b, levels = iucn.b)
+
+sort_data$Level <- factor(sort_data$Level, levels = ass_level)
+sort_data$sequencing_chem <- factor(sort_data$sequencing_chem, levels = seq_chem)
+str(sort_data)
+summary(sort_data)
+
+#try MFA on techincal factors to reduce variables
+tech_data <- sort_data[!is.na(sort_data$Pop_heterozygosity_mean),]
+tech_data <- tech_data[,c("NCBI_name","Level","Contig_N50","Scaffold_N50","sequencing_chem","sample_size","avg_depth_sra","sd_depth_sra")]
+tech_data <- column_to_rownames(tech_data, var="NCBI_name")
+group_t <- c(1,2,1,1,2) #define the number of consecutive variables for each group 
+type_t <- c("n","s","n","s","s") #"n" for categorical variables, "s" for continuous variables to be standardized, "c" for continuous variables not to be standardized
+name.group_t <- c("assembly_ level","assembly_N50s","sra_chem","sra_sample","sra_depth") #define group names
+tech.mfa <- MFA(tech_data, 
+               group = group_t,
+               type = type_t,
+               name.group = name.group_t,
+               num.group.sup = NULL,
+               ncp = 5) #keep 5 dimensions for results
+eig.val_t <- get_eigenvalue(tech.mfa) #check the proportion of variances by eigenvalues
+head(eig.val_t)
+fviz_screeplot(tech.mfa) #draw a scree plot
+group_t <- get_mfa_var(tech.mfa, "group")
+group_t
+head(group_t$contrib) #contributions to the dimensions
+fviz_mfa_var(tech.mfa, "group") #plot the groups of variables - note that primarily discriminated by assembly or sra on dimension 1
+
+# Contributions to dimension 1
+fviz_contrib(tech.mfa, choice = "group", axes = 1, top = 10,
+             palette = "jco")
+# Contributions to dimension 2
+fviz_contrib(tech.mfa, choice = "group", axes = 2, top = 10,
+             palette = "jco")
+
+ind_t <- get_mfa_ind(tech.mfa) #get results for individual-level
+ind_t
+tech_data <- rownames_to_column(tech_data)
+ind_mfa_t <- as.data.frame(ind_t$coord) 
+ind_mfa_t <- rownames_to_column(ind_mfa_t)
+colnames(ind_mfa_t)[1] <- "NCBI_name"
+sort_data <- sort_data %>% left_join(ind_mfa_t) 
+
+sort_data$Order = as.factor(sort_data$Order)
+sort_data$Family = as.factor(sort_data$Family)
+
+#append transformed variables
+sort_data <- mutate(sort_data, log_het = log(Pop_heterozygosity_mean))
+sort_data <- mutate(sort_data, asin_f100 = asin(sqrt(Froh_100kb)))
+sort_data <- mutate(sort_data, asin_f1000 = asin(sqrt(Froh_1mb)))
+
+table(sort_data$Order)
+```
+
+#summarization - IUCN/GD vs Order
+```{r}
+#summary table
+GD_Order <- sort_data[!is.na(sort_data$IUCN_category),] %>% group_by(Order) %>% summarize(num_sp = n(), mean_Het = mean(Pop_heterozygosity_mean), sd_Het = sd(Pop_heterozygosity_mean), mean_Theta = mean(Watterson_theta_mean), sd_Theta = sd(Watterson_theta_mean), mean_Pi = mean(Nucleotide_diversity_mean), sd_Pi = sd(Nucleotide_diversity_mean), mean_D = mean(Tajima_D_mean), sd_D = sd(Tajima_D_mean), mean_F100 = mean(Froh_100kb, na.rm = TRUE), sd_F100 = sd(Froh_100kb, na.rm = TRUE), mean_F1000 = mean(Froh_1mb, na.rm = TRUE), sd_F1000 = sd(Froh_1mb,  na.rm = TRUE))
+write.csv(GD_Order, "GDbyOrder.csv")
+
+GD_IUCNcat <- sort_data[!is.na(sort_data$IUCN_category),] %>% group_by(IUCN_category) %>% summarize(num_sp = n(), mean_Het = mean(Pop_heterozygosity_mean), sd_Het = sd(Pop_heterozygosity_mean), mean_Theta = mean(Watterson_theta_mean), sd_Theta = sd(Watterson_theta_mean), mean_Pi = mean(Nucleotide_diversity_mean), sd_Pi = sd(Nucleotide_diversity_mean), mean_D = mean(Tajima_D_mean), sd_D = sd(Tajima_D_mean), mean_F100 = mean(Froh_100kb, na.rm = TRUE), sd_F100 = sd(Froh_100kb, na.rm = TRUE), mean_F1000 = mean(Froh_1mb, na.rm = TRUE), sd_F1000 = sd(Froh_1mb,  na.rm = TRUE))
+write.csv(GD_IUCNcat, "GDbyIUCNcat.csv")
+
+GD_IUCNb <- sort_data[!is.na(sort_data$IUCN_category),] %>% group_by(IUCN.b) %>% summarize(num_sp = n(), mean_Het = mean(Pop_heterozygosity_mean), sd_Het = sd(Pop_heterozygosity_mean), mean_Theta = mean(Watterson_theta_mean), sd_Theta = sd(Watterson_theta_mean), mean_Pi = mean(Nucleotide_diversity_mean), sd_Pi = sd(Nucleotide_diversity_mean), mean_D = mean(Tajima_D_mean), sd_D = sd(Tajima_D_mean), mean_F100 = mean(Froh_100kb, na.rm = TRUE), sd_F100 = sd(Froh_100kb, na.rm = TRUE), mean_F1000 = mean(Froh_1mb, na.rm = TRUE), sd_F1000 = sd(Froh_1mb,  na.rm = TRUE))
+write.csv(GD_IUCNb, "GDbyIUCNb.csv")
+
+sort_data$IUCN_category <- factor(sort_data$IUCN_category, ordered = FALSE) 
+sort_data$IUCN.b <- factor(sort_data$IUCN.b, ordered = FALSE) 
+IUCNcat_Order <- sort_data[!is.na(sort_data$IUCN_category),] %>% group_by(Order, IUCN_category) %>% summarize(num_sp = n())
+write.csv(IUCNcat_Order, "IUCNcatbyOrder.csv")
+IUCNb_Order <- sort_data[!is.na(sort_data$IUCN_category),] %>% group_by(Order, IUCN.b) %>% summarize(num_sp = n())
+write.csv(IUCNb_Order, "IUCNbbyOrder.csv")
+
+#summary figure
+#IUCNcat by Order
+iucn.cat.plot = c("LC","NT","VU","EN","CR")
+iucn.b.plot = c("Non-Threatened", "Threatened")
+IUCNcat_Order.d <- read.csv("IUCNcatbyOrder.csv")
+IUCNb_Order.d <- read.csv("IUCNbbyOrder.csv")
+IUCNcat_Order.d$IUCN_category <- factor(IUCNcat_Order.d$IUCN_category, levels = iucn, exclude = NULL)
+#IUCNcat_Order.d$IUCN_category <- fct_explicit_na(IUCNcat_Order.d$IUCN_category, "NA")
+IUCNcat_Order.d$IUCN_category <- ordered(IUCNcat_Order.d$IUCN_category, levels = iucn)
+IUCNcat_Order.d$IUCN.cat.plot <- factor(IUCNcat_Order.d$IUCN_category, levels = iucn.cat.plot)
+IUCNb_Order.d$IUCN.b <- factor(IUCNb_Order.d$IUCN.b, levels = iucn.b)
+IUCNb_Order.d$IUCN.b <- ordered(IUCNb_Order.d$IUCN.b, levels = iucn.b)
+IUCNb_Order.d$IUCN.b.plot <- factor(IUCNb_Order.d$IUCN.b, levels = iucn.b.plot)
+
+tiff("Supplementary Figure 5.tif", units="px", width=2100, height=1500, res=300)
+IUCNcat_Order.d %>% 
+  mutate(Order = fct_reorder(Order, num_sp, .fun = 'sum')) %>%
+  ggplot(aes(y=num_sp, x=Order, label=IUCN_category, fill=IUCN.cat.plot)) + 
+  geom_bar(position = "stack", color="black", stat="identity") + 
+  theme_classic(base_size=16) + 
+  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  labs(y = "Number of species", x="Taxonomic Order") + 
+  scale_fill_discrete_diverging(labels = c("LC","NT","VU","EN","CR", "DD"), name = "IUCN category") +
+  coord_flip()
+dev.off()
+
+tiff("Supplementary Figure 6.tif", units="px", width=2100, height=1500, res=300)
+IUCNb_Order.d %>% 
+  mutate(Order = fct_reorder(Order, num_sp, .fun = 'sum')) %>%
+  ggplot(aes(y=num_sp, x=Order, label=IUCN.b, fill=IUCN.b.plot)) + 
+  geom_bar(position = "stack", color="black", stat="identity") + 
+  theme_classic(base_size=16) + 
+  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  labs(y = "Number of species", x="Taxonomic Order") + 
+  scale_fill_discrete_diverging(labels = c("Non-Threatened","Threatened","Data-Deficient"), name = "IUCN category") +
+  coord_flip()
+dev.off()
+
+#Het by Order
+tiff("Supplementary Figure 1.tif", units="px", width=2100, height=1500, res=300)
+sort_data %>% 
+  mutate(Order = fct_reorder(Order, Pop_heterozygosity_mean, .fun='median')) %>%
+  ggplot(aes(y=Pop_heterozygosity_mean, x=Order, label=Order, color=Order)) + 
+  geom_boxplot() +
+  geom_jitter(width = 0.05, alpha = 0.25) + 
+  theme_classic(base_size=16) + 
+  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  theme(legend.position = "none") +
+  labs(y = "Heterozygosity", x="Taxonomic Order") + 
+  scale_color_discrete_diverging(name = "Taxonomic Order", rev = TRUE) +
+  geom_hline(yintercept = mean(sort_data[!is.na(sort_data$Pop_heterozygosity_mean),]$Pop_heterozygosity_mean), linetype = 2) + 
+  coord_flip()
+dev.off()
+
+#Tajima's D by Order
+tiff("Supplementary Figure 2.tif", units="px", width=2100, height=1500, res=300)
+sort_data %>% 
+  mutate(Order = fct_reorder(Order, Tajima_D_mean, .fun='median')) %>%
+  ggplot(aes(y=Tajima_D_mean, x=Order, label=Order, color=Order)) + 
+  geom_boxplot() +
+  geom_jitter(width = 0.05, alpha = 0.25) + 
+  theme_classic(base_size=16) + 
+  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  theme(legend.position = "none") +
+  labs(y = "Tajima's D", x="Taxonomic Order") + 
+  scale_color_discrete_diverging(name = "Taxonomic Order") +
+  geom_hline(yintercept = mean(sort_data[!is.na(sort_data$Tajima_D_mean),]$Tajima_D_mean), linetype = 2) + 
+  coord_flip()
+dev.off()
+
+#F100 by Order
+tiff("Supplementary Figure 3.tif", units="px", width=2100, height=1500, res=300)
+sort_data %>% 
+  mutate(Order = fct_reorder(Order, Froh_100kb, .fun='median', na.rm = TRUE)) %>%
+  ggplot(aes(y=Froh_100kb, x=Order, label=Order, color=Order)) + 
+  geom_boxplot() +
+  geom_jitter(width = 0.05, alpha = 0.25) + 
+  theme_classic(base_size=16) + 
+  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  theme(legend.position = "none") +
+  labs(y = "F(ROH > 100kb)", x="Taxonomic Order") + 
+  scale_color_discrete_diverging(name = "Taxonomic Order") +
+  geom_hline(yintercept = mean(sort_data[!is.na(sort_data$Froh_100kb),]$Froh_100kb), linetype = 2) +   coord_flip()
+dev.off()
+
+#F1000 by Order
+tiff("Supplementary Figure 4.tif", units="px", width=2100, height=1500, res=300)
+sort_data[!is.na(sort_data$Froh_1mb),] %>% 
+  mutate(Order = fct_reorder(Order, Froh_1mb, .fun='median', na.rm = TRUE)) %>%
+  ggplot(aes(y=Froh_1mb, x=Order, label=Order, color=Order)) + 
+  geom_boxplot() +
+  geom_jitter(width = 0.05, alpha = 0.25) + 
+  theme_classic(base_size=16) + 
+  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  theme(legend.position = "none") +
+  labs(y = "F(ROH > 1mb)", x="Taxonomic Order") + 
+  scale_color_discrete_diverging(name = "Taxonomic Order") +
+  geom_hline(yintercept = mean(sort_data[!is.na(sort_data$Froh_1mb),]$Froh_1mb), linetype = 2) +      coord_flip()
+dev.off()
+
+#Het by Species
+Ind_H <- read.table("IndHet_IndDep.txt", fill = TRUE, header = TRUE)
+Ind_H <- Ind_H[!is.na(Ind_H$Ind_Heterozygosity),]
+Ind_H$NCBI_name <- as.factor(Ind_H$NCBI_name)
+Ind_H$Ind_Heterozygosity <- as.numeric(Ind_H$Ind_Heterozygosity)
+Ind_H$IUCN_category <- factor(Ind_H$IUCN_category, levels = iucn.na, exclude = NULL)
+Ind_H$IUCN_category <- fct_explicit_na(Ind_H$IUCN_category, "NA")
+Ind_H$IUCN_category <- ordered(Ind_H$IUCN_category, levels = iucn.na)
+Ind_H$IUCN.b <- factor(Ind_H$IUCN.b, levels = iucn.b.na, exclude = NULL)
+Ind_H$IUCN.b <- fct_explicit_na(Ind_H$IUCN.b, "NA")
+Ind_H$IUCN.b <- ordered(Ind_H$IUCN.b, levels = iucn.b.na)
+summary(Ind_H)
+str(Ind_H)
+
+tiff("Supplementary Figure 7.tif", units="mm", width=183, height=244, res=300)
+Ind_H %>%
+  mutate(NCBI_name = fct_reorder(NCBI_name, Ind_Heterozygosity, .fun='median', na.rm = TRUE)) %>%
+  ggplot(aes(y=Ind_Heterozygosity, x=NCBI_name, label=NCBI_name, color=IUCN_category)) + 
+  geom_boxplot() +
+  geom_jitter(width = 0.05, alpha = 0.25, size = 1) + 
+  theme_classic(base_size=16) + 
+  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5), axis.text.x = element_text(size = 10), axis.text.y = element_text(size =7.5)) +
+  labs(y = "Heterozygosity", x="Species name (NCBI based)") + 
+  scale_color_brewer(palette = "Dark2", name = "IUCN category") +
+  geom_hline(yintercept = mean(Ind_H[!is.na(Ind_H$Ind_Heterozygosity),]$Ind_Heterozygosity), linetype = 2) +   
+  coord_flip()
+dev.off()
+
+tiff("Figure 1.tif", units="mm", width=183, height=244, res=300)
+Ind_H %>%
+  mutate(NCBI_name = fct_reorder(NCBI_name, Ind_Heterozygosity, .fun='median', na.rm = TRUE)) %>%
+  ggplot(aes(y=Ind_Heterozygosity, x=NCBI_name, label=NCBI_name, color=IUCN.b)) + 
+  geom_boxplot() +
+  geom_jitter(width = 0.05, alpha = 0.25, size = 1) + 
+  theme_classic(base_size=16) + 
+  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5), axis.text.x = element_text(size = 10), axis.text.y = element_text(size =7.5)) +
+  labs(y = "Heterozygosity", x="Species name (NCBI based)") + 
+  scale_color_brewer(palette = "Dark2", name = "IUCN category") +
+  geom_hline(yintercept = mean(Ind_H[!is.na(Ind_H$Ind_Heterozygosity),]$Ind_Heterozygosity), linetype = 2) +   
+  coord_flip()
+dev.off()
+
+#Tajima's D by Species
+tiff("Supplementary Figure 8.tif", units="mm", width=183, height=244, res=300)
+sort_data[!is.na(sort_data$Tajima_D_mean),] %>% 
+  mutate(NCBI_name = fct_reorder(NCBI_name, Tajima_D_mean)) %>%
+  ggplot(aes(y=Tajima_D_mean, x=NCBI_name, label=NCBI_name, fill=IUCN_category)) + 
+  geom_bar(color="black", stat="identity") + 
+  theme_classic(base_size=16) + 
+  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5), axis.text.x = element_text(size = 10), axis.text.y = element_text(size =7.5)) +
+  labs(y = "Tajima's D", x="Species name (NCBI based)") + 
+  scale_color_brewer(palette = "Dark2", name = "IUCN category") +
+  guides(fill = guide_legend(title = "IUCN category")) +
+  geom_hline(yintercept = mean(sort_data[!is.na(sort_data$Tajima_D_mean),]$Tajima_D_mean), linetype = 2) +
+  coord_flip()
+dev.off()
+
+tiff("Supplementary Figure 9.tif", units="mm", width=183, height=244, res=300)
+sort_data[!is.na(sort_data$Tajima_D_mean),] %>% 
+  mutate(NCBI_name = fct_reorder(NCBI_name, Tajima_D_mean)) %>%
+  ggplot(aes(y=Tajima_D_mean, x=NCBI_name, label=NCBI_name, fill=IUCN.b)) + 
+  geom_bar(color="black", stat="identity") + 
+  theme_classic(base_size=16) + 
+  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5), axis.text.x = element_text(size = 10), axis.text.y = element_text(size =7.5)) +
+  labs(y = "Tajima's D", x="Species name (NCBI based)") + 
+  scale_color_brewer(palette = "Dark2", name = "IUCN category") +
+  guides(fill = guide_legend(title = "IUCN category")) +
+  geom_hline(yintercept = mean(sort_data[!is.na(sort_data$Tajima_D_mean),]$Tajima_D_mean), linetype = 2) +
+  coord_flip()
+dev.off()
+
+#F100 by Species
+tiff("Supplementary Figure 10.tif", units="mm", width=183, height=244, res=300)
+sort_data[!is.na(sort_data$Froh_100kb),] %>% 
+  mutate(NCBI_name = fct_reorder(NCBI_name, Froh_100kb)) %>%
+  ggplot(aes(y=Froh_100kb, x=NCBI_name, label=NCBI_name, fill=IUCN_category)) + 
+  geom_bar(color="black", stat="identity") + 
+  theme_classic(base_size=16) + 
+  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5), axis.text.x = element_text(size = 10), axis.text.y = element_text(size =7.5)) +
+  labs(y = "F(ROH > 100kb)", x="Species name (NCBI based)") + 
+  scale_color_brewer(palette = "Dark2", name = "IUCN category") +
+  guides(fill = guide_legend(title = "IUCN category")) +
+  geom_hline(yintercept = mean(sort_data[!is.na(sort_data$Froh_100kb),]$Froh_100kb), linetype = 2) +
+  coord_flip()
+dev.off()
+
+tiff("Supplementary Figure 11.tif", units="mm", width=183, height=244, res=300)
+sort_data[!is.na(sort_data$Froh_100kb),] %>% 
+  mutate(NCBI_name = fct_reorder(NCBI_name, Froh_100kb)) %>%
+  ggplot(aes(y=Froh_100kb, x=NCBI_name, label=NCBI_name, fill=IUCN.b)) + 
+  geom_bar(color="black", stat="identity") + 
+  theme_classic(base_size=16) + 
+  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5), axis.text.x = element_text(size = 10), axis.text.y = element_text(size =7.5)) +
+  labs(y = "F(ROH > 100kb)", x="Species name (NCBI based)") + 
+  scale_color_brewer(palette = "Dark2", name = "IUCN category") +
+  guides(fill = guide_legend(title = "IUCN category")) +
+  geom_hline(yintercept = mean(sort_data[!is.na(sort_data$Froh_100kb),]$Froh_100kb), linetype = 2) +
+  coord_flip()
+dev.off()
+
+#F1000 by Species
+tiff("Supplementary Figure 12.tif", units="mm", width=183, height=244, res=300)
+sort_data[!is.na(sort_data$Froh_1mb),] %>% 
+  mutate(NCBI_name = fct_reorder(NCBI_name, Froh_1mb)) %>%
+  ggplot(aes(y=Froh_1mb, x=NCBI_name, label=NCBI_name, fill=IUCN_category)) + 
+  geom_bar(color="black", stat="identity") + 
+  theme_classic(base_size=16) + 
+  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5), axis.text.x = element_text(size = 10), axis.text.y = element_text(size =7.5)) +
+  labs(y = "F(ROH > 1mb)", x="Species name (NCBI based)") + 
+  guides(fill = guide_legend(title = "IUCN category")) +
+  scale_color_brewer(palette = "Dark2", name = "IUCN category") +
+  geom_hline(yintercept = mean(sort_data[!is.na(sort_data$Froh_1mb),]$Froh_1mb), linetype = 2) +
+  coord_flip()
+dev.off()
+
+tiff("Supplementary Figure 13.tif", units="mm", width=183, height=244, res=300)
+sort_data[!is.na(sort_data$Froh_1mb),] %>% 
+  mutate(NCBI_name = fct_reorder(NCBI_name, Froh_1mb)) %>%
+  ggplot(aes(y=Froh_1mb, x=NCBI_name, label=NCBI_name, fill=IUCN.b)) + 
+  geom_bar(color="black", stat="identity") + 
+  theme_classic(base_size=16) + 
+  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5), axis.text.x = element_text(size = 10), axis.text.y = element_text(size =7.5)) +
+  labs(y = "F(ROH > 1mb)", x="Species name (NCBI based)") + 
+  guides(fill = guide_legend(title = "IUCN category")) +
+  scale_color_brewer(palette = "Dark2", name = "IUCN category") +
+  geom_hline(yintercept = mean(sort_data[!is.na(sort_data$Froh_1mb),]$Froh_1mb), linetype = 2) +
+  coord_flip()
+dev.off()
+```
