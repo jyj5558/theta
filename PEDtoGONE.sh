@@ -29,15 +29,15 @@ cd $THETA
 # designate min number of individuals, set to total numb of bam-filed individuals divided by two
 MIND=$((`wc -l < ./bam.filelist` / 2))
 IND=$((`wc -l < ./bam.filelist`))
-LN=$((`wc -l < $PD/*_ref/chrs.txt`/10))
-awk -v ln=$LN 'NR <= ln' $PD/*_ref/chrs.txt > chrs-plink.txt # subset 10% longest contigs for GONE
+#LN=$((`wc -l < $PD/*_ref/chrs.txt`/10))
+#awk -v ln=$LN 'NR <= ln' $PD/*_ref/chrs.txt > chrs-plink.txt # subset 10% longest contigs for GONE
 #awk -v ln=$LN 'NR <= 1' $PD/*_ref/chrs.txt > chrs-plink2.txt # subset the longest contigs for GONE
-#awk 'NR <= 200 {print $1}' $PD/*_ref/ref_100kb.fa.fai > chrs-plink.txt
+awk 'NR <= 200 {print $1}' $PD/*_ref/ref_100kb.fa.fai > chrs-plink.txt
 
 # plink file for GONE
 angsd -bam bam.filelist -ref $PD/*_ref/ref.fa -rf chrs-plink.txt -sites ./angsd.file -out plink_GONE \
 -doPlink 2 -doGeno -4 -doPost 1 -doMajorMinor 1 -GL 2 -doCounts 1 -doMaf 1 -postCutoff 0.99 -SNP_pval 1e-6 -geno_minDepth 5 \
--minMapQ 30 -minQ 30 -minInd $IND -only_proper_pairs 1 -remove_bads 1 -uniqueOnly 1 -baq 2 -P $n
+-minMaf 0.05 -minMapQ 30 -minQ 30 -minInd $MIND -only_proper_pairs 1 -remove_bads 1 -uniqueOnly 1 -baq 2 -P $n
 
 # convert to plink .ped and .map format
 plink --tfile plink_GONE --recode --allow-extra-chr --out ${genus_species}_GONE
@@ -54,8 +54,8 @@ mv ${genus_species}_GONE2.map ${genus_species}_GONE.map
 #join -o '2.2 1.2 1.3 1.4' $genus_species.map chr-codes.txt
 
 # copy to the directory having GONE script
-cp $genus_species.ped /depot/fnrdewoody/apps/GONE-master/GONE-master/Linux/${genus_species}_GONE.ped 
-cp $genus_species.map /depot/fnrdewoody/apps/GONE-master/GONE-master/Linux/${genus_species}_GONE.map 
+cp ${genus_species}_GONE.ped /depot/fnrdewoody/apps/GONE-master/GONE-master/Linux/${genus_species}_GONE.ped 
+cp ${genus_species}_GONE.map /depot/fnrdewoody/apps/GONE-master/GONE-master/Linux/${genus_species}_GONE.map 
 
 # run GONE
 cd /depot/fnrdewoody/apps/GONE-master/GONE-master/Linux/
