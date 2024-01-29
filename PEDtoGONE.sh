@@ -32,7 +32,7 @@ MIND=$((`wc -l < ./bam.filelist` / 2))
 #LN=$((`wc -l < $PD/*_ref/chrs.txt`/10))
 #awk -v ln=$LN 'NR <= ln' $PD/*_ref/chrs.txt > chrs-plink.txt # subset 10% longest contigs for GONE
 #awk -v ln=$LN 'NR <= 1' $PD/*_ref/chrs.txt > chrs-plink2.txt # subset the longest contigs for GONE
-awk 'NR <= 200 {print $1}' $PD/*_ref/ref_100kb.fa.fai > chrs-plink.txt
+awk 'NR <= 200 {print $1}' $PD/*_ref/ref_100kb.fa.fai > chrs-plink.txt # ref_100kb.fa.fai can be used instead of chrs.txt
 
 # plink file for GONE
 angsd -bam bam.filelist -ref $PD/*_ref/ref.fa -rf chrs-plink.txt -sites ./angsd.file -out plink_GONE \
