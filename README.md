@@ -1,4 +1,4 @@
-# Theta project - Feb 2021
+# Theta project - Feb 2021 (for collaborators primarily; and for reference to future script users)
 
 These scripts are developed for investigating genomic diversity and effective population size (θ = 4Neμ) in wildlife populations. NOTE, these scripts assume that a SLURM scheduler is used; if a different scheduler is employed (e.g., SGE) please modify script headers and module loads accordingly).
 When running jobs, if the jobs stay still for a longer time than you expected, try again with a larger memory or larger number of CPUs ("#SBATCH --mem=" or #SBATCH -n" arguments).
