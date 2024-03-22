@@ -20,6 +20,8 @@ module load sra-toolkit
 #
 ##Notes##
 #Edit the step2_SRA_download_clean.sh script, to add target species "genus-species" and the number of cpus "n" you allocated in the SBATCH command above
+#script was written to be run with SLURM job scheduler
+#
 #Example:
 #genus_species=Marmota-marmota-marmota
 #n=32
@@ -45,7 +47,7 @@ n=
 
 #Extract releveant info from metadata file in theta directory for target species and save in species folder:
 
-cd /scratch/bell/dewoody/theta/${genus_species}/
+cd /path/to/theta/${genus_species}/
 cat $CLUSTER_SCRATCH/theta/SRA_metadata/${genus_species}.txt | sed 's/ /_/g'  > ${genus_species}_SRA.txt
 
 
