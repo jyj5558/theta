@@ -17,8 +17,8 @@ module load angsd
 
 genus_species=
 
-PD=/scratch/bell/dewoody/theta/${genus_species}
-THETA=/scratch/bell/dewoody/theta/${genus_species}/theta
+PD=/path/to/theta/${genus_species}
+THETA=/path/to/theta/${genus_species}/theta
 
 cd $THETA
 
@@ -46,7 +46,7 @@ cat stair.sfs | tr ' ' '\n' | awk -v OFMT=%.17g '{sum+=$1} END {print sum}' # to
 # For 'n' diploid samples, the site frequency spectrum (SFS) is the (2n+1) vector containing the proportion of site carrying 'k'-mutations. This means that the first element in the SFS is the proportion of sites where we don't observe any mutations, The second value is the proportion of sites where we observe 1 mutations. The last value is the proportion of sites we only observe mutations. It follows that the first and last column are the invariable categories. For folded sfs, the last half values will be "0".
 # For "nrand", we suggest to use 4 numbers, roughly (nseq-2)/4, (nseq-2)/2, (nseq-2)*3/4, nseq-2. The range of the numbers is between 1 and nseq-2. 
 # refer to Stairplot2 manual for detailed description of blueprint file.
-cd /depot/fnrdewoody/apps/stairway_plot_v2.1.1
+cd /path/to/stairway_plot_v2.1.1
 #cp two-epoch_fold.blueprint ${genus_species}_fold.blueprint
 java -cp stairway_plot_es Stairbuilder ${genus_species}_fold.blueprint
 bash ${genus_species}_fold.blueprint.sh
