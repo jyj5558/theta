@@ -35,8 +35,8 @@ library(psych)
 #load and check the data
 ```{r}
 rm(list = ls())
-setwd("C:/Users/jyj55/OneDrive - purdue.edu/DeWoody_Lab/Dissertation/Theta project/Statistics")
-data <- read_excel("C:/Users/jyj55/OneDrive - purdue.edu/DeWoody_Lab/Dissertation/Theta project/Manuscript/EvolAppl/Supplementary Dataset S1.xlsx")
+setwd("/path/to/Theta project/Statistics")
+data <- read_excel("/path/to/Supplementary Dataset S1.xlsx")
 View(data)
 str(data)
 summary(data)
