@@ -50,7 +50,7 @@ gen_stat <- function(het,Ne,Nc,interval){
     return(result)
 } 
 
-# version 3
+# version 3 - used version with different Ne/Nc ratio
 gen_stat <- function(het,Ne,interval){
     g = 100/interval
     HetT = het*(1-(1/(2*Ne)))^g
