@@ -12,6 +12,7 @@
 # this script archive, compress, and save Theta data files into Fortress				#
 # the following file will be saved in Fortress:	  	#
 # ${genus_species}.tar.gz 												#
+#s cript was written to be run with SLURM job scheduler
 #########################################################################
 ####notes and usage####
 #
@@ -36,7 +37,7 @@ genus_species=
 ########################
 
 # Tarball
-cd /scratch/bell/dewoody/theta/${genus_species}/
+cd /path/to/theta/${genus_species}/
 rm ${genus_species}.tar.gz
 echo "tarball started"
 tar -cvf ${genus_species}.tar sra/final_bams/ ok.bed theta/ *ref/ref.fa *ref/ref.fa.fai *ref/chrs.txt *rm/repeats.bed
@@ -55,7 +56,7 @@ echo "File size in Scratch is: "
 echo `ls -l ./${genus_species}.tar.gz`
 
 # And then remove original files by uncommenting below
-#cd /scratch/bell/dewoody/theta/${genus_species}/
+#cd /path/to/theta/${genus_species}/
 #rm ${genus_species}.tar.gz
 #rm -r theta/
 #rm -r sra/
