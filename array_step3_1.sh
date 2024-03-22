@@ -7,6 +7,7 @@
 # reference genome dictionary
 # reference genome index files
 # cleaned_sralist for the downstream analysis
+# script was written to be run with SLURM job scheduler
 #############################################
 
 ########################
@@ -25,10 +26,10 @@ module load GATK/3.8.1
 module load bamtools
 
 # make a new directory to house processed alignment files
-mkdir -p /scratch/bell/dewoody/theta/${genus_species}/sra/final_bams/
+mkdir -p /path/to/theta/${genus_species}/sra/final_bams/
 
 # move to reference directory
-cd /scratch/bell/dewoody/theta/${genus_species}/*_ref/
+cd /path/to/theta/${genus_species}/*_ref/
 
 # create dictionary for realignment
 PicardCommandLine CreateSequenceDictionary reference=ref.fa output=ref.dict
