@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=S1_Genus-species
-#SBATCH -A fnrquail
+#SBATCH -A 
 #SBATCH -t 12-00:00:00 
 #SBATCH -N 1 
 #SBATCH -n 32
@@ -18,7 +18,7 @@ module load BBMap
 #
 # This script downloads reference, repeat, and annotation data
 #if a masked genome isn't available (i.e. rm.out), script will create one using the mammal 
-#repeat library --- we should change this if we move on from mammals!
+#scripts was written to be run with SLURM job scheduler
 #
 ####usage####
 #
@@ -56,8 +56,8 @@ n=
 #DO NOT EDIT BELOW CODE#
 ########################
 
-#Move to JADs scratch space
-cd /scratch/bell/dewoody/theta/
+#Move to the scratch space
+cd $CLUSTER_SCRATCH
 
 ####create directories and download reference genome, repeat masker, and annotation####
 mkdir -p ./$genus_species/${accession}_ref
