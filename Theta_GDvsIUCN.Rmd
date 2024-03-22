@@ -34,8 +34,8 @@ library(pwr)
 #load, check, and prepare the data
 ```{r}
 rm(list = ls())
-setwd("C:/Users/jyj55/OneDrive - purdue.edu/DeWoody_Lab/Dissertation/Theta project/Statistics")
-data1 <- read_excel("C:/Users/jyj55/OneDrive - purdue.edu/DeWoody_Lab/Dissertation/Theta project/Manuscript/EvolAppl/Supplementary Dataset S2.xlsx")
+setwd("/path/to/Theta project/Statistics")
+data1 <- read_excel("/path/to/Supplementary Dataset S2.xlsx")
 data1 <- data1[data1$IUCN_category != "DD",] #exclude "DD" and "NA"
 data1 <- data1[!is.na(data1$IUCN_category),]
 data1$IUCN.b = rep(NA, nrow(data1))
