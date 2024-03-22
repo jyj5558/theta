@@ -21,7 +21,7 @@ print("The species names is " + genus_species)
 Do not edit below this line
 -------------------------------------------------------------------------------------------------"""
 #Set working directory and designate input file
-path_to_directory = "/scratch/bell/dewoody/theta/" + genus_species
+path_to_directory = "/path/to/theta/" + genus_species
 
 #Estimate ROH based on "PL"
 roh_input = path_to_directory + "/theta/ROH_" + genus_species + "_PLraw.txt"
