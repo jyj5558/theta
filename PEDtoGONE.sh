@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=GONE_genus-species
-#SBATCH -A fnrpredator
+#SBATCH -A 
 #SBATCH -t 14-00:00:00 
 #SBATCH -N 1 
 #SBATCH -n 64
@@ -8,6 +8,8 @@
 #SBATCH -o %x_%j.out
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=
+
+#script was written to be run with SLURM job scheduler
 
 module --force purge
 module load biocontainers
