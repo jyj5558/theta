@@ -33,8 +33,8 @@ library(nlme)
 #load, check, and prepare the data
 ```{r}
 rm(list = ls())
-setwd("C:/Users/jyj55/OneDrive - purdue.edu/DeWoody_Lab/Dissertation/Theta project/Statistics")
-data2 <- read_excel("C:/Users/jyj55/OneDrive - purdue.edu/DeWoody_Lab/Dissertation/Theta project/Manuscript/EvolAppl/Supplementary Dataset S3.xlsx")
+setwd("/path/to/Theta project/Statistics")
+data2 <- read_excel("/path/to/Supplementary Dataset S3.xlsx")
 data2 <- data2[!is.na(data2$VertLife_name),] #exclude species without data
 data2$IUCN.b = rep(NA, nrow(data2))
 data2$IUCN.b[data2$IUCN_category=="DD"] = "Data-Deficient"
@@ -334,7 +334,7 @@ anova_stats(breadthF1000.pgls)
 #Preprocess full data
 ```{r}
 #load the full data
-data <- read_excel("C:/Users/jyj55/OneDrive - purdue.edu/DeWoody_Lab/Dissertation/Theta project/Manuscript/EvolAppl/Supplementary Dataset S1.xlsx")
+data <- read_excel("/path/to/Supplementary Dataset S1.xlsx")
 data <- data[!is.na(data$Watterson_theta_mean),]
 data <- data[!is.na(data$IUCN_category),]
 data$IUCN.b = rep(NA, nrow(data))
