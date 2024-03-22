@@ -26,13 +26,14 @@ export PATH=$PATH:~/genmap-build/bin
 # The output files include: 								
 # ok.bed (regions to analyze in angsd etc)		
 # map_repeat_summary.txt (summary of ref quality)							
+# script was written to be run with SLURM job scheduler
 #
 ####usage####
 #User will need to input (paste) information for the following variables below:
 #
 #Genus-species: this is used in the directory naming as Erangi suggested, to make browsing
 #a bit more doable for us humans
-#accession: this is also used in the directory, to keep multiple reference assemblies separate as Black suggested
+#accession: this is also used in the directory, to keep multiple reference assemblies separate
 #n: the number of cpus you allocated in the SBATCH command above
 #
 #Example of defined variables below 
@@ -60,7 +61,7 @@ n=
 
 #move to species/accession directory
 
-cd /scratch/bell/dewoody/theta/${genus_species}/
+cd /path/to/theta/${genus_species}/
 
 ####assess mappability of reference####
 genmap index -F ${accession}_ref/ref_100kb.fa -I index -S 50 # build an index 
@@ -147,7 +148,7 @@ bedtools merge -i mappability/filter_sorted.bed > mappability/merged.bed
 #ls *.idxstats > idxstats.txt
 
 # run Sex Assignment Through Coverage (SATC)
-#SATC="/scratch/bell/dewoody/SATC/satc.R"
+#SATC="/path/to/SATC/satc.R"
 
 # provide output prefix
 #OUT="satc"
@@ -180,7 +181,7 @@ bedtools merge -i mappability/filter_sorted.bed > mappability/merged.bed
 #samtools faidx ../${accession}_ref/autosomes_100kb.fa 
 
 #move to species directory
-#cd /scratch/bell/dewoody/theta/${genus_species}/ -> remove SATC step to here
+#cd /path/to/theta/${genus_species}/ -> remove SATC step to here
 
 # make bed file with the 100k and merged.bed (no repeats, mappability =1 sites) from below
 awk '{ print $1, $2, $2 }' ./${accession}_ref/ref_100kb.fa.fai > ./${accession}_ref/ref_100kb.info
@@ -205,8 +206,8 @@ rm ${accession}_ref/ref_sorted.genome
 
 #output some QC stats
 cd /scratch/bell/${USER}/theta/source/
-Rscript qc_reference_stats.R --args /scratch/bell/dewoody/theta/${genus_species}/ ${genus_species} ${accession} 
-cd /scratch/bell/dewoody/theta/${genus_species}/
+Rscript qc_reference_stats.R --args /path/to/theta/${genus_species}/ ${genus_species} ${accession} 
+cd /path/to/theta/${genus_species}/
 
 map=$(sed -n '1p' okmap.txt)
 norepeats=$(sed -n '1p' norepeat.txt)
@@ -216,8 +217,8 @@ echo -e "${genus_species}\t $accession\t $map\t $norepeats\t $okbed" >> map_repe
 
 # make list of the bamfiles and index each file in theta directory for step5 in advance
 # if you remove some individuals depending on their mapping rate, depth, or breadth, edit this file accordingly before step5
-mkdir /scratch/bell/dewoody/theta/${genus_species}/theta/
-cd /scratch/bell/dewoody/theta/${genus_species}/theta/
-ls /scratch/bell/dewoody/theta/${genus_species}/sra/final_bams/*.bam > ./bam.filelist
+mkdir /path/to/theta/${genus_species}/theta/
+cd /path/to/theta/${genus_species}/theta/
+ls /path/to/theta/${genus_species}/sra/final_bams/*.bam > ./bam.filelist
 
 # END
