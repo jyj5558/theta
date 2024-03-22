@@ -5,6 +5,7 @@
 ############################################################################
 # this script will create:
 # raw and cleaned .fastq files for each SRA using array_step2_2sub.sh script
+# script was written to be run with SLURM job scheduler
 ############################################################################
 
 ########################
