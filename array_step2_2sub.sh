@@ -4,6 +4,7 @@
 # this script downloads sra files, remove low-quality reads, and trim adaptor sequences					#
 # the following files to use in downstream analyses are created:	  	#
 # *_1_val_1.fq and *_2_val_2.fq files for each sra file												#
+# script was written to be run with SLURM job scheduler
 #################################################################################################
 
 #########################
@@ -25,7 +26,7 @@ cpus_per_task=$3
 echo "The task $SLURM_ARRAY_TASK_ID handles $sra"
 
 # move to directory that will house files
-cd /scratch/bell/dewoody/theta/${genus_species}/sra/raw
+cd /path/to/theta/${genus_species}/sra/raw
 
 # remotely download sra fastq files 
 mkdir ${sra}
