@@ -13,7 +13,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 #data load and check
-df = pd.read_csv("C:/Users/jyj55/OneDrive - purdue.edu/DeWoody_Lab/Dissertation/Theta project/Statistics/rf_input.csv")
+df = pd.read_csv("/path/to/rf_input.csv")
 df.head()
 df.tail() #too many NaN rows and columns -> clean NaN rows and columns as below
 real_cols = [x for x in df.columns if not x.startswith("Unnamed: ")]
