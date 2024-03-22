@@ -23,8 +23,8 @@ n=
 ########Do not edit beneath this row########
 
 # absolute paths of parent and theta directory of genus-species shorten commands
-PD=/scratch/bell/dewoody/theta/${genus_species}
-THETA=/scratch/bell/dewoody/theta/${genus_species}/theta
+PD=/path/to/theta/${genus_species}
+THETA=/path/to/theta/${genus_species}/theta
 
 cd $THETA
 
@@ -56,11 +56,11 @@ mv ${genus_species}_GONE2.map ${genus_species}_GONE.map
 #join -o '2.2 1.2 1.3 1.4' $genus_species.map chr-codes.txt
 
 # copy to the directory having GONE script
-cp ${genus_species}_GONE.ped /depot/fnrdewoody/apps/GONE-master/GONE-master/Linux/${genus_species}_GONE.ped 
-cp ${genus_species}_GONE.map /depot/fnrdewoody/apps/GONE-master/GONE-master/Linux/${genus_species}_GONE.map 
+cp ${genus_species}_GONE.ped /path/to/GONE-master/GONE-master/Linux/${genus_species}_GONE.ped 
+cp ${genus_species}_GONE.map /path/to/GONE-master/GONE-master/Linux/${genus_species}_GONE.map 
 
 # run GONE
-cd /depot/fnrdewoody/apps/GONE-master/GONE-master/Linux/
+cd /dpath/to/GONE-master/GONE-master/Linux/
 bash script_GONE.sh ${genus_species}_GONE
 
 # move back result files to species directory
@@ -95,11 +95,11 @@ mv ${genus_species}_GONE3.map ${genus_species}_GONE2.map
 #join -o '2.2 1.2 1.3 1.4' $genus_species.map chr-codes.txt
 
 # copy to the directory having GONE script
-cp $genus_species.ped /depot/fnrdewoody/apps/GONE-master/GONE-master/Linux/${genus_species}_GONE2.ped 
-cp $genus_species.map /depot/fnrdewoody/apps/GONE-master/GONE-master/Linux/${genus_species}_GONE2.map 
+cp $genus_species.ped /path/to/GONE-master/GONE-master/Linux/${genus_species}_GONE2.ped 
+cp $genus_species.map /path/to/GONE-master/GONE-master/Linux/${genus_species}_GONE2.map 
 
 # run GONE
-cd /depot/fnrdewoody/apps/GONE-master/GONE-master/Linux/
+cd /path/to/GONE-master/GONE-master/Linux/
 bash script_GONE.sh ${genus_species}_GONE2
 
 # move back result files to species directory
