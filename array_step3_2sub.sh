@@ -4,6 +4,7 @@
 # this script maps read files to the QC reference assembly					#
 # the following files to use in downstream analyses are created:	  	#
 # *.bam file for each SRA*												#
+# script was written to be run with SLURM job scheduler
 #########################################################################
 
 ########################
@@ -27,13 +28,13 @@ cpus_per_task=$3
 echo "The task $SLURM_ARRAY_TASK_ID handles $sra"
 
 # move to the directory containing cleaned_sra files
-cd /scratch/bell/dewoody/theta/${genus_species}/sra/cleaned/
+cd /path/to/theta/${genus_species}/sra/cleaned/
 
 # perform alignment using bwa mem algorithm
 bwa mem -t ${cpus_per_task} -M -R "@RG\tID:group1\tSM:${sra}\tPL:illumina\tLB:lib1\tPU:unit1" ../../*_ref/ref.fa  ${sra}_1_val_1.fq ${sra}_2_val_2.fq > ../aligned/${sra}.sam
 
 # move to the directory containing the alignment files
-cd /scratch/bell/dewoody/theta/${genus_species}/sra/aligned/
+cd /path/to/theta/${genus_species}/sra/aligned/
 
 # validated *sam files should produce a summary output file that contains no errors
 PicardCommandLine ValidateSamFile I=${sra}.sam MODE=SUMMARY O=${sra}.sam.txt
