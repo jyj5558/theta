@@ -9,6 +9,8 @@
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=
 
+#script was written to be run with SLURM job scheduler
+
 module --force purge
 module load biocontainers
 module load angsd
