@@ -21,6 +21,7 @@ module load htslib
 # the following result files are created:	
 # Thetas_${genus_species}.txt, IndHet_${genus_species}.txt, PopHet_${genus_species}.txt,
 # ROH_${genus_species}.txt
+# script was written to be run with SLURM job scheduler
 #########################################################################
 
 ####notes and usage####
@@ -49,8 +50,8 @@ n=
 ########Do not edit beneath this row########
 
 # absolute paths of parent and theta directory of genus-species shorten commands
-PD=/scratch/bell/dewoody/theta/${genus_species}
-THETA=/scratch/bell/dewoody/theta/${genus_species}/theta
+PD=/path/to/theta/${genus_species}
+THETA=/path/to/theta/${genus_species}/theta
 
 # move to directory which will house angsd/theta files
 mkdir -p $THETA
