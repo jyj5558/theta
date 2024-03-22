@@ -8,7 +8,7 @@
 #SBATCH -e %x_%j.err
 #SBATCH -o %x_%j.out
 #SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user="your email address (e.g.jeon96@purdue.edu) without quotation marks"
+#SBATCH --mail-user="your email address (e.g.abc123@purdue.edu) without quotation marks"
 
 module load bioinfo
 module load TrimGalore
@@ -25,7 +25,7 @@ module load sra-toolkit
 #Example:
 #genus_species=Marmota-marmota-marmota
 #n=32
-#theta git should be cloned at $CLUSTER_SCRATCH (e.g., /scratch/bell/blackan/)
+#theta git should be cloned at $CLUSTER_SCRATCH (e.g., /scratch/abc/xyz/)
 #usage:
 #sbatch /scratch/bell/$USER/theta/step2_SRA_download_clean.sh
 #
