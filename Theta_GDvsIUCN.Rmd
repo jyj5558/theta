@@ -27,13 +27,15 @@ library(car)
 library(nlme)
 library(sjstats)
 library(TreeTools)
+library(reshape2)
+library(pwr)
 ```
 
 #load, check, and prepare the data
 ```{r}
 rm(list = ls())
-setwd("C:/Users/jyj55/OneDrive - purdue.edu/DeWoody_Lab/Dissertation/Theta project/Manuscript/")
-data1 <- read_excel("Supplementary Data 2.xlsx")
+setwd("C:/Users/jyj55/OneDrive - purdue.edu/DeWoody_Lab/Dissertation/Theta project/Statistics")
+data1 <- read_excel("C:/Users/jyj55/OneDrive - purdue.edu/DeWoody_Lab/Dissertation/Theta project/Manuscript/EvolAppl/Supplementary Dataset S2.xlsx")
 data1 <- data1[data1$IUCN_category != "DD",] #exclude "DD" and "NA"
 data1 <- data1[!is.na(data1$IUCN_category),]
 data1$IUCN.b = rep(NA, nrow(data1))
@@ -68,9 +70,10 @@ tree.raw <- read.nexus("tree-pruner-67ccf206-944e-41c5-ad95-6845f20c2c18/output.
 av.tree <- averageTree(tree.raw)
 #av.tree <- averageTree(tree.raw[sample(1:1000,100)])
 saveRDS(av.tree, "average_phylotree.RDS")
+#av.tree <- readRDS("average_phylotree.RDS")
 str(av.tree)
 plot(av.tree)
-is.binary.tree(av.tree) # we want this to be TRUE
+is.binary(av.tree) # we want this to be TRUE
 tree.reroot <- root(av.tree, outgroup = "Sarcophilus_harrisii", resolve.root = TRUE)
 plot(tree.reroot)
 setdiff(tree.reroot$tip.label, sort_data1$VertLife_name) #check if name in tree does not exist in dataset
@@ -90,6 +93,8 @@ for (i in 1:length(addtip)){
 }
 plot(tree.final)
 setdiff(sort_data1$VertLife_name, tree.final$tip.label) #check again
+phy <- force.ultrametric(tree.final, method="extend")
+rm(addtip, sistertip, tree.reroot, tree.reroot2)
 ```
 
 #try MFA on techincal factors to reduce variables
@@ -248,46 +253,58 @@ sort_data1$Family = as.factor(sort_data1$Family)
 
 #check distribution of variables of interest
 #Heterozygosity
-qqnorm(sort_data1$Pop_heterozygosity_mean) 
-qqline(sort_data1$Pop_heterozygosity_mean)
-descr(sort_data1$Pop_heterozygosity_mean, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
-#skewness = 3.67, kurtosis = 14.65 -> try transformation
-sort_data1 <- mutate(sort_data1, log_het = log(Pop_heterozygosity_mean))
-descr(sort_data1$log_het, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
-#skewness = 0.42, kurtosis = 0.42
-qqnorm(sort_data1$log_het) 
-qqline(sort_data1$log_het) #improved
+#qqnorm(sort_data1$Pop_heterozygosity_mean) 
+#qqline(sort_data1$Pop_heterozygosity_mean)
+#descr(sort_data1$Pop_heterozygosity_mean, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = 3.46, kurtosis = 13.60 -> try transformation
+#sort_data1 <- mutate(sort_data1, log_het = log(Pop_heterozygosity_mean))
+#descr(sort_data1$log_het, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = 0.22, kurtosis = 0.11
+#qqnorm(sort_data1$log_het) 
+#qqline(sort_data1$log_het) #improved
+
+#watterson's Theta
+qqnorm(sort_data1$Watterson_theta_mean) 
+qqline(sort_data1$Watterson_theta_mean)
+descr(sort_data1$Watterson_theta_mean, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = 4.03, kurtosis = 17.24 -> try transformation
+sort_data1 <- mutate(sort_data1, log_theta = log(Watterson_theta_mean))
+descr(sort_data1$log_theta, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
+#skewness = 0.52, kurtosis = 0.73
+qqnorm(sort_data1$log_theta) 
+qqline(sort_data1$log_theta) #improved
 
 #Tajima's D
 qqnorm(sort_data1$Tajima_D_mean) 
 qqline(sort_data1$Tajima_D_mean) #a little violated
 descr(sort_data1$Tajima_D_mean, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
-#skewness = -0.63, kurtosis = 0.79
+#skewness = -0.68, kurtosis = 0.88
 sort_data1 <- mutate(sort_data1, log_td = log(Tajima_D_mean + 2))
 descr(sort_data1$log_td, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
-#skewness = -2.37, kurtosis = 7.16 -> forgo log_td
+#skewness = -2.40, kurtosis = 7.26 -> forgo log_td
 qqnorm(sort_data1$log_td) 
 qqline(sort_data1$log_td)
+sort_data1 <- subset(sort_data1, select = -log_td)
 
 #F(roh) > 100kb
 qqnorm(sort_data1$Froh_100kb) 
 qqline(sort_data1$Froh_100kb) #a little violated
 descr(sort_data1$Froh_100kb, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
-#skewness = 0.86, kurtosis = -0.06
+#skewness = 0.86, kurtosis = -0.07
 sort_data1 <- mutate(sort_data1, asin_f100 = asin(sqrt(Froh_100kb)))
 descr(sort_data1$asin_f100, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
-#skewness = 0.13, kurtosis = -0.70
+#skewness = 0.19, kurtosis = -0.74
 qqnorm(sort_data1$asin_f100) 
 qqline(sort_data1$asin_f100) #improved
 
-#Froh_1mb
+#F(roh) > 1mb
 qqnorm(sort_data1$Froh_1mb) 
 qqline(sort_data1$Froh_1mb) #violated
 descr(sort_data1$Froh_1mb, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
-#skewness = 1.84, kurtosis = 2.80
+#skewness = 1.82, kurtosis = 2.70
 sort_data1 <- mutate(sort_data1, asin_f1000 = asin(sqrt(Froh_1mb)))
 descr(sort_data1$asin_f1000, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
-#skewness = 0.89, kurtosis = 0.01
+#skewness = 0.90, kurtosis = 0.00
 qqnorm(sort_data1$asin_f1000) 
 qqline(sort_data1$asin_f1000) #improved
 
@@ -299,10 +316,10 @@ count(sort_data1, IUCN.b)
 qqnorm(sort_data1$geographic_range_km2) 
 qqline(sort_data1$geographic_range_km2)
 descr(sort_data1$geographic_range_km2, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
-#skewness = 6.36, kurtosis = 43.87 -> try transformation
+#skewness = 6.32, kurtosis = 43.28 -> try transformation
 sort_data1 <- mutate(sort_data1, log_range = log(geographic_range_km2))
 descr(sort_data1$log_range, stats = c("Skewness", "Kurtosis"), style="rmarkdown")
-#skewness = -0.18, kurtosis = -0.75
+#skewness = -0.16, kurtosis = -0.73
 qqnorm(sort_data1$log_range) 
 qqline(sort_data1$log_range)
 
@@ -313,8 +330,8 @@ sort_data1.df <- as.data.frame(sort_data1)
 row.names(sort_data1.df) <- sort_data1.df[,3]
 comp_data1 <- comparative.data(phy = tree.final, data = sort_data1.df, names.col = 'VertLife_name', vcv = TRUE, na.omit = FALSE, warn.dropped = TRUE)
 
-#IUCN full category PGLS model - log_het
-IUCNcat.pgls <- pgls(log_het ~ IUCN_category + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+#IUCN full category PGLS model - log_theta
+IUCNcat.pgls <- pgls(log_theta ~ IUCN_category + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
 data = comp_data1, lambda = "ML")
 summary(IUCNcat.pgls)
 anova(IUCNcat.pgls)
@@ -333,22 +350,23 @@ plot(IUCNcat.pgls) #after-model check
 
 IUCN_comp <- list(c("CR", "LC"), c("EN", "LC"), c("VU", "LC"), c("CR", "NT"), c("EN", "NT"), c("VU", "NT"))
 
-tiff("Supplementary Figure 15.tif", units="px", width=2100, height=1500, res=300)
-ggplot(aes(y=log_het, x=IUCN_category, label=IUCN_category, color=IUCN_category), data = comp_data1$data) + 
-  geom_boxplot() +
-  geom_jitter(width = 0.05, alpha = 0.25) + 
+svg("Supplementary Figure 15.svg")
+ggplot(aes(y=log_theta, x=IUCN_category, label=IUCN_category, color=IUCN_category), data = comp_data1$data) + 
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(width = 0.05, alpha = 0.5, size = 3) + 
   theme_classic(base_size=16) + 
-  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
-  theme(legend.position = "none") +
-  labs(y = "Heterozygosity", x="IUCN category") + 
-  scale_color_brewer(palette = "Dark2", breaks=iucn, name = "IUCN category") +
-  geom_hline(yintercept = mean(comp_data1$data$log_het), linetype = 2) +
+  theme(text = element_text(family = "Calibri"), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  theme(legend.position = "none", legend.text = element_text(size=14)) +
+  labs(y = bquote("Watterson's Theta ("~italic("θ")[W]~")"), x="IUCN category") + 
+  scale_color_manual(values=c("#d95f02","#d9cb02","#1B9E77","#7570b3","#e7298a"), name = "IUCN category") +
+  geom_hline(yintercept = mean(comp_data1$data$log_theta), linetype = 2) +
   #stat_compare_means(method = "anova", label.x = "LC", label.y = -2) + 
-  stat_compare_means(comparisons = IUCN_comp, label = "p.signif", label.y = c(-2.4, -2.8, -3.2, -3.6, -4.0, -4.4), vjust = 0.25)
+  stat_compare_means(comparisons = IUCN_comp, label = "p.signif", label.y = c(-2.4, -2.8, -3.2, -3.6, -4.0, -4.4), vjust = 0.25) 
+  #stat_compare_means(label.y = -2.0)
 dev.off()
 
-#IUCN binary category PGLS model - log_het
-IUCNb.pgls <- pgls(log_het ~ IUCN.b + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+#IUCN binary category PGLS model - log_theta
+IUCNb.pgls <- pgls(log_theta ~ IUCN.b + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
 data = comp_data1, lambda = "ML")
 summary(IUCNb.pgls)
 anova(IUCNb.pgls)
@@ -359,18 +377,19 @@ plot(IUCNb.pgls) #after-model check
 
 IUCNb_comp <- list(c("Non-Threatened", "Threatened"))
 
-tiff("Figure 2.tif", units="px", width=2100, height=1500, res=300)
-ggplot(aes(y=log_het, x=IUCN.b, label=IUCN.b, color=IUCN.b), data = comp_data1$data) + 
-  geom_boxplot() +
-  geom_jitter(width = 0.05, alpha = 0.25) + 
+svg("Figure 1.2.svg", width=3.42, height=4.5)
+ggplot(aes(y=log_theta, x=IUCN.b, label=IUCN.b, color=IUCN.b), data = comp_data1$data) + 
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(width = 0.05, alpha = 0.5, size = 3) + 
   theme_classic(base_size=16) + 
-  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
-  theme(legend.position = "none") +
-  labs(y = "Heterozygosity", x="IUCN category") + 
-  scale_color_brewer(palette = "Dark2", breaks=iucn.b, name = "IUCN binary category") +
-  geom_hline(yintercept = mean(comp_data1$data$log_het), linetype = 2) +
+  theme(text = element_text(family = "Calibri"), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  theme(legend.position = "none", legend.text = element_text(size=14)) +
+  labs(y = bquote("Watterson's Theta ("~italic("θ")[W]~")"), x="IUCN category") + 
+  scale_color_manual(values=c("#d95f02","#7570b3"), name = "IUCN binary category") +
+  geom_hline(yintercept = mean(comp_data1$data$log_theta), linetype = 2) +
   #stat_compare_means(method = "anova", label.x = "Non-Threatened", label.y = -3.5) + 
   stat_compare_means(comparisons = IUCNb_comp, label = "p.signif", label.y = c(-4.0), vjust = 0.25)
+  #stat_compare_means(label.y=-3.7, label.x=0.7)
 dev.off()
 
 #IUCN full category PGLS model - Tajima's D
@@ -397,18 +416,19 @@ anova_stats(IUCNcatF100.pgls)
 par(mfrow=c(2,2))
 plot(IUCNcatF100.pgls) #after-model check
 
-tiff("Supplementary Figure 16.tif", units="px", width=2100, height=1500, res=300)
+svg("Supplementary Figure 16.svg")
 ggplot(aes(y=asin_f100, x=IUCN_category, label=IUCN_category, color=IUCN_category), data = comp_data1$data[!is.na(comp_data1$data$asin_f100),]) + 
-  geom_boxplot() +
-  geom_jitter(width = 0.05, alpha = 0.25) + 
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(width = 0.05, alpha = 0.5, size = 3) + 
   theme_classic(base_size=16) + 
-  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
-  theme(legend.position = "none") +
-  labs(y = "F(ROH > 100kb)", x="IUCN category") + 
-  scale_color_brewer(palette = "Dark2", breaks=iucn, name = "IUCN category") +
+  theme(text = element_text(family = "Calibri"), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  theme(legend.position = "none", legend.text = element_text(size=14)) +
+  labs(y = bquote(italic("F")["ROH > 100kb"]~" ("~italic("F")~"100kb)"), x="IUCN category") + 
+  scale_color_manual(values=c("#d95f02","#d9cb02","#1B9E77","#7570b3","#e7298a"), name = "IUCN category") +
   geom_hline(yintercept = mean(comp_data1$data[!is.na(comp_data1$data$asin_f100),]$asin_f100), linetype = 2) +
   #stat_compare_means(method = "anova", label.x = "LC", label.y = 0.9) + 
   stat_compare_means(comparisons = IUCN_comp, label = "p.signif", label.y = c(0.84, 0.80, 0.76, 0.72, 0.68, 0.64), vjust = 0.25)
+  #stat_compare_means(label.y=0.9)
 dev.off()
 
 #IUCN binary category PGLS model - asin_f100
@@ -421,18 +441,19 @@ anova_stats(IUCNbF100.pgls)
 par(mfrow=c(2,2))
 plot(IUCNbF100.pgls) #after-model check
 
-tiff("Supplementary Figure 17.tif", units="px", width=2100, height=1500, res=300)
+svg("Supplementary Figure 17.svg")
 ggplot(aes(y=asin_f100, x=IUCN.b, label=IUCN.b, color=IUCN.b), data = comp_data1$data[!is.na(comp_data1$data$asin_f100),]) + 
-  geom_boxplot() +
-  geom_jitter(width = 0.05, alpha = 0.25) + 
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(width = 0.05, alpha = 0.5, size = 3) + 
   theme_classic(base_size=16) + 
-  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
-  theme(legend.position = "none") +
-  labs(y = "F(ROH > 1mb)", x="IUCN category") + 
-  scale_color_brewer(palette = "Dark2", breaks=iucn.b, name = "IUCN binary category") +
+  theme(text = element_text(family = "Calibri"), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  theme(legend.position = "none", legend.text = element_text(size=14)) +
+  labs(y = bquote(italic("F")["ROH > 100kb"]~" ("~italic("F")~"100kb)"), x="IUCN category") + 
+  scale_color_manual(values=c("#d95f02","#7570b3"), name = "IUCN category") +
   geom_hline(yintercept = mean(comp_data1$data[!is.na(comp_data1$data$asin_f100),]$asin_f100), linetype = 2) +
   #stat_compare_means(method = "anova", label.x = "Non-Threatened", label.y = 0.70) + 
   stat_compare_means(comparisons = IUCNb_comp, label = "p.signif", label.y = c(0.65), vjust = 0.25)
+  #stat_compare_means(label.y=0.7, label.x=0.7)
 dev.off()
 
 #IUCN full category PGLS model - asin_f1000
@@ -452,8 +473,8 @@ anova_stats(IUCNbF1000.pgls)
 
 #comparing pgls models - GD vs independent criterion
 ```{r}
-#Population trend PGLS model - log_het
-trend.pgls <- pgls(log_het ~ population_trend + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+#Population trend PGLS model - log_theta
+trend.pgls <- pgls(log_theta ~ population_trend + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
 data = comp_data1, lambda = "ML")
 summary(trend.pgls)
 anova(trend.pgls)
@@ -464,19 +485,19 @@ plot(trend.pgls) #after-model check
 
 trend_comp <- list(c("Decreasing", "Stable"), c("Decreasing", "Increasing"), c("Stable", "Increasing"))
 
-tiff("Supplementary Figure 18.tif", units="px", width=2100, height=1500, res=300)
-ggplot(aes(y=log_het, x=population_trend, label=population_trend, color=population_trend), data = comp_data1$data[!is.na(comp_data1$data$population_trend),]) + 
-  geom_boxplot() +
-  geom_jitter(width = 0.05, alpha = 0.25) + 
-  theme_classic(base_size=16) + 
-  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
-  theme(legend.position = "none") +
-  labs(y = "Heterozygosity", x="Population trend") + 
-  scale_color_brewer(palette = "Dark2", breaks=pop_trend, name = "Population trend") +
-  geom_hline(yintercept = mean(comp_data1$data[!is.na(comp_data1$data$log_het),]$log_het), linetype = 2) +
-  #stat_compare_means(method = "anova", label.x = "Non-Threatened", label.y = 0.70) + 
-  stat_compare_means(comparisons = trend_comp, label = "p.signif", label.y = c(-4,-3.4,-3.7), vjust = 0.25)
-dev.off()
+#svg("Supplementary Figure 17.svg")
+#ggplot(aes(y=log_theta, x=population_trend, label=population_trend, color=population_trend), data = comp_data1$data[!is.na(comp_data1$data$population_trend),]) + 
+#  geom_boxplot(outlier.shape=NA) +
+#  geom_jitter(width = 0.05, alpha = 0.5, size = 3) + 
+#  theme_classic(base_size=16) + 
+#  theme(text = element_text(family = "Calibri"), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+#  theme(legend.position = "none", legend.text = element_text(size=14)) +
+#  labs(y = bquote("Watterson's Theta ("~italic("θ")[W]~")"), x="Population trend") +   scale_color_manual(values=c("#404040","#d95f02","#66a61e","#7570b3"), name = "Population trend") +
+#  geom_hline(yintercept = mean(comp_data1$data[!is.na(comp_data1$data$log_theta),]$log_theta), linetype = 2) +
+#  #stat_compare_means(method = "anova", label.x = "Non-Threatened", label.y = 0.70) + 
+#  stat_compare_means(comparisons = trend_comp, label = "p.signif", label.y = c(-4,-3.4,-3.7), vjust = 0.25)
+#  #stat_compare_means(label.y=-3.15)
+#dev.off()
 
 #Population trend PGLS model - Tajima's D
 trendTd.pgls <- pgls(Tajima_D_mean ~ population_trend + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
@@ -495,18 +516,18 @@ anova_stats(trendF100.pgls)
 par(mfrow=c(2,2))
 plot(trendF100.pgls) #after-model check
 
-tiff("Supplementary Figure 19.tif", units="px", width=2100, height=1500, res=300)
+svg("Supplementary Figure 18.svg")
 ggplot(aes(y=asin_f100, x=population_trend, label=population_trend, color=population_trend), data = comp_data1$data[!is.na(comp_data1$data$population_trend),]) + 
-  geom_boxplot() +
-  geom_jitter(width = 0.05, alpha = 0.25) + 
+  geom_boxplot(outlier.shape=NA) +
+  geom_jitter(width = 0.05, alpha = 0.5, size = 3) + 
   theme_classic(base_size=16) + 
-  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
-  theme(legend.position = "none") +
-  labs(y = "F(ROH > 100kb)", x="Population trend") + 
-  scale_color_brewer(palette = "Dark2", breaks=pop_trend, name = "Population trend") +
+  theme(text = element_text(family = "Calibri"), axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
+  theme(legend.position = "none", legend.text = element_text(size=14)) +
+  labs(y = bquote(italic("F")["ROH > 100kb"]~" ("~italic("F")~"100kb"~")"), x="Population trend") +   scale_color_manual(values=c("#404040","#d95f02","#66a61e","#7570b3"), name = "Population trend") +
   geom_hline(yintercept = mean(comp_data1$data[!is.na(comp_data1$data$asin_f100),]$asin_f100), linetype = 2) +
   #stat_compare_means(method = "anova", label.x = "Non-Threatened", label.y = 0.70) + 
   stat_compare_means(comparisons = trend_comp, label = "p.signif", label.y = c(0.6,0.68,0.64), vjust = 0.25)
+  #stat_compare_means(label.y = 0.7)
 dev.off()
 
 #Population trend PGLS model - asin_f1000
@@ -516,8 +537,8 @@ summary(trendF1000.pgls)
 anova(trendF1000.pgls)
 anova_stats(trendF1000.pgls)
 
-#Geographic range PGLS model - log_het
-range.pgls <- pgls(log_het ~ log_range + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+#Geographic range PGLS model - log_theta
+range.pgls <- pgls(log_theta ~ log_range + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
 data = comp_data1, lambda = "ML")
 summary(range.pgls)
 anova(range.pgls)
@@ -547,18 +568,23 @@ anova_stats(rangeF1000.pgls)
 par(mfrow=c(2,2))
 plot(rangeF1000.pgls) #after-model check
 
-tiff("Figure 3.tif", units="px", width=2100, height=1500, res=300)
-ggplot(aes(y=asin_f1000, x=log_range), data = comp_data1$data[!is.na(comp_data1$data$asin_f1000),]) + 
-  geom_smooth(method = "lm", se=TRUE) +
+svg("Supplementary Figure 19.svg")
+ggplot(aes(y=asin_f1000, x=log_range, color=IUCN.b, group=1), data = comp_data1$data[!is.na(comp_data1$data$asin_f1000),]) + 
+  geom_smooth(method = "lm", se=TRUE, color="#e6ab02") +
   geom_point() + 
   theme_classic(base_size=16) + 
-  theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
-  labs(y = "F(ROH > 1mb)", x="Geographic range")
-  #guides(color = guide_legend(title = "F(ROH > 1mb)"))
-  
+  theme(text = element_text(family = "Calibri"), plot.title=element_text(hjust=0.5)) +
+  theme(legend.position = c(0.85,0.9), legend.text = element_text(size=14)) +
+  labs(y=bquote(italic("F")["ROH > 1Mb"]~" ("~italic("F")~"1Mb)"), x=bquote("Geographic range "(km^2))) +
+  labs(color = "IUCN category") +
+  scale_color_manual(values=c("#7570b3","#d95f02"), breaks=comp_data1$data$IUCN.b) +
+  guides(color = guide_legend(reverse = TRUE, override.aes=aes(label=""))) +
+  stat_cor(label.x=16.5, label.y=0.38)
+  #guides(color = guide_legend(title = "F(ROH > 1Mb)"))  
+dev.off()
 
 #model comparison
-AIC(IUCNcat.pgls, IUCNb.pgls, IUCNcatF100.pgls, IUCNbF100.pgls, trend.pgls, trendF100.pgls)
+AIC(IUCNcat.pgls, IUCNb.pgls, IUCNcatF100.pgls, IUCNbF100.pgls, trend.pgls, trendF100.pgls, rangeF1000.pgls)
 ```
 
 #Phylogenetic ordinal logistic regression
@@ -608,34 +634,34 @@ comp_data1$data$IUCNb_numeric[comp_data1$data$IUCNb_numeric == "Threatened"] <- 
 comp_data1$data$IUCNb_numeric <- as.numeric(comp_data1$data$IUCNb_numeric)
 str(comp_data1$data$IUCNb_numeric)
 
-#log_het PGLS model - IUCNcat
-Hetcat.pgls <- pgls(IUCNcat_numeric ~ log_het + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+#log_theta PGLS model - IUCNcat
+Thetacat.pgls <- pgls(IUCNcat_numeric ~ log_theta + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
 data = comp_data1, lambda = "ML")
-summary(Hetcat.pgls)
-anova(Hetcat.pgls)
-anova_stats(Hetcat.pgls)
+summary(Thetacat.pgls)
+anova(Thetacat.pgls)
+anova_stats(Thetacat.pgls)
 
-ggplot(aes(y=IUCNcat_numeric, x=log_het), data = comp_data1$data[!is.na(comp_data1$data$log_het),]) + 
+ggplot(aes(y=IUCNcat_numeric, x=log_theta), data = comp_data1$data[!is.na(comp_data1$data$log_theta),]) + 
   geom_smooth(method = "lm", se=TRUE) +
   geom_point() + 
   theme_classic(base_size=16) + 
   theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
-  labs(y = "IUCN full category", x="Heterozygosity")
+  labs(y = "IUCN full category", x="Watterson's Theta")
   #guides(color = guide_legend(title = "F(ROH > 1mb)"))
 
-#log_het PGLS model - IUCNb
-Hetb.pgls <- pgls(IUCNb_numeric ~ log_het + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
+#log_theta PGLS model - IUCNb
+Thetab.pgls <- pgls(IUCNb_numeric ~ log_theta + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
 data = comp_data1, lambda = "ML")
-summary(Hetb.pgls)
-anova(Hetb.pgls)
-anova_stats(Hetb.pgls)
+summary(Thetab.pgls)
+anova(Thetab.pgls)
+anova_stats(Thetab.pgls)
 
-ggplot(aes(y=IUCNb_numeric, x=log_het), data = comp_data1$data[!is.na(comp_data1$data$log_het),]) + 
+ggplot(aes(y=IUCNb_numeric, x=log_theta), data = comp_data1$data[!is.na(comp_data1$data$log_theta),]) + 
   geom_smooth(method = "lm", se=TRUE) +
   geom_point() + 
   theme_classic(base_size=16) + 
   theme(axis.ticks.x=element_blank(), plot.title=element_text(hjust=0.5)) +
-  labs(y = "IUCN binary category", x="Heterozygosity")
+  labs(y = "IUCN binary category", x="Watterson's Theta")
 
 #asin_f100 PGLS model - IUCNcat
 F100cat.pgls <- pgls(IUCNcat_numeric ~ asin_f100 + Dim.1 + Dim.2 + Dim.3 + Dim.4 - 1,
@@ -651,21 +677,267 @@ summary(F100b.pgls)
 anova(F100b.pgls)
 anova_stats(F100b.pgls)
 ```
+#Multi-response phylogenetic mixed modeling
+```{r}
+library(MCMCglmm)
+phy$edge.length[phy$edge.length==0] <- 0.00000001 #manually assign very small edge length to avoid an issue with "edge.length==0" in the modeling below
+names(sort_renamed_data1.df)[names(sort_renamed_data1.df)=="VertLife_name"] <- "animal"
+
+# MR-PMM of log_theta and IUCN full categories
+prior1.IUCNcat <- list(G = list(G1 = list(V = diag(2), nu = 1000, alpha.mu = rep(0,2), alpha.V = diag(2))), R = list(R1 = list(V = diag(2), nu = 2, fix = 2))) #default: nu = 2, alpha.mu = rep(0,2), alpha.V = diag(2) # parameter expanded prior for random effects of threshold response
+           
+#prior.IUCNcat <- list(R = list(R1 = list(V = diag(2), nu = 2, fix = 2)), G = list(G1 = list(V = diag(2) * 0.02, nu = 3))) #An uninformative prior for the correlations is an improper prior with V=diag(dim(V))*0 (0.02) and nu=dim(V)+1. worse
+#prior.IUCNcat <- list(G = list(G1 = list(V = diag(2)*1e-10, nu = -1)), R = list(R1 = list(V = diag(2), nu = 2, fix = 2))) #prior V=diag(dim(V))*0 and nu=dim(V)-3 is non-informative for the variances and covariances. # Specifying V=0 and n=-1 is equivalent to a uniform prior for the standard deviation on the the interval (0;1]. better
+#prior.IUCNcat <- list(G = list(G1 = list(V = diag(2)*1e-16, nu = -2)), R = list(R1 = list(V = diag(2), nu = 2, fix = 2))) # specifying V=0 and n=-2 is non-informative for a variance component. # flat prior; good
+#prior.IUCNcat <- list(G = list(G1 = list(V = diag(2), nu = 2, alpha.mu = rep(0,2), alpha.V = diag(2)*1000)), R = list(R1 = list(V = diag(2), nu = 2, fix = 2))). good
+#V=diag(2)*1e-6, nu=3 is flat for the correlation from -1 to 1
+#V=diag(2), nu=0.002 gives the inverse-gamma prior for the variances with shape=scale=0.001
+#V = diag(2), nu = 1000, alpha.mu = rep(0,2), alpha.V = diag(2) # works best!
+
+mr.pmm.Theta_IUCNcat <- MCMCglmm(cbind(log_theta, IUCN_category) ~ trait-1,
+                random   = ~us(trait):animal,
+                rcov     = ~us(trait):units,
+                pedigree = phy,
+                family   = c("gaussian","threshold"), 
+                data     = sort_renamed_data1.df, 
+                prior    = prior1.IUCNcat, 
+                nitt     = 11000000, 
+                burnin   = 1000000, 
+                thin     = 1000,
+                pr = T, pl = T, verbose = F, slice = T
+                )
+saveRDS(mr.pmm.Theta_IUCNcat, "mcmc_mrpmm_Theta_IUCNcat.rds") 
+
+#convergence diagnotics 
+summary(mr.pmm.Theta_IUCNcat)
+plot(mr.pmm.Theta_IUCNcat$VCV)
+autocorr(mr.pmm.Theta_IUCNcat$VCV) #seems okay
+
+#model inference
+summary(mr.pmm.Theta_IUCNcat)
+summary(mr.pmm.Theta_IUCNcat)$solutions # intercept
+quantile(mr.pmm.Theta_IUCNcat$VCV[,"traitlog_theta:traitIUCN_category.animal"]/
+     sqrt(mr.pmm.Theta_IUCNcat$VCV[,"traitlog_theta:traitlog_theta.animal"]*mr.pmm.Theta_IUCNcat$VCV[,"traitIUCN_category:traitIUCN_category.animal"])) # phylogenetic correlataion
+quantile(mr.pmm.Theta_IUCNcat$VCV[,"traitlog_theta:traitIUCN_category.units"]/
+     sqrt(mr.pmm.Theta_IUCNcat$VCV[,"traitlog_theta:traitlog_theta.units"]*mr.pmm.Theta_IUCNcat$VCV[,"traitIUCN_category:traitIUCN_category.units"])) # independent correlation
+(mr.pmm.Theta_IUCNcat$VCV[, "traitlog_theta:traitlog_theta.animal"]/(mr.pmm.Theta_IUCNcat$VCV[, "traitlog_theta:traitlog_theta.animal"] + mr.pmm.Theta_IUCNcat$VCV[, "traitlog_theta:traitlog_theta.units"] + 1)) %>%
+  quantile(probs=c(0.025,0.5,0.975)) # Phylogenetic Signal of the first variable
+(mr.pmm.Theta_IUCNcat$VCV[, "traitIUCN_category:traitIUCN_category.animal"]/(mr.pmm.Theta_IUCNcat$VCV[, "traitIUCN_category:traitIUCN_category.animal"] + mr.pmm.Theta_IUCNcat$VCV[, "traitIUCN_category:traitIUCN_category.units"] + 1)) %>%
+  quantile(probs=c(0.025,0.5,0.975)) # Phylogenetic Signal of the second variable
+
+
+# MR-PMM of log_theta and IUCN binary categories
+prior1.IUCNb <- list(G = list(G1 = list(V = diag(2), nu = 1000, alpha.mu = rep(0,2), alpha.V = diag(2))), R = list(R1 = list(V = diag(2), nu = 2, fix = 2)))
+
+mr.pmm.Theta_IUCNb <- MCMCglmm(cbind(log_theta, IUCN.b) ~ trait-1,
+                random   = ~us(trait):animal,
+                rcov     = ~us(trait):units,
+                pedigree = phy,
+                family   = c("gaussian","threshold"), 
+                data     = sort_renamed_data1.df, 
+                prior    = prior1.IUCNb, 
+                nitt     = 11000000, 
+                burnin   = 1000000, 
+                thin     = 1000,
+                pr = T, pl = T, verbose = F, slice = T
+                )
+saveRDS(mr.pmm.Theta_IUCNb, "mcmc_mrpmm_Theta_IUCNb.rds") 
+
+#convergence diagnotics 
+summary(mr.pmm.Theta_IUCNb)
+plot(mr.pmm.Theta_IUCNb$VCV)
+autocorr(mr.pmm.Theta_IUCNb$VCV) #seems okay
+
+#model inference
+summary(mr.pmm.Theta_IUCNb)
+summary(mr.pmm.Theta_IUCNb)$solutions # intercept
+quantile(mr.pmm.Theta_IUCNb$VCV[,"traitlog_theta:traitIUCN.b.animal"]/
+     sqrt(mr.pmm.Theta_IUCNb$VCV[,"traitlog_theta:traitlog_theta.animal"]*mr.pmm.Theta_IUCNb$VCV[,"traitIUCN.b:traitIUCN.b.animal"])) # phylogenetic correlataion
+quantile(mr.pmm.Theta_IUCNb$VCV[,"traitlog_theta:traitIUCN.b.units"]/
+     sqrt(mr.pmm.Theta_IUCNb$VCV[,"traitlog_theta:traitlog_theta.units"]*mr.pmm.Theta_IUCNb$VCV[,"traitIUCN.b:traitIUCN.b.units"])) # independent correlation
+(mr.pmm.Theta_IUCNb$VCV[, "traitlog_theta:traitlog_theta.animal"]/(mr.pmm.Theta_IUCNb$VCV[, "traitlog_theta:traitlog_theta.animal"] + mr.pmm.Theta_IUCNb$VCV[, "traitlog_theta:traitlog_theta.units"] + 1)) %>%
+  quantile(probs=c(0.025,0.5,0.975)) # Phylogenetic Signal of the first variable
+(mr.pmm.Theta_IUCNb$VCV[, "traitIUCN.b:traitIUCN.b.animal"]/(mr.pmm.Theta_IUCNb$VCV[, "traitIUCN.b:traitIUCN.b.animal"] + mr.pmm.Theta_IUCNb$VCV[, "traitIUCN.b:traitIUCN.b.units"] + 1)) %>%
+  quantile(probs=c(0.025,0.5,0.975)) # Phylogenetic Signal of the second variable
+
+
+# MR-PMM of asin_f100 and IUCN full categories
+prior2.IUCNcat <- list(G = list(G1 = list(V = diag(2), nu = 1000, alpha.mu = rep(0,2), alpha.V = diag(2))), R = list(R1 = list(V = diag(2), nu = 2, fix = 2))) #default: nu = 2, alpha.mu = rep(0,2), alpha.V = diag(2) # parameter expanded prior for random effects of threshold response
+
+mr.pmm.F100_IUCNcat <- MCMCglmm(cbind(asin_f100, IUCN_category) ~ trait-1,
+                random   = ~us(trait):animal,
+                rcov     = ~us(trait):units,
+                pedigree = phy,
+                family   = c("gaussian","threshold"), 
+                data     = sort_renamed_data1.df, 
+                prior    = prior2.IUCNcat, 
+                nitt     = 11000000, 
+                burnin   = 1000000, 
+                thin     = 1000,
+                pr = T, pl = T, verbose = F, slice = T
+                )
+saveRDS(mr.pmm.F100_IUCNcat, "mcmc_mrpmm_F100_IUCNcat.rds") 
+
+#convergence diagnotics 
+summary(mr.pmm.F100_IUCNcat)
+plot(mr.pmm.F100_IUCNcat$VCV)
+autocorr(mr.pmm.F100_IUCNcat$VCV) #seems okay
+
+#model inference
+summary(mr.pmm.F100_IUCNcat)
+summary(mr.pmm.F100_IUCNcat)$solutions # intercept
+quantile(mr.pmm.F100_IUCNcat$VCV[,"traitasin_f100:traitIUCN_category.animal"]/
+     sqrt(mr.pmm.F100_IUCNcat$VCV[,"traitasin_f100:traitasin_f100.animal"]*mr.pmm.F100_IUCNcat$VCV[,"traitIUCN_category:traitIUCN_category.animal"])) # phylogenetic correlataion
+quantile(mr.pmm.F100_IUCNcat$VCV[,"traitasin_f100:traitIUCN_category.units"]/
+     sqrt(mr.pmm.F100_IUCNcat$VCV[,"traitasin_f100:traitasin_f100.units"]*mr.pmm.F100_IUCNcat$VCV[,"traitIUCN_category:traitIUCN_category.units"])) # independent correlation
+(mr.pmm.F100_IUCNcat$VCV[, "traitasin_f100:traitasin_f100.animal"]/(mr.pmm.F100_IUCNcat$VCV[, "traitasin_f100:traitasin_f100.animal"] + mr.pmm.F100_IUCNcat$VCV[, "traitasin_f100:traitasin_f100.units"] + 1)) %>%
+  quantile(probs=c(0.025,0.5,0.975)) # Phylogenetic Signal of the first variable
+(mr.pmm.F100_IUCNcat$VCV[, "traitIUCN_category:traitIUCN_category.animal"]/(mr.pmm.F100_IUCNcat$VCV[, "traitIUCN_category:traitIUCN_category.animal"] + mr.pmm.F100_IUCNcat$VCV[, "traitIUCN_category:traitIUCN_category.units"] + 1)) %>%
+  quantile(probs=c(0.025,0.5,0.975)) # Phylogenetic Signal of the second variable
+
+
+#MR-PMM of asin_f100 and IUCN full categories
+prior2.IUCNb <- list(G = list(G1 = list(V = diag(2), nu = 1000, alpha.mu = rep(0,2), alpha.V = diag(2))), R = list(R1 = list(V = diag(2), nu = 2, fix = 2))) #default: nu = 2, alpha.mu = rep(0,2), alpha.V = diag(2) # parameter expanded prior for random effects of threshold response
+
+mr.pmm.F100_IUCNb <- MCMCglmm(cbind(asin_f100, IUCN.b) ~ trait-1,
+                random   = ~us(trait):animal,
+                rcov     = ~us(trait):units,
+                pedigree = phy,
+                family   = c("gaussian","threshold"), 
+                data     = sort_renamed_data1.df, 
+                prior    = prior2.IUCNb, 
+                nitt     = 11000000, 
+                burnin   = 1000000, 
+                thin     = 1000,
+                pr = T, pl = T, verbose = F, slice = T
+                )
+saveRDS(mr.pmm.F100_IUCNb, "mcmc_mrpmm_F100_IUCNb.rds") 
+
+#convergence diagnotics 
+summary(mr.pmm.F100_IUCNb)
+plot(mr.pmm.F100_IUCNb$VCV)
+autocorr(mr.pmm.F100_IUCNb$VCV) #seems okay
+
+#model inference
+summary(mr.pmm.F100_IUCNb)
+summary(mr.pmm.F100_IUCNb)$solutions # intercept
+quantile(mr.pmm.F100_IUCNb$VCV[,"traitasin_f100:traitIUCN.b.animal"]/
+     sqrt(mr.pmm.F100_IUCNb$VCV[,"traitasin_f100:traitasin_f100.animal"]*mr.pmm.F100_IUCNb$VCV[,"traitIUCN.b:traitIUCN.b.animal"])) # phylogenetic correlataion
+quantile(mr.pmm.F100_IUCNb$VCV[,"traitasin_f100:traitIUCN.b.units"]/
+     sqrt(mr.pmm.F100_IUCNb$VCV[,"traitasin_f100:traitasin_f100.units"]*mr.pmm.F100_IUCNb$VCV[,"traitIUCN.b:traitIUCN.b.units"])) # independent correlation
+(mr.pmm.F100_IUCNb$VCV[, "traitasin_f100:traitasin_f100.animal"]/(mr.pmm.F100_IUCNb$VCV[, "traitasin_f100:traitasin_f100.animal"] + mr.pmm.F100_IUCNb$VCV[, "traitasin_f100:traitasin_f100.units"] + 1)) %>%
+  quantile(probs=c(0.025,0.5,0.975)) # Phylogenetic Signal of the first variable
+(mr.pmm.F100_IUCNb$VCV[, "traitIUCN.b:traitIUCN.b.animal"]/(mr.pmm.F100_IUCNb$VCV[, "traitIUCN.b:traitIUCN.b.animal"] + mr.pmm.F100_IUCNb$VCV[, "traitIUCN.b:traitIUCN.b.units"] + 1)) %>%
+  quantile(probs=c(0.025,0.5,0.975)) # Phylogenetic Signal of the second variable
+```
+
+#genetic criterion
+```{r}
+# read data
+gencrit_df <- read_excel(paste0(getwd(),"/GeneticCriterion_test.xlsx"))
+
+# define the R function for the genetic criterion
+# version 3.1
+gen_stat <- function(het,Ne,interval){
+    g = 100/interval
+    HetT = het*(1-(1/(2*Ne)))^g
+    if (HetT/het <= 0.9){
+        ConStat = "CR"
+    } else if (HetT/het <= 0.95){
+        ConStat = "EN"
+    } else if (HetT/het <= 0.975 || Ne < 1000 ){
+        ConStat = "VU"
+    } else if (HetT/het > 0.975 && 1000 <= Ne && Ne < 5000 ){
+        ConStat = "NT"
+    } else if (HetT/het > 0.975 && 5000 <= Ne){
+        ConStat = "LC"
+    }
+    result <- list("HetT" = HetT, "GenCat" = ConStat)
+    return(result)
+} 
+
+# apply the function for all rows in the dataframe - Ne = 10% Nc
+gencrit_result1 <- apply(gencrit_df, 1, function(row) gen_stat(as.numeric(row[9]), as.numeric(row[4]), as.numeric(row[8])))
+gencrit_result1.df <- do.call(rbind, lapply(gencrit_result1, as.data.frame))
+gencrit_result1.df <- cbind(gencrit_df["NCBI_name"], gencrit_result1.df)
+write.csv(gencrit_result1.df,"GeneticCategories_result1.csv")
+
+# apply the function for all rows in the dataframe - Ne = 100% Nc
+gencrit_result2 <- apply(gencrit_df, 1, function(row) gen_stat(as.numeric(row[9]), as.numeric(row[5]), as.numeric(row[8])))
+gencrit_result2.df <- do.call(rbind, lapply(gencrit_result2, as.data.frame))
+gencrit_result2.df <- cbind(gencrit_df["NCBI_name"], gencrit_result2.df)
+write.csv(gencrit_result2.df,"GeneticCategories_result2.csv")
+```
 
 #genetic criterion result plot
 ```{r}
-genetic_criterion_result <- read_excel("genetic_criterion_result.xlsx")
-mod_res <- genetic_criterion_result[!is.na(genetic_criterion_result$genetic_status),]
-mod_res$IUCN_category <- as.factor(mod_res$IUCN_category)
-mod_res$genetic_status <- as.factor(mod_res$genetic_status)
-mod_res$genetic_status <- factor(mod_res$genetic_status, levels = c("LC","NT","VU","EN","CR"))
-mod_res$IUCN_category <- factor(mod_res$IUCN_category, levels = c("LC","NT","VU","EN","CR", "DD"))
+#genetic_criterion_result <- read_excel("genetic_criterion_result.xlsx")
+#mod_res <- genetic_criterion_result[!is.na(genetic_criterion_result$genetic_status),]
+#mod_res$IUCN_category <- as.factor(mod_res$IUCN_category)
+#mod_res$genetic_status <- as.factor(mod_res$genetic_status)
+#mod_res$genetic_status <- factor(mod_res$genetic_status, levels = c("LC","NT","VU","EN","CR"))
+#mod_res$IUCN_category <- factor(mod_res$IUCN_category, levels = c("LC","NT","VU","EN","CR", "DD"))
 
-tiff("Supplementary Figure 23.tif", units="px", width=2100, height=1500, res=300)
-ggplot(data=mod_res, aes(x=IUCN_category, y=genetic_status)) + 
-  geom_jitter(shape=21, width=0.1, height=0.1, size=3, stroke=1, color="black") +
-  theme_classic(base_size=16) + 
-  labs(y = "genetic category", x="IUCN category") + 
-  geom_abline(slope=1, col='blue', size=1)
+#svg("Supplementary Figure 17.svg")
+#ggplot(data=mod_res, aes(x=IUCN_category, y=genetic_status)) + 
+#  geom_abline(slope=1, col='#e6ab02', size=1) +
+#  geom_jitter(shape=21, width=0.1, height=0.1, size=3, stroke=1, color="black") +
+#  theme_classic(base_size=16) + 
+#  labs(y = "genetic category", x="IUCN category")
+#dev.off()
+
+level_order<- c("LC", "NT", "VU", "EN", "CR")
+level_order2 <- c("Non-Threatened", "Threatened")
+data_heatmap1.1<- read.csv("StatusTest1.1.csv")
+data_heatmap1.2<- read.csv("StatusTest1.2.csv")
+data_heatmap2.1<- read.csv("StatusTest2.1.csv")
+data_heatmap2.2<- read.csv("StatusTest2.2.csv")
+
+svg("Figure 4.1.svg", width=3.42, height=2.86)
+ggplot(data_heatmap1.1, aes(x=factor(IUCN_full, levels = level_order), y=factor(Genetic_full, levels = level_order)))+
+  geom_tile(aes(fill = as.factor(Count_full)), color="black", size=0.5)+
+  guides(fill = guide_legend(title = "Count", reverse=TRUE))+
+  scale_fill_manual(values=c("white","#FFFAF0","#F8D1CD","#F0A8AB","#E97E88","#E15566","#DA2C43","#C00000"))+
+  labs(x="IUCN Category", y="Genetic Category")+
+  theme_classic(base_size=14)+
+  theme(text=element_text(family="Calibri"), axis.title.x=element_blank(),)
+dev.off()
+
+xlabels=c("Non-\nThr","Thr")
+ylabels=c("Non-Thr","Thr")
+svg("Figure 4.2.svg", width=3.42, height=2.28)
+ggplot(data_heatmap1.2, aes(x=factor(IUCN_binary, levels = level_order2), y=factor(Genetic_binary, levels = level_order2)))+
+  geom_tile(aes(fill = as.factor(Count_binary)), color="black", size=0.5)+
+  #scale_fill_manual(values=c("white","#F6CAD0","#ED96A1","#E36172","#DA2C43"))+
+  scale_fill_manual(values=c("white","#FFFAF0","#E97E88","#DA2C43"))+
+  labs(x="IUCN Category", y="Genetic Category")+
+  theme_classic(base_size=14) +
+  theme(text=element_text(family="Calibri"), axis.text=element_text(size=10)) +
+  guides(fill = guide_legend(title = "Count", reverse=TRUE))+
+  scale_x_discrete(labels=xlabels)+
+  scale_y_discrete(labels=ylabels)
+dev.off()
+
+svg("Figure 4.3.svg", width=3.42, height=2.86)
+ggplot(data_heatmap2.1, aes(x=factor(IUCN_full, levels = level_order), y=factor(Genetic_full, levels = level_order)))+
+  geom_tile(aes(fill = as.factor(Count_full)), color="black", size=0.5)+
+  guides(fill = guide_legend(title = "Count", reverse=TRUE))+
+  scale_fill_manual(values=c("white","#FFFAF0","#F8D1CD","#E97E88","#E15566","#DA2C43"))+
+  labs(x="IUCN Category", y="Genetic Category")+
+  theme_classic(base_size=14)+
+  theme(text=element_text(family="Calibri"), axis.title.x=element_blank(),)
+dev.off()
+
+svg("Figure 4.4.svg", width=3.42, height=2.28)
+ggplot(data_heatmap2.2, aes(x=factor(IUCN_binary, levels = level_order2), y=factor(Genetic_binary, levels = level_order2)))+
+  geom_tile(aes(fill = as.factor(Count_binary)), color="black", size=0.5)+
+  #scale_fill_manual(values=c("white","#F6CAD0","#ED96A1","#E36172","#DA2C43"))+
+  scale_fill_manual(values=c("white","#FFFAF0","#E97E88","#DA2C43"))+
+  labs(x="IUCN Category", y="Genetic Category")+
+  theme_classic(base_size=14) +
+  theme(text=element_text(family="Calibri"), axis.text=element_text(size=10)) +
+  guides(fill = guide_legend(title = "Count", reverse=TRUE))+
+  scale_x_discrete(labels=xlabels)+
+  scale_y_discrete(labels=ylabels)
 dev.off()
 ```

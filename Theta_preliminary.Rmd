@@ -35,8 +35,8 @@ library(psych)
 #load and check the data
 ```{r}
 rm(list = ls())
-setwd("C:/Users/jyj55/OneDrive - purdue.edu/DeWoody_Lab/Dissertation/Theta project/Manuscript")
-data <- read_excel("Supplementary Data 1.xlsx")
+setwd("C:/Users/jyj55/OneDrive - purdue.edu/DeWoody_Lab/Dissertation/Theta project/Statistics")
+data <- read_excel("C:/Users/jyj55/OneDrive - purdue.edu/DeWoody_Lab/Dissertation/Theta project/Manuscript/EvolAppl/Supplementary Dataset S1.xlsx")
 View(data)
 str(data)
 summary(data)
@@ -1131,7 +1131,7 @@ ggplot(data = sort_data[sort_data$Froh_1mb<0.10 & sort_data$body_mass_g<5e+05,],
 
 #check collinearity among GDs
 ```{r}
-GDs <- data[c("Nucleotide_diversity_mean", "Watterson_theta_mean", "Tajima_D_mean", "Pop_heterozygosity_mean", "Froh_100kb", "Froh_1mb")]
+GDs <- data[c("Nucleotide_diversity_mean", "Watterson_theta_mean", "Tajima_D_mean", "Pop_heterozygosity_mean", "Froh_100kb", "Froh_1mb", "Ne_10%Nc", "Ne_stair")]
 corr.test(GDs, use = "pairwise", method = "pearson", adjust = "none")
 #"Pi", "Theta", and "Het" are highly correlated -> We will just use "Het" for downstream analyses as well as Tajima's D, F(ROH>100kb), and F(ROH>1mb) 
 ```
@@ -1191,14 +1191,14 @@ sub_data$IUCN_category <- factor(sub_data$IUCN_category, levels = iucn)
 sub_data$IUCN.b <- factor(sub_data$IUCN.b, levels = iucn.b)
 
 #make a flexible plot
-tiff("Supplementary Figure 14.tif", units="px", width=2100, height=1500, res=300)
-ggplot(data = sub_data, aes(x = Dim.1, y = Dim.2, colour = Pop_heterozygosity_mean, shape = IUCN_category)) + 
+svg("Appendix Figure 2.svg", width=8, height=6)
+ggplot(data = sub_data, aes(x = Dim.1, y = Dim.2, colour = Watterson_theta_mean, shape = IUCN_category)) + 
   geom_point(size = 2.5, alpha = 0.8, position = position_jitter(w=0.05)) + 
-  theme_classic() +
+  theme(text = element_text(family = "Calibri")) +
   theme_classic(base_size = 16) +
-  scale_color_continuous_divergingx(palette = "RdBu", l2=75, name = "Heterozygosity", mid = mean(sub_data$Pop_heterozygosity_mean)) +
+  scale_color_continuous_divergingx(palette = "RdBu", l2=75, name = "Watterson's Theta", mid = mean(sub_data$Watterson_theta_mean)) +
   guides(shape = guide_legend(title = "IUCN category")) +
-  xlab ("Dim.1 (17.4%)") + ylab ("Dim.2 (10.9%)") +
+  xlab ("Dim.1 (17.7%)") + ylab ("Dim.2 (11.0%)") +
   geom_hline(yintercept=0,linetype=2) +
   geom_vline(xintercept=0,linetype=2)
 dev.off()
