@@ -15,7 +15,7 @@
 
 # define variables
 genus_species=$1
-THETA=/scratch/bell/dewoody/theta
+THETA=/path/to/theta
 
 # create directories and download SRAs
 mkdir -p ./sra/raw
