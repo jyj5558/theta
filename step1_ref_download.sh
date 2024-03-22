@@ -18,7 +18,7 @@ module load BBMap
 #
 # This script downloads reference, repeat, and annotation data
 #if a masked genome isn't available (i.e. rm.out), script will create one using the mammal 
-#scripts was written to be run with SLURM job scheduler
+#script was written to be run with SLURM job scheduler
 #
 ####usage####
 #
