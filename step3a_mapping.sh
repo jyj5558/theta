@@ -8,19 +8,20 @@
 ####notes and usage####
 #
 ##Notes##
-#theta git should be cloned at $CLUSTER_SCRATCH (e.g., /scratch/bell/blackan/)
+#theta git should be cloned at $CLUSTER_SCRATCH (e.g., /scratch/abc/xyz/)
 #Edit the step3a_mapping.sh script:edit/add variables "genus_species", "A", "t", "n", "array", "cpus_per_task", "mail_user", "mail_type"
+#script was written to be run with SLURM job scheduler
 #
 #Example: 
 #
 #for variables:
 #genus_species=Marmota-marmota-marmota
-#A=fnrdewoody
+#A=
 #t=10-00:00:00
 #n=64
 #array=1-7%4 (=In case of 7 samples. In case of 25 samples, the maximum number should be 25 (excluding the first header line). "1-7%4" means 4 tasks will be run in parallel out of the 7 tasks.)
 #cpus_per_task=16 (=If you want to assign 16x4 cpus in total. In case you want to use 128 cpus in total, this number should be increased to 32.)
-#mail_user=jeon96@purdue.edu
+#mail_user=
 #
 #usage:
 #sbatch $CLUSTER_SCRATCH/theta/step3a_mapping.sh
