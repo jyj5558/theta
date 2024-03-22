@@ -16,7 +16,7 @@ genus_species=$1
 cpus_per_task=$2
 
 # capture all sra accession numbers with variable
-sra=$(sed -n "$SLURM_ARRAY_TASK_ID"p /scratch/bell/dewoody/theta/${genus_species}/sra/raw/sralist)
+sra=$(sed -n "$SLURM_ARRAY_TASK_ID"p /path/to/theta/${genus_species}/sra/raw/sralist)
 
 # download each sra files by running array job
 srun $CLUSTER_SCRATCH/theta/array_step2_2sub.sh ${genus_species} ${sra} ${cpus_per_task}
