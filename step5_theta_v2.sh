@@ -108,7 +108,7 @@ echo -e "Genus_Species\tNucleotide_Diversity\tWatterson_Theta\tTajima_D\tFu&Li_F
 echo "Thetas (Pi, Theta, D, F) .txt created"
 
 ####################################
-# heterozygosity for each individual #rerunning Loxodonta, Syncera, did not apply doCounts and setMinDepthInd filters
+# heterozygosity for each individual
 ####################################
 
 mkdir ./HET
