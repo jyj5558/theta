@@ -9,10 +9,9 @@
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user="your email address (e.g.jeon96@purdue.edu) without quotation marks"
 
-module load bioinfo
-module load bioawk
+module load biocontainers
 module load samtools
-module load BBMap
+module load bbmap
 
 ####notes####
 #
@@ -60,10 +59,10 @@ n=
 cd $CLUSTER_SCRATCH
 
 ####create directories and download reference genome, repeat masker, and annotation####
-mkdir -p ./$genus_species/${accession}_ref
-mkdir ./$genus_species/${accession}_rm
-mkdir ./$genus_species/${accession}_gtf
-cd $genus_species
+mkdir -p ./${genus_species}/${accession}_ref
+mkdir ./${genus_species}/${accession}_rm
+mkdir ./${genus_species}/${accession}_gtf
+cd ${genus_species}
 
 #Download reference genome
 cd ${accession}_ref
@@ -101,7 +100,7 @@ reformat.sh in=${accession}_ref/original.fa out=${accession}_ref/new.fa trd=t -X
 #sort by length
 sortbyname.sh in=${accession}_ref/new.fa out=${accession}_ref/ref.fa -Xmx20g length descending overwrite=T
 #remove sequences smaller that 100kb prior to any repeatmasking
-bioawk -c fastx '{ if(length($seq) > 100000) { print ">"$name; print $seq }}' ${accession}_ref/ref.fa > ${accession}_ref/ref_100kb.fa
+reformat.sh minlength=100000 in=${accession}_ref/ref.fa out=${accession}_ref/ref_100kb.fa
 rm ${accession}_ref/new.fa
 
 #index ref.fa and ref_100kb.fa for step3, step4, and step5 
@@ -132,8 +131,8 @@ cd ../
 ####prep annotation file for later processing####
 cd ${accession}_gtf/ #move into gtf directory
 
-FILE1=$"gtf.gtf"
-if [ -s $FILE1 ]
+FILE2=$"gtf.gtf"
+if [ -s $FILE2 ]
 then
 	# Print message
 	echo "gtf file properlly formatted" > log_gtf
