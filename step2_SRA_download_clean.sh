@@ -10,11 +10,11 @@
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user="your email address (e.g.abc123@purdue.edu) without quotation marks"
 
-module load bioinfo
-module load TrimGalore
-module load cutadapt/2.5
+module load biocontainers
+module load trim-galore
+module load cutadapt
 module load fastqc
-module load sra-toolkit
+module load sra-tools
 
 ####notes and usage####
 #
@@ -62,8 +62,8 @@ cat ../../${genus_species}_SRA.txt | cut -f 1 | tail -n +2 | while read g
 do
 mkdir ${g}
 cd ${g}
-echo ${g} | xargs prefetch --max-size 500GB -O ./
-echo ${g}.sra | xargs fasterq-dump -e $n --progress
+prefetch --max-size 500GB -O ./ ${g}
+fasterq-dump -e 32 --progress ${g}
 find . -name '*.fastq' -exec mv {} ../ \;
 cd ../
 rm -r ${g}
@@ -75,9 +75,9 @@ rm ${g}_2_fastqc.zip
 
 # merge output from fastqc and check for FAILs
 cat ${g}_1_fastqc/summary.txt ${g}_2_fastqc/summary.txt > ${g}_fastqc_summary.txt
-FILE=$(grep "FAIL" ${g}_fastqc_summary.txt)
+FAIL=$(grep "FAIL" ${g}_fastqc_summary.txt)
 echo "raw"
-echo "$FILE"
+echo "$FAIL"
 rm -r ${g}_?_fastqc* 
 
 #trim adapters
@@ -88,9 +88,9 @@ cd ../cleaned
 cat ${g}_1.fastq_trimming_report.txt ${g}_2.fastq_trimming_report.txt > ${g}_fastqc_summary.txt
 rm ${g}_1_val_1_fastqc.zip
 rm ${g}_2_val_2_fastqc.zip
-FILE=$(grep "FAIL" ${g}_fastqc_summary.txt)
+FAIL=$(grep "FAIL" ${g}_fastqc_summary.txt)
 echo "cleaned"
-echo "$FILE"
+echo "$FAIL"
 rm ${g}_fastqc_summary.txt
 rm ${g}_1_val_1_fastqc.html
 rm ${g}_2_val_2_fastqc.html
