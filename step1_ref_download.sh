@@ -100,7 +100,7 @@ reformat.sh in=${accession}_ref/original.fa out=${accession}_ref/new.fa trd=t -X
 #sort by length
 sortbyname.sh in=${accession}_ref/new.fa out=${accession}_ref/ref.fa -Xmx20g length descending overwrite=T
 #remove sequences smaller that 100kb prior to any repeatmasking
-reformat.sh minlength=100000 in=${accession}_ref/ref.fa out=${accession}_ref/ref_100kb.fa
+reformat.sh minlength=100000 in=${accession}_ref/ref.fa out=${accession}_ref/ref_100kb.fa overwrite=T
 rm ${accession}_ref/new.fa
 
 #index ref.fa and ref_100kb.fa for step3, step4, and step5 
