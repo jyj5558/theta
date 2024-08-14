@@ -2,7 +2,7 @@
 #based on het (estimated genome-wide heterozygosity), theta (estimated Watterson's theta), mu (known mutation rate), interval (known generation interval),
 #which will output $Ne (effective population size calculated from 'theta'), $HetT (het after 100 years), $ConStat (Conservation Status from the genetic criterion)
 
-# original - using genome-wide Theta
+# version 1 - using genome-wide Theta
 gen_stat <- function(het,theta,mu,interval){
     Ne = theta/(4*mu)
     g = 100/interval
@@ -22,7 +22,7 @@ gen_stat <- function(het,theta,mu,interval){
     return(result)
 } 
 
-# version 2
+# version 2 - using Ne/Nc ratio of 0.14
 gen_stat <- function(het,Ne,Nc,interval){
     if (missing(Ne) && !missing(Nc)){
         Ne=0.14*Nc
@@ -50,7 +50,7 @@ gen_stat <- function(het,Ne,Nc,interval){
     return(result)
 } 
 
-# version 3 - used version with different Ne/Nc ratio
+# version 3 - using externally calculated Ne only (using Ne/Nc ratios of 0.1 or 1) in the input file (this one is used after all)
 gen_stat <- function(het,Ne,interval){
     g = 100/interval
     HetT = het*(1-(1/(2*Ne)))^g
