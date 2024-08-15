@@ -1,11 +1,10 @@
 #!/bin/bash
 
-module load bioinfo
-module load bioawk
-module load cmake/3.9.4
-module load BEDTools
-module load BBMap
-module load R
+module load biocontainers
+module load cmake
+module load bedtools
+module load bbmap
+module load r
 module load bedops
 export PATH=$PATH:~/genmap-build/bin
 
