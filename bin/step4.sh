@@ -6,6 +6,7 @@ module load bedtools
 module load bbmap
 module load r
 module load bedops
+module load genmap
 export PATH=$PATH:~/genmap-build/bin
 
 ####notes and usage####
@@ -97,9 +98,9 @@ rm mappability/mappability2.bed
 rm ${accession}_ref/ref_sorted.genome
 
 #output some QC stats
-cd /scratch/bell/${USER}/theta/source/
+cd $CLUSTER_SCRATCH/theta/bin/
 Rscript qc_reference_stats.R --args /path/to/theta/${genus_species}/ ${genus_species} ${accession} 
-cd /path/to/theta/${genus_species}/
+cd $CLUSTER_SCRATCH/theta/${genus_species}/
 
 map=$(sed -n '1p' okmap.txt)
 norepeats=$(sed -n '1p' norepeat.txt)
