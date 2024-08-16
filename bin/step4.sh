@@ -38,7 +38,7 @@ genmap index -F ${accession}_ref/ref_100kb.fa -I index -S 50 # build an index
 
 # compute mappability, k = kmer of 100bp, E = # two mismatches
 mkdir -p mappability
-genmap map -K 100 -E 2 -T $n -I index -O mappability -t -w -bg                
+genmap map -K 100 -E 2 -T 64 -I index -O mappability -t -w -bg                
 
 # sort bed 
 sortBed -i ${accession}_rm/repeats.bed > ${accession}_rm/repeats_sorted.bed 
