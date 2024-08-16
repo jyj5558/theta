@@ -99,7 +99,7 @@ rm ${accession}_ref/ref_sorted.genome
 
 #output some QC stats
 cd $CLUSTER_SCRATCH/theta/bin/
-Rscript qc_reference_stats.R --args /path/to/theta/${genus_species}/ ${genus_species} ${accession} 
+Rscript qc_reference_stats.R --args $CLUSTER_SCRATCH/theta/${genus_species}/ ${genus_species} ${accession} $CLUSTER_SCRATCH/theta/
 cd $CLUSTER_SCRATCH/theta/${genus_species}/
 
 map=$(sed -n '1p' okmap.txt)
