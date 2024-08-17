@@ -143,5 +143,5 @@ bcftools roh --AF-file ${genus_species}.freqs.tab.gz --output ROH_${genus_specie
 echo "ROH raw files created"
 
 echo "ROH raw file parsing started"
-python3 $CLUSTER_SCRATCH/theta/bin/ROHparser.py ${genus_species} ${accession}
+python3 $CLUSTER_SCRATCH/theta/bin/ROHparser.py ${genus_species} ${accession} $PD
 # END
