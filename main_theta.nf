@@ -35,7 +35,7 @@ params.email = "" //your email address
 
 process step1{
     tag "$step1"
-    clusterOptions '--job-name=Step1 -n 32 -N 1 -t 1-00:00:00 -A fnrdewoody --mail-user $params.email --mail-type END,FAIL' 
+    clusterOptions '--job-name=Step1 -n 32 -N 1 -t 2-00:00:00 -A fnrdewoody --mail-user $params.email --mail-type END,FAIL' 
     //errorStrategy 'ignore' #don't want to ignore errors for this process
 
     input:
@@ -53,7 +53,7 @@ process step1{
 
 process step2{
     tag "$step2"
-    clusterOptions '--job-name=Step2 -n 32 -N 1 -t 1-00:00:00 -A fnrdewoody'
+    clusterOptions '--job-name=Step2 -n 32 -N 1 -t 5-00:00:00 -A fnrdewoody'
     //errorStrategy 'ignore' #don't want to ignore errors for this process
 
     input:
@@ -70,7 +70,7 @@ process step2{
 
 process step3{
     tag "$step3"
-    clusterOptions '--job-name=Step3 -n 64 -N 1 -t 5-00:00:00 -A fnrdewoody'
+    clusterOptions '--job-name=Step3 -n 64 -N 1 -t 14-00:00:00 -A fnrdewoody'
     //errorStrategy 'ignore' #don't want to ignore errors for this process
 
     input:
@@ -87,7 +87,7 @@ process step3{
 
 process step4{
     tag "$step4"
-    clusterOptions '--job-name=Step4 -n 64 -N 1 -t 1-00:00:00 -A fnrdewoody'
+    clusterOptions '--job-name=Step4 -n 64 -N 1 -t 4:00:00 -A standby'
     //errorStrategy 'ignore' #don't want to ignore errors for this process
 
     input:
@@ -104,7 +104,7 @@ process step4{
 
 process step5{
     tag "$step5"
-    clusterOptions '--job-name=Step5 -n 64 -N 1 -t 5-00:00:00 -A fnrdewoody'
+    clusterOptions '--job-name=Step5 -n 64 -N 1 -t 14-00:00:00 -A fnrdewoody'
     //errorStrategy 'ignore' #don't want to ignore errors for this process
 
     input:
@@ -132,10 +132,24 @@ workflow{
         | splitCsv(header:true) \
         | map { row-> [row.genus_species, row.accession, row.pathway, row.assembly] } \
         | view() \
-        //| set {csv} \
-	| step1 \
-	| step2 \
-	| step3 \
-        | step4 \
-        | step5
+        | set {csv}
+    step1(csv) | set {step1_out}
+    step2(csv) | set {step2_out} //run step1 and step2 in parallel    
+    step1_out.mix(step2_out) | collect(flat: false) | flatMap | unique | set {step3_in} //check and collect step1 and step2 outputs
+    step3_in.view()
+    step3(step3_in) | set {step3_out}
+    step4(step1_out) | set {step4_out} //step4 just processes step1 outputs
+    step3_out.mix(step4_out) | collect(flat: false) | flatMap | unique | set {step5_in} //check and collect step3 and step4 outputs
+    step5_in.view()
+    step5(step5_in)
+    
+    //if above does not work, use below pipeline (without double slashes) after "view() \" above.
+    
+	//| step1 \
+	//| step2 \
+	//| step3 \
+        //| step4 \
+        //| step5    
+    
 }
+
