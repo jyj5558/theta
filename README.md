@@ -4,9 +4,12 @@ These scripts are developed for investigating genomic diversity and its associat
 NOTE, these scripts assume that Purdue's SLURM scheduler is used; if a different scheduler is employed (e.g., SGE) please modify script headers and module loads accordingly).
 When running jobs, if the jobs stay still for a longer time than you expected, try again with a larger memory or larger number of CPUs (e.g., "#SBATCH --mem=" or #SBATCH -n" arguments).
 
-There is a Nextflow pipeline script which you can submit as a slurm job in a bash script (or just "nextflow run main_theta.nf") with an associated input csv file example.
+There is a Nextflow pipeline script which you can submit as a slurm job in a bash script (or just "nextflow run main_theta.nf") with an associated input csv file example (Panthera-leo-leo.csv).
 Note that all script files should be housed under "/bin/" directory within the directory that houses the nextflow script. 
 I recommend housing it in "<your scratch>/theta" directory since the nextflow will generate many and large intermediate files.
+When you use the nextflow script, modify the "params.csv" for your input file path 
+
+Contact me at jeon96 AT purdue DOT edu for any questions.
 
 Below is explaining what each step does (step1 to step5) when you run individually using the scripts in "original_scripts" folder.
 
