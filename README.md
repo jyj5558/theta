@@ -8,7 +8,7 @@ There is a Nextflow pipeline script which you can submit as a slurm job in a bas
 Note that all script files should be housed under "/bin/" directory within the directory that houses the nextflow script. 
 I recommend housing it in "<your scratch>/theta" directory since the nextflow will generate many and large intermediate files.
 
-Below is explaining what each step does (step1 to step5) when you run individually.
+Below is explaining what each step does (step1 to step5) when you run individually using the scripts in "original_scripts" folder.
 
 ## Directory structure overview
 
@@ -43,13 +43,13 @@ git clone https://github.com/jyj5558/theta
 
 We need to find reference assembly accession information for as many species as possible. Whenever possible, we will target Chromosome level RefSeq assemblies on NCBI. Once the target assembly is located for a particular species, we will use the accession number, assembly name and url path (found under the FTP links on the right side of NCBI) and assembly name to download resources effeciently.
 
-**Download reference assembly - step1.sh**
+**Download reference assembly - step1_ref_download.sh**
 
 This script downloads reference, repeat, and annotation data.  	
 
 If a masked genome isn't available (i.e. rm.out), script will create one using the mammal repeat library --- you should update this if you use non-mammals!
 
-User will need to input (paste) information for the following variables within the step1 file (the one in the archive folder) if using a stand-alone script (i.e., not using nextflow script):
+User will need to input (paste) information for the following variables within the step1 file (the one in the original_scripts folder) if using a stand-alone script (i.e., not using nextflow script):
 
 `Genus_species`: this is used in the directory naming to make browsing a bit more doable for us humans
 
@@ -130,7 +130,7 @@ We (the authors of paper) found sequence data for a single population correspond
 6. a minimum of 2 individuals but ideally up to 25 individuals were sequenced independently (more than one individual cannot be contained in a single sequencing project); if there are  multiple files (SRAs) for one individual, chose the best one based on "Bases".
 
 
-**Download and clean population data - step2.sh**
+**Download and clean population data - step2_SRA_download_clean.sh**
 
 This script downloads SRAs for our target species and then checks the initial quality of the reads, cleans the reads, and checks the read quality again after cleaning. The output files include:
 1. SRAs downloaded and unzipped, in sra/raw
@@ -139,7 +139,7 @@ This script downloads SRAs for our target species and then checks the initial qu
 
 Usage:
 
-User will need to enter the following information within the step2 file (the one in the archive folder) if using a stand-alone script (i.e., not using nextflow script):
+User will need to enter the following information within the step2 file (the one in the original_scripts folder) if using a stand-alone script (i.e., not using nextflow script):
 `Genus-species`: This will need to be enterred in the the above script and follow the directory naming (see step 1), so we need it to make sure the SRAs are saved in the correct location.
 
 `NOTE` make sure that the Genus-species-SRAs.txt is updated first: Make sure you have the species SRA metadata in the correct format and in the theta directory BEFORE running. It should be in theta/SRA_metadata/genus-species.txt
@@ -174,7 +174,7 @@ grep -r "Reads written (passing filters):" sra/cleaned/*report.txt
 After noted, proceed to step 3.
 
 ## Steps 3: Mapping cleaned SRA fastq files to the reference assembly
-**- step3.sh** 
+**- step3_mapping.sh** 
 
 This script will align each paired fastq file to the reference, validate the output sam file, sort based upon read coordinate, mark pcr duplicates and perform indel realignment. Mapping and depth statistics will be output. 
 -Binary alignment mapping (.bam) files: Curated files will be found within ./final_bams
@@ -182,7 +182,7 @@ This script will align each paired fastq file to the reference, validate the out
 
 Usage:
 
-User will need to enter the following information within the step3 file (the one in the archive folder) if using a stand-alone script (i.e., not using nextflow script):
+User will need to enter the following information within the step3 file (the one in the original_scripts folder) if using a stand-alone script (i.e., not using nextflow script):
 `Genus-species`: This will need to be enterred in the the above script and follow the directory naming (see step 1), so we need it to make sure the SRAs are saved in the correct location.
 
 `NOTE` make sure that the Genus-species-SRAs.txt is updated first: Make sure you have the species SRA metadata in the correct format and in the theta directory BEFORE running. It should be in theta/SRA_metadata/genus-species.txt
@@ -229,7 +229,7 @@ The output files include:
 3. chr.txt (chromosome names to limit regions and facilitate the analysis in angsd etc)		
 
 
-User will need to enter the following information within the step4 file (the one in the archive folder) if using a stand-alone script (i.e., not using nextflow script):
+User will need to enter the following information within the step4 file (the one in the original_scripts folder) if using a stand-alone script (i.e., not using nextflow script):
 `Genus-species`: 
 `accession`: 
 
@@ -263,7 +263,7 @@ If some samples were dropped due to quality issues from upstream analyses, $MIND
 
 Usage:
 
-User will need to enter the following information within the step5 file (the one in the archive folder) if using a stand-alone script (i.e., not using nextflow script):
+User will need to enter the following information within the step5 file (the one in the original_scripts folder) if using a stand-alone script (i.e., not using nextflow script):
 `Genus-species`:
 `accession`:
 
